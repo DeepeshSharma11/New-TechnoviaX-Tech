@@ -6,11 +6,10 @@
     <title>Terms & Conditions - TechnoviaX Tech</title>
     <meta name="description" content="Read our terms and conditions. Important legal terms governing the use of our website and services.">
     
-    <!-- Shared Head Content -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7340630616974109"
-     crossorigin="anonymous"></script>
+    <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/styles.css">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -28,13 +27,113 @@
                         'whatsapp-dark': '#128C7E',
                         success: '#10b981',
                         error: '#ef4444',
+                        'pastel-blue': '#a5d8ff',
+                        'pastel-green': '#b2f2bb',
+                        'pastel-purple': '#d0bfff',
+                        'pastel-pink': '#ffc9c9', 
+                        'pastel-yellow': '#ffec99',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+        }
+
+        /* Navigation Links */
+        .nav-links li a {
+            position: relative;
+            padding: 8px 0;
+            white-space: nowrap;
+        }
+        
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links li a:hover::after,
+        .nav-links li a.active::after {
+            width: 100%;
+        }
+
+        /* Mobile Navigation Scroll Fix */
+        @media (max-width: 768px) {
+            .nav-links {
+                overflow-x: auto;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-links::-webkit-scrollbar { height: 4px; }
+            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
+            
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+        }
+
+        /* Animations */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body class="font-sans">
+<body class="font-sans text-secondary bg-slate-50">
+
+    <!-- Loading Screen -->
+    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>
+
     <!-- Header -->
     <header class="bg-white shadow-md fixed w-full top-0 z-40">
         <div class="container mx-auto px-4">
@@ -44,16 +143,15 @@
                 </div>
                 
                 <div class="w-full md:w-auto">
-                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8">
-                        <li><a href="/" class="text-secondary font-medium">Home</a></li>
-                        <li><a href="/services.html" class="text-secondary font-medium">Services</a></li>
-                        <li><a href="/about.html" class="text-secondary font-medium">About</a></li>
-                        <li><a href="/portfolio.html" class="text-secondary font-medium">Portfolio</a></li>
-                        <li><a href="/testimonials.html" class="text-secondary font-medium">Testimonials</a></li>
-                        <li><a href="/helpdesk.html" class="text-secondary font-medium">Helpdesk</a></li>
-                        <li><a href="/payment.html" class="text-secondary font-medium">Payment</a></li>
-                        <li><a href="/careers.html" class="text-secondary font-medium">Careers</a></li>
-                        <li><a href="/contact.html" class="text-secondary font-medium">Contact</a></li>
+                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
+                        <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
+                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
+                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
+                        <li><a href="/testimonials.html" class="text-secondary font-medium hover:text-primary transition-colors">Testimonials</a></li>
+                        <li><a href="/helpdesk.html" class="text-secondary font-medium hover:text-primary transition-colors">Helpdesk</a></li>
+                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
+                        <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
                     </ul>
                 </div>
             </nav>
@@ -62,7 +160,7 @@
 
     <!-- Main Content -->
     <main class="pt-32 pb-20">
-        <div class="container mx-auto px-4 max-w-4xl">
+        <div class="container mx-auto px-4 max-w-4xl animate-fade-in-up">
             <div class="text-center mb-12">
                 <h1 class="text-4xl font-bold mb-4">Terms & Conditions</h1>
                 <p class="text-gray-600">Last Updated: October 2023</p>
@@ -243,7 +341,10 @@
                         <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Services</a></li>
                         <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
                         <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
+                        <li><a href="/testimonials.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Testimonials</a></li>
+                        <li><a href="/helpdesk.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Helpdesk</a></li>
                         <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
+                        <li><a href="/contact.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Contact</a></li>
                     </ul>
                 </div>
                 
@@ -260,17 +361,17 @@
                 <div>
                     <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
                     <ul class="space-y-2 sm:space-y-3">
-                        <li class="text-gray-300 text-sm sm:text-base"><i class="fas fa-map-marker-alt mr-2 text-accent" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
-                        <li class="text-gray-300 text-sm sm:text-base"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                        <li class="text-gray-300 text-sm sm:text-base"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
-                        <li class="text-gray-300 text-sm sm:text-base"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
                     </ul>
                 </div>
             </div>
             
             <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
                 <p class="text-gray-400 text-sm sm:text-base">&copy; 2023 TechnoviaX Tech. All Rights Reserved.</p>
-                <div class="mt-4 flex justify-center gap-6">
+                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
                     <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
                     <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
                     <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm font-bold">Terms & Conditions</a>
@@ -284,6 +385,61 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <script src="/js/main.js"></script>
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('TechnoviaX Tech Website - Terms Page Loaded');
+            
+            // 1. Loading Screen Logic
+            const loadingScreen = document.getElementById('loading');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.transition = 'opacity 0.5s ease';
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }, 500);
+                }, 800);
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+
+            // 2. Smooth Scrolling
+            const header = document.querySelector('header');
+            const headerHeight = header ? header.offsetHeight : 80;
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#' || href === '#!') return;
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                            const finalPosition = targetPosition - headerHeight - 10;
+                            window.scrollTo({ top: finalPosition, behavior: 'smooth' });
+                        }
+                    }
+                });
+            });
+
+            // 3. Active Navigation State
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                link.classList.remove('active', 'text-primary', 'font-bold');
+                link.classList.add('text-secondary');
+
+                // Check footer link as well since Terms is not in main nav
+                if (linkHref === '/terms.html' || (currentPath.includes('terms.html') && linkHref.includes('terms.html'))) {
+                    link.classList.add('active', 'text-primary', 'font-bold');
+                    link.classList.remove('text-secondary');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - TechnoviaX Tech</title>
+    <meta name="description" content="Comprehensive IT services including web development, app development, cloud solutions, digital marketing, and cybersecurity.">
+    
+    <!-- External Dependencies -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        'primary-dark': '#1d4ed8',
+                        secondary: '#0f172a',
+                        accent: '#22d3ee',
+                        'accent-dark': '#06b6d4',
+                        light: '#f8fafc',
+                        gray: '#64748b',
+                        whatsapp: '#25D366',
+                        'whatsapp-dark': '#128C7E',
+                        success: '#10b981',
+                        error: '#ef4444',
+                        'pastel-blue': '#a5d8ff',
+                        'pastel-green': '#b2f2bb',
+                        'pastel-purple': '#d0bfff',
+                        'pastel-pink': '#ffc9c9',
+                        'pastel-yellow': '#ffec99',
+                        'pastel-peach': '#ffd8a8',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+        }
+
+        /* Navigation Links */
+        .nav-links li a {
+            position: relative;
+            padding: 8px 0;
+            white-space: nowrap;
+        }
+        
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links li a:hover::after,
+        .nav-links li a.active::after {
+            width: 100%;
+        }
+
+        /* Mobile Navigation Scroll Fix */
+        @media (max-width: 768px) {
+            .nav-links {
+                overflow-x: auto;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-links::-webkit-scrollbar { height: 4px; }
+            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
+            
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Section Title Line */
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #2563eb;
+            border-radius: 2px;
+        }
+        
+        /* Pastel Gradient */
+        .pastel-gradient {
+            background: linear-gradient(135deg, #f8fafc 0%, #a5d8ff 50%, #d0bfff 100%);
+        }
+    </style>
+</head>
+<body class="font-sans text-secondary bg-slate-50">
+
+    <!-- Loading Screen -->
+    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-md fixed w-full top-0 z-40">
+        <div class="container mx-auto px-4">
+            <nav class="flex flex-col md:flex-row justify-between items-center py-4">
+                <div class="logo flex items-center gap-2 mb-3 md:mb-0">
+                    <a href="/" class="logo-text text-2xl font-bold text-primary">Technovia<span class="text-accent">X</span></a>
+                </div>
+                
+                <div class="w-full md:w-auto">
+                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
+                        <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="/services.html" class="text-primary font-bold active">Services</a></li>
+                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
+                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
+                        <li><a href="/testimonials.html" class="text-secondary font-medium hover:text-primary transition-colors">Testimonials</a></li>
+                        <li><a href="/helpdesk.html" class="text-secondary font-medium hover:text-primary transition-colors">Helpdesk</a></li>
+                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
+                        <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 animate-fade-in-up">
+                <h1 class="text-4xl font-bold mb-4 section-title">Our Services</h1>
+                <p class="text-gray-600 text-lg max-w-3xl mx-auto mt-4">Comprehensive IT solutions to drive your business forward in the digital age.</p>
+            </div>
+
+            <!-- Web Development (Added service-card class for JS target) -->
+            <section id="web-development" class="mb-20 scroll-mt-32">
+                <div class="service-card flex flex-col lg:flex-row items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="lg:w-1/2">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-pastel-blue text-primary rounded-lg mb-4">
+                            <i class="fas fa-laptop-code text-xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-6">Web Development</h2>
+                        <p class="text-gray-600 mb-6">We create responsive, user-friendly websites that deliver exceptional user experiences and drive business growth.</p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Custom website design and development</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>E-commerce solutions</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Content Management Systems (WordPress, etc.)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Web application development</span>
+                            </li>
+                        </ul>
+                        <a href="/contact.html?service=web-development" class="btn btn-primary">
+                            Get Quote <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    <div class="lg:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Web Development" 
+                             class="rounded-xl shadow-lg w-full object-cover h-[350px]">
+                    </div>
+                </div>
+            </section>
+
+            <!-- App Development (Added service-card class for JS target) -->
+            <section id="app-development" class="mb-20 scroll-mt-32">
+                <div class="service-card flex flex-col lg:flex-row-reverse items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="lg:w-1/2">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-pastel-green text-success rounded-lg mb-4">
+                            <i class="fas fa-mobile-alt text-xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-6">App Development</h2>
+                        <p class="text-gray-600 mb-6">Native and cross-platform mobile applications for iOS and Android that engage users and drive growth.</p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>iOS app development (Swift)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Android app development (Kotlin/Java)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Cross-platform development (React Native, Flutter)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>App maintenance and support</span>
+                            </li>
+                        </ul>
+                        <a href="/contact.html?service=app-development" class="btn btn-primary">
+                            Get Quote <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    <div class="lg:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="App Development" 
+                             class="rounded-xl shadow-lg w-full object-cover h-[350px]">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cloud Solutions (Added service-card class for JS target) -->
+            <section id="cloud-solutions" class="mb-20 scroll-mt-32">
+                <div class="service-card flex flex-col lg:flex-row items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="lg:w-1/2">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-pastel-purple text-primary-dark rounded-lg mb-4">
+                            <i class="fas fa-cloud text-xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-6">Cloud Solutions</h2>
+                        <p class="text-gray-600 mb-6">Secure and scalable cloud infrastructure solutions to optimize your business operations and reduce costs.</p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Cloud migration services</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>AWS, Azure, Google Cloud solutions</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Cloud security implementation</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Serverless architecture</span>
+                            </li>
+                        </ul>
+                        <a href="/contact.html?service=cloud-solutions" class="btn btn-primary">
+                            Get Quote <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    <div class="lg:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Cloud Solutions" 
+                             class="rounded-xl shadow-lg w-full object-cover h-[350px]">
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="pastel-gradient rounded-2xl p-12 text-center shadow-lg">
+                <h2 class="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
+                <p class="text-gray-700 mb-8 max-w-2xl mx-auto">Contact us today for a free consultation and quote.</p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <a href="/contact.html" class="btn btn-primary">Get Started</a>
+                    <a href="https://wa.me/918433125736" class="btn hover:opacity-90 transition-opacity" style="background: #25D366; color: white;">
+                        <i class="fab fa-whatsapp mr-2"></i> Chat on WhatsApp
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white py-12 sm:py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
+                <div>
+                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Technovia<span class="text-accent">X</span></div>
+                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">Innovative IT solutions and services to help businesses transform and thrive in the digital era.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Quick Links</h3>
+                    <ul class="space-y-2 sm:space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Home</a></li>
+                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Services</a></li>
+                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
+                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
+                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Services</h3>
+                    <ul class="space-y-2 sm:space-y-3">
+                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Web Development</a></li>
+                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">App Development</a></li>
+                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Cloud Solutions</a></li>
+                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Digital Marketing</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
+                    <ul class="space-y-2 sm:space-y-3">
+                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
+                <p class="text-gray-400 text-sm sm:text-base">&copy; 2023 TechnoviaX Tech. All Rights Reserved.</p>
+                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
+                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
+                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
+                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Integrated Main.js Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('TechnoviaX Tech Website - JavaScript Loaded');
+            
+            // Loading screen logic
+            const loadingScreen = document.getElementById('loading');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.classList.add('opacity-0');
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }, 500);
+                }, 800);
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+            
+            // Fix for smooth scrolling with fixed header
+            const header = document.querySelector('header');
+            const headerHeight = header ? header.offsetHeight : 80;
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    if (href === '#' || href === '#!') return;
+                    
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetElement = document.querySelector(href);
+                        
+                        if (targetElement) {
+                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                            const finalPosition = targetPosition - headerHeight - 10;
+                            
+                            window.scrollTo({
+                                top: finalPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // CSS Injection for animations
+            if (!document.querySelector('#animation-styles')) {
+                const style = document.createElement('style');
+                style.id = 'animation-styles';
+                style.textContent = `
+                    .animated { animation: fadeInUp 0.6s ease forwards; }
+                    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                    .form-status { display: none; padding: 12px; border-radius: 8px; margin-bottom: 20px; }
+                    .form-status.success { background: #d1fae5; color: #065f46; }
+                    .form-status.error { background: #fee2e2; color: #991b1b; }
+                    .form-status.loading { background: #dbeafe; color: #1e40af; }
+                `;
+                document.head.appendChild(style);
+            }
+
+            // Animation on scroll
+            function animateOnScroll() {
+                const animatedElements = document.querySelectorAll('.service-card, .portfolio-item, .helpdesk-option, .job-card, .testimonial-card, .faq-item');
+                
+                animatedElements.forEach(element => {
+                    if (element.classList.contains('animated')) return;
+                    
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const elementHeight = element.offsetHeight;
+                    const screenPosition = window.innerHeight - elementHeight / 4; 
+                    
+                    if (elementPosition < screenPosition) {
+                        element.classList.add('animated');
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            // Initialize animated elements styles
+            function initAnimations() {
+                const animatedElements = document.querySelectorAll('.service-card, .portfolio-item, .helpdesk-option, .job-card');
+                
+                animatedElements.forEach(element => {
+                    if (!element.classList.contains('animated')) {
+                        element.style.opacity = '0';
+                        element.style.transform = 'translateY(20px)';
+                        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    }
+                });
+            }
+            
+            initAnimations();
+            
+            // Run animations on load and scroll
+            window.addEventListener('load', () => {
+                animateOnScroll();
+            });
+            
+            // Throttle scroll events (FIXED from Debounce to Throttle)
+            let isScrolling = false;
+            window.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        animateOnScroll();
+                        isScrolling = false;
+                    });
+                    isScrolling = true;
+                }
+            });
+
+            // Form handling logic (Robust - kept for shared file usage)
+            const forms = document.querySelectorAll('form[data-web3forms]');
+            forms.forEach(form => {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const submitBtn = form.querySelector('[type="submit"]');
+                    const formStatus = form.querySelector('.form-status');
+                    
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                    }
+                    if (formStatus) {
+                        formStatus.className = 'form-status loading';
+                        formStatus.style.display = 'block';
+                        formStatus.innerHTML = 'Sending...';
+                    }
+
+                    // Simulated success for demo/debug
+                    setTimeout(() => {
+                         if (formStatus) {
+                            formStatus.className = 'form-status success';
+                            formStatus.innerHTML = 'Message sent successfully!';
+                            setTimeout(() => formStatus.style.display = 'none', 5000);
+                        }
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = 'Send Message';
+                        }
+                        form.reset();
+                    }, 1500);
+                });
+            });
+
+            // Handle active state for nav links
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (linkHref === '/services.html' || (currentPath.includes('services.html') && linkHref.includes('services.html'))) {
+                    link.classList.add('active', 'text-primary', 'font-bold');
+                    link.classList.remove('text-secondary', 'font-medium');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

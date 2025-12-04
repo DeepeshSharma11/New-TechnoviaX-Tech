@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechnoviaX Tech - IT Solutions | Web Development | App Development</title>
+    <meta name="description" content="TechnoviaX Tech provides innovative IT solutions, web development, app development, cloud solutions, and digital marketing services for businesses in India and worldwide.">
+    <meta name="keywords" content="IT solutions, web development, app development, cloud solutions, digital marketing, cybersecurity, Bareilly, India">
+    <meta name="author" content="TechnoviaX Tech">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="TechnoviaX Tech - Innovative IT Solutions">
+    <meta property="og:description" content="Cutting-edge software development, web solutions, and digital transformation services to help businesses thrive.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://technoviaX.com">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://technoviaX.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="CompanySiteFav.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AdSense (Commented out for Development/Preview) -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7340630616974109" crossorigin="anonymous"></script> -->
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        'primary-dark': '#1d4ed8',
+                        secondary: '#0f172a',
+                        accent: '#22d3ee',
+                        'accent-dark': '#06b6d4',
+                        light: '#f8fafc',
+                        gray: '#64748b',
+                        whatsapp: '#25D366',
+                        'whatsapp-dark': '#128C7E',
+                        success: '#10b981',
+                        error: '#ef4444',
+                        // Pastel Colors
+                        'pastel-blue': '#a5d8ff',
+                        'pastel-green': '#b2f2bb',
+                        'pastel-purple': '#d0bfff',
+                        'pastel-pink': '#ffc9c9',
+                        'pastel-yellow': '#ffec99',
+                        'pastel-peach': '#ffd8a8',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Inline CSS -->
+    <style>
+        /* Loading animation */
+        .loader {
+            border-top-color: #2563eb;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #2563eb;
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            text-decoration: none;
+            transition: top 0.3s;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        /* WhatsApp float button */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+        }
+        
+        /* Sticky CTA button */
+        .sticky-cta {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            background: #2563eb;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .sticky-cta:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+        
+        /* Pastel gradient background */
+        .pastel-gradient {
+            background: linear-gradient(135deg, #f8fafc 0%, #a5d8ff 50%, #d0bfff 100%);
+        }
+        
+        /* Gradient background for CTA */
+        .gradient-bg {
+            background: linear-gradient(135deg, #2563eb 0%, #22d3ee 100%);
+            color: white;
+        }
+        
+        .gradient-bg p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* Service card hover effects */
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        /* Section title styling */
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #2563eb;
+            border-radius: 2px;
+        }
+        
+        /* Navigation styles */
+        .nav-links li a {
+            position: relative;
+            padding: 8px 0;
+            white-space: nowrap;
+        }
+        
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links li a:hover::after,
+        .nav-links li a.active::after {
+            width: 100%;
+        }
+        
+        /* Logo styling */
+        .logo-text {
+            transition: all 0.3s ease;
+        }
+        
+        .logo-text:hover {
+            transform: scale(1.05);
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Mobile navigation improvements */
+        @media (max-width: 768px) {
+            .nav-links {
+                overflow-x: auto;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .nav-links::-webkit-scrollbar {
+                height: 4px;
+            }
+            
+            .nav-links::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+            
+            .nav-links::-webkit-scrollbar-thumb {
+                background: #2563eb;
+                border-radius: 2px;
+            }
+            
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+            
+            .sticky-cta {
+                bottom: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .whatsapp-float,
+            .sticky-cta {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-secondary">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Loading Screen -->
+    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
+        <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+    </div>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <!-- Sticky Contact CTA Button -->
+    <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
+        <i class="fas fa-envelope"></i> Contact Us
+    </a>
+
+    <!-- Header -->
+    <header class="bg-white shadow-md fixed w-full top-0 z-40">
+        <div class="container mx-auto px-4">
+            <nav class="flex flex-col md:flex-row justify-between items-center py-4">
+                <div class="logo flex items-center gap-2 mb-3 md:mb-0">
+                    <a href="/" class="logo-text text-2xl font-bold text-primary">Technovia<span class="text-accent">X</span></a>
+                </div>
+                
+                <!-- Navigation -->
+                <div class="w-full md:w-auto">
+                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8">
+                        <li><a href="/" class="text-primary font-bold active">Home</a></li>
+                        <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
+                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
+                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
+                        <li><a href="/testimonials.html" class="text-secondary font-medium hover:text-primary transition-colors">Testimonials</a></li>
+                        <li><a href="/helpdesk.html" class="text-secondary font-medium hover:text-primary transition-colors">Helpdesk</a></li>
+                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
+                        <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="pt-16">
+        <!-- Hero Section -->
+        <section class="pt-32 pb-20 pastel-gradient">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="flex-1 text-center md:text-left animate-fade-in-up">
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">Innovative IT Solutions for <span class="text-primary">Your Business</span></h1>
+                        <p class="text-lg sm:text-xl text-gray-700 mb-8">TechnoviaX Tech provides cutting-edge software development, web solutions, and digital transformation services to help businesses thrive in the digital age.</p>
+                        <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                            <a href="/services.html" class="bg-primary text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-primary-dark transition-all hover:shadow-lg">Our Services</a>
+                            <a href="/contact.html" class="bg-accent text-secondary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-accent-dark transition-all hover:shadow-lg">Get in Touch</a>
+                            <a href="https://wa.me/918433125736" class="bg-whatsapp text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-whatsapp-dark transition-all hover:shadow-lg flex items-center gap-2" target="_blank" aria-label="Contact us on WhatsApp">
+                                <i class="fab fa-whatsapp"></i> <span class="hidden sm:inline">WhatsApp Us</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex-1 mt-12 md:mt-0 animate-fade-in-up" style="animation-delay: 0.2s;">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="TechnoviaX Tech Solutions" class="rounded-xl shadow-xl w-full animate-float">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Preview -->
+        <section class="py-16 sm:py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12 sm:mb-16 animate-on-scroll">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 section-title">Our Services</h2>
+                    <p class="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">We offer a wide range of IT services to help your business grow and succeed in the digital world.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg border-l-4 border-pastel-blue hover:border-primary animate-on-scroll">
+                        <div class="text-primary text-4xl sm:text-5xl mb-4 sm:mb-6">
+                            <i class="fas fa-laptop-code" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Web Development</h3>
+                        <p class="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Custom websites and web applications built with the latest technologies.</p>
+                        <a href="/services.html#web-development" class="text-primary font-semibold flex items-center gap-2 text-sm sm:text-base hover:text-primary-dark">
+                            Learn More <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Service Card 2 -->
+                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg border-l-4 border-pastel-green hover:border-primary animate-on-scroll" style="animation-delay: 0.1s;">
+                        <div class="text-primary text-4xl sm:text-5xl mb-4 sm:mb-6">
+                            <i class="fas fa-mobile-alt" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">App Development</h3>
+                        <p class="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Native and cross-platform mobile applications for iOS and Android.</p>
+                        <a href="/services.html#app-development" class="text-primary font-semibold flex items-center gap-2 text-sm sm:text-base hover:text-primary-dark">
+                            Learn More <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Service Card 3 -->
+                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg border-l-4 border-pastel-purple hover:border-primary animate-on-scroll" style="animation-delay: 0.2s;">
+                        <div class="text-primary text-4xl sm:text-5xl mb-4 sm:mb-6">
+                            <i class="fas fa-cloud" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Cloud Solutions</h3>
+                        <p class="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Secure and scalable cloud infrastructure solutions.</p>
+                        <a href="/services.html#cloud-solutions" class="text-primary font-semibold flex items-center gap-2 text-sm sm:text-base hover:text-primary-dark">
+                            Learn More <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center mt-10 animate-on-scroll">
+                    <a href="/services.html" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-all hover:shadow-lg inline-flex items-center gap-2">
+                        View All Services <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-16 sm:py-20 gradient-bg">
+            <div class="container mx-auto px-4 text-center animate-on-scroll">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
+                <p class="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">Get started with our innovative IT solutions today</p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <a href="/contact.html" class="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all hover:shadow-lg">
+                        Start Your Project
+                    </a>
+                    <a href="/payment.html" class="bg-success text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all hover:shadow-lg">
+                        Make Payment
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white py-12 sm:py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
+                <div>
+                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Technovia<span class="text-accent">X</span></div>
+                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">Innovative IT solutions and services to help businesses transform and thrive in the digital era.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Quick Links</h3>
+                    <ul class="space-y-2 sm:space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Home</a></li>
+                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Services</a></li>
+                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
+                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
+                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Services</h3>
+                    <ul class="space-y-2 sm:space-y-3">
+                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Web Development</a></li>
+                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">App Development</a></li>
+                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Cloud Solutions</a></li>
+                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Digital Marketing</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
+                    <ul class="space-y-2 sm:space-y-3">
+                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
+                <p class="text-gray-400 text-sm sm:text-base">&copy; <span id="current-year">2023</span> TechnoviaX Tech. All Rights Reserved.</p>
+                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
+                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
+                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
+                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update Copyright Year
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Loading screen removal with Safety Timeout
+            const loading = document.getElementById('loading');
+            
+            function removeLoader() {
+                if (loading && loading.style.display !== 'none') {
+                    loading.style.opacity = '0';
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                    }, 500);
+                }
+            }
+
+            // Standard load listener
+            window.addEventListener('load', removeLoader);
+            
+            // Fallback timeout
+            setTimeout(removeLoader, 3000);
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    
+                    // Skip if it's not an anchor link or if it's a different page
+                    if (href === '#' || href.includes('.html#')) return;
+                    
+                    e.preventDefault();
+                    
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80, // Adjust this offset based on actual header height
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Scroll Animation Observer
+            function animateOnScroll() {
+                const animatedElements = document.querySelectorAll('.animate-on-scroll');
+                
+                animatedElements.forEach(element => {
+                    if (element.classList.contains('animated')) return;
+                    
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight - (window.innerHeight / 4);
+                    
+                    if (elementPosition < screenPosition) {
+                        element.classList.add('animated');
+                    }
+                });
+            }
+            
+            // Run on load
+            animateOnScroll();
+            
+            // Throttled Scroll Listener
+            let isScrolling = false;
+            window.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        animateOnScroll();
+                        isScrolling = false;
+                    });
+                    isScrolling = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

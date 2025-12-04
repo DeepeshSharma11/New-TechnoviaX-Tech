@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Payment - TechnoviaX Tech</title>
+    <meta name="description" content="Secure payment options for TechnoviaX Tech services.">
+    
+    <!-- External Dependencies -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        'primary-dark': '#1d4ed8',
+                        secondary: '#0f172a',
+                        accent: '#22d3ee',
+                        'accent-dark': '#06b6d4',
+                        light: '#f8fafc',
+                        gray: '#64748b',
+                        whatsapp: '#25D366',
+                        'whatsapp-dark': '#128C7E',
+                        success: '#10b981',
+                        error: '#ef4444',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+        }
+
+        /* Navigation Links */
+        .nav-links li a {
+            position: relative;
+            padding: 8px 0;
+            white-space: nowrap;
+        }
+        
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links li a:hover::after,
+        .nav-links li a.active::after {
+            width: 100%;
+        }
+
+        /* Mobile Navigation Scroll Fix */
+        @media (max-width: 768px) {
+            .nav-links {
+                overflow-x: auto;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-links::-webkit-scrollbar { height: 4px; }
+            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
+            
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-success {
+            background-color: #10b981;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #059669;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Elements */
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+
+        /* Animations */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.show {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="font-sans text-secondary bg-slate-50">
+
+    <!-- Loading Screen -->
+    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 text-center shadow-2xl transform transition-all scale-100">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-2xl text-success"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Request Submitted!</h3>
+            <p class="text-gray-600 mb-6">Thank you! Please complete your payment using the selected method and share the transaction details with us via WhatsApp or Email.</p>
+            <button id="close-modal" class="btn btn-success w-full">Okay, Got it</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-md fixed w-full top-0 z-40">
+        <div class="container mx-auto px-4">
+            <nav class="flex flex-col md:flex-row justify-between items-center py-4">
+                <div class="logo flex items-center gap-2 mb-3 md:mb-0">
+                    <a href="/" class="logo-text text-2xl font-bold text-primary">Technovia<span class="text-accent">X</span></a>
+                </div>
+                
+                <div class="w-full md:w-auto">
+                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
+                        <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
+                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
+                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
+                        <li><a href="/payment.html" class="text-primary font-bold active">Payment</a></li>
+                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
+                        <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-20">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="text-center mb-12 animate-fade-in-up">
+                <h1 class="text-4xl font-bold mb-4 section-title relative inline-block">
+                    Make Payment
+                    <span class="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-20 h-1 bg-primary rounded"></span>
+                </h1>
+                <p class="text-gray-600 mt-4">Secure payment options for our services</p>
+            </div>
+
+            <!-- Payment Form -->
+            <div class="bg-white rounded-xl shadow-lg p-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold mb-4">Payment Details</h2>
+                    <p class="text-gray-600 mb-6">Please fill in your payment details below. All transactions are secure and encrypted.</p>
+                </div>
+
+                <form id="payment-form" class="space-y-6">
+                    <div class="form-group">
+                        <label for="invoice-number" class="form-label">Invoice Number (if applicable)</label>
+                        <input type="text" id="invoice-number" name="invoice-number" class="form-input" placeholder="INV-12345">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount" class="form-label">Amount (₹)</label>
+                        <input type="number" id="amount" name="amount" class="form-input" placeholder="Enter amount in INR" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label for="customer-name" class="form-label">Full Name</label>
+                            <input type="text" id="customer-name" name="customer-name" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="customer-phone" class="form-label">Phone Number</label>
+                            <input type="tel" id="customer-phone" name="customer-phone" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customer-email" class="form-label">Email Address</label>
+                        <input type="email" id="customer-email" name="customer-email" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="payment-method" class="form-label">Select Payment Method</label>
+                        <select id="payment-method" name="payment-method" class="form-select" required>
+                            <option value="">Choose payment method</option>
+                            <option value="upi">UPI Payment</option>
+                            <option value="bank-transfer">Bank Transfer</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="credit-card">Credit/Debit Card</option>
+                        </select>
+                    </div>
+
+                    <div id="payment-details" class="hidden transition-all duration-300">
+                        <!-- UPI Payment Details -->
+                        <div id="upi-details" class="payment-method-details hidden">
+                            <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                                <h3 class="font-bold mb-4 flex items-center text-blue-800"><i class="fas fa-qrcode mr-2"></i> UPI Payment</h3>
+                                <div class="text-center">
+                                    <div class="inline-block bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-4">
+                                        <!-- Placeholder for QR -->
+                                        <div class="w-48 h-48 bg-gray-100 flex items-center justify-center text-gray-400">
+                                            <i class="fas fa-qrcode text-4xl"></i>
+                                        </div>
+                                    </div>
+                                    <p class="font-mono font-bold text-lg text-gray-800">technoviax@upi</p>
+                                    <p class="text-sm text-gray-500 mt-2">Scan with GPay, PhonePe, or Paytm</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bank Transfer Details -->
+                        <div id="bank-details" class="payment-method-details hidden">
+                            <div class="bg-green-50 p-6 rounded-lg border border-green-100">
+                                <h3 class="font-bold mb-4 flex items-center text-green-800"><i class="fas fa-university mr-2"></i> Bank Transfer</h3>
+                                <div class="space-y-3 text-sm md:text-base">
+                                    <div class="flex justify-between border-b border-green-200 pb-2">
+                                        <span class="text-gray-600">Bank Name:</span>
+                                        <span class="font-semibold">HDFC Bank</span>
+                                    </div>
+                                    <div class="flex justify-between border-b border-green-200 pb-2">
+                                        <span class="text-gray-600">Account Name:</span>
+                                        <span class="font-semibold">TechnoviaX Tech Solutions</span>
+                                    </div>
+                                    <div class="flex justify-between border-b border-green-200 pb-2">
+                                        <span class="text-gray-600">Account Number:</span>
+                                        <span class="font-mono font-semibold">50200012345678</span>
+                                    </div>
+                                    <div class="flex justify-between border-b border-green-200 pb-2">
+                                        <span class="text-gray-600">IFSC Code:</span>
+                                        <span class="font-mono font-semibold">HDFC0001234</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Branch:</span>
+                                        <span class="font-semibold">Bareilly Main Branch</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PayPal Details -->
+                        <div id="paypal-details" class="payment-method-details hidden">
+                            <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-100 text-center">
+                                <h3 class="font-bold mb-4 flex items-center justify-center text-yellow-800"><i class="fab fa-paypal mr-2"></i> PayPal</h3>
+                                <p class="mb-6 text-gray-600">Click the button below to proceed to our secure PayPal payment gateway.</p>
+                                <a href="https://paypal.me/technoviax" target="_blank" class="btn bg-[#0070ba] text-white hover:bg-[#003087] px-8 py-3 rounded-full shadow-lg transition-transform transform hover:-translate-y-1">
+                                    Pay with PayPal
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Card Payment Details -->
+                        <div id="card-details" class="payment-method-details hidden">
+                            <div class="bg-purple-50 p-6 rounded-lg border border-purple-100 text-center">
+                                <h3 class="font-bold mb-4 flex items-center justify-center text-purple-800"><i class="fas fa-credit-card mr-2"></i> Card Payment</h3>
+                                <p class="mb-6 text-gray-600">For security reasons, please request a secure Razorpay/Stripe payment link via WhatsApp.</p>
+                                <a href="https://wa.me/918433125736?text=Hi,%20I%20want%20to%20pay%20via%20Credit/Debit%20Card.%20Please%20send%20link." target="_blank" class="btn bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full shadow-lg transition-transform transform hover:-translate-y-1">
+                                    <i class="fab fa-whatsapp mr-2"></i> Request Payment Link
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes" class="form-label">Additional Notes (Optional)</label>
+                        <textarea id="notes" name="notes" class="form-textarea" rows="3" placeholder="Any additional information about your payment..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="flex items-start">
+                            <input type="checkbox" id="terms" name="terms" class="mt-1 mr-2" required>
+                            <label for="terms" class="text-sm text-gray-600">
+                                I agree to the <a href="/terms.html" class="text-primary hover:underline">Terms & Conditions</a> and confirm that all information provided is accurate.
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-4">
+                        <button type="submit" id="submit-btn" class="btn btn-success w-full md:w-auto px-10 py-3 text-lg rounded-full shadow-lg transition-all transform hover:scale-105">
+                            <i class="fas fa-lock mr-2"></i> Confirm & Proceed
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Payment Confirmation Instructions -->
+                <div class="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <h3 class="font-bold mb-2 text-gray-800"><i class="fas fa-info-circle text-primary mr-2"></i>Important Instructions:</h3>
+                    <ul class="list-disc pl-8 space-y-1 text-sm text-gray-600">
+                        <li>After making the payment manually (UPI/Bank), please keep the transaction ID safe.</li>
+                        <li>Submitting this form notifies us of your intent to pay or completed payment.</li>
+                        <li>We will verify the transaction and send a receipt within 24 hours.</li>
+                        <li>For any queries, contact <a href="mailto:info.technoviax@gmail.com" class="text-primary hover:underline">info.technoviax@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white py-12 sm:py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
+                <div>
+                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Technovia<span class="text-accent">X</span></div>
+                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">Innovative IT solutions and services to help businesses transform and thrive in the digital era.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Quick Links</h3>
+                    <ul class="space-y-2 sm:space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Home</a></li>
+                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Services</a></li>
+                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
+                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
+                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Services</h3>
+                    <ul class="space-y-2 sm:space-y-3">
+                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Web Development</a></li>
+                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">App Development</a></li>
+                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Cloud Solutions</a></li>
+                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Digital Marketing</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
+                    <ul class="space-y-2 sm:space-y-3">
+                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
+                <p class="text-gray-400 text-sm sm:text-base">&copy; 2023 TechnoviaX Tech. All Rights Reserved.</p>
+                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
+                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
+                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
+                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Integrated Main JS Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('TechnoviaX Tech Website - Payment Page Loaded');
+            
+            // 1. Loading Screen Logic
+            const loadingScreen = document.getElementById('loading');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.transition = 'opacity 0.5s ease';
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }, 500);
+                }, 800);
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+            
+            // 2. Smooth Scrolling
+            const header = document.querySelector('header');
+            const headerHeight = header ? header.offsetHeight : 80;
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#' || href === '#!') return;
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                            const finalPosition = targetPosition - headerHeight - 10;
+                            window.scrollTo({ top: finalPosition, behavior: 'smooth' });
+                        }
+                    }
+                });
+            });
+
+            // 3. Payment Method Logic
+            const paymentMethodSelect = document.getElementById('payment-method');
+            const paymentDetails = document.getElementById('payment-details');
+            const paymentMethodDetails = document.querySelectorAll('.payment-method-details');
+
+            if (paymentMethodSelect) {
+                paymentMethodSelect.addEventListener('change', function() {
+                    const method = this.value;
+                    
+                    // Hide all first
+                    paymentMethodDetails.forEach(detail => {
+                        detail.classList.add('hidden');
+                    });
+                    
+                    if (method) {
+                        paymentDetails.classList.remove('hidden');
+                        const selectedDetail = document.getElementById(method + '-details');
+                        if (selectedDetail) {
+                            selectedDetail.classList.remove('hidden');
+                            // Small animation for UX
+                            selectedDetail.style.opacity = '0';
+                            selectedDetail.style.transform = 'translateY(10px)';
+                            setTimeout(() => {
+                                selectedDetail.style.transition = 'all 0.3s ease';
+                                selectedDetail.style.opacity = '1';
+                                selectedDetail.style.transform = 'translateY(0)';
+                            }, 50);
+                        }
+                    } else {
+                        paymentDetails.classList.add('hidden');
+                    }
+                });
+            }
+
+            // 4. Form Submission Logic with Modal
+            const form = document.getElementById('payment-form');
+            const modal = document.getElementById('success-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const submitBtn = document.getElementById('submit-btn');
+
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Show loading state
+                    const originalBtnContent = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+                    
+                    // Simulate API call
+                    setTimeout(() => {
+                        // Reset button
+                        submitBtn.innerHTML = originalBtnContent;
+                        submitBtn.disabled = false;
+                        
+                        // Show modal
+                        modal.classList.add('show');
+                        
+                        // Log data (simulating backend)
+                        const formData = new FormData(form);
+                        console.log('Payment form submitted:', Object.fromEntries(formData));
+                        
+                        // Reset form
+                        form.reset();
+                        paymentDetails.classList.add('hidden');
+                    }, 1500);
+                });
+            }
+
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function() {
+                    modal.classList.remove('show');
+                });
+            }
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target == modal) {
+                    modal.classList.remove('show');
+                }
+            });
+
+            // 5. Active Navigation State
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                link.classList.remove('active', 'text-primary', 'font-bold');
+                link.classList.add('text-secondary');
+
+                if (linkHref === '/payment.html' || (currentPath.includes('payment.html') && linkHref.includes('payment.html'))) {
+                    link.classList.add('active', 'text-primary', 'font-bold');
+                    link.classList.remove('text-secondary');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

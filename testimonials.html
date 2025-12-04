@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Testimonials - TechnoviaX Tech</title>
-    <meta name="description" content="Read what our clients say about our services. Real testimonials from satisfied businesses we've worked with.">
+    <meta name="description" content="Read what our satisfied clients have to say about TechnoviaX Tech. Real stories of digital transformation and success.">
     
-    <!-- Shared Head Content -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7340630616974109"
-     crossorigin="anonymous"></script>
+    <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/styles.css">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -28,13 +27,173 @@
                         'whatsapp-dark': '#128C7E',
                         success: '#10b981',
                         error: '#ef4444',
+                        'pastel-blue': '#a5d8ff',
+                        'pastel-green': '#b2f2bb',
+                        'pastel-purple': '#d0bfff',
+                        'pastel-pink': '#ffc9c9', 
+                        'pastel-yellow': '#ffec99',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+        }
+
+        /* Navigation Links */
+        .nav-links li a {
+            position: relative;
+            padding: 8px 0;
+            white-space: nowrap;
+        }
+        
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links li a:hover::after,
+        .nav-links li a.active::after {
+            width: 100%;
+        }
+
+        /* Mobile Navigation Scroll Fix */
+        @media (max-width: 768px) {
+            .nav-links {
+                overflow-x: auto;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-links::-webkit-scrollbar { height: 4px; }
+            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
+            
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Testimonial Card */
+        .testimonial-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section Title Line */
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #2563eb;
+            border-radius: 2px;
+        }
+        
+        /* Pastel Gradient */
+        .pastel-gradient {
+            background: linear-gradient(135deg, #f8fafc 0%, #a5d8ff 50%, #d0bfff 100%);
+        }
+    </style>
 </head>
-<body class="font-sans">
+<body class="font-sans text-secondary bg-slate-50">
+
+    <!-- Loading Screen -->
+    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>
+
     <!-- Header -->
     <header class="bg-white shadow-md fixed w-full top-0 z-40">
         <div class="container mx-auto px-4">
@@ -44,15 +203,15 @@
                 </div>
                 
                 <div class="w-full md:w-auto">
-                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8">
-                        <li><a href="/" class="text-secondary font-medium">Home</a></li>
-                        <li><a href="/services.html" class="text-secondary font-medium">Services</a></li>
-                        <li><a href="/about.html" class="text-secondary font-medium">About</a></li>
-                        <li><a href="/portfolio.html" class="text-secondary font-medium">Portfolio</a></li>
-                        <li><a href="/testimonials.html" class="text-secondary font-medium font-bold">Testimonials</a></li>
-                        <li><a href="/payment.html" class="text-secondary font-medium">Payment</a></li>
-                        <li><a href="/careers.html" class="text-secondary font-medium">Careers</a></li>
-                        <li><a href="/contact.html" class="text-secondary font-medium">Contact</a></li>
+                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
+                        <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
+                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
+                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
+                        <li><a href="/testimonials.html" class="text-primary font-bold active">Testimonials</a></li>
+                        <li><a href="/helpdesk.html" class="text-secondary font-medium hover:text-primary transition-colors">Helpdesk</a></li>
+                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
+                        <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
                     </ul>
                 </div>
             </nav>
@@ -63,27 +222,22 @@
     <main class="pt-32 pb-20">
         <div class="container mx-auto px-4">
             <!-- Hero Section -->
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 animate-fade-in-up">
                 <h1 class="text-4xl md:text-5xl font-bold mb-6">Client Testimonials</h1>
                 <p class="text-gray-600 text-lg max-w-3xl mx-auto">Discover what our clients have to say about working with TechnoviaX Tech and the impact we've made on their businesses.</p>
             </div>
 
             <!-- Testimonials Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                
                 <!-- Testimonial 1 -->
-                <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll">
                     <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
                     <p class="text-gray-600 mb-6 italic">"TechnoviaX Tech transformed our outdated website into a modern, responsive platform that has increased our conversion rate by 45%. Their team was professional and delivered on time."</p>
                     <div class="flex items-center gap-4">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                             alt="Rajesh Kumar" 
-                             class="w-12 h-12 rounded-full">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary font-bold text-xl">R</div>
                         <div>
                             <h4 class="font-bold">Rajesh Kumar</h4>
                             <p class="text-gray-500 text-sm">CEO, Retail Solutions</p>
@@ -92,19 +246,13 @@
                 </div>
 
                 <!-- Testimonial 2 -->
-                <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll" style="animation-delay: 0.1s;">
                     <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
                     <p class="text-gray-600 mb-6 italic">"The mobile app developed by TechnoviaX Tech has revolutionized how we interact with our customers. User engagement increased by 60% within the first month of launch."</p>
                     <div class="flex items-center gap-4">
-                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                             alt="Priya Sharma" 
-                             class="w-12 h-12 rounded-full">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-xl">P</div>
                         <div>
                             <h4 class="font-bold">Priya Sharma</h4>
                             <p class="text-gray-500 text-sm">Product Manager, HealthTech</p>
@@ -113,19 +261,13 @@
                 </div>
 
                 <!-- Testimonial 3 -->
-                <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll" style="animation-delay: 0.2s;">
                     <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
                     </div>
                     <p class="text-gray-600 mb-6 italic">"Their cloud migration services helped us reduce infrastructure costs by 40% while improving system reliability. Exceptional service and ongoing support."</p>
                     <div class="flex items-center gap-4">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                             alt="Amit Patel" 
-                             class="w-12 h-12 rounded-full">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-success font-bold text-xl">A</div>
                         <div>
                             <h4 class="font-bold">Amit Patel</h4>
                             <p class="text-gray-500 text-sm">CTO, FinTech Solutions</p>
@@ -134,152 +276,61 @@
                 </div>
 
                 <!-- Testimonial 4 -->
-                <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll">
                     <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
                     <p class="text-gray-600 mb-6 italic">"The digital marketing campaign increased our online sales by 150%. Their data-driven approach and continuous optimization made all the difference."</p>
                     <div class="flex items-center gap-4">
-                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                             alt="Neha Verma" 
-                             class="w-12 h-12 rounded-full">
+                        <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold text-xl">N</div>
                         <div>
                             <h4 class="font-bold">Neha Verma</h4>
-                            <p class="text-gray-500 text-sm">Marketing Director, Fashion Retail</p>
+                            <p class="text-gray-500 text-sm">Marketing Director</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Testimonial 5 -->
-                <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll" style="animation-delay: 0.1s;">
                     <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
                     <p class="text-gray-600 mb-6 italic">"Cybersecurity implementation was seamless. Their team identified vulnerabilities we didn't know existed and provided comprehensive protection."</p>
                     <div class="flex items-center gap-4">
-                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                             alt="Sanjay Mehta" 
-                             class="w-12 h-12 rounded-full">
+                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 font-bold text-xl">S</div>
                         <div>
                             <h4 class="font-bold">Sanjay Mehta</h4>
-                            <p class="text-gray-500 text-sm">IT Director, Manufacturing Co.</p>
+                            <p class="text-gray-500 text-sm">IT Director</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Testimonial 6 -->
-                <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll" style="animation-delay: 0.2s;">
                     <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
                     <p class="text-gray-600 mb-6 italic">"Working with TechnoviaX was a game-changer. Their AI solution automated 70% of our manual processes, saving us thousands of hours annually."</p>
                     <div class="flex items-center gap-4">
-                        <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005-128?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                             alt="Rahul Gupta" 
-                             class="w-12 h-12 rounded-full">
+                        <div class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center text-accent-dark font-bold text-xl">R</div>
                         <div>
                             <h4 class="font-bold">Rahul Gupta</h4>
-                            <p class="text-gray-500 text-sm">Operations Head, Logistics</p>
+                            <p class="text-gray-500 text-sm">Operations Head</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Case Studies -->
-            <section class="mb-16">
-                <h2 class="text-3xl font-bold mb-8 text-center">Case Studies</h2>
-                
-                <div class="space-y-8">
-                    <!-- Case Study 1 -->
-                    <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-8">
-                        <div class="flex flex-col lg:flex-row items-center gap-8">
-                            <div class="lg:w-1/3">
-                                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                                     alt="Medical Store Case Study" 
-                                     class="rounded-xl shadow-lg">
-                            </div>
-                            <div class="lg:w-2/3">
-                                <h3 class="text-2xl font-bold mb-4">MedShri Sai Medical Store Transformation</h3>
-                                <div class="grid grid-cols-2 gap-4 mb-6">
-                                    <div>
-                                        <p class="font-bold text-primary">Challenge</p>
-                                        <p class="text-gray-600">Limited online presence, manual order processing</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-success">Solution</p>
-                                        <p class="text-gray-600">E-commerce website with inventory management</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-accent">Results</p>
-                                        <p class="text-gray-600">85% increase in online orders</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-purple-500">Timeframe</p>
-                                        <p class="text-gray-600">4 weeks from concept to launch</p>
-                                    </div>
-                                </div>
-                                <a href="/portfolio.html" class="text-primary font-semibold hover:underline">View Full Case Study →</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Case Study 2 -->
-                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-8">
-                        <div class="flex flex-col lg:flex-row items-center gap-8">
-                            <div class="lg:w-1/3">
-                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                                     alt="Finance Website Case Study" 
-                                     class="rounded-xl shadow-lg">
-                            </div>
-                            <div class="lg:w-2/3">
-                                <h3 class="text-2xl font-bold mb-4">FociFinance Digital Presence</h3>
-                                <div class="grid grid-cols-2 gap-4 mb-6">
-                                    <div>
-                                        <p class="font-bold text-primary">Challenge</p>
-                                        <p class="text-gray-600">Static website, poor user engagement</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-success">Solution</p>
-                                        <p class="text-gray-600">Interactive financial tools and resources</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-accent">Results</p>
-                                        <p class="text-gray-600">200% increase in user engagement</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-purple-500">Timeframe</p>
-                                        <p class="text-gray-600">3 weeks design and development</p>
-                                    </div>
-                                </div>
-                                <a href="/portfolio.html" class="text-primary font-semibold hover:underline">View Full Case Study →</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CTA Section -->
-            <section class="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 text-center text-white">
-                <h2 class="text-3xl font-bold mb-4">Become Our Next Success Story</h2>
-                <p class="mb-6 max-w-2xl mx-auto">Join the growing list of satisfied clients who have transformed their businesses with our solutions.</p>
+            <!-- Submit Your Review Section -->
+            <section class="bg-gradient-to-r from-primary to-accent rounded-2xl p-10 text-center text-white shadow-lg animate-on-scroll">
+                <h2 class="text-3xl font-bold mb-4">Worked with us?</h2>
+                <p class="mb-8 max-w-2xl mx-auto text-blue-50 text-lg">We'd love to hear about your experience. Your feedback helps us serve you better.</p>
                 <div class="flex flex-wrap gap-4 justify-center">
-                    <a href="/contact.html" class="btn bg-white text-primary hover:bg-gray-100">
-                        Start Your Project
+                    <a href="https://g.page/r/YOUR_GOOGLE_REVIEW_LINK" target="_blank" class="btn bg-white text-primary font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors shadow-md flex items-center gap-2">
+                        <i class="fab fa-google"></i> Leave a Review
                     </a>
-                    <a href="/services.html" class="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">
-                        View Services
+                    <a href="/contact.html" class="btn bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-primary transition-colors flex items-center gap-2">
+                        <i class="fas fa-envelope"></i> Contact Us
                     </a>
                 </div>
             </section>
@@ -319,17 +370,17 @@
                 <div>
                     <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
                     <ul class="space-y-2 sm:space-y-3">
-                        <li class="text-gray-300 text-sm sm:text-base"><i class="fas fa-map-marker-alt mr-2 text-accent" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
-                        <li class="text-gray-300 text-sm sm:text-base"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                        <li class="text-gray-300 text-sm sm:text-base"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
-                        <li class="text-gray-300 text-sm sm:text-base"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
                     </ul>
                 </div>
             </div>
             
             <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
                 <p class="text-gray-400 text-sm sm:text-base">&copy; 2023 TechnoviaX Tech. All Rights Reserved.</p>
-                <div class="mt-4 flex justify-center gap-6">
+                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
                     <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
                     <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
                     <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Terms & Conditions</a>
@@ -343,6 +394,86 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <script src="/js/main.js"></script>
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('TechnoviaX Tech Website - Testimonials Page Loaded');
+            
+            // 1. Loading Screen Logic
+            const loadingScreen = document.getElementById('loading');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.transition = 'opacity 0.5s ease';
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }, 500);
+                }, 800);
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+
+            // 2. Smooth Scrolling
+            const header = document.querySelector('header');
+            const headerHeight = header ? header.offsetHeight : 80;
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#' || href === '#!') return;
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                            const finalPosition = targetPosition - headerHeight - 10;
+                            window.scrollTo({ top: finalPosition, behavior: 'smooth' });
+                        }
+                    }
+                });
+            });
+
+            // 3. Scroll Animation
+            function animateOnScroll() {
+                const animatedElements = document.querySelectorAll('.animate-on-scroll');
+                animatedElements.forEach(element => {
+                    if (element.classList.contains('animated')) return;
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight - (window.innerHeight / 4);
+                    
+                    if (elementPosition < screenPosition) {
+                        element.classList.add('animated');
+                    }
+                });
+            }
+            animateOnScroll(); // Run on load
+            
+            let isScrolling = false;
+            window.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        animateOnScroll();
+                        isScrolling = false;
+                    });
+                    isScrolling = true;
+                }
+            });
+
+            // 4. Active Navigation State
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                link.classList.remove('active', 'text-primary', 'font-bold');
+                link.classList.add('text-secondary');
+
+                if (linkHref === '/testimonials.html' || (currentPath.includes('testimonials.html') && linkHref.includes('testimonials.html'))) {
+                    link.classList.add('active', 'text-primary', 'font-bold');
+                    link.classList.remove('text-secondary');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

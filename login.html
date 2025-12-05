@@ -24,6 +24,10 @@
                         light: '#f8fafc',
                         gray: '#64748b',
                         whatsapp: '#25D366',
+                        'whatsapp-dark': '#128C7E',
+                        success: '#10b981',
+                        error: '#ef4444',
+                        'pastel-blue': '#a5d8ff',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -37,12 +41,66 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        /* Loading animation */
+        .loader {
+            border-top-color: #2563eb;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Navigation Links */
+        .nav-links li a {
+            position: relative;
+            padding: 8px 0;
+            white-space: nowrap;
+        }
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width 0.3s ease;
+        }
+        .nav-links li a:hover::after,
+        .nav-links li a.active::after {
+            width: 100%;
+        }
+
+        /* Mobile Nav */
+        @media (max-width: 768px) {
+            .nav-links {
+                overflow-x: auto;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-links::-webkit-scrollbar { height: 4px; }
+            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
+        }
+
+        /* Animations */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body class="font-sans text-secondary bg-slate-50">
 
     <!-- Loading Screen -->
     <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
     </div>
 
     <!-- Header -->
@@ -50,23 +108,20 @@
         <div class="container mx-auto px-4">
             <nav class="flex flex-col md:flex-row justify-between items-center py-4">
                 <div class="logo flex items-center gap-2 mb-3 md:mb-0">
-                    <a href="/" class="text-2xl font-bold text-primary">Technovia<span class="text-accent">X</span></a>
+                    <a href="/" class="logo-text text-2xl font-bold text-primary">Technovia<span class="text-accent">X</span></a>
                 </div>
                 
                 <div class="w-full md:w-auto">
                     <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
                         <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
                         <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
+                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
+                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
+                        <li><a href="/testimonials.html" class="text-secondary font-medium hover:text-primary transition-colors">Testimonials</a></li>
+                        <li><a href="/helpdesk.html" class="text-secondary font-medium hover:text-primary transition-colors">Helpdesk</a></li>
+                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
                         <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
-                        <!-- Login button hidden when logged in -->
-                        <li id="nav-login"><a href="/login.html" class="text-primary font-bold active">Login</a></li>
-                        <!-- Profile button hidden when logged out -->
-                        <li id="nav-profile" class="hidden">
-                            <div class="flex items-center gap-2 cursor-pointer" id="logout-btn">
-                                <img id="user-avatar" src="" alt="User" class="w-8 h-8 rounded-full border border-gray-200">
-                                <span class="text-sm font-medium text-gray-700 hover:text-red-500">Logout</span>
-                            </div>
-                        </li>
+                        <!-- Login Button will be injected by JS here if needed, but we are on login page so it's fine -->
                     </ul>
                 </div>
             </nav>
@@ -76,7 +131,7 @@
     <!-- Main Content -->
     <main class="pt-32 pb-20 min-h-screen flex items-center justify-center">
         <div class="container mx-auto px-4">
-            <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl overflow-hidden animate-fade-in-up">
                 <div class="p-8">
                     <div class="text-center mb-8">
                         <h1 class="text-3xl font-bold mb-2">Welcome Back</h1>
@@ -108,17 +163,17 @@
                                 <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                                 <input type="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="••••••••" required>
                             </div>
-                            <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary-dark transition-colors shadow-lg hover:shadow-xl">
+                            <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary-dark transition-colors shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
                                 Sign In
                             </button>
                         </form>
                         
-                        <p id="error-message" class="mt-4 text-center text-sm text-red-500 hidden"></p>
+                        <p id="error-message" class="mt-4 text-center text-sm text-red-500 bg-red-50 p-2 rounded hidden"></p>
                     </div>
 
                     <!-- User Info Area (Visible after login) -->
                     <div id="user-container" class="hidden text-center">
-                        <img id="profile-pic" src="" alt="Profile" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-100">
+                        <img id="profile-pic" src="" alt="Profile" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-100 object-cover">
                         <h3 id="user-name" class="text-xl font-bold text-gray-800"></h3>
                         <p id="user-email" class="text-gray-500 mb-6"></p>
                         <button id="sign-out-btn" class="w-full bg-red-50 text-red-600 border border-red-200 font-bold py-2 rounded-lg hover:bg-red-100 transition-colors">

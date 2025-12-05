@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Careers - Join TechnoviaX Tech</title>
     <meta name="description" content="Join our team at TechnoviaX Tech. Explore exciting career opportunities in IT and technology.">
-    
-    <!-- Dynamic Favicon -->
-    <script src="js/favicon-loader.js"></script>
-    
+     <script src="js/favicon-loader.js"></script>
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -30,11 +27,6 @@
                         'whatsapp-dark': '#128C7E',
                         success: '#10b981',
                         error: '#ef4444',
-                        'pastel-blue': '#a5d8ff',
-                        'pastel-green': '#b2f2bb',
-                        'pastel-purple': '#d0bfff',
-                        'pastel-pink': '#ffc9c9', 
-                        'pastel-yellow': '#ffec99',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -77,28 +69,46 @@
             transform: scale(1.1);
         }
 
-        /* Sticky CTA button */
-        .sticky-cta {
-            position: fixed;
-            bottom: 40px;
-            left: 40px;
-            background: #2563eb;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            z-index: 99;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
+        /* Navigation Links */
+        .nav-links li a {
+            position: relative;
+            padding: 8px 0;
+            white-space: nowrap;
         }
         
-        .sticky-cta:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links li a:hover::after,
+        .nav-links li a.active::after {
+            width: 100%;
+        }
+
+        /* Mobile Navigation Scroll Fix */
+        @media (max-width: 768px) {
+            .nav-links {
+                overflow-x: auto;
+                padding-bottom: 4px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-links::-webkit-scrollbar { height: 4px; }
+            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
+            
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
         }
 
         /* Job Card Styles */
@@ -280,24 +290,6 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
-        /* Mobile Styles */
-        @media (max-width: 768px) {
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-
-            .sticky-cta {
-                bottom: 20px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-        }
     </style>
 </head>
 <body class="font-sans bg-gray-50 text-secondary">
@@ -307,18 +299,28 @@
         <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
     </div>
 
-    <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-    
-    <!-- Sticky Contact CTA Button -->
-    <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
-        <i class="fas fa-envelope"></i> Contact Us
-    </a>
-
-    <!-- Dynamic Navigation Injection -->
-    <script src="js/navigation.js"></script>
+    <!-- Header -->
+    <header class="bg-white shadow-md fixed w-full top-0 z-40">
+        <div class="container mx-auto px-4">
+            <nav class="flex flex-col md:flex-row justify-between items-center py-4">
+                <div class="logo flex items-center gap-2 mb-3 md:mb-0">
+                    <a href="/" class="logo-text text-2xl font-bold text-primary hover:text-primary-dark transition-colors">Technovia<span class="text-accent">X</span></a>
+                </div>
+                
+                <div class="w-full md:w-auto">
+                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
+                        <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
+                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
+                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
+                        <li><a href="/payment.html" class="text-secondary font-medium hover:text-primary transition-colors">Payment</a></li>
+                        <li><a href="/careers.html" class="text-primary font-bold active">Careers</a></li>
+                        <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
 
     <!-- Main Content -->
     <main class="pt-32 pb-20 min-h-screen">
@@ -604,8 +606,6 @@
                         <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
                         <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
                         <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                        <!-- Footer Login Link Added -->
-                        <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a></li>
                     </ul>
                 </div>
                 
@@ -674,7 +674,7 @@
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
-                    if (href === '#' || href === '#!') return;
+                    if (href === '#' || href === '#!' || href.includes('.html')) return;
                     e.preventDefault();
                     const targetId = href.substring(1);
                     const targetElement = document.getElementById(targetId);
@@ -863,13 +863,37 @@
                 });
             }
 
-            // 6. Active Navigation State (Handled by navigation.js, but kept for safety)
-        });
-    </script>
-    
-    <!-- Global Navbar Auth Logic -->
-    <script src="js/navigation.js"></script>
-    <script src="js/loginfirebase.js" type="module"></script>
+            // 6. Active Navigation State
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                link.classList.remove('active', 'text-primary', 'font-bold');
+                link.classList.add('text-secondary');
 
+                if (linkHref === '/careers.html' || (currentPath.includes('careers.html') && linkHref.includes('careers.html'))) {
+                    link.classList.add('active', 'text-primary', 'font-bold');
+                    link.classList.remove('text-secondary');
+                }
+            });
+        });
+        // 2. Smooth Scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#' || href === '#!' || href.includes('.html')) return;
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+    </script>
+    <script src="js/loginfirebase.js" type="module"></script>
 </body>
 </html>

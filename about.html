@@ -101,7 +101,7 @@
             transform: translateY(-2px);
         }
 
-        /* Navigation Links Styling (Matches Home/Services Page) */
+        /* Navigation Links Styling */
         .nav-links li a {
             position: relative;
             padding: 8px 0;
@@ -242,7 +242,6 @@
                 </div>
                 
                 <div class="w-full md:w-auto">
-                    <!-- Navigation Links (Consistent with Index Page) -->
                     <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8">
                         <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
                         <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
@@ -485,8 +484,6 @@
     <!-- Integrated Main.js Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('TechnoviaX Tech Website - About Page Loaded');
-            
             // 1. Update Copyright Year
             const yearEl = document.getElementById('year');
             if(yearEl) yearEl.textContent = new Date().getFullYear();
@@ -553,14 +550,25 @@
             const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach(link => {
                 const linkHref = link.getAttribute('href');
-                // Reset all to default state
-                link.classList.remove('active', 'text-primary', 'font-bold');
-                link.classList.add('text-secondary', 'font-medium'); // Add font-medium back
+                
+                // Reset logic removed here to avoid conflict
+                // Instead, we simply check if we need to add the active class
+                // because the HTML already comes with a default state
 
                 // Check if this is the current link
                 if (linkHref === '/about.html' || (currentPath.includes('about.html') && linkHref.includes('about.html'))) {
-                    link.classList.add('active', 'text-primary', 'font-bold');
-                    link.classList.remove('text-secondary', 'font-medium');
+                     // This block is actually redundant if the HTML is hardcoded correctly, 
+                     // but it ensures state if the page is loaded dynamically or if we want to force it.
+                     // We only add classes, we don't remove from others blindly.
+                     link.classList.add('active', 'text-primary', 'font-bold');
+                     link.classList.remove('text-secondary', 'font-medium');
+                } else {
+                     // Optional: Ensure other links are not active if we are strictly on about.html
+                     // But since this is a static page load, the hardcoded HTML for other pages shouldn't have active anyway.
+                     // So we can just leave them alone or ensure they are reset.
+                     // Safer to just let the HTML define the initial state and this script enforce the current page.
+                     link.classList.remove('active', 'text-primary', 'font-bold');
+                     link.classList.add('text-secondary', 'font-medium');
                 }
             });
         });

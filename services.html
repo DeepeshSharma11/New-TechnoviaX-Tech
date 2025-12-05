@@ -126,6 +126,7 @@
         }
 
         /* Mobile Navigation Scroll Fix */
+        /* Fix: Ensure scroll is only on mobile via CSS media query, removed class from HTML */
         @media (max-width: 768px) {
             .nav-links {
                 overflow-x: auto;
@@ -274,7 +275,8 @@
                 </div>
                 
                 <div class="w-full md:w-auto">
-                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
+                    <!-- REMOVED 'overflow-x-auto' here to fix desktop scrollbar. CSS handles mobile scroll. -->
+                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8">
                         <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
                         <li><a href="/services.html" class="text-primary font-bold active">Services</a></li>
                         <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
@@ -487,7 +489,7 @@
                         <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
                         <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
                         <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                        <!-- Footer Login Link will be updated by js/loginfirebase.js -->
+                        <!-- Footer Login Link Added -->
                         <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a></li>
                     </ul>
                 </div>
@@ -578,10 +580,6 @@
                 style.textContent = `
                     .animated { animation: fadeInUp 0.6s ease forwards; }
                     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-                    .form-status { display: none; padding: 12px; border-radius: 8px; margin-bottom: 20px; }
-                    .form-status.success { background: #d1fae5; color: #065f46; }
-                    .form-status.error { background: #fee2e2; color: #991b1b; }
-                    .form-status.loading { background: #dbeafe; color: #1e40af; }
                 `;
                 document.head.appendChild(style);
             }

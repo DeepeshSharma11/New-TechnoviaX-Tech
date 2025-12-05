@@ -113,55 +113,6 @@
             transform: translateY(-2px);
         }
 
-        /* Navigation Links */
-        .nav-links li a {
-            position: relative;
-            padding: 8px 0;
-            white-space: nowrap;
-        }
-        
-        .nav-links li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #2563eb;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links li a:hover::after,
-        .nav-links li a.active::after {
-            width: 100%;
-        }
-
-        /* Mobile Navigation Scroll Fix */
-        @media (max-width: 768px) {
-            .nav-links {
-                overflow-x: auto;
-                padding-bottom: 8px;
-                -webkit-overflow-scrolling: touch;
-            }
-            .nav-links::-webkit-scrollbar { height: 4px; }
-            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-
-            .sticky-cta {
-                bottom: 20px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-        }
-
         /* Service Card Hover */
         .service-card {
             transition: all 0.3s ease;
@@ -215,8 +166,14 @@
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -237,35 +194,13 @@
         <i class="fas fa-envelope"></i> Contact Us
     </a>
 
-    <!-- Header -->
-    <header class="bg-white shadow-md fixed w-full top-0 z-40">
-        <div class="container mx-auto px-4">
-            <nav class="flex flex-col md:flex-row justify-between items-center py-4">
-                <div class="logo flex items-center gap-2 mb-3 md:mb-0">
-                    <a href="/" class="text-2xl font-bold text-primary hover:scale-105 transition-transform">Technovia<span class="text-accent">X</span></a>
-                </div>
-                
-                <!-- Navigation -->
-                <div class="w-full md:w-auto">
-                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
-                        <li><a href="/" class="text-primary font-bold active">Home</a></li>
-                        <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
-                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
-                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
-                        <li><a href="/testimonials.html" class="text-secondary font-medium hover:text-primary transition-colors">Testimonials</a></li>
-                        <li><a href="/helpdesk.html" class="text-secondary font-medium hover:text-primary transition-colors">Helpdesk</a></li>
-                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
-                        <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </header>
+    <!-- Dynamic Navigation Injection -->
+    <script src="js/navigation.js"></script>
 
     <!-- Main Content -->
-    <main id="main-content" class="pt-16">
+    <main id="main-content" class="pt-32 pb-20">
         <!-- Hero Section -->
-        <section class="pt-32 pb-20 pastel-gradient">
+        <section class="pt-10 pb-20 pastel-gradient">
             <div class="container mx-auto px-4">
                 <div class="flex flex-col md:flex-row items-center gap-12">
                     <div class="flex-1 text-center md:text-left animate-fade-in-up">
@@ -372,7 +307,8 @@
                         <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
                         <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
                         <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                        <li><a href="/contact.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Contact</a></li>
+                        <!-- Footer Login Link Added (Controlled by JS) -->
+                        <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a></li>
                     </ul>
                 </div>
                 
@@ -412,9 +348,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Update Copyright Year
-            document.getElementById('year').textContent = new Date().getFullYear();
+            const yearEl = document.getElementById('year');
+            if(yearEl) yearEl.textContent = new Date().getFullYear();
             
-            // 1. Loading Screen
+            // Loading screen logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
                 setTimeout(() => {
@@ -423,74 +360,68 @@
                         loadingScreen.style.display = 'none';
                         document.body.style.overflow = 'auto';
                     }, 500);
-                }, 800);
+                }, 300); 
+            } else {
+                document.body.style.overflow = 'auto';
             }
-
-            // 2. Smooth Scrolling
+            
+            // Smooth Scrolling
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
-                    
-                    // Skip if it's not an anchor link or if it's a different page
-                    if (href === '#' || href.includes('.html#')) return;
-                    
-                    e.preventDefault();
-                    
-                    const targetId = href.substring(1);
-                    const targetElement = document.getElementById(targetId);
-                    
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
+                    if (href === '#' || href === '#!') return;
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            const headerHeight = document.querySelector('.shadow-md')?.offsetHeight || 80;
+                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                            window.scrollTo({ top: targetPosition - headerHeight - 10, behavior: 'smooth' });
+                        }
                     }
                 });
             });
-
-            // 3. Scroll Animation
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animated');
+            
+            // Scroll Animation
+            function animateOnScroll() {
+                const animatedElements = document.querySelectorAll('.animate-on-scroll');
+                animatedElements.forEach(element => {
+                    if (element.classList.contains('animated')) return;
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight - (window.innerHeight / 4);
+                    if (elementPosition < screenPosition) {
+                        element.classList.add('animated');
                     }
                 });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-
-            // 4. Active Navigation State
-            const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => {
-                const linkHref = link.getAttribute('href');
-                // Clear existing
-                link.classList.remove('active', 'text-primary', 'font-bold');
-                link.classList.add('text-secondary');
-
-                // Set Active
-                if (linkHref === '/' || linkHref === '/index.html' || (currentPath === '/' && (linkHref === '/' || linkHref === '/index.html'))) {
-                    if (currentPath === '/' || currentPath.includes('index.html')) {
-                        link.classList.add('active', 'text-primary', 'font-bold');
-                        link.classList.remove('text-secondary');
-                    }
+            }
+            animateOnScroll();
+            
+            let isScrolling = false;
+            window.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        animateOnScroll();
+                        isScrolling = false;
+                    });
+                    isScrolling = true;
                 }
             });
             
-            // 5. Persistent Login Reminder Logic (20 Second Delay)
+            // Persistent Login Reminder Logic (20 Second Delay)
             setTimeout(function() {
-                // Check if the injected 'nav-login' button is visible.
-                // If it is visible (not hidden), it means the user is NOT logged in.
                 const navLoginBtn = document.getElementById('nav-login');
+                // If nav-login exists and is NOT hidden (meaning user is logged OUT)
                 if (navLoginBtn && !navLoginBtn.classList.contains('hidden')) {
-                    alert("You must login to continue visiting this page.");
-                    window.location.href = "/login.html";
+                    // alert("You must login to continue visiting this page.");
+                    // window.location.href = "/login.html";
+                    // Uncomment above lines if you want to enforce login after 20s
                 }
-            }, 20000); // 20000 milliseconds = 20 seconds
+            }, 20000);
         });
     </script>
 
-    <!-- Auth Logic -->
+    <!-- Global Navbar Auth Logic -->
     <script src="js/loginfirebase.js" type="module"></script>
+
 </body>
 </html>

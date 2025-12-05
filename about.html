@@ -131,6 +131,13 @@
                 padding-bottom: 8px;
                 -webkit-overflow-scrolling: touch;
             }
+            
+            /* REDUCED SIZE FOR MOBILE */
+            .nav-links li a {
+                font-size: 14px;
+                padding: 6px 0;
+            }
+
             .nav-links::-webkit-scrollbar { height: 4px; }
             .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
             
@@ -530,6 +537,10 @@
             navLinks.forEach(link => {
                 const linkHref = link.getAttribute('href');
                 
+                // Reset all to default state
+                link.classList.remove('active', 'text-primary', 'font-bold');
+                link.classList.add('text-secondary', 'font-medium'); // Add font-medium back
+
                 // Check if this is the current link
                 if (linkHref === '/about.html' || (currentPath.includes('about.html') && linkHref.includes('about.html'))) {
                     link.classList.add('active', 'text-primary', 'font-bold');

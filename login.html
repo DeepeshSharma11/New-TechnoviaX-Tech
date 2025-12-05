@@ -94,6 +94,51 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* --- Glassmorphism Styles --- */
+        .glass-bg {
+            /* Abstract modern background */
+            background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+            backdrop-filter: blur(16px); /* Blur effect */
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Soft shadow */
+            border-radius: 24px;
+        }
+
+        .glass-input {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #1f2937;
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #2563eb;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
+        }
+
+        .glass-input::placeholder {
+            color: #4b5563;
+        }
+
+        .glass-footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.2s;
+        }
+        .glass-footer-link:hover {
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
     </style>
 </head>
 <body class="font-sans text-secondary bg-slate-50">
@@ -104,7 +149,7 @@
     </div>
 
     <!-- Header -->
-    <header class="bg-white shadow-md fixed w-full top-0 z-40">
+    <header class="bg-white/90 backdrop-blur-md shadow-md fixed w-full top-0 z-40 transition-all duration-300">
         <div class="container mx-auto px-4">
             <nav class="flex flex-col md:flex-row justify-between items-center py-4">
                 <div class="logo flex items-center gap-2 mb-3 md:mb-0">
@@ -115,13 +160,16 @@
                     <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
                         <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
                         <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
-                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
-                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
-                        <li><a href="/testimonials.html" class="text-secondary font-medium hover:text-primary transition-colors">Testimonials</a></li>
-                        <li><a href="/helpdesk.html" class="text-secondary font-medium hover:text-primary transition-colors">Helpdesk</a></li>
-                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
                         <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
-                        <!-- Login Button will be injected by JS here if needed, but we are on login page so it's fine -->
+                        <!-- Login button hidden when logged in -->
+                        <li id="nav-login"><a href="/login.html" class="text-primary font-bold active">Login</a></li>
+                        <!-- Profile button hidden when logged out -->
+                        <li id="nav-profile" class="hidden">
+                            <div class="flex items-center gap-2 cursor-pointer" id="logout-btn">
+                                <img id="user-avatar" src="" alt="User" class="w-8 h-8 rounded-full border border-gray-200">
+                                <span class="text-sm font-medium text-gray-700 hover:text-red-500">Logout</span>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -129,70 +177,91 @@
     </header>
 
     <!-- Main Content -->
-    <main class="pt-32 pb-20 min-h-screen flex items-center justify-center">
-        <div class="container mx-auto px-4">
-            <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl overflow-hidden animate-fade-in-up">
+    <main class="pt-20 min-h-screen flex items-center justify-center glass-bg relative">
+        <!-- Overlay to make text readable over background -->
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/30 to-purple-900/30 backdrop-blur-[2px]"></div>
+
+        <div class="container mx-auto px-4 relative z-10 py-10">
+            <div class="max-w-md mx-auto glass-card overflow-hidden animate-fade-in-up shadow-2xl">
                 <div class="p-8">
                     <div class="text-center mb-8">
-                        <h1 class="text-3xl font-bold mb-2">Welcome Back</h1>
-                        <p class="text-gray-600">Sign in to manage your projects and support tickets.</p>
+                        <div class="inline-block p-3 rounded-full bg-white/20 mb-4 backdrop-blur-sm shadow-inner">
+                            <i class="fas fa-user-astronaut text-3xl text-white"></i>
+                        </div>
+                        <h1 class="text-3xl font-bold mb-2 text-white drop-shadow-md">Welcome Back</h1>
+                        <p class="text-blue-50 font-medium tracking-wide">Sign in to your dashboard</p>
                     </div>
 
                     <!-- Login Area -->
                     <div id="login-container">
-                        <button id="google-login-btn" class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 px-4 rounded-lg transition-all shadow-sm group">
+                        <button id="google-login-btn" class="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-800 font-bold py-3 px-4 rounded-xl transition-all shadow-lg hover:shadow-xl group transform hover:-translate-y-0.5 mb-6">
                             <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-6 h-6 group-hover:scale-110 transition-transform">
                             <span>Sign in with Google</span>
                         </button>
 
                         <div class="relative my-6">
                             <div class="absolute inset-0 flex items-center">
-                                <div class="w-full border-t border-gray-300"></div>
+                                <div class="w-full border-t border-white/30"></div>
                             </div>
                             <div class="relative flex justify-center text-sm">
-                                <span class="px-2 bg-white text-gray-500">Or continue with email</span>
+                                <span class="px-4 bg-transparent text-white/90 font-medium backdrop-blur-sm rounded">or continue with email</span>
                             </div>
                         </div>
 
-                        <form id="email-login-form" class="space-y-4">
+                        <form id="email-login-form" class="space-y-5">
                             <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="name@company.com" required>
+                                <label for="email" class="block text-sm font-bold text-white mb-1 ml-1">Email Address</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-envelope text-gray-500"></i>
+                                    </div>
+                                    <input type="email" id="email" class="w-full pl-10 pr-4 py-3 rounded-xl glass-input focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="name@company.com" required>
+                                </div>
                             </div>
                             <div>
-                                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                                <input type="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="••••••••" required>
+                                <label for="password" class="block text-sm font-bold text-white mb-1 ml-1">Password</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-lock text-gray-500"></i>
+                                    </div>
+                                    <input type="password" id="password" class="w-full pl-10 pr-4 py-3 rounded-xl glass-input focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="••••••••" required>
+                                </div>
                             </div>
-                            <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary-dark transition-colors shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-                                Sign In
+                            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg hover:shadow-blue-500/40 flex items-center justify-center gap-2 mt-4 transform hover:scale-[1.02]">
+                                <span>Sign In</span>
+                                <i class="fas fa-arrow-right"></i>
                             </button>
                         </form>
                         
-                        <p id="error-message" class="mt-4 text-center text-sm text-red-500 bg-red-50 p-2 rounded hidden"></p>
+                        <p id="error-message" class="mt-4 text-center text-sm text-red-100 bg-red-600/60 p-3 rounded-lg border border-red-400/50 hidden backdrop-blur-sm"></p>
                     </div>
 
                     <!-- User Info Area (Visible after login) -->
-                    <div id="user-container" class="hidden text-center">
-                        <img id="profile-pic" src="" alt="Profile" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-100 object-cover">
-                        <h3 id="user-name" class="text-xl font-bold text-gray-800"></h3>
-                        <p id="user-email" class="text-gray-500 mb-6"></p>
-                        <button id="sign-out-btn" class="w-full bg-red-50 text-red-600 border border-red-200 font-bold py-2 rounded-lg hover:bg-red-100 transition-colors">
-                            Sign Out
+                    <div id="user-container" class="hidden text-center py-6">
+                        <div class="relative inline-block mb-4">
+                            <img id="profile-pic" src="" alt="Profile" class="w-28 h-28 rounded-full border-4 border-white/50 shadow-xl object-cover">
+                            <div class="absolute bottom-1 right-1 w-5 h-5 bg-green-500 border-2 border-white rounded-full"></div>
+                        </div>
+                        <h3 id="user-name" class="text-2xl font-bold text-white mb-1 drop-shadow-md"></h3>
+                        <p id="user-email" class="text-blue-100 mb-8 font-medium bg-white/10 inline-block px-4 py-1 rounded-full"></p>
+                        <button id="sign-out-btn" class="w-full bg-white/10 hover:bg-red-500/80 border border-white/30 text-white font-bold py-3 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 group backdrop-blur-sm">
+                            <i class="fas fa-sign-out-alt group-hover:rotate-180 transition-transform duration-300"></i> Sign Out
                         </button>
                     </div>
 
                 </div>
-                <div class="bg-gray-50 px-8 py-4 border-t border-gray-100 text-center text-sm text-gray-500">
-                    Don't have an account? <a href="/contact.html" class="text-primary hover:underline">Contact Sales</a>
+                <!-- Glass Footer inside Card -->
+                <div class="bg-white/20 backdrop-blur-md px-8 py-5 border-t border-white/10 text-center text-sm text-white font-medium">
+                    Don't have an account? <a href="/contact.html" class="text-blue-200 hover:text-white hover:underline transition-colors font-bold">Contact Sales</a>
                 </div>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-secondary text-white py-8 mt-auto">
+    <footer class="bg-secondary text-white py-8 mt-auto relative z-20">
         <div class="container mx-auto px-4 text-center">
-            <p class="text-sm">&copy; <span id="year"></span> TechnoviaX Tech. All Rights Reserved.</p>
+            <p class="text-sm text-gray-400">&copy; <span id="year"></span> TechnoviaX Tech. All Rights Reserved.</p>
         </div>
     </footer>
 

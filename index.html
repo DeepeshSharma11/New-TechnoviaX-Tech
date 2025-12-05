@@ -7,31 +7,9 @@
     <meta name="description" content="TechnoviaX Tech provides innovative IT solutions, web development, app development, cloud solutions, and digital marketing services for businesses in India and worldwide.">
     <meta name="keywords" content="IT solutions, web development, app development, cloud solutions, digital marketing, cybersecurity, Bareilly, India">
     <meta name="author" content="TechnoviaX Tech">
-    <script src="js/favicon-loader.js"></script>
     
-    <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content="TechnoviaX Tech - Innovative IT Solutions">
-    <meta property="og:description" content="Cutting-edge software development, web solutions, and digital transformation services to help businesses thrive.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://technoviaX.com">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://technoviaX.com">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="CompanySiteFav.png">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
+    <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- AdSense (Commented out for Development/Preview) -->
-    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7340630616974109" crossorigin="anonymous"></script> -->
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -51,7 +29,6 @@
                         'whatsapp-dark': '#128C7E',
                         success: '#10b981',
                         error: '#ef4444',
-                        // Pastel Colors
                         'pastel-blue': '#a5d8ff',
                         'pastel-green': '#b2f2bb',
                         'pastel-purple': '#d0bfff',
@@ -64,7 +41,6 @@
                     },
                     animation: {
                         'float': 'float 4s ease-in-out infinite',
-                        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         float: {
@@ -77,37 +53,14 @@
         }
     </script>
     
-    <!-- Inline CSS -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
     <style>
-        /* Loading animation */
-        .loader {
-            border-top-color: #2563eb;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Skip link */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: #2563eb;
-            color: white;
-            padding: 8px;
-            z-index: 100;
-            text-decoration: none;
-            transition: top 0.3s;
-        }
-        
-        .skip-link:focus {
-            top: 0;
-        }
-        
-        /* WhatsApp float button */
+        /* WhatsApp Float */
         .whatsapp-float {
             position: fixed;
             width: 60px;
@@ -127,7 +80,7 @@
             transition: all 0.3s ease;
             text-decoration: none;
         }
-        
+
         .whatsapp-float:hover {
             background-color: #128C7E;
             transform: scale(1.1);
@@ -156,51 +109,8 @@
             background: #1d4ed8;
             transform: translateY(-2px);
         }
-        
-        /* Pastel gradient background */
-        .pastel-gradient {
-            background: linear-gradient(135deg, #f8fafc 0%, #a5d8ff 50%, #d0bfff 100%);
-        }
-        
-        /* Gradient background for CTA */
-        .gradient-bg {
-            background: linear-gradient(135deg, #2563eb 0%, #22d3ee 100%);
-            color: white;
-        }
-        
-        .gradient-bg p {
-            color: rgba(255, 255, 255, 0.9);
-        }
-        
-        /* Service card hover effects */
-        .service-card {
-            transition: all 0.3s ease;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        
-        /* Section title styling */
-        .section-title {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: #2563eb;
-            border-radius: 2px;
-        }
-        
-        /* Navigation styles */
+
+        /* Navigation Links */
         .nav-links li a {
             position: relative;
             padding: 8px 0;
@@ -222,14 +132,67 @@
         .nav-links li a.active::after {
             width: 100%;
         }
-        
-        /* Logo styling */
-        .logo-text {
+
+        /* Mobile Navigation Scroll Fix */
+        @media (max-width: 768px) {
+            .nav-links {
+                overflow-x: auto;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-links::-webkit-scrollbar { height: 4px; }
+            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
+            
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+
+            .sticky-cta {
+                bottom: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* Service Card Hover */
+        .service-card {
             transition: all 0.3s ease;
         }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* Section Title Line */
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #2563eb;
+            border-radius: 2px;
+        }
+
+        /* Pastel Gradient */
+        .pastel-gradient {
+            background: linear-gradient(135deg, #f8fafc 0%, #a5d8ff 50%, #d0bfff 100%);
+        }
         
-        .logo-text:hover {
-            transform: scale(1.05);
+        .gradient-bg {
+            background: linear-gradient(135deg, #2563eb 0%, #22d3ee 100%);
+            color: white;
         }
 
         /* Animations */
@@ -252,60 +215,13 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        /* Mobile navigation improvements */
-        @media (max-width: 768px) {
-            .nav-links {
-                overflow-x: auto;
-                padding-bottom: 8px;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .nav-links::-webkit-scrollbar {
-                height: 4px;
-            }
-            
-            .nav-links::-webkit-scrollbar-track {
-                background: #f1f1f1;
-            }
-            
-            .nav-links::-webkit-scrollbar-thumb {
-                background: #2563eb;
-                border-radius: 2px;
-            }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-            
-            .sticky-cta {
-                bottom: 20px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-        }
-        
-        /* Print styles */
-        @media print {
-            .whatsapp-float,
-            .sticky-cta {
-                display: none;
-            }
-        }
     </style>
 </head>
-<body class="font-sans text-secondary">
-    <!-- Skip to main content for accessibility -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+<body class="font-sans text-secondary bg-slate-50">
 
     <!-- Loading Screen -->
     <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
-        <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
     </div>
 
     <!-- WhatsApp Float Button -->
@@ -323,12 +239,12 @@
         <div class="container mx-auto px-4">
             <nav class="flex flex-col md:flex-row justify-between items-center py-4">
                 <div class="logo flex items-center gap-2 mb-3 md:mb-0">
-                    <a href="/" class="logo-text text-2xl font-bold text-primary">Technovia<span class="text-accent">X</span></a>
+                    <a href="/" class="text-2xl font-bold text-primary hover:scale-105 transition-transform">Technovia<span class="text-accent">X</span></a>
                 </div>
                 
                 <!-- Navigation -->
                 <div class="w-full md:w-auto">
-                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8">
+                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
                         <li><a href="/" class="text-primary font-bold active">Home</a></li>
                         <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
                         <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
@@ -353,9 +269,9 @@
                         <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">Innovative IT Solutions for <span class="text-primary">Your Business</span></h1>
                         <p class="text-lg sm:text-xl text-gray-700 mb-8">TechnoviaX Tech provides cutting-edge software development, web solutions, and digital transformation services to help businesses thrive in the digital age.</p>
                         <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                            <a href="/services.html" class="bg-primary text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-primary-dark transition-all hover:shadow-lg">Our Services</a>
-                            <a href="/contact.html" class="bg-accent text-secondary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-accent-dark transition-all hover:shadow-lg">Get in Touch</a>
-                            <a href="https://wa.me/918433125736" class="bg-whatsapp text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-whatsapp-dark transition-all hover:shadow-lg flex items-center gap-2" target="_blank" aria-label="Contact us on WhatsApp">
+                            <a href="/services.html" class="bg-primary text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-primary-dark transition-all hover:shadow-lg transform hover:-translate-y-1">Our Services</a>
+                            <a href="/contact.html" class="bg-accent text-secondary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-accent-dark transition-all hover:shadow-lg transform hover:-translate-y-1">Get in Touch</a>
+                            <a href="https://wa.me/918433125736" class="bg-whatsapp text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-whatsapp-dark transition-all hover:shadow-lg flex items-center gap-2 transform hover:-translate-y-1" target="_blank" aria-label="Contact us on WhatsApp">
                                 <i class="fab fa-whatsapp"></i> <span class="hidden sm:inline">WhatsApp Us</span>
                             </a>
                         </div>
@@ -412,7 +328,7 @@
                     </div>
                 </div>
                 <div class="text-center mt-10 animate-on-scroll">
-                    <a href="/services.html" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-all hover:shadow-lg inline-flex items-center gap-2">
+                    <a href="/services.html" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-all hover:shadow-lg inline-flex items-center gap-2 transform hover:-translate-y-1">
                         View All Services <i class="fas fa-arrow-right" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -425,10 +341,10 @@
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
                 <p class="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">Get started with our innovative IT solutions today</p>
                 <div class="flex flex-wrap gap-4 justify-center">
-                    <a href="/contact.html" class="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all hover:shadow-lg">
+                    <a href="/contact.html" class="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all hover:shadow-lg transform hover:-translate-y-1">
                         Start Your Project
                     </a>
-                    <a href="/payment.html" class="bg-success text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all hover:shadow-lg">
+                    <a href="/payment.html" class="bg-success text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all hover:shadow-lg transform hover:-translate-y-1">
                         Make Payment
                     </a>
                 </div>
@@ -478,7 +394,7 @@
             </div>
             
             <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
-                <p class="text-gray-400 text-sm sm:text-base">&copy; <span id="current-year">2023</span> TechnoviaX Tech. All Rights Reserved.</p>
+                <p class="text-gray-400 text-sm sm:text-base">&copy; <span id="year">2023</span> TechnoviaX Tech. All Rights Reserved.</p>
                 <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
                     <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
                     <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
@@ -488,85 +404,73 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- Scripts -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Update Copyright Year
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-
-            // Loading screen removal with Safety Timeout
-            const loading = document.getElementById('loading');
+            document.getElementById('year').textContent = new Date().getFullYear();
             
-            function removeLoader() {
-                if (loading && loading.style.display !== 'none') {
-                    loading.style.opacity = '0';
+            // 1. Loading Screen
+            const loadingScreen = document.getElementById('loading');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
                     setTimeout(() => {
-                        loading.style.display = 'none';
+                        loadingScreen.style.display = 'none';
+                        document.body.style.overflow = 'auto';
                     }, 500);
-                }
+                }, 800);
             }
 
-            // Standard load listener
-            window.addEventListener('load', removeLoader);
-            
-            // Fallback timeout
-            setTimeout(removeLoader, 3000);
-            
-            // Smooth scrolling for anchor links
+            // 2. Smooth Scrolling
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
+                anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
-                    
-                    // Skip if it's not an anchor link or if it's a different page
-                    if (href === '#' || href.includes('.html#')) return;
-                    
+                    if (href === '#' || href === '#!' || href.includes('.html')) return;
                     e.preventDefault();
-                    
                     const targetId = href.substring(1);
                     const targetElement = document.getElementById(targetId);
-                    
                     if (targetElement) {
                         window.scrollTo({
-                            top: targetElement.offsetTop - 80, // Adjust this offset based on actual header height
+                            top: targetElement.offsetTop - 80,
                             behavior: 'smooth'
                         });
                     }
                 });
             });
 
-            // Scroll Animation Observer
-            function animateOnScroll() {
-                const animatedElements = document.querySelectorAll('.animate-on-scroll');
-                
-                animatedElements.forEach(element => {
-                    if (element.classList.contains('animated')) return;
-                    
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const screenPosition = window.innerHeight - (window.innerHeight / 4);
-                    
-                    if (elementPosition < screenPosition) {
-                        element.classList.add('animated');
+            // 3. Scroll Animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
                     }
                 });
-            }
-            
-            // Run on load
-            animateOnScroll();
-            
-            // Throttled Scroll Listener
-            let isScrolling = false;
-            window.addEventListener('scroll', () => {
-                if (!isScrolling) {
-                    window.requestAnimationFrame(() => {
-                        animateOnScroll();
-                        isScrolling = false;
-                    });
-                    isScrolling = true;
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+            // 4. Active Navigation State
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                // Clear existing
+                link.classList.remove('active', 'text-primary', 'font-bold');
+                link.classList.add('text-secondary');
+
+                // Set Active
+                if (linkHref === '/' || linkHref === '/index.html' || (currentPath === '/' && (linkHref === '/' || linkHref === '/index.html'))) {
+                    if (currentPath === '/' || currentPath.includes('index.html')) {
+                        link.classList.add('active', 'text-primary', 'font-bold');
+                        link.classList.remove('text-secondary');
+                    }
                 }
             });
         });
     </script>
-    <script src="js/loginfirebase.js" type="module"></script>
+
+    <!-- Auth Logic -->
     <script src="js/loginfirebase.js" type="module"></script>
 </body>
 </html>

@@ -101,7 +101,7 @@
             transform: translateY(-2px);
         }
 
-        /* Navigation Links */
+        /* Navigation Links Styling (Matches Services Page) */
         .nav-links li a {
             position: relative;
             padding: 8px 0;
@@ -119,6 +119,7 @@
             transition: width 0.3s ease;
         }
         
+        /* Show line on hover OR when active class is present */
         .nav-links li a:hover::after,
         .nav-links li a.active::after {
             width: 100%;
@@ -241,7 +242,7 @@
                 </div>
                 
                 <div class="w-full md:w-auto">
-                    <!-- Removed overflow-x-auto from here to fix desktop scrollbar -->
+                    <!-- Removed overflow-x-auto from here to fix desktop scrollbar. Handled by CSS. -->
                     <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8">
                         <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
                         <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
@@ -444,8 +445,9 @@
                         <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
                         <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
                         <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                        <!-- Footer Login Link Added (Controlled by JS) -->
-                    
+                        <!-- Footer Login Link Added -->
+                        <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a></li>
+                    </ul>
                 </div>
                 
                 <div>
@@ -470,7 +472,7 @@
             </div>
             
             <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
-                <p class="text-gray-400 text-sm sm:text-base">&copy; <span id="year">2023</span> TechnoviaX Tech. All Rights Reserved.</p>
+                <p class="text-gray-400 text-sm sm:text-base">&copy; 2023 TechnoviaX Tech. All Rights Reserved.</p>
                 <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
                     <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
                     <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
@@ -492,7 +494,6 @@
             // 2. Loading Screen Logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
-                // Short delay for smooth fade out
                 setTimeout(() => {
                     loadingScreen.style.opacity = '0';
                     setTimeout(() => {
@@ -546,14 +547,14 @@
                 }
             });
 
-            // 5. Handle active state for nav links
+            // 5. Handle active state for nav links (Fixed for About Page)
             const currentPath = window.location.pathname;
             const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach(link => {
                 const linkHref = link.getAttribute('href');
                 // Reset all to default state
                 link.classList.remove('active', 'text-primary', 'font-bold');
-                link.classList.add('text-secondary', 'font-medium'); // Add font-medium back
+                link.classList.add('text-secondary', 'font-medium');
 
                 // Check if this is the current link
                 if (linkHref === '/about.html' || (currentPath.includes('about.html') && linkHref.includes('about.html'))) {

@@ -101,7 +101,7 @@
             transform: translateY(-2px);
         }
 
-        /* Navigation Links Styling (Matches Services Page) */
+        /* Navigation Links Styling (Matches Home/Services Page) */
         .nav-links li a {
             position: relative;
             padding: 8px 0;
@@ -242,7 +242,7 @@
                 </div>
                 
                 <div class="w-full md:w-auto">
-                    <!-- Removed overflow-x-auto from here to fix desktop scrollbar. Handled by CSS. -->
+                    <!-- Navigation Links (Consistent with Index Page) -->
                     <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8">
                         <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
                         <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
@@ -494,6 +494,7 @@
             // 2. Loading Screen Logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
+                // Short delay for smooth fade out
                 setTimeout(() => {
                     loadingScreen.style.opacity = '0';
                     setTimeout(() => {
@@ -547,14 +548,14 @@
                 }
             });
 
-            // 5. Handle active state for nav links (Fixed for About Page)
+            // 5. Handle active state for nav links
             const currentPath = window.location.pathname;
             const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach(link => {
                 const linkHref = link.getAttribute('href');
                 // Reset all to default state
                 link.classList.remove('active', 'text-primary', 'font-bold');
-                link.classList.add('text-secondary', 'font-medium');
+                link.classList.add('text-secondary', 'font-medium'); // Add font-medium back
 
                 // Check if this is the current link
                 if (linkHref === '/about.html' || (currentPath.includes('about.html') && linkHref.includes('about.html'))) {

@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Services - TechnoviaX Tech</title>
     <meta name="description" content="Comprehensive IT services including web development, app development, cloud solutions, digital marketing, and cybersecurity.">
-     <script src="js/favicon-loader.js"></script>
+    
+    <!-- Dynamic Favicon -->
+    <script src="js/favicon-loader.js"></script>
+    
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -67,11 +70,36 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            text-decoration: none;
         }
 
         .whatsapp-float:hover {
             background-color: #128C7E;
             transform: scale(1.1);
+        }
+
+        /* Sticky CTA button */
+        .sticky-cta {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            background: #2563eb;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .sticky-cta:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
         }
 
         /* Navigation Links */
@@ -114,6 +142,13 @@
                 right: 20px;
                 font-size: 24px;
             }
+
+            .sticky-cta {
+                bottom: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
         }
 
         /* Buttons */
@@ -124,6 +159,7 @@
             font-weight: 600;
             transition: all 0.3s ease;
             cursor: pointer;
+            border: none; /* Reset border */
         }
         .btn-primary {
             background-color: #2563eb;
@@ -132,6 +168,29 @@
         .btn-primary:hover {
             background-color: #1d4ed8;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* WhatsApp Specific Button Style */
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Service Card Hover */
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         /* Section Title Line */
@@ -150,10 +209,42 @@
             background: #2563eb;
             border-radius: 2px;
         }
-        
+
         /* Pastel Gradient */
         .pastel-gradient {
             background: linear-gradient(135deg, #f8fafc 0%, #a5d8ff 50%, #d0bfff 100%);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #2563eb 0%, #22d3ee 100%);
+            color: white;
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -164,12 +255,22 @@
         <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
     </div>
 
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <!-- Sticky Contact CTA Button -->
+    <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
+        <i class="fas fa-envelope"></i> Contact Us
+    </a>
+
     <!-- Header -->
     <header class="bg-white shadow-md fixed w-full top-0 z-40">
         <div class="container mx-auto px-4">
             <nav class="flex flex-col md:flex-row justify-between items-center py-4">
                 <div class="logo flex items-center gap-2 mb-3 md:mb-0">
-                    <a href="/" class="logo-text text-2xl font-bold text-primary">Technovia<span class="text-accent">X</span></a>
+                    <a href="/" class="text-2xl font-bold text-primary hover:scale-105 transition-transform">Technovia<span class="text-accent">X</span></a>
                 </div>
                 
                 <div class="w-full md:w-auto">
@@ -182,6 +283,7 @@
                         <li><a href="/helpdesk.html" class="text-secondary font-medium hover:text-primary transition-colors">Helpdesk</a></li>
                         <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
                         <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
+                        <!-- Navbar Login Button will be injected by js/loginfirebase.js -->
                     </ul>
                 </div>
             </nav>
@@ -192,12 +294,14 @@
     <main class="pt-32 pb-20">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16 animate-fade-in-up">
-                <h1 class="text-4xl font-bold mb-4 section-title">Our Services</h1>
+                <h1 class="text-4xl font-bold mb-4 section-title relative inline-block">
+                    Our Services
+                </h1>
                 <p class="text-gray-600 text-lg max-w-3xl mx-auto mt-4">Comprehensive IT solutions to drive your business forward in the digital age.</p>
             </div>
 
-            <!-- Web Development (Added service-card class for JS target) -->
-            <section id="web-development" class="mb-20 scroll-mt-32">
+            <!-- Web Development -->
+            <section id="web-development" class="mb-20 scroll-mt-32 animate-on-scroll">
                 <div class="service-card flex flex-col lg:flex-row items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
                     <div class="lg:w-1/2">
                         <div class="inline-flex items-center justify-center w-12 h-12 bg-pastel-blue text-primary rounded-lg mb-4">
@@ -223,7 +327,7 @@
                                 <span>Web application development</span>
                             </li>
                         </ul>
-                        <a href="/contact.html?service=web-development" class="btn btn-primary">
+                        <a href="/contact.html?service=Web%20Development" class="btn btn-primary">
                             Get Quote <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
@@ -235,9 +339,9 @@
                 </div>
             </section>
 
-            <!-- App Development (Added service-card class for JS target) -->
-            <section id="app-development" class="mb-20 scroll-mt-32">
-                <div class="service-card flex flex-col lg:flex-row-reverse items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+            <!-- App Development -->
+            <section id="app-development" class="mb-20 scroll-mt-32 animate-on-scroll">
+                <div class="flex flex-col lg:flex-row-reverse items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
                     <div class="lg:w-1/2">
                         <div class="inline-flex items-center justify-center w-12 h-12 bg-pastel-green text-success rounded-lg mb-4">
                             <i class="fas fa-mobile-alt text-xl"></i>
@@ -262,7 +366,7 @@
                                 <span>App maintenance and support</span>
                             </li>
                         </ul>
-                        <a href="/contact.html?service=app-development" class="btn btn-primary">
+                        <a href="/contact.html?service=App%20Development" class="btn btn-primary">
                             Get Quote <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
@@ -274,9 +378,9 @@
                 </div>
             </section>
 
-            <!-- Cloud Solutions (Added service-card class for JS target) -->
-            <section id="cloud-solutions" class="mb-20 scroll-mt-32">
-                <div class="service-card flex flex-col lg:flex-row items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+            <!-- Cloud Solutions -->
+            <section id="cloud-solutions" class="mb-20 scroll-mt-32 animate-on-scroll">
+                <div class="flex flex-col lg:flex-row items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
                     <div class="lg:w-1/2">
                         <div class="inline-flex items-center justify-center w-12 h-12 bg-pastel-purple text-primary-dark rounded-lg mb-4">
                             <i class="fas fa-cloud text-xl"></i>
@@ -301,7 +405,7 @@
                                 <span>Serverless architecture</span>
                             </li>
                         </ul>
-                        <a href="/contact.html?service=cloud-solutions" class="btn btn-primary">
+                        <a href="/contact.html?service=Cloud%20Solutions" class="btn btn-primary">
                             Get Quote <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
@@ -312,15 +416,54 @@
                     </div>
                 </div>
             </section>
+            
+            <!-- Digital Marketing -->
+            <section id="digital-marketing" class="mb-20 scroll-mt-32 animate-on-scroll">
+                <div class="flex flex-col lg:flex-row-reverse items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="lg:w-1/2">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-pastel-pink text-pink-600 rounded-lg mb-4">
+                            <i class="fas fa-bullhorn text-xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-6">Digital Marketing</h2>
+                        <p class="text-gray-600 mb-6">SEO, Social Media, and Content strategies to boost your online presence.</p>
+                         <ul class="space-y-3 mb-8">
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Search Engine Optimization (SEO)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Social Media Marketing</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Pay-Per-Click (PPC) Advertising</span>
+                            </li>
+                             <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <span>Content & Email Marketing</span>
+                            </li>
+                        </ul>
+                        <a href="/contact.html?service=Digital%20Marketing" class="btn btn-primary">
+                            Get Quote <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    <div class="lg:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1557838923-2985c318be48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Digital Marketing" 
+                             class="rounded-xl shadow-lg w-full object-cover h-[350px]">
+                    </div>
+                </div>
+            </section>
 
             <!-- CTA Section -->
-            <section class="pastel-gradient rounded-2xl p-12 text-center shadow-lg">
+            <section class="pastel-gradient rounded-2xl p-12 text-center shadow-lg animate-on-scroll">
                 <h2 class="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
                 <p class="text-gray-700 mb-8 max-w-2xl mx-auto">Contact us today for a free consultation and quote.</p>
                 <div class="flex flex-wrap gap-4 justify-center">
                     <a href="/contact.html" class="btn btn-primary">Get Started</a>
-                    <a href="https://wa.me/918433125736" class="btn hover:opacity-90 transition-opacity" style="background: #25D366; color: white;">
-                        <i class="fab fa-whatsapp mr-2"></i> Chat on WhatsApp
+                    <a href="https://wa.me/918433125736" class="btn btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp text-lg"></i> Chat on WhatsApp
                     </a>
                 </div>
             </section>
@@ -344,6 +487,8 @@
                         <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
                         <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
                         <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
+                        <!-- Footer Login Link will be updated by js/loginfirebase.js -->
+                        <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a></li>
                     </ul>
                 </div>
                 
@@ -379,26 +524,21 @@
         </div>
     </footer>
 
-    <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
     <!-- Integrated Main.js Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('TechnoviaX Tech Website - JavaScript Loaded');
+            // Update Copyright Year
+            // Not strictly needed as footer is hardcoded for now, but good for future
             
             // Loading screen logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
+                // Removed the 800ms delay for faster load feeling
+                loadingScreen.style.opacity = '0';
                 setTimeout(() => {
-                    loadingScreen.classList.add('opacity-0');
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    }, 500);
-                }, 800);
+                    loadingScreen.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }, 300); // Short fade out duration
             } else {
                 document.body.style.overflow = 'auto';
             }
@@ -448,7 +588,7 @@
 
             // Animation on scroll
             function animateOnScroll() {
-                const animatedElements = document.querySelectorAll('.service-card, .portfolio-item, .helpdesk-option, .job-card, .testimonial-card, .faq-item');
+                const animatedElements = document.querySelectorAll('.animate-on-scroll');
                 
                 animatedElements.forEach(element => {
                     if (element.classList.contains('animated')) return;
@@ -465,75 +605,23 @@
                 });
             }
             
-            // Initialize animated elements styles
-            function initAnimations() {
-                const animatedElements = document.querySelectorAll('.service-card, .portfolio-item, .helpdesk-option, .job-card');
-                
-                animatedElements.forEach(element => {
-                    if (!element.classList.contains('animated')) {
-                        element.style.opacity = '0';
-                        element.style.transform = 'translateY(20px)';
-                        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                    }
-                });
-            }
-            
-            initAnimations();
-            
             // Run animations on load and scroll
             window.addEventListener('load', () => {
                 animateOnScroll();
             });
             
-            // Throttle scroll events (FIXED from Debounce to Throttle)
-            let isScrolling = false;
+            let scrollTimeout;
             window.addEventListener('scroll', () => {
-                if (!isScrolling) {
-                    window.requestAnimationFrame(() => {
-                        animateOnScroll();
-                        isScrolling = false;
-                    });
-                    isScrolling = true;
-                }
-            });
-
-            // Form handling logic (Robust - kept for shared file usage)
-            const forms = document.querySelectorAll('form[data-web3forms]');
-            forms.forEach(form => {
-                form.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    const submitBtn = form.querySelector('[type="submit"]');
-                    const formStatus = form.querySelector('.form-status');
-                    
-                    if (submitBtn) {
-                        submitBtn.disabled = true;
-                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-                    }
-                    if (formStatus) {
-                        formStatus.className = 'form-status loading';
-                        formStatus.style.display = 'block';
-                        formStatus.innerHTML = 'Sending...';
-                    }
-
-                    // Simulated success for demo/debug
-                    setTimeout(() => {
-                         if (formStatus) {
-                            formStatus.className = 'form-status success';
-                            formStatus.innerHTML = 'Message sent successfully!';
-                            setTimeout(() => formStatus.style.display = 'none', 5000);
-                        }
-                        if (submitBtn) {
-                            submitBtn.disabled = false;
-                            submitBtn.innerHTML = 'Send Message';
-                        }
-                        form.reset();
-                    }, 1500);
-                });
+                if (scrollTimeout) clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    animateOnScroll();
+                }, 50); // Faster response
             });
 
             // Handle active state for nav links
             const currentPath = window.location.pathname;
             const navLinks = document.querySelectorAll('.nav-links a');
+            
             navLinks.forEach(link => {
                 const linkHref = link.getAttribute('href');
                 if (linkHref === '/services.html' || (currentPath.includes('services.html') && linkHref.includes('services.html'))) {
@@ -542,23 +630,10 @@
                 }
             });
         });
-      // 2. Smooth Scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href === '#' || href === '#!' || href.includes('.html')) return;
-                e.preventDefault();
-                const targetId = href.substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
     </script>
+
+    <!-- Global Navbar Auth Logic -->
     <script src="js/loginfirebase.js" type="module"></script>
+
 </body>
 </html>

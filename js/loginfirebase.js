@@ -1,9 +1,8 @@
 // Import functions from Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-// Your web app's Firebase configuration
+// Firebase Configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBk33C9Xlw54hwJkgfC0mJWeFXBtZi7FPM",
     authDomain: "technoviax-tech.firebaseapp.com",
@@ -16,41 +15,19 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-// --- DOM Elements ---
-const loginContainer = document.getElementById('login-container');
-const userContainer = document.getElementById('user-container');
-const googleBtn = document.getElementById('google-login-btn');
-const emailForm = document.getElementById('email-login-form'); 
-const logoutBtn = document.getElementById('logout-btn');
-const signOutBtn = document.getElementById('sign-out-btn');
-const errorMessage = document.getElementById('error-message');
-
-// --- UI Injection Function (Navbar Logic) ---
+// --- UI Injection Function ---
 function injectAuthUI() {
     const navList = document.querySelector('.nav-links');
     
-    // Check if nav exists and login button is not already present
     if (navList && !document.getElementById('nav-login')) {
-        console.log("Injecting Auth Buttons...");
-        
         // 1. Create Login Button
         const liLogin = document.createElement('li');
         liLogin.id = 'nav-login';
-        
-        // Responsive & Stylish Button Classes
-        // Mobile: Simple text link
-        // Desktop (md:): Solid blue button with rounded corners
-        const btnClasses = "flex items-center gap-2 font-bold transition-all " + 
-                           "text-secondary hover:text-primary " + // Mobile styles
-                           "md:bg-primary md:text-white md:px-6 md:py-2 md:rounded-full md:hover:bg-primary-dark md:shadow-md md:hover:shadow-lg md:transform md:hover:-translate-y-0.5"; // Desktop styles
-        
-        liLogin.innerHTML = `<a href="/login.html" class="${btnClasses}">
-            <i class="fas fa-user-circle text-lg"></i> <span>Login</span>
-        </a>`;
+        const btnClasses = "flex items-center gap-2 px-5 py-2 rounded-full font-bold text-white transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700";
+        liLogin.innerHTML = `<a href="/login.html" class="${btnClasses}"><i class="fas fa-user"></i> <span>Login</span></a>`;
         navList.appendChild(liLogin);
 
         // 2. Create Profile/Logout Section
@@ -58,164 +35,153 @@ function injectAuthUI() {
         liProfile.id = 'nav-profile';
         liProfile.className = 'hidden'; 
         liProfile.innerHTML = `
-            <div class="flex items-center gap-2 cursor-pointer group md:bg-gray-50 md:px-3 md:py-1.5 md:rounded-full md:border md:border-gray-200 md:hover:border-primary transition-colors" id="injected-logout-btn">
-                <img id="nav-user-avatar" src="https://via.placeholder.com/150" alt="User" class="w-8 h-8 rounded-full border border-white shadow-sm object-cover">
-                <span class="text-sm font-medium text-gray-700 group-hover:text-primary transition-colors">Logout</span>
-                <i class="fas fa-sign-out-alt text-gray-400 group-hover:text-red-500 ml-1"></i>
+            <div class="flex items-center gap-2 cursor-pointer group bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-gray-200 hover:border-primary transition-all shadow-sm hover:shadow-md" id="injected-logout-btn">
+                <img id="nav-user-avatar" src="https://via.placeholder.com/150" alt="User" class="w-8 h-8 rounded-full border-2 border-white shadow-sm object-cover">
+                <span class="text-sm font-bold text-gray-700 group-hover:text-primary transition-colors">Logout</span>
+                <i class="fas fa-sign-out-alt text-gray-400 group-hover:text-red-500 ml-1 transition-colors"></i>
             </div>
         `;
         navList.appendChild(liProfile);
 
-        const injectedLogout = liProfile.querySelector('#injected-logout-btn');
-        if (injectedLogout) injectedLogout.addEventListener('click', handleLogout);
+        const logoutBtn = liProfile.querySelector('#injected-logout-btn');
+        if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
     }
 }
 
 // --- First Time Visitor Logic ---
 function checkFirstTimeVisitor() {
-    // Check if 'visited' flag exists in Local Storage
     const hasVisited = localStorage.getItem('hasVisitedTechnoviaX');
-    
-    // If NOT visited AND we are NOT already on the login page
-    // (Prevents infinite redirect loop if user is already on login page)
     if (!hasVisited && window.location.pathname !== '/login.html') {
-        console.log("First time visitor detected. Redirecting to login/signup...");
-        
-        // Set the flag immediately so this doesn't happen on next page load
         localStorage.setItem('hasVisitedTechnoviaX', 'true');
-        
-        // Redirect to login page
         window.location.href = '/login.html';
     }
 }
 
-// --- 1. Google Login Logic ---
+// --- Login/Logout Logic ---
+const googleBtn = document.getElementById('google-login-btn');
 if (googleBtn) {
     googleBtn.addEventListener('click', () => {
-        if (errorMessage) errorMessage.classList.add('hidden');
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                console.log("Google User signed in:", result.user);
-            }).catch((error) => {
-                console.error("Google Login Error:", error);
-                showError("Google Login failed: " + error.message);
-            });
+        const errorMsg = document.getElementById('error-message');
+        if (errorMsg) errorMsg.classList.add('hidden');
+        signInWithPopup(auth, provider).catch((error) => {
+            if (errorMsg) {
+                errorMsg.textContent = error.message;
+                errorMsg.classList.remove('hidden');
+            }
+        });
     });
 }
 
-// --- 2. Email/Password Login Logic ---
+const emailForm = document.getElementById('email-login-form');
 if (emailForm) {
     emailForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const submitBtn = emailForm.querySelector('button[type="submit"]');
+        const errorMsg = document.getElementById('error-message');
         
-        // Loading State
         const originalText = submitBtn.innerHTML;
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
-        if (errorMessage) errorMessage.classList.add('hidden');
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        if (errorMsg) errorMsg.classList.add('hidden');
 
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                console.log("Email User signed in:", userCredential.user);
-            })
             .catch((error) => {
-                console.error("Email Login Error:", error);
-                let msg = "Login failed. Please check your credentials.";
-                if (error.code === 'auth/invalid-credential') msg = "Invalid email or password.";
-                if (error.code === 'auth/too-many-requests') msg = "Too many attempts. Try again later.";
-                showError(msg);
+                if (errorMsg) {
+                    errorMsg.textContent = "Invalid email or password.";
+                    errorMsg.classList.remove('hidden');
+                }
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
             });
     });
 }
 
-function showError(msg) {
-    if (errorMessage) {
-        errorMessage.textContent = msg;
-        errorMessage.classList.remove('hidden');
-    } else {
-        alert(msg);
-    }
-}
-
-// --- Logout Logic ---
 function handleLogout() {
-    if(confirm("Are you sure you want to logout?")) {
+    if(confirm("Logout?")) {
         signOut(auth).then(() => {
-            console.log("User signed out");
-            if (window.location.pathname === '/login.html') {
-                const submitBtn = emailForm?.querySelector('button[type="submit"]');
-                if(submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Sign In';
-                }
-            } else {
-                 window.location.href = '/';
-            }
-        }).catch((error) => {
-            console.error("Sign out error", error);
+            if (window.location.pathname === '/login.html') window.location.reload();
+            else window.location.href = '/';
         });
     }
 }
 
-if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
-if (signOutBtn) signOutBtn.addEventListener('click', handleLogout);
+const pageLogoutBtn = document.getElementById('logout-btn');
+const pageSignOutBtn = document.getElementById('sign-out-btn');
+if (pageLogoutBtn) pageLogoutBtn.addEventListener('click', handleLogout);
+if (pageSignOutBtn) pageSignOutBtn.addEventListener('click', handleLogout);
 
-
-// --- Auth State Monitor ---
+// --- Auth State Monitor (Updates UI Everywhere) ---
 onAuthStateChanged(auth, (user) => {
     // Navbar Elements
     const navLogin = document.getElementById('nav-login');
     const navProfile = document.getElementById('nav-profile');
     const navAvatar = document.getElementById('nav-user-avatar') || document.getElementById('user-avatar');
+    
+    // Footer Element
+    const footerLoginItem = document.getElementById('footer-login-item');
 
     // Login Page Elements
-    const profilePicEl = document.getElementById('profile-pic');
-    const userNameEl = document.getElementById('user-name');
-    const userEmailEl = document.getElementById('user-email');
+    const loginContainer = document.getElementById('login-container');
+    const userContainer = document.getElementById('user-container');
+    const userName = document.getElementById('user-name');
+    const userEmail = document.getElementById('user-email');
+    const profilePic = document.getElementById('profile-pic');
 
     if (user) {
-        // LOGGED IN
+        // --- LOGGED IN STATE ---
+        
+        // 1. Navbar
         if (navLogin) navLogin.classList.add('hidden');
         if (navProfile) navProfile.classList.remove('hidden');
-        if (navAvatar) navAvatar.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.email);
+        if (navAvatar) navAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${user.email}&background=random`;
 
+        // 2. Footer (Change Login Link to User Name)
+        if (footerLoginItem) {
+            const firstName = user.displayName ? user.displayName.split(' ')[0] : 'User';
+            // Replaces the <a> tag with a span showing the name
+            footerLoginItem.innerHTML = `<span class="text-primary font-bold cursor-default">Hi, ${firstName}</span>`;
+        }
+
+        // 3. Login Page Content
         if (loginContainer && userContainer) {
             loginContainer.classList.add('hidden');
             userContainer.classList.remove('hidden');
-            if (userNameEl) userNameEl.textContent = user.displayName || 'User';
-            if (userEmailEl) userEmailEl.textContent = user.email;
-            if (profilePicEl) profilePicEl.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.email);
+            if (userName) userName.textContent = user.displayName || 'User';
+            if (userEmail) userEmail.textContent = user.email;
+            if (profilePic) profilePic.src = user.photoURL || `https://ui-avatars.com/api/?name=${user.email}&background=random`;
         }
-        
     } else {
-        // LOGGED OUT
+        // --- LOGGED OUT STATE ---
+
+        // 1. Navbar
         if (navLogin) navLogin.classList.remove('hidden');
         if (navProfile) navProfile.classList.add('hidden');
 
+        // 2. Footer (Reset to Login Link)
+        if (footerLoginItem) {
+            footerLoginItem.innerHTML = `<a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a>`;
+        }
+
+        // 3. Login Page Content
         if (loginContainer && userContainer) {
             loginContainer.classList.remove('hidden');
             userContainer.classList.add('hidden');
         }
         
-        // ONLY CHECK FOR FIRST TIME VISIT IF USER IS LOGGED OUT
         checkFirstTimeVisitor();
     }
 });
 
-// --- Initialization ---
+// --- Page Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     injectAuthUI();
-    
-    const yearEl = document.getElementById('year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
+    const year = document.getElementById('year');
+    if(year) year.textContent = new Date().getFullYear();
     
     const loading = document.getElementById('loading');
-    if (loading) {
+    if(loading) {
         setTimeout(() => {
             loading.style.opacity = '0';
             setTimeout(() => loading.style.display = 'none', 500);

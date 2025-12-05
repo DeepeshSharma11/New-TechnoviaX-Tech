@@ -119,7 +119,6 @@
             transition: width 0.3s ease;
         }
         
-        /* Show line on hover OR when active class is present */
         .nav-links li a:hover::after,
         .nav-links li a.active::after {
             width: 100%;
@@ -233,30 +232,8 @@
         <i class="fas fa-envelope"></i> Contact Us
     </a>
 
-    <!-- Header -->
-    <header class="bg-white shadow-md fixed w-full top-0 z-40">
-        <div class="container mx-auto px-4">
-            <nav class="flex flex-col md:flex-row justify-between items-center py-4">
-                <div class="logo flex items-center gap-2 mb-3 md:mb-0">
-                    <a href="/" class="logo-text text-2xl font-bold text-primary hover:scale-105 transition-transform">Technovia<span class="text-accent">X</span></a>
-                </div>
-                
-                <div class="w-full md:w-auto">
-                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8">
-                        <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
-                        <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
-                        <li><a href="/about.html" class="text-primary font-bold active">About</a></li>
-                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
-                        <li><a href="/testimonials.html" class="text-secondary font-medium hover:text-primary transition-colors">Testimonials</a></li>
-                        <li><a href="/helpdesk.html" class="text-secondary font-medium hover:text-primary transition-colors">Helpdesk</a></li>
-                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
-                        <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
-                        <!-- Login Button injected via JS -->
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </header>
+    <!-- Dynamic Navigation Injection -->
+    <script src="js/navigation.js"></script>
 
     <!-- Main Content -->
     <main class="pt-32 pb-20">
@@ -444,7 +421,7 @@
                         <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
                         <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
                         <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                        <!-- Footer Login Link Added -->
+                        <!-- Footer Login Link Added (Controlled by JS) -->
                         <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a></li>
                     </ul>
                 </div>
@@ -484,6 +461,8 @@
     <!-- Integrated Main.js Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('TechnoviaX Tech Website - About Page Loaded');
+            
             // 1. Update Copyright Year
             const yearEl = document.getElementById('year');
             if(yearEl) yearEl.textContent = new Date().getFullYear();
@@ -551,24 +530,10 @@
             navLinks.forEach(link => {
                 const linkHref = link.getAttribute('href');
                 
-                // Reset logic removed here to avoid conflict
-                // Instead, we simply check if we need to add the active class
-                // because the HTML already comes with a default state
-
                 // Check if this is the current link
                 if (linkHref === '/about.html' || (currentPath.includes('about.html') && linkHref.includes('about.html'))) {
-                     // This block is actually redundant if the HTML is hardcoded correctly, 
-                     // but it ensures state if the page is loaded dynamically or if we want to force it.
-                     // We only add classes, we don't remove from others blindly.
-                     link.classList.add('active', 'text-primary', 'font-bold');
-                     link.classList.remove('text-secondary', 'font-medium');
-                } else {
-                     // Optional: Ensure other links are not active if we are strictly on about.html
-                     // But since this is a static page load, the hardcoded HTML for other pages shouldn't have active anyway.
-                     // So we can just leave them alone or ensure they are reset.
-                     // Safer to just let the HTML define the initial state and this script enforce the current page.
-                     link.classList.remove('active', 'text-primary', 'font-bold');
-                     link.classList.add('text-secondary', 'font-medium');
+                    link.classList.add('active', 'text-primary', 'font-bold');
+                    link.classList.remove('text-secondary', 'font-medium');
                 }
             });
         });

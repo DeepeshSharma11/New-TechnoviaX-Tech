@@ -8,8 +8,12 @@
     <meta name="keywords" content="IT solutions, web development, app development, cloud solutions, digital marketing, cybersecurity, Bareilly, India">
     <meta name="author" content="TechnoviaX Tech">
     
-    <!-- Default Favicon (Fallback) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>" type="image/svg+xml">
+    <!-- Favicon - Multiple formats for cross-browser support -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/CompanySiteFav.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/CompanySiteFav.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/CompanySiteFav.png">
+    <link rel="shortcut icon" href="/images/CompanySiteFav.png">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -108,10 +112,8 @@
         <i class="fas fa-envelope"></i> Contact Us
     </a>
 
-    <!-- Favicon Loader - Load early -->
-    <script src="js/favicon-loader.js" defer></script>
-
-    <script src="js/navigation.js"></script>
+    <!-- Navigation will be injected here -->
+    <script src="js/navigation.js" defer></script>
 
     <main id="main-content">
         <!-- Hero Section -->
@@ -269,103 +271,18 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer-gradient text-white py-12 sm:py-16">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
-                <div>
-                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
-                        Technovia<span class="text-accent">X</span> <span class="text-primary-light">Tech</span>
-                    </div>
-                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">
-                        Leading IT solutions provider delivering innovative technology services for businesses worldwide.
-                    </p>
-                    <div class="flex gap-3">
-                        <a href="#" class="social-icon text-white hover:text-facebook text-lg">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#" class="social-icon text-white hover:text-twitter text-lg">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-icon text-white hover:text-linkedin text-lg">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="social-icon text-white hover:text-instagram text-lg">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Quick Links</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-home text-xs"></i> Home</a></li>
-                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-cogs text-xs"></i> Services</a></li>
-                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-info-circle text-xs"></i> About</a></li>
-                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-briefcase text-xs"></i> Portfolio</a></li>
-                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-user-tie text-xs"></i> Careers</a></li>
-                        <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-sign-in-alt text-xs"></i> Login</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Services</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-primary-light transition-colors text-sm sm:text-base"><i class="fas fa-chevron-right text-xs mr-2"></i> Web Development</a></li>
-                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-primary-light transition-colors text-sm sm:text-base"><i class="fas fa-chevron-right text-xs mr-2"></i> App Development</a></li>
-                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-primary-light transition-colors text-sm sm:text-base"><i class="fas fa-chevron-right text-xs mr-2"></i> Cloud Solutions</a></li>
-                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-primary-light transition-colors text-sm sm:text-base"><i class="fas fa-chevron-right text-xs mr-2"></i> Digital Marketing</a></li>
-                        <li><a href="/services.html#cybersecurity" class="text-gray-300 hover:text-primary-light transition-colors text-sm sm:text-base"><i class="fas fa-chevron-right text-xs mr-2"></i> Cybersecurity</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
-                    <ul class="space-y-3 sm:space-y-4">
-                        <li class="text-gray-300 text-sm sm:text-base flex items-start">
-                            <i class="fas fa-map-marker-alt mr-3 text-accent mt-1"></i>
-                            <span>Tech Street, Bareilly, Uttar Pradesh, India</span>
-                        </li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center">
-                            <i class="fas fa-phone mr-3 text-accent"></i>
-                            <span>+91 8433125736</span>
-                        </li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center">
-                            <i class="fas fa-envelope mr-3 text-accent"></i>
-                            <span>info.technoviax@gmail.com</span>
-                        </li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center">
-                            <i class="fab fa-whatsapp mr-3 text-accent"></i>
-                            <span>+91 8433125736</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
-                <p class="text-gray-400 text-sm sm:text-base">
-                    &copy; <span id="year">2023</span> TechnoviaX Tech. All Rights Reserved.
-                </p>
-                <div class="mt-4 flex flex-wrap justify-center gap-3 sm:gap-4">
-                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">
-                        <i class="fas fa-shield-alt mr-1"></i> Privacy Policy
-                    </a>
-                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">
-                        <i class="fas fa-exclamation-triangle mr-1"></i> Disclaimer
-                    </a>
-                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">
-                        <i class="fas fa-file-contract mr-1"></i> Terms & Conditions
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer will be injected by footer.js -->
+    <div id="footer-container"></div>
+
+    <!-- Footer Loader Script -->
+    <script src="js/footer.js" defer></script>
+
+    <!-- Firebase Auth Script -->
+    <script type="module" src="js/loginfirebase.js" defer></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const yearEl = document.getElementById('year');
-            if(yearEl) yearEl.textContent = new Date().getFullYear();
-
+            // Loading screen logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
                 setTimeout(() => {
@@ -374,6 +291,7 @@
                 }, 500);
             }
 
+            // Smooth Scrolling
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
@@ -393,6 +311,7 @@
                 });
             });
             
+            // Scroll Animation
             function animateOnScroll() {
                 document.querySelectorAll('.animate-on-scroll').forEach(element => {
                     if (element.classList.contains('animated')) return;
@@ -415,41 +334,21 @@
                 }
             });
 
+            // Check if login reminder should be shown
             setTimeout(() => {
                 const isLoggedIn = localStorage.getItem('userLoggedIn') || false;
-                if (!isLoggedIn) console.log("Reminder: Login to access all features");
+                if (!isLoggedIn) {
+                    console.log("Reminder: Login to access all features");
+                }
             }, 20000);
         });
 
+        // Global error handling
         window.addEventListener('error', function(e) {
             if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK') {
                 console.warn('Failed to load:', e.target.src || e.target.href);
-                if (e.target.src && e.target.src.includes('loginfirebase.js')) {
-                    const loginItem = document.getElementById('footer-login-item');
-                    if (loginItem) loginItem.innerHTML = `<a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base"><i class="fas fa-sign-in-alt mr-2"></i>Login (Manual)</a>`;
-                }
             }
         }, true);
-    </script>
-
-    <script type="module">
-        try {
-            import('./js/loginfirebase.js').catch(err => {
-                console.warn('Firebase auth not available:', err);
-                const loginItems = document.querySelectorAll('#footer-login-item');
-                loginItems.forEach(item => {
-                    if (item) {
-                        const link = item.querySelector('a');
-                        if (link) {
-                            link.href = '/login.html';
-                            link.innerHTML = link.innerHTML.replace('Login', 'Login (Manual)');
-                        }
-                    }
-                });
-            });
-        } catch (error) {
-            console.warn('Module import failed:', error);
-        }
     </script>
 
 </body>

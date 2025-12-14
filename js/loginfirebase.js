@@ -1,8 +1,7 @@
 // Import functions from Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-// Add Firestore import
-import { getFirestore } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -19,7 +18,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-// Initialize Firestore Database
 const db = getFirestore(app);
 
 // Wait for navigation to be ready
@@ -32,17 +30,48 @@ window.addEventListener('navigationInjected', () => {
     injectAuthUI();
 });
 
-// --- UI Injection Function for Responsive Navigation ---
+// --- FIXED LOGOUT LOGIC (Event Delegation) ---
+// Isse dynamic buttons par bhi click kaam karega
+document.addEventListener('click', (e) => {
+    const logoutBtn = e.target.closest('#desktop-logout-btn, #mobile-logout-btn');
+    if (logoutBtn) {
+        e.preventDefault();
+        handleLogout();
+    }
+});
+
+// Logout Function
+async function handleLogout() {
+    if(confirm("Are you sure you want to logout?")) {
+        try {
+            await signOut(auth);
+            showToast("Logged out successfully", 'success');
+            
+            // UI Reset Immediately
+            updateAuthUI(null);
+            
+            // Redirect if on protected pages
+            if (window.location.pathname.includes('/profile.html') || 
+                window.location.pathname.includes('/payment.html') ||
+                window.location.pathname.includes('/login.html')) {
+                window.location.href = '/login.html';
+            }
+        } catch(error) {
+            console.error("Logout Error:", error);
+            showToast("Error logging out", 'error');
+        }
+    }
+}
+
+// --- UI Injection Function ---
 function injectAuthUI() {
     if (authUIInjected) return;
     
-    // Check if navigation containers exist
     const desktopContainer = document.getElementById('nav-login-container');
     const mobileContainer = document.getElementById('mobile-login-container');
     const mobileFullContainer = document.getElementById('mobile-full-login-container');
     
     if (!desktopContainer || !mobileContainer || !mobileFullContainer) {
-        // Retry after 100ms if containers not ready
         setTimeout(injectAuthUI, 100);
         return;
     }
@@ -89,7 +118,7 @@ function injectAuthUI() {
         mobileFullContainer.appendChild(mobileFullBtn);
     }
 
-    // 4. DESKTOP PROFILE DROPDOWN (will be shown only when logged in)
+    // 4. DESKTOP PROFILE DROPDOWN
     if (desktopContainer && !desktopContainer.querySelector('#desktop-profile-dropdown')) {
         const profileDropdown = document.createElement('div');
         profileDropdown.id = 'desktop-profile-dropdown';
@@ -110,9 +139,9 @@ function injectAuthUI() {
                     </div>
                 </div>
                 <div class="p-2">
-                    <a href="/index.html" class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-tachometer-alt text-gray-500"></i>
-                        <span>Dashboard</span>
+                    <a href="/payment.html" class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-wallet text-gray-500"></i>
+                        <span>Payments</span>
                     </a>
                     <a href="/profile.html" class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
                         <i class="fas fa-user-cog text-gray-500"></i>
@@ -127,20 +156,15 @@ function injectAuthUI() {
         `;
         desktopContainer.appendChild(profileDropdown);
         
-        // Add click event for desktop profile dropdown
+        // Dropdown Toggle Logic
         const profileBtn = profileDropdown.querySelector('#desktop-profile-btn');
         const dropdownMenu = profileDropdown.querySelector('#desktop-dropdown-menu');
-        const desktopLogoutBtn = profileDropdown.querySelector('#desktop-logout-btn');
         
         if (profileBtn) {
             profileBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 dropdownMenu.classList.toggle('hidden');
             });
-        }
-        
-        if (desktopLogoutBtn) {
-            desktopLogoutBtn.addEventListener('click', handleLogout);
         }
         
         // Close dropdown when clicking outside
@@ -167,9 +191,9 @@ function injectAuthUI() {
                 </div>
             </div>
             <div class="space-y-1">
-                <a href="/index.html" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                    <i class="fas fa-tachometer-alt text-gray-500 w-5"></i>
-                    <span>Dashboard</span>
+                <a href="/payment.html" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                    <i class="fas fa-wallet text-gray-500 w-5"></i>
+                    <span>Payments</span>
                 </a>
                 <a href="/profile.html" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
                     <i class="fas fa-user-cog text-gray-500 w-5"></i>
@@ -182,27 +206,16 @@ function injectAuthUI() {
             </div>
         `;
         mobileFullContainer.appendChild(mobileProfile);
-        
-        const mobileLogoutBtn = mobileProfile.querySelector('#mobile-logout-btn');
-        if (mobileLogoutBtn) {
-            mobileLogoutBtn.addEventListener('click', handleLogout);
-        }
     }
 
-    // Mark as injected
     authUIInjected = true;
-    
-    // Add custom styles
     addAuthStyles();
-    
-    // Check current auth state immediately
     checkAuthState();
 }
 
 // Add custom styles for auth UI and Toasts
 function addAuthStyles() {
     if (document.querySelector('#auth-styles')) return;
-    
     const style = document.createElement('style');
     style.id = 'auth-styles';
     style.textContent = `
@@ -248,13 +261,38 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
-// Check current auth state
+// --- Auth State Monitor ---
 function checkAuthState() {
-    const user = auth.currentUser;
-    updateAuthUI(user);
+    onAuthStateChanged(auth, (user) => {
+        updateAuthUI(user);
+        if (!user) {
+            checkFirstTimeVisitor();
+        } else {
+            // Check/Create profile quietly
+            checkUserProfile(user);
+        }
+    });
 }
 
-// --- First Time Visitor Logic ---
+async function checkUserProfile(user) {
+    try {
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+             await setDoc(userRef, {
+                name: user.displayName || user.email.split('@')[0],
+                email: user.email,
+                photoURL: user.photoURL || '',
+                createdAt: serverTimestamp(),
+                lastLogin: serverTimestamp(),
+                totalLogins: 1,
+                isActive: true
+            });
+        }
+    } catch (e) { console.error("Profile check error", e); }
+}
+
+// First Time Visitor
 function checkFirstTimeVisitor() {
     const hasVisited = localStorage.getItem('hasVisitedTechnoviaX');
     if (!hasVisited && window.location.pathname !== '/login.html') {
@@ -263,179 +301,13 @@ function checkFirstTimeVisitor() {
     }
 }
 
-// --- Login/Logout Logic ---
-const googleBtn = document.getElementById('google-login-btn');
-if (googleBtn) {
-    googleBtn.addEventListener('click', () => {
-        const errorMsg = document.getElementById('error-message');
-        if (errorMsg) errorMsg.classList.add('hidden');
-        
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                const user = result.user;
-                showToast(`Welcome back, ${user.displayName.split(' ')[0]}!`, 'success');
-                
-                // Create/update user profile in Firestore when logging in
-                createUserProfile(user);
-            })
-            .catch((error) => {
-                if (errorMsg) {
-                    errorMsg.textContent = error.message;
-                    errorMsg.classList.remove('hidden');
-                }
-                showToast(error.message, 'error');
-            });
-    });
-}
-
-const emailForm = document.getElementById('email-login-form');
-if (emailForm) {
-    emailForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const submitBtn = emailForm.querySelector('button[type="submit"]');
-        const errorMsg = document.getElementById('error-message');
-        
-        const originalText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        if (errorMsg) errorMsg.classList.add('hidden');
-
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                showToast(`Welcome back, ${user.displayName ? user.displayName.split(' ')[0] : 'User'}!`, 'success');
-                
-                // Create/update user profile in Firestore when logging in
-                createUserProfile(user);
-                
-                // Button reset happens in UI update or redirect
-                setTimeout(() => {
-                     submitBtn.disabled = false;
-                     submitBtn.innerHTML = originalText;
-                }, 1000);
-            })
-            .catch((error) => {
-                if (errorMsg) {
-                    errorMsg.textContent = "Invalid email or password.";
-                    errorMsg.classList.remove('hidden');
-                }
-                showToast("Invalid email or password", 'error');
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            });
-    });
-}
-
-// Function to create/update user profile in Firestore
-async function createUserProfile(user) {
-    try {
-        const { doc, setDoc, getDoc, serverTimestamp } = await import(
-            "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js"
-        );
-        
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-        
-        if (!userSnap.exists()) {
-            // Create new user profile
-            const userData = {
-                name: user.displayName || user.email.split('@')[0],
-                email: user.email,
-                photoURL: user.photoURL || '',
-                phone: '',
-                altEmail: '',
-                address: '',
-                contactMethod: 'email',
-                createdAt: serverTimestamp(),
-                lastLogin: serverTimestamp(),
-                totalLogins: 1,
-                preferences: {
-                    emailPayments: true,
-                    emailUpdates: true,
-                    emailPromotional: false,
-                    privacyProfile: true,
-                    privacyActivity: false
-                },
-                isActive: true
-            };
-            
-            await setDoc(userRef, userData);
-            console.log("New user profile created in Firestore");
-        } else {
-            // Update last login and increment login count
-            const userData = userSnap.data();
-            await setDoc(userRef, {
-                lastLogin: serverTimestamp(),
-                totalLogins: (userData.totalLogins || 0) + 1
-            }, { merge: true });
-        }
-    } catch (error) {
-        console.error("Error creating/updating user profile:", error);
-    }
-}
-
-// Enhanced logout function to update last logout time
-async function handleLogout() {
-    if(confirm("Are you sure you want to logout?")) {
-        try {
-            const user = auth.currentUser;
-            if (user) {
-                // Update last logout time in Firestore
-                const { doc, setDoc, serverTimestamp } = await import(
-                    "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js"
-                );
-                
-                const userRef = doc(db, "users", user.uid);
-                await setDoc(userRef, {
-                    lastLogout: serverTimestamp()
-                }, { merge: true });
-            }
-            
-            await signOut(auth);
-            showToast("Logged out successfully", 'success');
-            
-            if (window.location.pathname === '/login.html') {
-                window.location.reload();
-            } else {
-                updateAuthUI(null);
-                // Optional: Redirect to home
-                // window.location.href = '/';
-            }
-        } catch (error) {
-            console.error("Error logging out:", error);
-            showToast("Error logging out", 'error');
-        }
-    }
-}
-
-const pageLogoutBtn = document.getElementById('logout-btn');
-const pageSignOutBtn = document.getElementById('sign-out-btn');
-if (pageLogoutBtn) pageLogoutBtn.addEventListener('click', handleLogout);
-if (pageSignOutBtn) pageSignOutBtn.addEventListener('click', handleLogout);
-
-// --- Auth State Monitor ---
-onAuthStateChanged(auth, (user) => {
-    updateAuthUI(user);
-    
-    if (!user) {
-        checkFirstTimeVisitor();
-    } else {
-        // Create/update user profile when auth state changes
-        createUserProfile(user);
-    }
-});
-
-// Function to update all auth UI elements
+// --- UI Update Logic ---
 function updateAuthUI(user) {
-    // Wait for UI to be injected
     if (!authUIInjected) {
         setTimeout(() => updateAuthUI(user), 100);
         return;
     }
     
-    // 1. Desktop Elements
     const desktopLoginBtn = document.getElementById('desktop-login-btn');
     const desktopProfileDropdown = document.getElementById('desktop-profile-dropdown');
     const desktopAvatar = document.getElementById('desktop-user-avatar');
@@ -443,124 +315,57 @@ function updateAuthUI(user) {
     const dropdownName = document.getElementById('dropdown-user-name');
     const dropdownEmail = document.getElementById('dropdown-user-email');
     
-    // 2. Mobile Top Bar Elements
     const mobileTopLoginBtn = document.getElementById('mobile-top-login-btn');
-    
-    // 3. Mobile Full Menu Elements
     const mobileFullLoginBtn = document.getElementById('mobile-full-login-btn');
     const mobileProfileSection = document.getElementById('mobile-profile-section');
     const mobileAvatar = document.getElementById('mobile-user-avatar');
     const mobileName = document.getElementById('mobile-user-name');
     const mobileEmail = document.getElementById('mobile-user-email');
     
-    // 4. Footer Element
     const footerLoginItem = document.getElementById('footer-login-item');
-    
-    // 5. Login Page Elements
-    const loginContainer = document.getElementById('login-container');
-    const userContainer = document.getElementById('user-container');
-    const userName = document.getElementById('user-name');
-    const userEmail = document.getElementById('user-email');
-    const profilePic = document.getElementById('profile-pic');
 
     if (user) {
-        // --- LOGGED IN STATE ---
-        
-        // Update user info
         const avatarUrl = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}&background=random&color=fff`;
-        
-        // 1. Desktop Navigation
+        const displayName = user.displayName || user.email.split('@')[0];
+
+        // Desktop
         if (desktopLoginBtn) desktopLoginBtn.style.display = 'none';
         if (desktopProfileDropdown) desktopProfileDropdown.style.display = 'flex';
         if (desktopAvatar) desktopAvatar.src = avatarUrl;
         if (dropdownAvatar) dropdownAvatar.src = avatarUrl;
-        if (dropdownName) dropdownName.textContent = user.displayName || 'User';
+        if (dropdownName) dropdownName.textContent = displayName;
         if (dropdownEmail) dropdownEmail.textContent = user.email;
 
-        // 2. Mobile Top Bar
+        // Mobile
         if (mobileTopLoginBtn) mobileTopLoginBtn.style.display = 'none';
-
-        // 3. Mobile Full Menu
         if (mobileFullLoginBtn) mobileFullLoginBtn.style.display = 'none';
         if (mobileProfileSection) mobileProfileSection.style.display = 'block';
         if (mobileAvatar) mobileAvatar.src = avatarUrl;
-        if (mobileName) mobileName.textContent = user.displayName || 'User';
+        if (mobileName) mobileName.textContent = displayName;
         if (mobileEmail) mobileEmail.textContent = user.email;
 
-        // 4. Footer
-        if (footerLoginItem) {
-            const firstName = user.displayName ? user.displayName.split(' ')[0] : 'User';
-            footerLoginItem.innerHTML = `<span class="text-primary font-bold cursor-default">Welcome, ${firstName}</span>`;
-        }
+        // Footer
+        if (footerLoginItem) footerLoginItem.innerHTML = `<span class="text-primary font-bold cursor-default">Welcome, ${displayName}</span>`;
 
-        // 5. Login Page
-        if (loginContainer && userContainer) {
-            loginContainer.style.display = 'none';
-            userContainer.style.display = 'block';
-            if (userName) userName.textContent = user.displayName || 'User';
-            if (userEmail) userEmail.textContent = user.email;
-            if (profilePic) profilePic.src = avatarUrl;
-        }
     } else {
-        // --- LOGGED OUT STATE ---
-        
-        // 1. Desktop Navigation
+        // Desktop
         if (desktopLoginBtn) desktopLoginBtn.style.display = 'block';
         if (desktopProfileDropdown) desktopProfileDropdown.style.display = 'none';
 
-        // 2. Mobile Top Bar
+        // Mobile
         if (mobileTopLoginBtn) mobileTopLoginBtn.style.display = 'flex';
-
-        // 3. Mobile Full Menu
         if (mobileFullLoginBtn) mobileFullLoginBtn.style.display = 'block';
         if (mobileProfileSection) mobileProfileSection.style.display = 'none';
 
-        // 4. Footer
-        if (footerLoginItem) {
-            footerLoginItem.innerHTML = `<a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a>`;
-        }
-
-        // 5. Login Page
-        if (loginContainer && userContainer) {
-            loginContainer.style.display = 'block';
-            userContainer.style.display = 'none';
-        }
+        // Footer
+        if (footerLoginItem) footerLoginItem.innerHTML = `<a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a>`;
     }
 }
 
-// --- Page Initialization ---
-document.addEventListener('DOMContentLoaded', () => {
-    // Inject auth UI with retry mechanism
-    const initAuthUI = () => {
-        if (navigationInjected) {
-            injectAuthUI();
-        } else {
-            setTimeout(initAuthUI, 100);
-        }
-    };
-    
-    initAuthUI();
-    
-    // Update copyright year
-    const year = document.getElementById('year');
-    if(year) year.textContent = new Date().getFullYear();
-    
-    // Handle loading screen
-    const loading = document.getElementById('loading');
-    if(loading) {
-        setTimeout(() => {
-            loading.style.opacity = '0';
-            setTimeout(() => loading.style.display = 'none', 500);
-        }, 500);
-    }
-});
-
 // Fallback injection after 2 seconds
 setTimeout(() => {
-    if (!authUIInjected) {
-        injectAuthUI();
-    }
+    if (!authUIInjected) injectAuthUI();
 }, 2000);
 
-// Export for use in other files - ADDED 'db' HERE
-export { auth, provider, signInWithPopup, signInWithEmailAndPassword, signOut, db };
+// Export for use in other files
+export { app, auth, db, provider, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged };

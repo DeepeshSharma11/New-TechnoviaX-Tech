@@ -643,6 +643,7 @@
             const mobileNavContainer = document.getElementById('mobile-nav-container');
             return mobileNavContainer && mobileNavContainer.classList.contains('open');
         }
+    };
     
     // Dispatch event when navigation is ready
     document.addEventListener('DOMContentLoaded', function() {

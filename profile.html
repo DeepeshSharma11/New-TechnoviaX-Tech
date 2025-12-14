@@ -639,8 +639,10 @@
                 }
                 
             } catch (error) {
-                console.error("Error loading profile:", error);
-                showToast("Error loading profile data", "error");
+                console.error(" loading profile:", error);
+                showToast(" loading profile data", "load");
+                //console.error("Error loading profile:", error);
+                //showToast("Error loading profile data", "error");
                 
                 // Fallback: Create basic profile from Firebase auth
                 createBasicProfile(user);

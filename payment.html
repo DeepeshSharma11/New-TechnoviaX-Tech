@@ -324,6 +324,38 @@
 
             </div>
         </div>
+
+        <!-- Admin View Button (Visible for Demo) -->
+        <div class="fixed bottom-4 right-4 z-50">
+            <button id="admin-toggle-btn" class="bg-gray-800 text-white text-xs px-3 py-1 rounded shadow-lg opacity-50 hover:opacity-100 transition-opacity">
+                Admin View (Demo)
+            </button>
+        </div>
+
+        <!-- Admin Panel (Initially Hidden) -->
+        <div id="admin-panel" class="fixed inset-0 bg-white z-[60] hidden overflow-y-auto">
+            <div class="container mx-auto px-4 py-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-3xl font-bold text-secondary">Admin Payment Dashboard</h1>
+                    <button id="close-admin" class="bg-red-100 text-red-600 px-4 py-2 rounded-lg font-bold hover:bg-red-200">
+                        Exit Admin View
+                    </button>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold">All Transactions</h2>
+                        <div class="text-sm text-gray-500">Real-time Feed</div>
+                    </div>
+                    
+                    <div id="admin-list" class="space-y-3">
+                        <!-- Admin items injected here -->
+                        <div class="text-center py-10">Loading admin data...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- Footer Injection -->
@@ -334,9 +366,9 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-        // Reuse config from loginfirebase.js logic
+        // Reuse config
         const firebaseConfig = {
             apiKey: "AIzaSyBk33C9Xlw54hwJkgfC0mJWeFXBtZi7FPM",
             authDomain: "technoviax-tech.firebaseapp.com",
@@ -362,170 +394,199 @@
         const historyEmpty = document.getElementById('history-empty');
         const amountInput = document.getElementById('amount');
         const upiQr = document.getElementById('upi-qr');
+        
+        // Admin Elements
+        const adminToggle = document.getElementById('admin-toggle-btn');
+        const adminPanel = document.getElementById('admin-panel');
+        const closeAdmin = document.getElementById('close-admin');
+        const adminList = document.getElementById('admin-list');
 
         // UPI ID
         const UPI_ID = "technoviaxtech@ybl";
 
-        // Update QR Code on Amount Change
+        // Update QR
         amountInput.addEventListener('input', (e) => {
             const amt = e.target.value;
             const url = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${UPI_ID}&pn=TechnoviaX%20Tech&cu=INR${amt ? '&am='+amt : ''}`;
             upiQr.src = url;
         });
 
-        // Authentication State Monitor
+        // Auth Monitor
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User Logged In
                 lockScreen.classList.add('hidden');
                 paymentContent.classList.remove('opacity-30', 'pointer-events-none');
-                
-                // Auto-fill Form
                 userNameInput.value = user.displayName || 'Valued Client';
                 userEmailInput.value = user.email;
-
-                // Load History
                 loadPaymentHistory(user.uid);
             } else {
-                // User Logged Out
                 lockScreen.classList.remove('hidden');
                 paymentContent.classList.add('opacity-30', 'pointer-events-none');
-                historyList.innerHTML = ''; // Clear history
+                historyList.innerHTML = '';
             }
         });
 
-        // Load History Function
+        // Load User History
         function loadPaymentHistory(userId) {
-            // Real-time listener
-            const q = query(
-                collection(db, "payments"),
-                where("userId", "==", userId),
-                orderBy("createdAt", "desc")
-            );
-
+            const q = query(collection(db, "payments"), where("userId", "==", userId), orderBy("createdAt", "desc"));
             onSnapshot(q, (snapshot) => {
                 historyLoading.classList.add('hidden');
-                
                 if (snapshot.empty) {
                     historyEmpty.classList.remove('hidden');
                     historyList.innerHTML = '';
                     return;
                 }
-
                 historyEmpty.classList.add('hidden');
                 historyList.innerHTML = '';
-
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     const date = data.createdAt ? data.createdAt.toDate().toLocaleDateString() : 'Just now';
                     const statusClass = data.status === 'Success' ? 'status-success' : (data.status === 'Failed' ? 'status-failed' : 'status-pending');
                     const icon = data.status === 'Success' ? 'fa-check-circle' : (data.status === 'Failed' ? 'fa-times-circle' : 'fa-clock');
-
-                    const itemHtml = `
-                        <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex justify-between items-center">
+                    
+                    historyList.innerHTML += `
+                        <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex justify-between items-center">
                             <div>
                                 <div class="flex items-center gap-2 mb-1">
                                     <span class="font-bold text-secondary">₹${data.amount}</span>
                                     <span class="status-badge ${statusClass}">${data.status}</span>
                                 </div>
-                                <p class="text-xs text-gray-500 flex items-center gap-2">
-                                    <i class="fas fa-calendar-alt"></i> ${date}
-                                    <span class="text-gray-300">|</span>
-                                    <span>${data.purpose}</span>
-                                </p>
-                                <p class="text-xs text-gray-400 mt-1 font-mono">Ref: ${data.transactionId}</p>
+                                <p class="text-xs text-gray-500">${date} | ${data.purpose}</p>
+                                <p class="text-xs text-gray-400 font-mono">Ref: ${data.transactionId}</p>
                             </div>
                             <div class="text-right">
                                 <div class="w-8 h-8 rounded-full ${data.status === 'Success' ? 'bg-green-100 text-success' : 'bg-yellow-100 text-yellow-600'} flex items-center justify-center">
                                     <i class="fas ${icon}"></i>
                                 </div>
                             </div>
-                        </div>
-                    `;
-                    historyList.innerHTML += itemHtml;
+                        </div>`;
                 });
-            }, (error) => {
-                console.error("Error fetching history: ", error);
-                historyLoading.classList.add('hidden');
-                historyList.innerHTML = `<p class="text-center text-error text-sm">Failed to load history. <br> ${error.message}</p>`;
             });
         }
 
-        // Handle Payment Submission
+        // Submit Payment
         paymentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = document.getElementById('submit-payment');
             const originalBtnText = submitBtn.innerHTML;
-
-            // Get Form Data
-            const amount = document.getElementById('amount').value;
-            const purpose = document.getElementById('purpose').value;
-            const transactionId = document.getElementById('transaction-id').value;
-            const method = document.querySelector('input[name="method"]:checked').value;
-            
-            // Basic UI Validation
             if(!auth.currentUser) return;
-
-            // Loading State
+            
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
             try {
-                // Add to Firestore
                 await addDoc(collection(db, "payments"), {
                     userId: auth.currentUser.uid,
                     userEmail: auth.currentUser.email,
                     userName: auth.currentUser.displayName,
-                    amount: amount,
-                    purpose: purpose,
-                    transactionId: transactionId,
-                    method: method,
-                    status: "Pending Verification", // Default status
+                    amount: document.getElementById('amount').value,
+                    purpose: document.getElementById('purpose').value,
+                    transactionId: document.getElementById('transaction-id').value,
+                    method: document.querySelector('input[name="method"]:checked').value,
+                    status: "Pending Verification", // Stays pending until Admin approves
                     createdAt: serverTimestamp()
                 });
-
-                // Show Success (Using standard browser alert for now, can be upgraded to Toast)
-                alert("Payment submitted for verification! It will appear in your history shortly.");
-                
-                // Reset Form
+                alert("Payment submitted! Please wait for Admin approval.");
                 paymentForm.reset();
-                upiQr.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${UPI_ID}&pn=TechnoviaX%20Tech&cu=INR`; // Reset QR
-
+                upiQr.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${UPI_ID}&pn=TechnoviaX%20Tech&cu=INR`;
             } catch (error) {
-                console.error("Error adding document: ", error);
-                alert("Error submitting payment: " + error.message);
+                alert("Error: " + error.message);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
             }
         });
 
-        // UI Toggles for Payment Methods
+        // Toggle Payment Methods
         const methodRadios = document.querySelectorAll('input[name="method"]');
         const upiSection = document.getElementById('upi-section');
         const bankSection = document.getElementById('bank-section');
         const cardSection = document.getElementById('card-section');
-
         methodRadios.forEach(radio => {
             radio.addEventListener('change', (e) => {
-                // Hide all
                 upiSection.classList.add('hidden');
                 bankSection.classList.add('hidden');
                 cardSection.classList.add('hidden');
-                
-                // Show selected
                 if(e.target.value === 'upi') upiSection.classList.remove('hidden');
                 if(e.target.value === 'bank') bankSection.classList.remove('hidden');
                 if(e.target.value === 'card') cardSection.classList.remove('hidden');
             });
         });
 
+        // --- ADMIN PANEL LOGIC ---
+        adminToggle.addEventListener('click', () => {
+            adminPanel.classList.remove('hidden');
+            loadAdminData();
+        });
+        
+        closeAdmin.addEventListener('click', () => {
+            adminPanel.classList.add('hidden');
+        });
+
+        function loadAdminData() {
+            const q = query(collection(db, "payments"), orderBy("createdAt", "desc"));
+            onSnapshot(q, (snapshot) => {
+                if (snapshot.empty) {
+                    adminList.innerHTML = '<p class="text-center">No transactions found.</p>';
+                    return;
+                }
+                adminList.innerHTML = '';
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    const date = data.createdAt ? data.createdAt.toDate().toLocaleString() : '';
+                    
+                    // Action Buttons (Only show for Pending)
+                    let actions = '';
+                    if(data.status === 'Pending Verification') {
+                        actions = `
+                            <div class="flex gap-2 mt-2 justify-end">
+                                <button onclick="window.rejectPayment('${id}')" class="bg-red-100 text-red-600 px-3 py-1 rounded text-xs font-bold hover:bg-red-200">Reject</button>
+                                <button onclick="window.approvePayment('${id}')" class="bg-green-100 text-green-600 px-3 py-1 rounded text-xs font-bold hover:bg-green-200">Approve</button>
+                            </div>
+                        `;
+                    } else {
+                        actions = `<div class="mt-2 text-right text-xs font-bold text-gray-400">Action: ${data.status}</div>`;
+                    }
+
+                    adminList.innerHTML += `
+                        <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
+                            <div class="flex justify-between">
+                                <div>
+                                    <p class="font-bold text-lg">₹${data.amount} <span class="text-xs font-normal text-gray-500">by ${data.userName}</span></p>
+                                    <p class="text-sm text-gray-600">${data.purpose} (${data.method})</p>
+                                    <p class="text-xs text-gray-400 font-mono">ID: ${data.transactionId}</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="status-badge ${data.status === 'Success' ? 'status-success' : (data.status === 'Failed' ? 'status-failed' : 'status-pending')}">${data.status}</span>
+                                    <p class="text-xs text-gray-400 mt-1">${date}</p>
+                                </div>
+                            </div>
+                            ${actions}
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        // Global functions for Admin Actions
+        window.approvePayment = async (id) => {
+            if(confirm('Confirm Approval?')) {
+                await updateDoc(doc(db, "payments", id), { status: "Success" });
+            }
+        };
+        
+        window.rejectPayment = async (id) => {
+            if(confirm('Confirm Rejection?')) {
+                await updateDoc(doc(db, "payments", id), { status: "Failed" });
+            }
+        };
+
     </script>
 
-    <!-- Main UI Logic (Scroll, Loader) -->
+    <!-- Main UI Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Loading Screen Logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
                 setTimeout(() => {
@@ -533,14 +594,12 @@
                     setTimeout(() => loading.style.display = 'none', 500);
                 }, 800);
             }
-
             // Scroll Animation
             function animateOnScroll() {
                 const elements = document.querySelectorAll('.animate-on-scroll');
                 elements.forEach(element => {
                     if (element.classList.contains('animated')) return;
-                    const elementTop = element.getBoundingClientRect().top;
-                    if (elementTop < window.innerHeight * 0.85) {
+                    if (element.getBoundingClientRect().top < window.innerHeight * 0.85) {
                         element.classList.add('animated');
                     }
                 });

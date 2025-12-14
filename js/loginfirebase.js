@@ -30,39 +30,6 @@ window.addEventListener('navigationInjected', () => {
     injectAuthUI();
 });
 
-// --- FIXED LOGOUT LOGIC (Event Delegation) ---
-// Isse dynamic buttons par bhi click kaam karega
-document.addEventListener('click', (e) => {
-    const logoutBtn = e.target.closest('#desktop-logout-btn, #mobile-logout-btn');
-    if (logoutBtn) {
-        e.preventDefault();
-        handleLogout();
-    }
-});
-
-// Logout Function
-async function handleLogout() {
-    if(confirm("Are you sure you want to logout?")) {
-        try {
-            await signOut(auth);
-            showToast("Logged out successfully", 'success');
-            
-            // UI Reset Immediately
-            updateAuthUI(null);
-            
-            // Redirect if on protected pages
-            if (window.location.pathname.includes('/profile.html') || 
-                window.location.pathname.includes('/payment.html') ||
-                window.location.pathname.includes('/login.html')) {
-                window.location.href = '/login.html';
-            }
-        } catch(error) {
-            console.error("Logout Error:", error);
-            showToast("Error logging out", 'error');
-        }
-    }
-}
-
 // --- UI Injection Function ---
 function injectAuthUI() {
     if (authUIInjected) return;
@@ -71,6 +38,7 @@ function injectAuthUI() {
     const mobileContainer = document.getElementById('mobile-login-container');
     const mobileFullContainer = document.getElementById('mobile-full-login-container');
     
+    // Retry if containers aren't ready yet
     if (!desktopContainer || !mobileContainer || !mobileFullContainer) {
         setTimeout(injectAuthUI, 100);
         return;
@@ -139,13 +107,17 @@ function injectAuthUI() {
                     </div>
                 </div>
                 <div class="p-2">
-                    <a href="/payment.html" class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i class="fas fa-wallet text-gray-500"></i>
-                        <span>Payments</span>
+                    <a href="/index.html" class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-tachometer-alt text-gray-500"></i>
+                        <span>Dashboard</span>
                     </a>
                     <a href="/profile.html" class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
                         <i class="fas fa-user-cog text-gray-500"></i>
                         <span>My Profile</span>
+                    </a>
+                    <a href="/payment.html" class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i class="fas fa-wallet text-gray-500"></i>
+                        <span>Payments</span>
                     </a>
                     <button id="desktop-logout-btn" class="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors mt-2">
                         <i class="fas fa-sign-out-alt"></i>
@@ -156,7 +128,7 @@ function injectAuthUI() {
         `;
         desktopContainer.appendChild(profileDropdown);
         
-        // Dropdown Toggle Logic
+        // Setup dropdown toggle
         const profileBtn = profileDropdown.querySelector('#desktop-profile-btn');
         const dropdownMenu = profileDropdown.querySelector('#desktop-dropdown-menu');
         
@@ -191,13 +163,17 @@ function injectAuthUI() {
                 </div>
             </div>
             <div class="space-y-1">
-                <a href="/payment.html" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                    <i class="fas fa-wallet text-gray-500 w-5"></i>
-                    <span>Payments</span>
+                <a href="/index.html" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                    <i class="fas fa-tachometer-alt text-gray-500 w-5"></i>
+                    <span>Dashboard</span>
                 </a>
                 <a href="/profile.html" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
                     <i class="fas fa-user-cog text-gray-500 w-5"></i>
                     <span>My Profile</span>
+                </a>
+                <a href="/payment.html" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                    <i class="fas fa-wallet text-gray-500 w-5"></i>
+                    <span>Payments</span>
                 </a>
                 <button id="mobile-logout-btn" class="w-full flex items-center gap-2 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors mt-2">
                     <i class="fas fa-sign-out-alt w-5"></i>
@@ -210,10 +186,14 @@ function injectAuthUI() {
 
     authUIInjected = true;
     addAuthStyles();
-    checkAuthState();
+    
+    // Trigger auth check to update UI immediately
+    if (auth.currentUser) {
+        updateAuthUI(auth.currentUser);
+    }
 }
 
-// Add custom styles for auth UI and Toasts
+// Add custom styles for auth UI
 function addAuthStyles() {
     if (document.querySelector('#auth-styles')) return;
     const style = document.createElement('style');
@@ -231,68 +211,57 @@ function addAuthStyles() {
         @media (min-width:640px) and (max-width:767px){.mobile-top-login-btn a span{font-size:0.875rem}.nav-login-btn a{font-size:0.875rem;padding:0.5rem 0.75rem}}
         @media (min-width:768px) and (max-width:1023px){.nav-login-btn a{font-size:0.875rem;padding:0.5rem 1rem}}
         @media (min-width:1024px){.mobile-top-login-btn,.mobile-full-login-btn{display:none!important}}
-
-        /* Toast Styles */
-        .auth-toast { position: fixed; bottom: 20px; right: 20px; background: #1f2937; color: white; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); z-index: 10000; opacity: 0; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); font-size: 14px; display: flex; align-items: center; gap: 10px; font-weight: 500; border-left: 4px solid #3b82f6; pointer-events: none; }
-        .auth-toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
-        .auth-toast.success { border-left-color: #10b981; }
-        .auth-toast.error { border-left-color: #ef4444; }
-        .auth-toast i { font-size: 16px; }
     `;
     document.head.appendChild(style);
 }
 
-// Toast Notification Function
+// Toast Helper
 function showToast(message, type = 'success') {
     const toast = document.createElement('div');
-    toast.className = `auth-toast ${type}`;
-    const iconClass = type === 'success' ? 'fa-check-circle text-green-400' : 'fa-exclamation-circle text-red-400';
-    toast.innerHTML = `<i class="fas ${iconClass}"></i> <span>${message}</span>`;
+    toast.className = `fixed bottom-5 right-5 px-6 py-3 rounded-lg shadow-lg text-white font-medium transform transition-all duration-300 translate-y-10 opacity-0 z-50 ${type === 'success' ? 'bg-green-600' : 'bg-red-600'}`;
+    toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation-circle'} mr-2"></i> ${message}`;
     document.body.appendChild(toast);
     
-    // Trigger reflow for animation
-    void toast.offsetHeight;
-    
-    requestAnimationFrame(() => toast.classList.add('show'));
-    
+    requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-10', 'opacity-0');
+    });
+
     setTimeout(() => {
-        toast.classList.remove('show');
+        toast.classList.add('translate-y-10', 'opacity-0');
         setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
 
-// --- Auth State Monitor ---
-function checkAuthState() {
-    onAuthStateChanged(auth, (user) => {
-        updateAuthUI(user);
-        if (!user) {
-            checkFirstTimeVisitor();
-        } else {
-            // Check/Create profile quietly
-            checkUserProfile(user);
-        }
-    });
-}
-
-async function checkUserProfile(user) {
-    try {
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-        if (!userSnap.exists()) {
-             await setDoc(userRef, {
-                name: user.displayName || user.email.split('@')[0],
-                email: user.email,
-                photoURL: user.photoURL || '',
-                createdAt: serverTimestamp(),
-                lastLogin: serverTimestamp(),
-                totalLogins: 1,
-                isActive: true
+// Global Logout Handler (Delegation for dynamic elements)
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('#desktop-logout-btn, #mobile-logout-btn');
+    if (btn) {
+        if(confirm("Are you sure you want to logout?")) {
+            signOut(auth).then(() => {
+                showToast("Logged out successfully");
+                // Reset UI to logged out state immediately
+                updateAuthUI(null);
+                if (window.location.pathname.includes('profile.html') || window.location.pathname.includes('payment.html')) {
+                    window.location.href = '/login.html';
+                }
+            }).catch((error) => {
+                console.error(error);
+                showToast("Error logging out", 'error');
             });
         }
-    } catch (e) { console.error("Profile check error", e); }
-}
+    }
+});
 
-// First Time Visitor
+// Main Auth Listener
+onAuthStateChanged(auth, (user) => {
+    updateAuthUI(user);
+    if (user) {
+        createUserProfile(user); // Ensure profile exists in DB
+    } else {
+        checkFirstTimeVisitor();
+    }
+});
+
 function checkFirstTimeVisitor() {
     const hasVisited = localStorage.getItem('hasVisitedTechnoviaX');
     if (!hasVisited && window.location.pathname !== '/login.html') {
@@ -301,71 +270,115 @@ function checkFirstTimeVisitor() {
     }
 }
 
-// --- UI Update Logic ---
+// UI Updater
 function updateAuthUI(user) {
-    if (!authUIInjected) {
-        setTimeout(() => updateAuthUI(user), 100);
-        return;
-    }
+    if (!authUIInjected) return; // Wait for injection
+
+    // Desktop Elements
+    const dLogin = document.getElementById('desktop-login-btn');
+    const dProfile = document.getElementById('desktop-profile-dropdown');
+    const dAvatar = document.getElementById('desktop-user-avatar');
+    const ddAvatar = document.getElementById('dropdown-user-avatar');
+    const ddName = document.getElementById('dropdown-user-name');
+    const ddEmail = document.getElementById('dropdown-user-email');
     
-    const desktopLoginBtn = document.getElementById('desktop-login-btn');
-    const desktopProfileDropdown = document.getElementById('desktop-profile-dropdown');
-    const desktopAvatar = document.getElementById('desktop-user-avatar');
-    const dropdownAvatar = document.getElementById('dropdown-user-avatar');
-    const dropdownName = document.getElementById('dropdown-user-name');
-    const dropdownEmail = document.getElementById('dropdown-user-email');
+    // Mobile Elements
+    const mTopLogin = document.getElementById('mobile-top-login-btn');
+    const mFullLogin = document.getElementById('mobile-full-login-btn');
+    const mProfile = document.getElementById('mobile-profile-section');
+    const mAvatar = document.getElementById('mobile-user-avatar');
+    const mName = document.getElementById('mobile-user-name');
+    const mEmail = document.getElementById('mobile-user-email');
     
-    const mobileTopLoginBtn = document.getElementById('mobile-top-login-btn');
-    const mobileFullLoginBtn = document.getElementById('mobile-full-login-btn');
-    const mobileProfileSection = document.getElementById('mobile-profile-section');
-    const mobileAvatar = document.getElementById('mobile-user-avatar');
-    const mobileName = document.getElementById('mobile-user-name');
-    const mobileEmail = document.getElementById('mobile-user-email');
-    
-    const footerLoginItem = document.getElementById('footer-login-item');
+    const footerLogin = document.getElementById('footer-login-item');
 
     if (user) {
-        const avatarUrl = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}&background=random&color=fff`;
-        const displayName = user.displayName || user.email.split('@')[0];
+        const name = user.displayName || user.email.split('@')[0];
+        const avatar = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff`;
 
         // Desktop
-        if (desktopLoginBtn) desktopLoginBtn.style.display = 'none';
-        if (desktopProfileDropdown) desktopProfileDropdown.style.display = 'flex';
-        if (desktopAvatar) desktopAvatar.src = avatarUrl;
-        if (dropdownAvatar) dropdownAvatar.src = avatarUrl;
-        if (dropdownName) dropdownName.textContent = displayName;
-        if (dropdownEmail) dropdownEmail.textContent = user.email;
+        if(dLogin) dLogin.style.display = 'none';
+        if(dProfile) dProfile.style.display = 'flex';
+        if(dAvatar) dAvatar.src = avatar;
+        if(ddAvatar) ddAvatar.src = avatar;
+        if(ddName) ddName.textContent = name;
+        if(ddEmail) ddEmail.textContent = user.email;
 
         // Mobile
-        if (mobileTopLoginBtn) mobileTopLoginBtn.style.display = 'none';
-        if (mobileFullLoginBtn) mobileFullLoginBtn.style.display = 'none';
-        if (mobileProfileSection) mobileProfileSection.style.display = 'block';
-        if (mobileAvatar) mobileAvatar.src = avatarUrl;
-        if (mobileName) mobileName.textContent = displayName;
-        if (mobileEmail) mobileEmail.textContent = user.email;
+        if(mTopLogin) mTopLogin.style.display = 'none';
+        if(mFullLogin) mFullLogin.style.display = 'none';
+        if(mProfile) mProfile.style.display = 'block';
+        if(mAvatar) mAvatar.src = avatar;
+        if(mName) mName.textContent = name;
+        if(mEmail) mEmail.textContent = user.email;
 
         // Footer
-        if (footerLoginItem) footerLoginItem.innerHTML = `<span class="text-primary font-bold cursor-default">Welcome, ${displayName}</span>`;
-
+        if(footerLogin) footerLogin.innerHTML = `<span class="text-primary font-bold">Welcome, ${name}</span>`;
     } else {
         // Desktop
-        if (desktopLoginBtn) desktopLoginBtn.style.display = 'block';
-        if (desktopProfileDropdown) desktopProfileDropdown.style.display = 'none';
+        if(dLogin) dLogin.style.display = 'block';
+        if(dProfile) dProfile.style.display = 'none';
 
         // Mobile
-        if (mobileTopLoginBtn) mobileTopLoginBtn.style.display = 'flex';
-        if (mobileFullLoginBtn) mobileFullLoginBtn.style.display = 'block';
-        if (mobileProfileSection) mobileProfileSection.style.display = 'none';
+        if(mTopLogin) mTopLogin.style.display = 'flex';
+        if(mFullLogin) mFullLogin.style.display = 'block';
+        if(mProfile) mProfile.style.display = 'none';
 
         // Footer
-        if (footerLoginItem) footerLoginItem.innerHTML = `<a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a>`;
+        if(footerLogin) footerLogin.innerHTML = `<a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a>`;
     }
 }
 
-// Fallback injection after 2 seconds
-setTimeout(() => {
-    if (!authUIInjected) injectAuthUI();
-}, 2000);
+// User Profile Creation in Firestore
+async function createUserProfile(user) {
+    try {
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        
+        if (!userSnap.exists()) {
+            await setDoc(userRef, {
+                name: user.displayName || user.email.split('@')[0],
+                email: user.email,
+                photoURL: user.photoURL || '',
+                createdAt: serverTimestamp(),
+                lastLogin: serverTimestamp(),
+                totalLogins: 1,
+                isActive: true
+            });
+        } else {
+            // Update last login
+             await setDoc(userRef, {
+                lastLogin: serverTimestamp()
+            }, { merge: true });
+        }
+    } catch (e) {
+        console.error("Profile Sync Error", e);
+    }
+}
 
-// Export for use in other files
+// Login Page Specific Logic (Event Listeners for Login buttons on login.html)
+const googleBtn = document.getElementById('google-login-btn');
+if (googleBtn) {
+    googleBtn.addEventListener('click', () => {
+        signInWithPopup(auth, provider).then(() => {
+            window.location.href = '/index.html'; // Redirect after login
+        }).catch(e => showToast(e.message, 'error'));
+    });
+}
+
+const emailForm = document.getElementById('email-login-form');
+if (emailForm) {
+    emailForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        signInWithEmailAndPassword(auth, email, password).then(() => {
+            window.location.href = '/index.html';
+        }).catch(e => showToast("Login failed: " + e.message, 'error'));
+    });
+}
+
+// Fallback injection after 2 seconds (in case event missed)
+setTimeout(() => { if (!authUIInjected) injectAuthUI(); }, 2000);
+
 export { app, auth, db, provider, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged };

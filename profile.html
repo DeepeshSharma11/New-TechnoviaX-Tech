@@ -16,7 +16,16 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { primary: '#1e40af', secondary: '#0f172a', accent: '#059669', light: '#f8fafc', success: '#10b981', warning: '#f59e0b', error: '#dc2626', },
+                    colors: { 
+                        primary: '#1e40af', 
+                        'primary-dark': '#1e3a8a',
+                        secondary: '#0f172a', 
+                        accent: '#059669', 
+                        light: '#f8fafc', 
+                        success: '#10b981', 
+                        warning: '#f59e0b', 
+                        error: '#dc2626' 
+                    },
                     fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
             }
@@ -25,36 +34,194 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        .sticky-cta { position: fixed; bottom: 40px; left: 40px; background: #1e40af; color: white; padding: 12px 24px; border-radius: 50px; z-index: 99; display: flex; align-items: center; gap: 8px; }
-        .hero-gradient { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
-        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Custom Styles */
+        .sticky-cta { 
+            position: fixed; 
+            bottom: 40px; 
+            left: 40px; 
+            background: #1e40af; 
+            color: white; 
+            padding: 12px 24px; 
+            border-radius: 50px; 
+            z-index: 99; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+        }
+        
+        .hero-gradient { 
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); 
+        }
+        
+        .animate-fade-in-up { 
+            animation: fadeInUp 0.6s ease-out forwards; 
+            opacity: 0; 
+        }
+        
+        @keyframes fadeInUp { 
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            } 
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            } 
+        }
         
         /* Status Badges */
-        .status-badge { padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
-        .status-active { background-color: #d1fae5; color: #059669; }
+        .status-badge { 
+            padding: 4px 12px; 
+            border-radius: 999px; 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            display: inline-block;
+        }
+        
+        .status-active { 
+            background-color: #d1fae5; 
+            color: #059669; 
+        }
+        
+        .status-verified { 
+            background-color: #dbeafe; 
+            color: #1e40af; 
+        }
 
         /* Toast */
-        .profile-toast { position: fixed; top: 20px; right: 20px; background: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 10000; opacity: 0; transform: translateX(100%); transition: all 0.3s ease; border-left: 4px solid #1e40af; }
-        .profile-toast.show { opacity: 1; transform: translateX(0); }
-        .profile-toast.success { border-left-color: #10b981; }
-        .profile-toast.error { border-left-color: #dc2626; }
+        .profile-toast { 
+            position: fixed; 
+            top: 20px; 
+            right: 20px; 
+            background: white; 
+            padding: 16px 24px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            z-index: 10000; 
+            opacity: 0; 
+            transform: translateX(100%); 
+            transition: all 0.3s ease; 
+            border-left: 4px solid #1e40af; 
+            max-width: 350px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .profile-toast.show { 
+            opacity: 1; 
+            transform: translateX(0); 
+        }
+        
+        .profile-toast.success { 
+            border-left-color: #10b981; 
+        }
+        
+        .profile-toast.error { 
+            border-left-color: #dc2626; 
+        }
+        
+        .profile-toast.warning { 
+            border-left-color: #f59e0b; 
+        }
         
         /* Tabs */
-        .tab-button.active { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2); }
+        .tab-button { 
+            padding: 12px 24px; 
+            border-radius: 10px; 
+            font-weight: 600; 
+            transition: all 0.3s ease; 
+            color: #64748b;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        
+        .tab-button:hover:not(.active) {
+            background-color: #f1f5f9;
+            color: #1e40af;
+        }
+        
+        .tab-button.active { 
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); 
+            color: white; 
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2); 
+        }
         
         /* Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .custom-scrollbar::-webkit-scrollbar { 
+            width: 6px; 
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track { 
+            background: #f1f5f9; 
+            border-radius: 4px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb { 
+            background: #cbd5e1; 
+            border-radius: 4px; 
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { 
+            background: #94a3b8; 
+        }
+        
+        /* Form Inputs */
+        .form-input {
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .form-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        /* Loading States */
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        /* Card Hover Effects */
+        .profile-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Tab Content Animation */
+        .tab-content {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .tab-content.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="font-sans text-secondary bg-light">
 
     <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 bg-white z-[100] flex items-center justify-center">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    <div id="loading" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary mb-4"></div>
+        <p class="text-gray-600 font-medium">Loading your profile...</p>
+        <p class="text-sm text-gray-400 mt-2">Please wait a moment</p>
     </div>
 
     <!-- Navigation Injection -->
@@ -64,24 +231,31 @@
 
     <main id="main-content">
         <!-- Hero Section -->
-        <section class="hero-gradient pt-12 pb-16">
+        <section class="hero-gradient pt-16 pb-20">
             <div class="container mx-auto px-4 text-center animate-fade-in-up">
-                <h1 class="text-4xl font-bold mb-6">User <span class="text-primary">Profile</span></h1>
-                <p class="text-lg text-gray-600">Manage your personal information and account settings.</p>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">My <span class="text-primary">Profile</span></h1>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Manage your personal information, security settings, and account preferences in one place.</p>
             </div>
         </section>
 
-        <div class="container mx-auto px-4 pb-12 relative min-h-[500px]">
+        <div class="container mx-auto px-4 pb-16 relative min-h-[500px] -mt-8">
             
             <!-- Login Guard (Overlay) -->
-            <div id="login-lock-screen" class="absolute inset-0 bg-white/90 z-30 flex flex-col items-center justify-center hidden backdrop-blur-sm">
-                <div class="text-center p-8 bg-white rounded-2xl shadow-xl border border-gray-200">
-                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-user-lock text-4xl text-gray-400"></i>
+            <div id="login-lock-screen" class="absolute inset-0 bg-white/95 z-30 flex flex-col items-center justify-center backdrop-blur-sm">
+                <div class="text-center p-10 bg-white rounded-2xl shadow-2xl border border-gray-200 max-w-md w-full mx-4">
+                    <div class="w-24 h-24 bg-gradient-to-br from-primary to-primary-light rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-user-lock text-3xl text-white"></i>
                     </div>
-                    <h2 class="text-2xl font-bold mb-2">Login Required</h2>
-                    <p class="text-gray-500 mb-6">You must be logged in to view your profile.</p>
-                    <a href="/login.html" class="bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition-colors shadow-lg">Login Now</a>
+                    <h2 class="text-2xl font-bold mb-3">Welcome Back!</h2>
+                    <p class="text-gray-500 mb-8">Sign in to access your profile and manage your account settings.</p>
+                    <div class="flex flex-col gap-3">
+                        <a href="/login.html" class="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors shadow-lg flex items-center justify-center gap-3">
+                            <i class="fas fa-sign-in-alt"></i> Login to Continue
+                        </a>
+                        <a href="/register.html" class="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-bold hover:bg-gray-50 transition-colors flex items-center justify-center gap-3">
+                            <i class="fas fa-user-plus"></i> Create New Account
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -90,36 +264,47 @@
                 
                 <!-- Left Sidebar: Identity (4/12) -->
                 <div class="lg:col-span-4 animate-fade-in-up">
-                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 text-center h-full sticky top-8">
-                        <div class="relative w-32 h-32 mx-auto mb-4">
-                            <img id="profile-pic" src="https://via.placeholder.com/150" alt="Profile" class="w-full h-full rounded-full object-cover border-4 border-white shadow-md">
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 text-center h-full sticky top-8 profile-card">
+                        <div class="relative w-40 h-40 mx-auto mb-6">
+                            <img id="profile-pic" src="https://via.placeholder.com/150" alt="Profile Picture" 
+                                class="w-full h-full rounded-full object-cover border-4 border-white shadow-xl">
+                            <div class="absolute bottom-0 right-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center border-4 border-white shadow-lg cursor-pointer hover:bg-primary-dark transition-colors"
+                                id="change-avatar-btn" title="Change Profile Picture">
+                                <i class="fas fa-camera text-white text-lg"></i>
+                            </div>
                         </div>
                         
                         <h2 class="text-2xl font-bold text-secondary mb-1" id="display-name">Loading...</h2>
                         <p class="text-sm text-gray-500 mb-4" id="display-email">loading@example.com</p>
                         
-                        <div class="inline-block mb-6">
+                        <div class="inline-flex items-center gap-2 mb-6">
                             <span class="status-badge status-active">Active Account</span>
+                            <span class="status-badge status-verified" id="email-verified-badge">
+                                <i class="fas fa-check-circle mr-1"></i> Email Verified
+                            </span>
                         </div>
 
                         <div class="flex flex-col gap-3 border-t border-gray-100 pt-6">
                             <div class="grid grid-cols-2 gap-4 mb-4">
-                                <div class="bg-gray-50 p-3 rounded-lg">
-                                    <p class="text-xl font-bold text-primary" id="total-payments">0</p>
-                                    <p class="text-xs text-gray-500">Payments</p>
+                                <div class="bg-gray-50 p-4 rounded-xl">
+                                    <p class="text-2xl font-bold text-primary" id="total-payments">0</p>
+                                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Payments</p>
                                 </div>
-                                <div class="bg-gray-50 p-3 rounded-lg">
-                                    <p class="text-xl font-bold text-success" id="total-logins">0</p>
-                                    <p class="text-xs text-gray-500">Logins</p>
+                                <div class="bg-gray-50 p-4 rounded-xl">
+                                    <p class="text-2xl font-bold text-success" id="total-logins">0</p>
+                                    <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Logins</p>
                                 </div>
                             </div>
-                            <button id="logout-btn-page" class="w-full py-2 px-4 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 font-semibold transition-colors flex items-center justify-center gap-2">
+                            
+                            <button id="logout-btn-page" 
+                                class="w-full py-3 px-4 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 font-semibold transition-colors flex items-center justify-center gap-2 hover:shadow-sm">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </button>
                         </div>
 
-                        <div class="mt-4 text-xs text-gray-400">
-                            Member since <span id="join-date">...</span>
+                        <div class="mt-6 text-sm text-gray-400 border-t border-gray-100 pt-6">
+                            <p>Member since <span id="join-date" class="font-semibold text-gray-600">...</span></p>
+                            <p class="text-xs mt-2">Last login: <span id="last-login-date" class="font-medium">Just now</span></p>
                         </div>
                     </div>
                 </div>
@@ -127,135 +312,315 @@
                 <!-- Right Content: Tabs (8/12) -->
                 <div class="lg:col-span-8 animate-fade-in-up" style="animation-delay: 0.1s;">
                     
-                    <!-- Tabs Nav -->
+                    <!-- Tabs Navigation -->
                     <div class="flex flex-wrap gap-2 mb-6 bg-white rounded-2xl p-2 shadow-sm border border-gray-100">
-                        <button data-tab="personal" class="tab-button active px-6 py-3 rounded-xl font-semibold text-gray-600 hover:text-primary transition-all">
-                            <i class="fas fa-user mr-2"></i> Personal
+                        <button data-tab="personal" class="tab-button active">
+                            <i class="fas fa-user-circle mr-2"></i> Personal
                         </button>
-                        <button data-tab="contact" class="tab-button px-6 py-3 rounded-xl font-semibold text-gray-600 hover:text-primary transition-all">
+                        <button data-tab="contact" class="tab-button">
                             <i class="fas fa-address-book mr-2"></i> Contact
                         </button>
-                        <button data-tab="preferences" class="tab-button px-6 py-3 rounded-xl font-semibold text-gray-600 hover:text-primary transition-all">
+                        <button data-tab="preferences" class="tab-button">
                             <i class="fas fa-cog mr-2"></i> Preferences
                         </button>
-                        <button data-tab="activity" class="tab-button px-6 py-3 rounded-xl font-semibold text-gray-600 hover:text-primary transition-all">
+                        <button data-tab="security" class="tab-button">
+                            <i class="fas fa-shield-alt mr-2"></i> Security
+                        </button>
+                        <button data-tab="activity" class="tab-button">
                             <i class="fas fa-history mr-2"></i> Activity
                         </button>
                     </div>
 
-                    <!-- Tab Content -->
+                    <!-- Tab Content Container -->
                     <div class="space-y-8">
                         
                         <!-- Personal Info Tab -->
-                        <div id="personal-tab" class="tab-content bg-white rounded-2xl shadow-lg p-6 border border-gray-100 animate-fadeIn">
+                        <div id="personal-tab" class="tab-content bg-white rounded-2xl shadow-lg p-8 border border-gray-100 active">
                             <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-xl font-bold text-secondary">Personal Information</h3>
-                                <button id="edit-personal-btn" class="text-primary hover:text-primary-dark font-medium flex items-center gap-2">
-                                    <i class="fas fa-edit"></i> Edit
+                                <div>
+                                    <h3 class="text-2xl font-bold text-secondary">Personal Information</h3>
+                                    <p class="text-gray-500 text-sm">Update your basic profile details</p>
+                                </div>
+                                <button id="edit-personal-btn" 
+                                    class="text-primary hover:text-primary-dark font-semibold flex items-center gap-2 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors">
+                                    <i class="fas fa-edit"></i> Edit Profile
                                 </button>
                             </div>
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
-                                    <input type="text" id="input-name" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:outline-none" readonly>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 tracking-wider">Full Name</label>
+                                    <input type="text" id="input-name" 
+                                        class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-700 form-input focus:bg-white" 
+                                        placeholder="Your full name" readonly>
+                                    <p class="text-xs text-gray-400 mt-1">This will be displayed on your profile</p>
                                 </div>
+                                
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email</label>
-                                    <input type="text" id="input-email" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-500 cursor-not-allowed" readonly>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 tracking-wider">Email Address</label>
+                                    <div class="relative">
+                                        <input type="text" id="input-email" 
+                                            class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-500 cursor-not-allowed" 
+                                            readonly>
+                                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                            <span class="status-badge status-verified text-xs">
+                                                <i class="fas fa-check"></i> Verified
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">Primary email for communication</p>
                                 </div>
+                                
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">UID</label>
-                                    <input type="text" id="input-uid" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-400 font-mono text-xs cursor-not-allowed" readonly>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 tracking-wider">User ID</label>
+                                    <input type="text" id="input-uid" 
+                                        class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-400 font-mono text-sm cursor-not-allowed" 
+                                        readonly>
+                                    <p class="text-xs text-gray-400 mt-1">Your unique account identifier</p>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 tracking-wider">Account Type</label>
+                                    <div class="w-full p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl">
+                                        <span class="text-primary font-bold" id="account-type">Standard User</span>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">Current subscription plan</p>
                                 </div>
                             </div>
 
-                            <!-- Actions (Hidden) -->
-                            <div id="personal-actions" class="hidden mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                                <button id="cancel-personal-btn" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">Cancel</button>
-                                <button id="save-personal-btn" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark">Save Changes</button>
+                            <!-- Edit Actions (Initially Hidden) -->
+                            <div id="personal-actions" class="hidden mt-8 pt-6 border-t border-gray-100 flex justify-end gap-3">
+                                <button id="cancel-personal-btn" 
+                                    class="px-8 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-semibold transition-colors">
+                                    Cancel
+                                </button>
+                                <button id="save-personal-btn" 
+                                    class="px-8 py-3 bg-primary text-white rounded-xl hover:bg-primary-dark font-semibold transition-colors shadow-md">
+                                    Save Changes
+                                </button>
                             </div>
                         </div>
 
                         <!-- Contact Details Tab -->
-                        <div id="contact-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                        <div id="contact-tab" class="tab-content bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
                             <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-xl font-bold text-secondary">Contact Details</h3>
-                                <button id="edit-contact-btn" class="text-primary hover:text-primary-dark font-medium flex items-center gap-2">
-                                    <i class="fas fa-edit"></i> Edit
+                                <div>
+                                    <h3 class="text-2xl font-bold text-secondary">Contact Details</h3>
+                                    <p class="text-gray-500 text-sm">Update your contact information</p>
+                                </div>
+                                <button id="edit-contact-btn" 
+                                    class="text-primary hover:text-primary-dark font-semibold flex items-center gap-2 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors">
+                                    <i class="fas fa-edit"></i> Edit Contact
                                 </button>
                             </div>
 
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Phone Number</label>
-                                    <input type="tel" id="input-phone" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:outline-none" placeholder="Not set" readonly>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 tracking-wider">Phone Number</label>
+                                    <input type="tel" id="input-phone" 
+                                        class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-700 form-input focus:bg-white" 
+                                        placeholder="+91 98765 43210" readonly>
+                                    <p class="text-xs text-gray-400 mt-1">For important notifications</p>
                                 </div>
+                                
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Address</label>
-                                    <input type="text" id="input-address" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:outline-none" placeholder="Not set" readonly>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 tracking-wider">Address</label>
+                                    <textarea id="input-address" rows="3"
+                                        class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-700 form-input focus:bg-white resize-none" 
+                                        placeholder="Enter your complete address" readonly></textarea>
+                                    <p class="text-xs text-gray-400 mt-1">For shipping and billing purposes</p>
                                 </div>
                             </div>
 
-                            <!-- Actions (Hidden) -->
-                            <div id="contact-actions" class="hidden mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                                <button id="cancel-contact-btn" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">Cancel</button>
-                                <button id="save-contact-btn" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark">Save Changes</button>
+                            <!-- Edit Actions (Initially Hidden) -->
+                            <div id="contact-actions" class="hidden mt-8 pt-6 border-t border-gray-100 flex justify-end gap-3">
+                                <button id="cancel-contact-btn" 
+                                    class="px-8 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-semibold transition-colors">
+                                    Cancel
+                                </button>
+                                <button id="save-contact-btn" 
+                                    class="px-8 py-3 bg-primary text-white rounded-xl hover:bg-primary-dark font-semibold transition-colors shadow-md">
+                                    Save Changes
+                                </button>
                             </div>
                         </div>
 
                         <!-- Preferences Tab -->
-                        <div id="preferences-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-                            <h3 class="text-xl font-bold text-secondary mb-6 border-b border-gray-100 pb-4">Account Preferences</h3>
-                            <div class="space-y-6">
+                        <div id="preferences-tab" class="tab-content bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+                            <h3 class="text-2xl font-bold text-secondary mb-8 border-b border-gray-100 pb-4">Account Preferences</h3>
+                            
+                            <div class="space-y-8">
+                                <!-- Email Notifications -->
                                 <div>
-                                    <h4 class="font-bold text-gray-800 mb-4">Email Notifications</h4>
+                                    <h4 class="font-bold text-gray-800 mb-4 text-lg flex items-center gap-2">
+                                        <i class="fas fa-envelope text-primary"></i> Email Notifications
+                                    </h4>
                                     <div class="space-y-3">
-                                        <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
-                                            <input type="checkbox" id="email-payments" class="rounded text-primary" checked>
-                                            <span class="flex-1">Payment confirmations</span>
+                                        <label class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+                                            <input type="checkbox" id="email-payments" 
+                                                class="rounded-lg h-5 w-5 text-primary focus:ring-primary border-gray-300">
+                                            <div class="flex-1">
+                                                <p class="font-semibold text-gray-800">Payment Confirmations</p>
+                                                <p class="text-sm text-gray-500">Receive receipts and payment updates</p>
+                                            </div>
                                         </label>
-                                        <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
-                                            <input type="checkbox" id="email-updates" class="rounded text-primary" checked>
-                                            <span class="flex-1">Service updates</span>
+                                        
+                                        <label class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+                                            <input type="checkbox" id="email-updates" 
+                                                class="rounded-lg h-5 w-5 text-primary focus:ring-primary border-gray-300">
+                                            <div class="flex-1">
+                                                <p class="font-semibold text-gray-800">Service Updates</p>
+                                                <p class="text-sm text-gray-500">Important announcements and maintenance alerts</p>
+                                            </div>
+                                        </label>
+                                        
+                                        <label class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+                                            <input type="checkbox" id="email-promotional" 
+                                                class="rounded-lg h-5 w-5 text-primary focus:ring-primary border-gray-300">
+                                            <div class="flex-1">
+                                                <p class="font-semibold text-gray-800">Promotional Offers</p>
+                                                <p class="text-sm text-gray-500">Special discounts and product announcements</p>
+                                            </div>
                                         </label>
                                     </div>
                                 </div>
-                                <div class="pt-4 border-t border-gray-100">
-                                    <button id="save-preferences-btn" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition">Save Preferences</button>
+                                
+                                <!-- Privacy Settings -->
+                                <div class="pt-6 border-t border-gray-100">
+                                    <h4 class="font-bold text-gray-800 mb-4 text-lg flex items-center gap-2">
+                                        <i class="fas fa-lock text-primary"></i> Privacy Settings
+                                    </h4>
+                                    <div class="space-y-3">
+                                        <label class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+                                            <input type="checkbox" id="privacy-profile" 
+                                                class="rounded-lg h-5 w-5 text-primary focus:ring-primary border-gray-300">
+                                            <div class="flex-1">
+                                                <p class="font-semibold text-gray-800">Show Public Profile</p>
+                                                <p class="text-sm text-gray-500">Allow other users to view your profile</p>
+                                            </div>
+                                        </label>
+                                        
+                                        <label class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+                                            <input type="checkbox" id="privacy-activity" 
+                                                class="rounded-lg h-5 w-5 text-primary focus:ring-primary border-gray-300">
+                                            <div class="flex-1">
+                                                <p class="font-semibold text-gray-800">Activity Status</p>
+                                                <p class="text-sm text-gray-500">Show when you're online</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Save Button -->
+                                <div class="pt-6 border-t border-gray-100">
+                                    <button id="save-preferences-btn" 
+                                        class="px-8 py-3 bg-primary text-white rounded-xl hover:bg-primary-dark font-semibold transition-colors shadow-md flex items-center gap-2">
+                                        <i class="fas fa-save"></i> Save Preferences
+                                    </button>
+                                    <p class="text-xs text-gray-400 mt-3">Your preferences will be applied immediately</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Tab -->
+                        <div id="security-tab" class="tab-content bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+                            <h3 class="text-2xl font-bold text-secondary mb-8 border-b border-gray-100 pb-4">Security Settings</h3>
+                            
+                            <div class="space-y-6">
+                                <!-- Password Reset -->
+                                <div class="flex flex-col md:flex-row md:items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100">
+                                    <div class="mb-4 md:mb-0">
+                                        <p class="font-bold text-gray-800 text-lg">Password Security</p>
+                                        <p class="text-sm text-gray-500 mt-1">Update your password to keep your account secure</p>
+                                    </div>
+                                    <button id="reset-password-btn" 
+                                        class="px-6 py-3 bg-white border border-gray-300 rounded-xl text-gray-700 font-semibold hover:bg-gray-50 transition-colors shadow-sm whitespace-nowrap">
+                                        <i class="fas fa-key mr-2"></i> Reset Password
+                                    </button>
+                                </div>
+
+                                <!-- Two-Factor Authentication -->
+                                <div class="flex flex-col md:flex-row md:items-center justify-between p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-100">
+                                    <div class="mb-4 md:mb-0">
+                                        <p class="font-bold text-gray-800 text-lg">Two-Factor Authentication</p>
+                                        <p class="text-sm text-gray-500 mt-1">Add an extra layer of security to your account</p>
+                                    </div>
+                                    <button id="enable-2fa-btn" 
+                                        class="px-6 py-3 bg-white border border-gray-300 rounded-xl text-gray-700 font-semibold hover:bg-gray-50 transition-colors shadow-sm whitespace-nowrap">
+                                        <i class="fas fa-shield-alt mr-2"></i> Enable 2FA
+                                    </button>
+                                </div>
+
+                                <!-- Active Sessions -->
+                                <div class="p-6 bg-gray-50 rounded-2xl border border-gray-200">
+                                    <h4 class="font-bold text-gray-800 mb-4">Active Sessions</h4>
+                                    <div id="active-sessions" class="space-y-3">
+                                        <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
+                                            <div class="flex items-center gap-3">
+                                                <i class="fas fa-desktop text-gray-400"></i>
+                                                <div>
+                                                    <p class="font-medium">Current Device</p>
+                                                    <p class="text-xs text-gray-500">Chrome • Windows • Just now</p>
+                                                </div>
+                                            </div>
+                                            <span class="status-badge status-active">Active</span>
+                                        </div>
+                                    </div>
+                                    <button id="logout-all-btn" 
+                                        class="mt-4 text-sm text-red-600 hover:text-red-700 font-medium">
+                                        <i class="fas fa-sign-out-alt mr-1"></i> Logout from all devices
+                                    </button>
+                                </div>
+
+                                <!-- Danger Zone -->
+                                <div class="mt-8 pt-6 border-t border-red-200">
+                                    <div class="bg-gradient-to-r from-red-50 to-pink-50 p-6 rounded-2xl border border-red-100">
+                                        <h3 class="text-lg font-bold text-red-600 mb-3 flex items-center gap-2">
+                                            <i class="fas fa-exclamation-triangle"></i> Danger Zone
+                                        </h3>
+                                        <p class="text-sm text-gray-600 mb-4">
+                                            Once you delete your account, there is no going back. All your data will be permanently removed.
+                                        </p>
+                                        <button id="delete-account-btn" 
+                                            class="px-6 py-3 border border-red-300 text-red-600 bg-white rounded-xl hover:bg-red-50 font-bold transition-colors shadow-sm">
+                                            <i class="fas fa-trash-alt mr-2"></i> Delete Account Permanently
+                                        </button>
+                                        <p class="text-xs text-gray-400 mt-3">This action cannot be undone</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Activity Tab -->
-                        <div id="activity-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-                             <h3 class="text-xl font-bold text-secondary mb-6 border-b border-gray-100 pb-4">Recent Payments</h3>
-                             <div id="activity-list" class="space-y-4 max-h-96 overflow-y-auto custom-scrollbar">
-                                 <div class="text-center py-12 text-gray-400">Loading activity...</div>
-                             </div>
-                        </div>
-                        
-                         <!-- Security Tab with Delete Account -->
-                        <div id="security-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-                            <h3 class="text-xl font-bold text-secondary mb-6 border-b border-gray-100 pb-4">Security Settings</h3>
+                        <div id="activity-tab" class="tab-content bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+                            <h3 class="text-2xl font-bold text-secondary mb-8 border-b border-gray-100 pb-4">Recent Activity</h3>
                             
-                            <div class="space-y-4">
-                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                                    <div>
-                                        <p class="font-bold text-gray-800">Password Reset</p>
-                                        <p class="text-xs text-gray-500">Send a password reset link to your email.</p>
-                                    </div>
-                                    <button id="reset-password-btn" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100 transition-colors">
-                                        Send Link
-                                    </button>
+                            <div id="activity-list" class="space-y-4 max-h-96 overflow-y-auto custom-scrollbar pr-2">
+                                <!-- Activity items will be loaded here -->
+                                <div class="text-center py-12">
+                                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mb-4"></div>
+                                    <p class="text-gray-500 font-medium">Loading your activity...</p>
+                                    <p class="text-sm text-gray-400 mt-2">Fetching recent transactions and actions</p>
                                 </div>
-
-                                <div class="mt-8 pt-6 border-t border-red-100">
-                                    <h3 class="text-lg font-bold text-red-600 mb-2">Danger Zone</h3>
-                                    <p class="text-sm text-gray-500 mb-4">Permanently delete your account and all associated data.</p>
-                                    <button id="delete-account-btn" class="px-6 py-2 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 text-sm font-bold transition-colors">
-                                        Delete Account
-                                    </button>
+                            </div>
+                            
+                            <!-- Activity Stats -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-gray-100">
+                                <div class="text-center p-4 bg-blue-50 rounded-xl border border-blue-100">
+                                    <p class="text-2xl font-bold text-primary" id="activity-total">0</p>
+                                    <p class="text-sm text-gray-600 font-medium">Total Activities</p>
+                                </div>
+                                <div class="text-center p-4 bg-green-50 rounded-xl border border-green-100">
+                                    <p class="text-2xl font-bold text-success" id="activity-success">0</p>
+                                    <p class="text-sm text-gray-600 font-medium">Success</p>
+                                </div>
+                                <div class="text-center p-4 bg-yellow-50 rounded-xl border border-yellow-100">
+                                    <p class="text-2xl font-bold text-warning" id="activity-pending">0</p>
+                                    <p class="text-sm text-gray-600 font-medium">Pending</p>
+                                </div>
+                                <div class="text-center p-4 bg-purple-50 rounded-xl border border-purple-100">
+                                    <p class="text-2xl font-bold text-purple-600" id="activity-failed">0</p>
+                                    <p class="text-sm text-gray-600 font-medium">Failed</p>
                                 </div>
                             </div>
                         </div>
@@ -269,28 +634,50 @@
     <div id="footer-container"></div>
     <script src="js/footer.js" defer></script>
 
-    <!-- 1. Central Auth Logic -->
-    <script type="module" src="js/loginfirebase.js" defer></script>
-
-    <!-- 2. Page Specific Logic -->
+    <!-- Firebase and Profile Logic -->
     <script type="module">
-        import { auth, db, signOut } from "./js/loginfirebase.js";
-        import { onAuthStateChanged, sendPasswordResetEmail, deleteUser } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        // Import Firebase modules
+        import { auth, db } from "./js/loginfirebase.js";
         import { 
-            doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, serverTimestamp, orderBy 
+            onAuthStateChanged, 
+            signOut, 
+            sendPasswordResetEmail,
+            deleteUser,
+            updateProfile,
+            EmailAuthProvider,
+            reauthenticateWithCredential
+        } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        
+        import { 
+            doc, 
+            getDoc, 
+            setDoc, 
+            updateDoc, 
+            deleteDoc, 
+            collection, 
+            query, 
+            where, 
+            getDocs, 
+            serverTimestamp, 
+            orderBy,
+            writeBatch
         } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
         // DOM Elements
         const lockScreen = document.getElementById('login-lock-screen');
         const profileContent = document.getElementById('profile-content');
+        const loadingScreen = document.getElementById('loading');
         
         // Display Elements
         const displayNameEl = document.getElementById('display-name');
         const displayEmailEl = document.getElementById('display-email');
         const profilePicEl = document.getElementById('profile-pic');
         const joinDateEl = document.getElementById('join-date');
+        const lastLoginEl = document.getElementById('last-login-date');
         const totalPaymentsEl = document.getElementById('total-payments');
         const totalLoginsEl = document.getElementById('total-logins');
+        const emailVerifiedBadge = document.getElementById('email-verified-badge');
+        const accountTypeEl = document.getElementById('account-type');
         
         // Input Fields
         const inputName = document.getElementById('input-name');
@@ -299,143 +686,368 @@
         const inputPhone = document.getElementById('input-phone');
         const inputAddress = document.getElementById('input-address');
         const activityList = document.getElementById('activity-list');
+        
+        // Activity Stats
+        const activityTotal = document.getElementById('activity-total');
+        const activitySuccess = document.getElementById('activity-success');
+        const activityPending = document.getElementById('activity-pending');
+        const activityFailed = document.getElementById('activity-failed');
 
         let currentUser = null;
+        let userProfileData = {};
 
-        // Auth Listener
+        // Toast Notification Function
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `profile-toast ${type}`;
+            
+            const icon = type === 'success' ? 'fa-check-circle' : 
+                         type === 'error' ? 'fa-exclamation-circle' : 
+                         type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle';
+            
+            toast.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <i class="fas ${icon} text-lg mt-1 ${type === 'success' ? 'text-success' : type === 'error' ? 'text-error' : type === 'warning' ? 'text-warning' : 'text-primary'}"></i>
+                    <div>
+                        <p class="font-medium text-gray-800">${message}</p>
+                        <p class="text-sm text-gray-500 mt-1">Just now</p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Format Date Function
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        // Format DateTime Function
+        function formatDateTime(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleString('en-IN', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Initialize Auth State Listener
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
+                
                 // Unlock UI
                 lockScreen.classList.add('hidden');
                 profileContent.classList.remove('opacity-30', 'pointer-events-none');
                 
-                // --- Load Data ---
+                // Load User Profile Data
                 await loadUserProfile(user);
+                
+                // Hide loading screen
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    loadingScreen.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 300);
+                }, 500);
+                
             } else {
-                // Lock UI
+                // Lock UI for non-authenticated users
                 lockScreen.classList.remove('hidden');
                 profileContent.classList.add('opacity-30', 'pointer-events-none');
+                
+                // Hide loading screen
+                loadingScreen.style.display = 'none';
             }
         });
 
+        // Load User Profile Function
         async function loadUserProfile(user) {
             try {
                 // Basic Auth Data
                 const name = user.displayName || user.email.split('@')[0];
                 const email = user.email;
-                const photo = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=150`;
-                const created = new Date(user.metadata.creationTime).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                const photo = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1e40af&color=fff&size=150`;
+                const created = new Date(user.metadata.creationTime).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                const lastLogin = user.metadata.lastSignInTime ? 
+                    formatDateTime(user.metadata.lastSignInTime) : 'Just now';
 
-                // Update Sidebar
+                // Update UI with basic data
                 if(displayNameEl) displayNameEl.textContent = name;
                 if(displayEmailEl) displayEmailEl.textContent = email;
-                if(profilePicEl) profilePicEl.src = photo;
+                if(profilePicEl) {
+                    profilePicEl.src = photo;
+                    // Handle image loading error
+                    profilePicEl.onerror = function() {
+                        this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1e40af&color=fff&size=150`;
+                    };
+                }
                 if(joinDateEl) joinDateEl.textContent = created;
+                if(lastLoginEl) lastLoginEl.textContent = lastLogin;
+                if(emailVerifiedBadge) {
+                    emailVerifiedBadge.style.display = user.emailVerified ? 'inline-flex' : 'none';
+                }
 
-                // Update Basic Inputs
+                // Update form inputs
                 if(inputName) inputName.value = name;
                 if(inputEmail) inputEmail.value = email;
                 if(inputUid) inputUid.value = user.uid;
 
-                // Fetch Extended Data from Firestore (DIRECT - NO API)
+                // Fetch extended profile data from Firestore
                 const userRef = doc(db, "users", user.uid);
                 const userSnap = await getDoc(userRef);
                 
                 if (userSnap.exists()) {
-                    const profileData = userSnap.data();
-                    // Update extra fields
-                    if(inputPhone) inputPhone.value = profileData.phone || '';
-                    if(inputAddress) inputAddress.value = profileData.address || '';
-                    if(totalLoginsEl) totalLoginsEl.textContent = profileData.totalLogins || 1;
+                    userProfileData = userSnap.data();
+                    
+                    // Update contact fields
+                    if(inputPhone) inputPhone.value = userProfileData.phone || '';
+                    if(inputAddress) inputAddress.value = userProfileData.address || '';
+                    if(totalLoginsEl) totalLoginsEl.textContent = userProfileData.totalLogins || 1;
+                    if(accountTypeEl) accountTypeEl.textContent = userProfileData.accountType || 'Standard User';
                     
                     // Set preferences
-                    if (profileData.preferences) {
-                        if(document.getElementById('email-payments')) document.getElementById('email-payments').checked = profileData.preferences.emailPayments;
-                        if(document.getElementById('email-updates')) document.getElementById('email-updates').checked = profileData.preferences.emailUpdates;
+                    if (userProfileData.preferences) {
+                        if(document.getElementById('email-payments')) {
+                            document.getElementById('email-payments').checked = userProfileData.preferences.emailPayments !== false;
+                        }
+                        if(document.getElementById('email-updates')) {
+                            document.getElementById('email-updates').checked = userProfileData.preferences.emailUpdates !== false;
+                        }
+                        if(document.getElementById('email-promotional')) {
+                            document.getElementById('email-promotional').checked = userProfileData.preferences.emailPromotional || false;
+                        }
+                        if(document.getElementById('privacy-profile')) {
+                            document.getElementById('privacy-profile').checked = userProfileData.preferences.privacyProfile !== false;
+                        }
+                        if(document.getElementById('privacy-activity')) {
+                            document.getElementById('privacy-activity').checked = userProfileData.preferences.privacyActivity || false;
+                        }
                     }
 
-                    // Update Login Count
+                    // Update login count
+                    const newLoginCount = (userProfileData.totalLogins || 0) + 1;
                     await updateDoc(userRef, {
-                        totalLogins: (profileData.totalLogins || 0) + 1,
+                        totalLogins: newLoginCount,
                         lastLogin: serverTimestamp()
                     });
+                    
+                    userProfileData.totalLogins = newLoginCount;
+                    
                 } else {
-                    // Initialize if first time
-                    await setDoc(userRef, {
+                    // Initialize profile if first time
+                    const initialData = {
                         email: user.email,
                         name: name,
                         createdAt: serverTimestamp(),
-                        totalLogins: 1
-                    }, { merge: true });
+                        totalLogins: 1,
+                        phone: '',
+                        address: '',
+                        accountType: 'Standard User',
+                        preferences: {
+                            emailPayments: true,
+                            emailUpdates: true,
+                            emailPromotional: false,
+                            privacyProfile: true,
+                            privacyActivity: false
+                        }
+                    };
+                    
+                    await setDoc(userRef, initialData);
+                    userProfileData = initialData;
                 }
 
-                // Fetch Payments & Activity (Direct Firestore Query)
-                const q = query(collection(db, "payments"), where("userId", "==", user.uid), orderBy("createdAt", "desc"));
-                const querySnapshot = await getDocs(q);
+                // Load payments and activity
+                await loadPaymentsAndActivity(user.uid);
+
+            } catch (error) {
+                console.error("Profile Load Error:", error);
+                showToast("Failed to load profile data. Please refresh.", "error");
                 
+                // Show error state
+                if(displayNameEl) displayNameEl.textContent = "Error Loading";
+                if(displayEmailEl) displayEmailEl.textContent = "Check connection";
+            }
+        }
+
+        // Load Payments and Activity Function
+        async function loadPaymentsAndActivity(userId) {
+            try {
+                // Fetch payments from Firestore
+                const paymentsQuery = query(
+                    collection(db, "payments"), 
+                    where("userId", "==", userId), 
+                    orderBy("createdAt", "desc")
+                );
+                
+                const querySnapshot = await getDocs(paymentsQuery);
+                
+                // Update payment count
                 if(totalPaymentsEl) totalPaymentsEl.textContent = querySnapshot.size;
                 
-                // Populate Activity Tab
+                // Populate activity list
                 if (activityList) {
                     if (querySnapshot.empty) {
-                        activityList.innerHTML = '<div class="text-center py-12 text-gray-400">No recent activity</div>';
+                        activityList.innerHTML = `
+                            <div class="text-center py-12 text-gray-400">
+                                <i class="fas fa-inbox text-4xl mb-4 opacity-30"></i>
+                                <p class="font-medium">No recent activity</p>
+                                <p class="text-sm mt-2">Make your first payment to see activity here</p>
+                            </div>
+                        `;
                     } else {
-                        activityList.innerHTML = '';
-                        querySnapshot.forEach(doc => {
+                        let successCount = 0;
+                        let pendingCount = 0;
+                        let failedCount = 0;
+                        
+                        let activityHTML = '';
+                        
+                        querySnapshot.forEach((doc, index) => {
                             const data = doc.data();
-                            const date = data.createdAt ? data.createdAt.toDate().toLocaleDateString() : 'Processing';
-                            const statusColor = data.status === 'Success' ? 'text-green-600' : 'text-yellow-600';
+                            const date = data.createdAt ? 
+                                data.createdAt.toDate().toLocaleDateString('en-IN', {
+                                    day: 'numeric',
+                                    month: 'short',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                }) : 'Processing';
                             
-                            activityList.innerHTML += `
-                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
-                                    <div>
-                                        <p class="font-bold">Payment of ₹${data.amount}</p>
-                                        <p class="text-xs text-gray-500">${date} • ${data.purpose}</p>
+                            const status = data.status || 'Pending';
+                            let statusColor = 'text-yellow-600';
+                            let statusBg = 'bg-yellow-100';
+                            let statusIcon = 'fa-clock';
+                            
+                            if (status === 'Success') {
+                                statusColor = 'text-green-600';
+                                statusBg = 'bg-green-100';
+                                statusIcon = 'fa-check-circle';
+                                successCount++;
+                            } else if (status === 'Failed') {
+                                statusColor = 'text-red-600';
+                                statusBg = 'bg-red-100';
+                                statusIcon = 'fa-times-circle';
+                                failedCount++;
+                            } else {
+                                pendingCount++;
+                            }
+                            
+                            activityHTML += `
+                                <div class="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-100 hover:shadow-sm transition-shadow ${index > 4 ? 'hidden more-activity' : ''}">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 ${statusBg} ${statusColor} rounded-full flex items-center justify-center">
+                                            <i class="fas ${statusIcon}"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-800">${data.purpose || 'Payment'}</p>
+                                            <p class="text-xs text-gray-500">${date} • ₹${data.amount || '0'}</p>
+                                        </div>
                                     </div>
-                                    <span class="text-sm font-bold ${statusColor}">${data.status}</span>
+                                    <span class="font-bold ${statusColor}">${status}</span>
                                 </div>
                             `;
                         });
+                        
+                        // Add "Show More" if more than 5 activities
+                        if (querySnapshot.size > 5) {
+                            activityHTML += `
+                                <button id="show-more-activities" 
+                                    class="w-full py-3 text-center text-primary font-medium hover:bg-blue-50 rounded-lg transition-colors">
+                                    Show ${querySnapshot.size - 5} more activities
+                                </button>
+                            `;
+                        }
+                        
+                        activityList.innerHTML = activityHTML;
+                        
+                        // Update activity stats
+                        if(activityTotal) activityTotal.textContent = querySnapshot.size;
+                        if(activitySuccess) activitySuccess.textContent = successCount;
+                        if(activityPending) activityPending.textContent = pendingCount;
+                        if(activityFailed) activityFailed.textContent = failedCount;
+                        
+                        // Add show more functionality
+                        const showMoreBtn = document.getElementById('show-more-activities');
+                        if (showMoreBtn) {
+                            showMoreBtn.addEventListener('click', () => {
+                                document.querySelectorAll('.more-activity').forEach(el => {
+                                    el.classList.remove('hidden');
+                                });
+                                showMoreBtn.remove();
+                            });
+                        }
                     }
                 }
 
             } catch (error) {
-                console.error("Profile Load Error:", error);
-                if(displayNameEl) displayNameEl.textContent = "Error Loading Data";
-                showToast("Failed to load profile data. Please refresh.", "error");
+                console.error("Activity Load Error:", error);
+                if (activityList) {
+                    activityList.innerHTML = `
+                        <div class="text-center py-12 text-gray-400">
+                            <i class="fas fa-exclamation-triangle text-3xl mb-4"></i>
+                            <p class="font-medium">Unable to load activity</p>
+                            <p class="text-sm mt-2">Please try again later</p>
+                        </div>
+                    `;
+                }
             }
         }
 
-        // Edit Mode Logic
-        function setupEditMode(btnId, cancelId, saveId, inputs) {
+        // Setup Edit Mode Function
+        function setupEditMode(btnId, cancelId, saveId, inputIds) {
             const editBtn = document.getElementById(btnId);
             const cancelBtn = document.getElementById(cancelId);
             const saveBtn = document.getElementById(saveId);
             const actionDiv = document.getElementById(btnId.replace('edit-', '').replace('-btn', '-actions'));
             
-            if(!editBtn) return;
+            if (!editBtn || !cancelBtn || !saveBtn || !actionDiv) return;
 
             editBtn.addEventListener('click', () => {
-                inputs.forEach(id => {
-                    const el = document.getElementById(id);
-                    if(el) {
-                        el.removeAttribute('readonly');
-                        el.classList.remove('bg-gray-50', 'cursor-not-allowed');
-                        el.classList.add('bg-white', 'border-primary', 'ring-1', 'ring-primary');
+                inputIds.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) {
+                        input.removeAttribute('readonly');
+                        input.classList.remove('bg-gray-50', 'cursor-not-allowed');
+                        input.classList.add('bg-white', 'border-primary', 'ring-2', 'ring-blue-100');
                     }
                 });
                 actionDiv.classList.remove('hidden');
                 editBtn.classList.add('hidden');
             });
 
-            const reset = () => {
-                inputs.forEach(id => {
-                    const el = document.getElementById(id);
-                    if(el) {
-                        el.setAttribute('readonly', 'true');
-                        el.classList.add('bg-gray-50', 'cursor-not-allowed');
-                        el.classList.remove('bg-white', 'border-primary', 'ring-1', 'ring-primary');
+            const resetEditMode = () => {
+                inputIds.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) {
+                        input.setAttribute('readonly', 'true');
+                        input.classList.add('bg-gray-50', 'cursor-not-allowed');
+                        input.classList.remove('bg-white', 'border-primary', 'ring-2', 'ring-blue-100');
                     }
                 });
                 actionDiv.classList.add('hidden');
@@ -443,95 +1055,287 @@
             };
 
             cancelBtn.addEventListener('click', () => {
-                reset();
-                if(currentUser) loadUserProfile(currentUser);
+                resetEditMode();
+                // Reload original data
+                if (currentUser) {
+                    if (inputIds.includes('input-name')) {
+                        inputName.value = currentUser.displayName || currentUser.email.split('@')[0];
+                    }
+                    if (inputIds.includes('input-phone') || inputIds.includes('input-address')) {
+                        inputPhone.value = userProfileData.phone || '';
+                        inputAddress.value = userProfileData.address || '';
+                    }
+                }
             });
 
             saveBtn.addEventListener('click', async () => {
                 try {
-                    saveBtn.textContent = "Saving...";
-                    const updates = {};
-                    if(inputs.includes('input-name')) updates.name = document.getElementById('input-name').value;
-                    if(inputs.includes('input-phone')) updates.phone = document.getElementById('input-phone').value;
-                    if(inputs.includes('input-address')) updates.address = document.getElementById('input-address').value;
+                    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                    saveBtn.disabled = true;
                     
-                    // Direct Firestore Update
+                    const updates = {};
+                    
+                    if (inputIds.includes('input-name')) {
+                        const newName = inputName.value.trim();
+                        if (!newName) {
+                            showToast("Name cannot be empty", "error");
+                            saveBtn.innerHTML = 'Save Changes';
+                            saveBtn.disabled = false;
+                            return;
+                        }
+                        updates.name = newName;
+                    }
+                    
+                    if (inputIds.includes('input-phone')) {
+                        updates.phone = inputPhone.value.trim();
+                    }
+                    
+                    if (inputIds.includes('input-address')) {
+                        updates.address = inputAddress.value.trim();
+                    }
+                    
+                    // Update Firestore
                     await updateDoc(doc(db, "users", currentUser.uid), updates);
-                    showToast("Profile Updated Successfully!");
-                    reset();
-                    // Update display name immediately
-                    if(updates.name) displayNameEl.textContent = updates.name;
-
-                } catch(e) {
-                    showToast("Update failed: " + e.message, "error");
+                    
+                    // Update Firebase Auth profile if name changed
+                    if (updates.name && currentUser) {
+                        await updateProfile(currentUser, {
+                            displayName: updates.name
+                        });
+                    }
+                    
+                    // Update local data
+                    Object.assign(userProfileData, updates);
+                    
+                    // Update display
+                    if (updates.name && displayNameEl) {
+                        displayNameEl.textContent = updates.name;
+                    }
+                    
+                    showToast("Profile updated successfully!");
+                    resetEditMode();
+                    
+                } catch (error) {
+                    console.error("Update Error:", error);
+                    showToast("Failed to update: " + error.message, "error");
                 } finally {
-                    saveBtn.textContent = "Save Changes";
+                    saveBtn.innerHTML = 'Save Changes';
+                    saveBtn.disabled = false;
                 }
             });
         }
 
-        setupEditMode('edit-personal-btn', 'cancel-personal-btn', 'save-personal-btn', ['input-name']);
-        setupEditMode('edit-contact-btn', 'cancel-contact-btn', 'save-contact-btn', ['input-phone', 'input-address']);
-
-        // Tab Logic
-        document.querySelectorAll('.tab-button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-                btn.classList.add('active');
-                document.getElementById(`${btn.dataset.tab}-tab`).classList.remove('hidden');
+        // Setup Tab Switching
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.dataset.tab;
+                    
+                    // Remove active class from all buttons
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.style.transition = 'all 0.3s ease';
+                    });
+                    
+                    // Hide all tab contents
+                    tabContents.forEach(content => {
+                        content.style.opacity = '0';
+                        content.style.transform = 'translateY(10px)';
+                        setTimeout(() => {
+                            content.classList.remove('active');
+                            content.classList.add('hidden');
+                        }, 150);
+                    });
+                    
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    // Show selected tab with animation
+                    const selectedTab = document.getElementById(`${tabId}-tab`);
+                    if (selectedTab) {
+                        setTimeout(() => {
+                            selectedTab.classList.remove('hidden');
+                            setTimeout(() => {
+                                selectedTab.style.opacity = '1';
+                                selectedTab.style.transform = 'translateY(0)';
+                                selectedTab.classList.add('active');
+                            }, 50);
+                        }, 150);
+                    }
+                });
             });
-        });
-
-        // Logout
-        document.getElementById('logout-btn-page').addEventListener('click', () => {
-            if(confirm("Logout?")) signOut(auth).then(() => window.location.href = '/login.html');
-        });
-
-        // Other Actions
-        document.getElementById('reset-password-btn').addEventListener('click', () => {
-            if(confirm(`Send reset email to ${currentUser.email}?`)) {
-                sendPasswordResetEmail(auth, currentUser.email)
-                    .then(() => showToast("Email sent! Check inbox."))
-                    .catch(e => showToast(e.message, "error"));
+            
+            // Initialize first tab
+            const firstTab = document.querySelector('.tab-content.active');
+            if (firstTab) {
+                firstTab.style.opacity = '1';
+                firstTab.style.transform = 'translateY(0)';
             }
-        });
-        
-        // Delete Account Logic
-        const deleteBtn = document.getElementById('delete-account-btn');
-        if(deleteBtn) {
-            deleteBtn.addEventListener('click', async () => {
-                const confirmation = prompt("To permanently delete your account, type 'DELETE' below:");
-                if (confirmation === 'DELETE') {
+        }
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Edit Modes
+            setupEditMode('edit-personal-btn', 'cancel-personal-btn', 'save-personal-btn', ['input-name']);
+            setupEditMode('edit-contact-btn', 'cancel-contact-btn', 'save-contact-btn', ['input-phone', 'input-address']);
+            
+            // Preferences Save
+            document.getElementById('save-preferences-btn')?.addEventListener('click', async () => {
+                try {
+                    const btn = document.getElementById('save-preferences-btn');
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                    btn.disabled = true;
+                    
+                    const prefs = {
+                        emailPayments: document.getElementById('email-payments')?.checked || false,
+                        emailUpdates: document.getElementById('email-updates')?.checked || false,
+                        emailPromotional: document.getElementById('email-promotional')?.checked || false,
+                        privacyProfile: document.getElementById('privacy-profile')?.checked || false,
+                        privacyActivity: document.getElementById('privacy-activity')?.checked || false
+                    };
+                    
+                    if (currentUser) {
+                        await updateDoc(doc(db, "users", currentUser.uid), {
+                            preferences: prefs
+                        });
+                        userProfileData.preferences = prefs;
+                        showToast("Preferences saved successfully!");
+                    }
+                    
+                } catch (error) {
+                    console.error("Preferences Save Error:", error);
+                    showToast("Failed to save preferences", "error");
+                } finally {
+                    const btn = document.getElementById('save-preferences-btn');
+                    if (btn) {
+                        btn.innerHTML = '<i class="fas fa-save"></i> Save Preferences';
+                        btn.disabled = false;
+                    }
+                }
+            });
+            
+            // Reset Password
+            document.getElementById('reset-password-btn')?.addEventListener('click', async () => {
+                if (currentUser && currentUser.email) {
+                    if (confirm(`Send password reset email to ${currentUser.email}?`)) {
+                        try {
+                            await sendPasswordResetEmail(auth, currentUser.email);
+                            showToast("Password reset email sent! Check your inbox.");
+                        } catch (error) {
+                            console.error("Password Reset Error:", error);
+                            let message = "Failed to send reset email.";
+                            if (error.code === 'auth/user-not-found') {
+                                message = "Email not found in our system.";
+                            } else if (error.code === 'auth/too-many-requests') {
+                                message = "Too many attempts. Try again later.";
+                            } else if (error.code === 'auth/network-request-failed') {
+                                message = "Network error. Check your connection.";
+                            }
+                            showToast(message, "error");
+                        }
+                    }
+                }
+            });
+            
+            // Enable 2FA
+            document.getElementById('enable-2fa-btn')?.addEventListener('click', () => {
+                showToast("Two-factor authentication feature coming soon!", "info");
+            });
+            
+            // Logout from all devices
+            document.getElementById('logout-all-btn')?.addEventListener('click', async () => {
+                if (confirm("Logout from all devices? You'll need to login again on all devices.")) {
+                    showToast("This feature will be available soon!", "info");
+                }
+            });
+            
+            // Change Avatar
+            document.getElementById('change-avatar-btn')?.addEventListener('click', () => {
+                showToast("Profile picture upload feature coming soon!", "info");
+            });
+            
+            // Delete Account
+            document.getElementById('delete-account-btn')?.addEventListener('click', async () => {
+                const confirmation = prompt(`⚠️ PERMANENT ACCOUNT DELETION ⚠️\n\nType "DELETE MY ACCOUNT" to confirm.\n\nThis will:\n• Delete all your data\n• Remove payment history\n• Cancel subscriptions\n\nType exactly: DELETE MY ACCOUNT`);
+                
+                if (confirmation === 'DELETE MY ACCOUNT') {
                     try {
+                        const deleteBtn = document.getElementById('delete-account-btn');
+                        deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+                        deleteBtn.disabled = true;
+                        
                         const uid = currentUser.uid;
-                        // 1. Delete Firestore Data
+                        
+                        // First, delete Firestore data
                         await deleteDoc(doc(db, "users", uid));
-                        // 2. Delete User Auth
+                        
+                        // Then delete user from auth
                         await deleteUser(currentUser);
                         
-                        alert("Your account has been deleted.");
-                        window.location.href = "/";
+                        showToast("Account deleted successfully!", "success");
+                        setTimeout(() => {
+                            window.location.href = "/";
+                        }, 2000);
+                        
                     } catch (error) {
-                        console.error("Delete Error:", error);
-                        alert("Error: " + error.message + ". You may need to re-login recently to perform this action.");
+                        console.error("Delete Account Error:", error);
+                        
+                        let message = "Failed to delete account.";
+                        if (error.code === 'auth/requires-recent-login') {
+                            message = "For security, please login again and try deleting.";
+                        } else if (error.code === 'auth/network-request-failed') {
+                            message = "Network error. Check your connection.";
+                        }
+                        
+                        showToast(message, "error");
+                        
+                        const deleteBtn = document.getElementById('delete-account-btn');
+                        if (deleteBtn) {
+                            deleteBtn.innerHTML = '<i class="fas fa-trash-alt mr-2"></i> Delete Account Permanently';
+                            deleteBtn.disabled = false;
+                        }
+                    }
+                } else if (confirmation !== null) {
+                    alert("Incorrect confirmation text. Account NOT deleted.");
+                }
+            });
+            
+            // Logout
+            document.getElementById('logout-btn-page')?.addEventListener('click', async () => {
+                if (confirm("Are you sure you want to logout?")) {
+                    try {
+                        await signOut(auth);
+                        showToast("Logged out successfully!", "success");
+                        setTimeout(() => {
+                            window.location.href = "/login.html";
+                        }, 1000);
+                    } catch (error) {
+                        console.error("Logout Error:", error);
+                        showToast("Logout failed: " + error.message, "error");
                     }
                 }
             });
         }
 
-        // Toast Helper
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `profile-toast ${type}`;
-            toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation-circle'}"></i> ${message}`;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.classList.add('show'), 100);
-            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
-        }
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup tabs
+            setupTabs();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Initial animation for elements
+            setTimeout(() => {
+                document.querySelectorAll('.animate-fade-in-up').forEach((el, index) => {
+                    el.style.animationDelay = `${index * 0.1}s`;
+                });
+            }, 100);
+        });
 
-        // UI Loader
-        setTimeout(() => document.getElementById('loading').style.display = 'none', 500);
     </script>
 </body>
 </html>

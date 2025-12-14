@@ -3,466 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Portfolio - TechnoviaX Tech</title>
-    <meta name="description" content="Explore our portfolio of successful projects including web development, app development, and digital solutions.">
+    <title>Our Portfolio - TechnoviaX Tech | Success Stories</title>
+    <meta name="description" content="Explore our portfolio of successful projects including web development, app development, and digital solutions driving business growth.">
+    <meta name="author" content="TechnoviaX Tech">
     
-    <!-- Dynamic Favicon -->
+    <!-- Dynamic Favicon Loader -->
     <script src="js/favicon-loader.js"></script>
     
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS & Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2563eb',
-                        'primary-dark': '#1d4ed8',
+                        primary: '#1e40af',
+                        'primary-dark': '#1e3a8a',
+                        'primary-light': '#3b82f6',
                         secondary: '#0f172a',
-                        accent: '#22d3ee',
-                        'accent-dark': '#06b6d4',
+                        accent: '#059669',
+                        'accent-dark': '#047857',
+                        'accent-light': '#10b981',
                         light: '#f8fafc',
-                        gray: '#64748b',
+                        dark: '#1e293b',
+                        'dark-light': '#334155',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#dc2626',
+                        info: '#3b82f6',
                         whatsapp: '#25D366',
                         'whatsapp-dark': '#128C7E',
-                        success: '#10b981',
-                        error: '#ef4444',
+                        'pastel-blue': '#eff6ff',
+                        'pastel-green': '#f0fdf4',
+                        'pastel-purple': '#f5f3ff',
+                        'pastel-pink': '#fdf2f8'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
                     }
                 }
             }
         }
     </script>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Custom Styles -->
     <style>
-        /* WhatsApp Float */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-        }
-
-        /* Sticky CTA button */
-        .sticky-cta {
-            position: fixed;
-            bottom: 40px;
-            left: 40px;
-            background: #2563eb;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            z-index: 99;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
+        /* Shared Styles */
+        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
+        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
         
-        .sticky-cta:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-        }
-
-        /* Navigation Links Styling */
-        .nav-links li a {
-            position: relative;
-            padding: 8px 0;
-            white-space: nowrap;
-        }
+        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
+        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
         
-        .nav-links li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #2563eb;
-            transition: width 0.3s ease;
-        }
+        .section-title{position:relative;display:inline-block;padding-bottom:15px}
+        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#1e40af,#059669);border-radius:2px}
         
-        .nav-links li a:hover::after,
-        .nav-links li a.active::after {
-            width: 100%;
-        }
+        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
+        .cta-gradient{background:linear-gradient(135deg,#1e40af 0%,#059669 100%);color:white}
+        
+        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
+        
+        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
+        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .loading-logo span{color:#059669}
+        
+        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
+        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
+        
+        .btn-whatsapp{background:linear-gradient(135deg,#25D366 0%,#128C7E 100%);color:white;transition:all 0.3s ease}
+        .btn-whatsapp:hover{background:linear-gradient(135deg,#22c55e 0%,#0f766e 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(37,211,102,0.3)}
 
-        /* Mobile Navigation Scroll Fix & Sizing */
-        @media (max-width: 768px) {
-            .nav-links {
-                overflow-x: auto;
-                padding-bottom: 8px;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            /* REDUCED SIZE FOR MOBILE */
-            .nav-links li a {
-                font-size: 14px;
-                padding: 6px 0;
-            }
-
-            .nav-links::-webkit-scrollbar { height: 4px; }
-            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-
-            .sticky-cta {
-                bottom: 20px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-        }
-        .btn-primary {
-            background-color: #2563eb;
-            color: white;
-        }
-        .btn-primary:hover {
-            background-color: #1d4ed8;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .animate-on-scroll.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Initial Hero Animation */
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        html{scroll-behavior:smooth;scroll-padding-top:100px}
+        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
     </style>
 </head>
-<body class="font-sans text-secondary bg-slate-50">
+<body class="font-sans text-secondary bg-light">
 
     <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
+        <div class="loading-logo">Technovia<span>X</span></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <p class="text-white mt-4 font-medium">Loading Portfolio...</p>
     </div>
 
-    <!-- WhatsApp Float Button -->
+    <!-- Floating Buttons -->
     <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
     
-    <!-- Sticky Contact CTA Button -->
     <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
         <i class="fas fa-envelope"></i> Contact Us
     </a>
 
-    <!-- Dynamic Navigation Injection -->
-    <script src="js/navigation.js"></script>
+    <!-- Navigation Injection -->
+    <script src="js/navigation.js" defer></script>
 
-    <!-- Main Content -->
-    <main class="pt-32 pb-20">
-        <div class="container mx-auto px-4">
-            <!-- Hero Section -->
-            <div class="text-center mb-16 animate-fade-in-up">
-                <h1 class="text-4xl md:text-5xl font-bold mb-6">Our Portfolio</h1>
-                <p class="text-gray-600 text-lg max-w-3xl mx-auto">Explore our successful projects and see how we've helped businesses achieve their digital transformation goals.</p>
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-gradient pt-12 pb-16">
+            <div class="container mx-auto px-4 text-center animate-on-scroll">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary">
+                    Our <span class="text-primary">Portfolio</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-dark-light max-w-3xl mx-auto mb-8">
+                    Explore our successful projects and see how we've helped businesses achieve their digital transformation goals.
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
+        </section>
 
+        <div class="container mx-auto px-4 pb-12">
             <!-- Portfolio Filter -->
-            <div class="mb-12 animate-on-scroll">
-                <div class="flex flex-wrap justify-center gap-4">
-                    <button class="filter-btn px-4 py-2 rounded-full bg-primary text-white font-medium transition-all" data-filter="all">All Projects</button>
-                    <button class="filter-btn px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 transition-all" data-filter="web">Web Development</button>
-                    <button class="filter-btn px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 transition-all" data-filter="app">App Development</button>
-                    <button class="filter-btn px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 transition-all" data-filter="ecommerce">E-commerce</button>
-                    <button class="filter-btn px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 transition-all" data-filter="branding">Branding</button>
+            <div class="mb-12 animate-on-scroll flex justify-center">
+                <div class="inline-flex flex-wrap justify-center gap-2 p-1.5 bg-white rounded-full shadow-sm border border-gray-100">
+                    <button class="filter-btn px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 bg-primary text-white shadow-md" data-filter="all">All</button>
+                    <button class="filter-btn px-6 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-primary hover:bg-gray-50 transition-all duration-300" data-filter="web">Web Dev</button>
+                    <button class="filter-btn px-6 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-primary hover:bg-gray-50 transition-all duration-300" data-filter="app">App Dev</button>
+                    <button class="filter-btn px-6 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-primary hover:bg-gray-50 transition-all duration-300" data-filter="ecommerce">E-commerce</button>
+                    <button class="filter-btn px-6 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-primary hover:bg-gray-50 transition-all duration-300" data-filter="branding">Branding</button>
                 </div>
             </div>
 
             <!-- Portfolio Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
                 <!-- Project 1 -->
                 <div class="portfolio-item group animate-on-scroll" data-category="web ecommerce">
-                    <div class="relative overflow-hidden rounded-xl mb-4 shadow-md">
-                        <img src="https://images.unsplash.com/photo-1585435557343-3b092031d5ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="MedShri Sai Medical Store" 
-                             class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="text-center p-4">
-                                <a href="https://medshrisai.shop" target="_blank" class="btn bg-white text-primary mb-3 shadow-lg">View Live Site</a>
-                                <br>
-                                <a href="/contact.html" class="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">Inquire</a>
+                    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
+                        <div class="relative overflow-hidden h-56">
+                            <img src="https://images.unsplash.com/photo-1585435557343-3b092031d5ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="MedShri Sai Medical Store" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-secondary/80 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 backdrop-blur-sm">
+                                <a href="https://medshrisai.shop" target="_blank" class="bg-white text-primary font-bold py-2 px-6 rounded-full mb-3 hover:bg-gray-100 transition-colors shadow-lg transform hover:-translate-y-1">
+                                    <i class="fas fa-external-link-alt mr-2"></i> View Live Site
+                                </a>
+                                <a href="/contact.html" class="text-white border border-white/50 py-2 px-6 rounded-full hover:bg-white/20 transition-colors">
+                                    Inquire Now
+                                </a>
                             </div>
                         </div>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">MedShri Sai Medical Store</h3>
-                    <p class="text-gray-600 mb-3">A complete e-commerce website for a medical store with product catalog and online ordering.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">HTML5</span>
-                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">CSS3</span>
-                        <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">JavaScript</span>
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-secondary group-hover:text-primary transition-colors">MedShri Sai Medical Store</h3>
+                            <p class="text-dark-light text-sm mb-4 leading-relaxed">A complete e-commerce website for a medical store with product catalog and online ordering capabilities.</p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span class="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full border border-blue-100">HTML5</span>
+                                <span class="px-3 py-1 bg-green-50 text-green-600 text-xs font-semibold rounded-full border border-green-100">CSS3</span>
+                                <span class="px-3 py-1 bg-yellow-50 text-yellow-600 text-xs font-semibold rounded-full border border-yellow-100">JS</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Project 2 -->
                 <div class="portfolio-item group animate-on-scroll" data-category="web">
-                    <div class="relative overflow-hidden rounded-xl mb-4 shadow-md">
-                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="FociFinance" 
-                             class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="text-center p-4">
-                                <a href="https://focifinance.site" target="_blank" class="btn bg-white text-primary mb-3 shadow-lg">View Live Site</a>
-                                <br>
-                                <a href="/contact.html" class="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">Inquire</a>
+                    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
+                        <div class="relative overflow-hidden h-56">
+                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="FociFinance" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-secondary/80 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 backdrop-blur-sm">
+                                <a href="https://focifinance.site" target="_blank" class="bg-white text-primary font-bold py-2 px-6 rounded-full mb-3 hover:bg-gray-100 transition-colors shadow-lg transform hover:-translate-y-1">
+                                    <i class="fas fa-external-link-alt mr-2"></i> View Live Site
+                                </a>
+                                <a href="/contact.html" class="text-white border border-white/50 py-2 px-6 rounded-full hover:bg-white/20 transition-colors">
+                                    Inquire Now
+                                </a>
                             </div>
                         </div>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">FociFinance</h3>
-                    <p class="text-gray-600 mb-3">A financial information website with resources, calculators, and educational content.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">HTML5</span>
-                        <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full">Bootstrap</span>
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-secondary group-hover:text-primary transition-colors">FociFinance</h3>
+                            <p class="text-dark-light text-sm mb-4 leading-relaxed">A comprehensive financial resource hub offering calculators, market insights, and educational content.</p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span class="px-3 py-1 bg-purple-50 text-purple-600 text-xs font-semibold rounded-full border border-purple-100">Bootstrap</span>
+                                <span class="px-3 py-1 bg-gray-50 text-gray-600 text-xs font-semibold rounded-full border border-gray-100">Web Design</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Project 3 -->
                 <div class="portfolio-item group animate-on-scroll" data-category="app">
-                    <div class="relative overflow-hidden rounded-xl mb-4 shadow-md">
-                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="Fitness Tracker App" 
-                             class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="text-center p-4">
-                                <span class="inline-block px-4 py-2 bg-white/20 text-white rounded-lg backdrop-blur-sm mb-3">Internal Project</span>
-                                <br>
-                                <a href="/contact.html" class="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">Inquire</a>
+                    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
+                        <div class="relative overflow-hidden h-56">
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Fitness Tracker App" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-secondary/80 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 backdrop-blur-sm">
+                                <span class="bg-white/20 text-white font-medium py-1 px-4 rounded-full mb-4 backdrop-blur-md">Internal Project</span>
+                                <a href="/contact.html" class="text-white border border-white/50 py-2 px-6 rounded-full hover:bg-white/20 transition-colors">
+                                    Inquire Now
+                                </a>
                             </div>
                         </div>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Fitness Tracker App</h3>
-                    <p class="text-gray-600 mb-3">Cross-platform fitness app with workout tracking, nutrition planning, and progress analytics.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">React Native</span>
-                        <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full">Firebase</span>
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-secondary group-hover:text-primary transition-colors">Fitness Tracker App</h3>
+                            <p class="text-dark-light text-sm mb-4 leading-relaxed">Cross-platform mobile application featuring workout tracking, nutrition planning, and real-time analytics.</p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span class="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full border border-blue-100">React Native</span>
+                                <span class="px-3 py-1 bg-red-50 text-red-600 text-xs font-semibold rounded-full border border-red-100">Firebase</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Project 4 -->
                 <div class="portfolio-item group animate-on-scroll" data-category="web ecommerce">
-                    <div class="relative overflow-hidden rounded-xl mb-4 shadow-md">
-                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="E-commerce Platform" 
-                             class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="text-center p-4">
-                                <span class="inline-block px-4 py-2 bg-white/20 text-white rounded-lg backdrop-blur-sm mb-3">Private Client</span>
-                                <br>
-                                <a href="/contact.html" class="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">Inquire</a>
+                    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
+                        <div class="relative overflow-hidden h-56">
+                            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="E-commerce Platform" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-secondary/80 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 backdrop-blur-sm">
+                                <span class="bg-white/20 text-white font-medium py-1 px-4 rounded-full mb-4 backdrop-blur-md">Private Client</span>
+                                <a href="/contact.html" class="text-white border border-white/50 py-2 px-6 rounded-full hover:bg-white/20 transition-colors">
+                                    Inquire Now
+                                </a>
                             </div>
                         </div>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">E-commerce Platform</h3>
-                    <p class="text-gray-600 mb-3">Full-featured online store with payment integration, inventory management, and admin dashboard.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">React</span>
-                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Node.js</span>
-                        <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">Stripe</span>
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-secondary group-hover:text-primary transition-colors">E-commerce Platform</h3>
+                            <p class="text-dark-light text-sm mb-4 leading-relaxed">Full-featured online store with secure payment integration, inventory management, and admin dashboard.</p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span class="px-3 py-1 bg-cyan-50 text-cyan-600 text-xs font-semibold rounded-full border border-cyan-100">React</span>
+                                <span class="px-3 py-1 bg-green-50 text-green-600 text-xs font-semibold rounded-full border border-green-100">Node.js</span>
+                                <span class="px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-semibold rounded-full border border-indigo-100">Stripe</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Project 5 -->
                 <div class="portfolio-item group animate-on-scroll" data-category="web branding">
-                    <div class="relative overflow-hidden rounded-xl mb-4 shadow-md">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="Business Dashboard" 
-                             class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="text-center p-4">
-                                <span class="inline-block px-4 py-2 bg-white/20 text-white rounded-lg backdrop-blur-sm mb-3">SaaS Product</span>
-                                <br>
-                                <a href="/contact.html" class="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">Inquire</a>
+                    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
+                        <div class="relative overflow-hidden h-56">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Business Dashboard" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-secondary/80 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 backdrop-blur-sm">
+                                <span class="bg-white/20 text-white font-medium py-1 px-4 rounded-full mb-4 backdrop-blur-md">SaaS Product</span>
+                                <a href="/contact.html" class="text-white border border-white/50 py-2 px-6 rounded-full hover:bg-white/20 transition-colors">
+                                    Inquire Now
+                                </a>
                             </div>
                         </div>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Business Analytics Dashboard</h3>
-                    <p class="text-gray-600 mb-3">Real-time data visualization dashboard for business intelligence and decision making.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Vue.js</span>
-                        <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full">REST API</span>
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-secondary group-hover:text-primary transition-colors">Analytics Dashboard</h3>
+                            <p class="text-dark-light text-sm mb-4 leading-relaxed">Real-time data visualization dashboard designed for business intelligence and strategic decision making.</p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span class="px-3 py-1 bg-green-50 text-green-600 text-xs font-semibold rounded-full border border-green-100">Vue.js</span>
+                                <span class="px-3 py-1 bg-orange-50 text-orange-600 text-xs font-semibold rounded-full border border-orange-100">API</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Project 6 -->
                 <div class="portfolio-item group animate-on-scroll" data-category="web">
-                    <div class="relative overflow-hidden rounded-xl mb-4 shadow-md">
-                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="Shri Sai Kripa Medical" 
-                             class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="text-center p-4">
-                                <a href="https://shrisaimedical.netlify.app" target="_blank" class="btn bg-white text-primary mb-3 shadow-lg">View Live Site</a>
-                                <br>
-                                <a href="/contact.html" class="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">Inquire</a>
+                    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
+                        <div class="relative overflow-hidden h-56">
+                            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Shri Sai Kripa Medical" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-secondary/80 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 backdrop-blur-sm">
+                                <a href="https://shrisaimedical.netlify.app" target="_blank" class="bg-white text-primary font-bold py-2 px-6 rounded-full mb-3 hover:bg-gray-100 transition-colors shadow-lg transform hover:-translate-y-1">
+                                    <i class="fas fa-external-link-alt mr-2"></i> View Live Site
+                                </a>
+                                <a href="/contact.html" class="text-white border border-white/50 py-2 px-6 rounded-full hover:bg-white/20 transition-colors">
+                                    Inquire Now
+                                </a>
                             </div>
                         </div>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Shri Sai Kripa Medical</h3>
-                    <p class="text-gray-600 mb-3">Alternative domain for medical store with enhanced features and improved performance.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">HTML5</span>
-                        <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full">Netlify</span>
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-secondary group-hover:text-primary transition-colors">Shri Sai Kripa Medical</h3>
+                            <p class="text-dark-light text-sm mb-4 leading-relaxed">Alternative domain for a medical store featuring enhanced accessibility and improved performance.</p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span class="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full border border-blue-100">HTML5</span>
+                                <span class="px-3 py-1 bg-gray-50 text-gray-600 text-xs font-semibold rounded-full border border-gray-100">Netlify</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- CTA Section -->
-            <div class="mt-16 text-center animate-on-scroll">
-                <h2 class="text-3xl font-bold mb-4">Have a Project in Mind?</h2>
-                <p class="text-gray-600 mb-8 max-w-2xl mx-auto">Let's discuss how we can bring your ideas to life with our expertise and innovative solutions.</p>
-                <a href="/contact.html" class="btn btn-primary px-8 py-3 text-lg shadow-lg hover:-translate-y-1 transition-transform">Start Your Project</a>
-            </div>
+            <section class="cta-gradient py-20 rounded-3xl animate-on-scroll">
+                <div class="container mx-auto px-4 text-center">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-white">Have a Project in Mind?</h2>
+                    <p class="text-white/90 text-lg mb-10 max-w-2xl mx-auto">
+                        Let's discuss how we can bring your ideas to life with our technical expertise and innovative solutions.
+                    </p>
+                    <a href="/contact.html" class="bg-white text-primary px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 inline-flex items-center gap-2">
+                        Start Your Project <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-secondary text-white py-12 sm:py-16">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
-                <div>
-                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Technovia<span class="text-accent">X</span></div>
-                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">Innovative IT solutions and services to help businesses transform and thrive in the digital era.</p>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Quick Links</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Home</a></li>
-                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Services</a></li>
-                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
-                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
-                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                        <!-- Footer Login Link Added (Controlled by JS) -->
-                        <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Services</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Web Development</a></li>
-                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">App Development</a></li>
-                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Cloud Solutions</a></li>
-                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Digital Marketing</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
-                <p class="text-gray-400 text-sm sm:text-base">&copy; 2023 TechnoviaX Tech. All Rights Reserved.</p>
-                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
-                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
-                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
-                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Terms & Conditions</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer Injection -->
+    <div id="footer-container"></div>
+    <script src="js/footer.js" defer></script>
 
-    <!-- Integrated Main.js Logic -->
+    <!-- Firebase Auth Script -->
+    <script type="module" src="js/loginfirebase.js" defer></script>
+
+    <!-- Main Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Update Copyright Year
-            const yearEl = document.getElementById('year');
-            if(yearEl) yearEl.textContent = new Date().getFullYear();
-
-            // 2. Loading Screen Logic
+            // Loading screen logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
-                // Short delay for smooth fade out
                 setTimeout(() => {
                     loadingScreen.style.opacity = '0';
                     setTimeout(() => {
                         loadingScreen.style.display = 'none';
                         document.body.style.overflow = 'auto';
                     }, 500);
-                }, 300); 
-            } else {
-                document.body.style.overflow = 'auto';
+                }, 500);
             }
-            
-            // 3. Smooth Scrolling
+
+            // Smooth Scrolling
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
@@ -471,72 +353,36 @@
                         e.preventDefault();
                         const targetElement = document.querySelector(href);
                         if (targetElement) {
-                            const headerHeight = document.querySelector('header').offsetHeight || 80;
+                            const header = document.querySelector('header');
+                            const headerHeight = header ? header.offsetHeight : 80;
                             const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                            window.scrollTo({ top: targetPosition - headerHeight - 10, behavior: 'smooth' });
+                            window.scrollTo({
+                                top: targetPosition - headerHeight - 20, 
+                                behavior: 'smooth'
+                            });
+                            history.pushState(null, null, href);
                         }
                     }
                 });
             });
-
-            // 4. Portfolio Filter Logic
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const portfolioItems = document.querySelectorAll('.portfolio-item');
             
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all
-                    filterButtons.forEach(btn => {
-                        btn.classList.remove('bg-primary', 'text-white');
-                        btn.classList.add('bg-gray-100', 'text-gray-700');
-                    });
-                    
-                    // Add active class to clicked
-                    this.classList.remove('bg-gray-100', 'text-gray-700');
-                    this.classList.add('bg-primary', 'text-white');
-                    
-                    const filterValue = this.getAttribute('data-filter');
-                    
-                    portfolioItems.forEach(item => {
-                        // Reset animation
-                        item.classList.remove('animated');
-                        item.style.opacity = '0';
-                        item.style.transform = 'translateY(20px)';
-                        
-                        if (filterValue === 'all' || item.getAttribute('data-category').includes(filterValue)) {
-                            item.style.display = 'block';
-                            // Trigger reflow
-                            void item.offsetWidth;
-                            // Add fade in
-                            setTimeout(() => {
-                                item.style.opacity = '1';
-                                item.style.transform = 'translateY(0)';
-                                item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                            }, 50);
-                        } else {
-                            setTimeout(() => {
-                                item.style.display = 'none';
-                            }, 50); // Wait briefly
-                        }
-                    });
-                });
-            });
-
-            // 5. Scroll Animation
+            // Scroll Animation
             function animateOnScroll() {
-                const animatedElements = document.querySelectorAll('.animate-on-scroll');
-                animatedElements.forEach(element => {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+                elements.forEach(element => {
                     if (element.classList.contains('animated')) return;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const screenPosition = window.innerHeight - (window.innerHeight / 4);
-                    
-                    if (elementPosition < screenPosition) {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    if (elementTop < windowHeight * 0.85) {
                         element.classList.add('animated');
                     }
                 });
             }
-            animateOnScroll(); // Run on load
             
+            // Initial check
+            animateOnScroll();
+            
+            // Debounced scroll listener
             let isScrolling = false;
             window.addEventListener('scroll', () => {
                 if (!isScrolling) {
@@ -548,14 +394,49 @@
                 }
             });
 
-            // 6. Active Navigation State logic removed as it's now in navigation.js
-            // but kept just in case navigation.js fails to load
-            // ...
+            // Portfolio Filter Logic
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('bg-primary', 'text-white', 'shadow-md');
+                        btn.classList.add('text-gray-600', 'hover:text-primary', 'hover:bg-gray-50');
+                    });
+                    
+                    // Add active class to clicked
+                    this.classList.remove('text-gray-600', 'hover:text-primary', 'hover:bg-gray-50');
+                    this.classList.add('bg-primary', 'text-white', 'shadow-md');
+                    
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    portfolioItems.forEach(item => {
+                        // Reset animation state
+                        item.classList.remove('animated'); 
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.95)';
+                        
+                        if (filterValue === 'all' || item.getAttribute('data-category').includes(filterValue)) {
+                            item.style.display = 'block';
+                            // Trigger reflow
+                            void item.offsetWidth;
+                            // Add fade in
+                            setTimeout(() => {
+                                item.style.opacity = '1';
+                                item.style.transform = 'scale(1)';
+                                item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                            }, 50);
+                        } else {
+                            setTimeout(() => {
+                                item.style.display = 'none';
+                            }, 50); // Wait briefly
+                        }
+                    });
+                });
+            });
         });
     </script>
-
-    <!-- Global Navbar Auth Logic -->
-    <script src="js/loginfirebase.js" type="module"></script>
-
 </body>
 </html>

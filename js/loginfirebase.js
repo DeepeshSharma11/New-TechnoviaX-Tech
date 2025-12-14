@@ -1,6 +1,8 @@
 // Import functions from Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+// Add Firestore import
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -17,6 +19,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+// Initialize Firestore Database
+const db = getFirestore(app);
 
 // Wait for navigation to be ready
 let navigationInjected = false;
@@ -485,5 +489,5 @@ setTimeout(() => {
     }
 }, 2000);
 
-// Export for use in other files
-export { auth, provider, signInWithPopup, signInWithEmailAndPassword, signOut };
+// Export for use in other files - ADDED 'db' HERE
+export { auth, provider, signInWithPopup, signInWithEmailAndPassword, signOut, db };

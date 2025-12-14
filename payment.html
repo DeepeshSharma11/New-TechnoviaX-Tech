@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Payment - TechnoviaX Tech</title>
-    <meta name="description" content="Securely make payments for TechnoviaX services. Track your payment history and manage transactions.">
+    <!-- Updated Meta Description -->
+    <meta name="description" content="Securely pay for TechnoviaX Tech services. Track your payment history, verify transactions instantly via UPI, bank transfer, or card. Fast, reliable, and encrypted payment gateway.">
     
     <!-- Dynamic Favicon Loader -->
     <script src="js/favicon-loader.js"></script>
@@ -110,6 +111,33 @@
         .status-pending { background-color: #fef3c7; color: #d97706; }
         .status-success { background-color: #d1fae5; color: #059669; }
         .status-failed { background-color: #fee2e2; color: #dc2626; }
+
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            transform: translateY(-2px);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #1e40af;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
         html{scroll-behavior:smooth;scroll-padding-top:100px}
         @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
@@ -312,7 +340,7 @@
 
                             <!-- List Container -->
                             <div id="history-list" class="space-y-4">
-                                <!-- History items will be injected here via JS -->
+                                <!-- History items will be injected here via payment-logic.js -->
                             </div>
                         </div>
                         
@@ -325,9 +353,9 @@
             </div>
         </div>
 
-        <!-- Admin View Button (Visible for Demo) -->
+        <!-- Admin View Button (Initially hidden - will be shown by admin.js for authorized users) -->
         <div class="fixed bottom-4 right-4 z-50">
-            <button id="admin-toggle-btn" class="bg-gray-800 text-white text-xs px-3 py-1 rounded shadow-lg opacity-50 hover:opacity-100 transition-opacity">
+            <button id="admin-toggle-btn" class="bg-gray-800 text-white text-xs px-3 py-1 rounded shadow-lg opacity-50 hover:opacity-100 transition-opacity" style="display: none;">
                 Admin View (Demo)
             </button>
         </div>
@@ -349,7 +377,7 @@
                     </div>
                     
                     <div id="admin-list" class="space-y-3">
-                        <!-- Admin items injected here -->
+                        <!-- Admin items injected here by admin.js -->
                         <div class="text-center py-10">Loading admin data...</div>
                     </div>
                 </div>
@@ -362,242 +390,28 @@
     <div id="footer-container"></div>
     <script src="js/footer.js" defer></script>
 
-    <!-- Firebase Auth Script -->
+    <!-- Import Central Firebase Config (Updated version with Firestore) -->
     <script type="module" src="js/loginfirebase.js" defer></script>
+    
+    <!-- Import Payment Logic (New modular file) -->
+    <script type="module" src="js/payment-logic.js" defer></script>
+    
+    <!-- Import Admin Logic (Updated secure version) -->
+    <script type="module" src="js/admin.js" defer></script>
 
-    <!-- Firebase Auth & Firestore Logic -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
-        // Reuse config
-        const firebaseConfig = {
-            apiKey: "AIzaSyBk33C9Xlw54hwJkgfC0mJWeFXBtZi7FPM",
-            authDomain: "technoviax-tech.firebaseapp.com",
-            projectId: "technoviax-tech",
-            storageBucket: "technoviax-tech.firebasestorage.app",
-            messagingSenderId: "238376394946",
-            appId: "1:238376394946:web:4fbb7be471316c0cea5b5b",
-            measurementId: "G-BYG4TMPMMV"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // DOM Elements
-        const lockScreen = document.getElementById('login-lock-screen');
-        const paymentContent = document.getElementById('payment-content');
-        const userNameInput = document.getElementById('user-name');
-        const userEmailInput = document.getElementById('user-email');
-        const paymentForm = document.getElementById('payment-form');
-        const historyList = document.getElementById('history-list');
-        const historyLoading = document.getElementById('history-loading');
-        const historyEmpty = document.getElementById('history-empty');
-        const amountInput = document.getElementById('amount');
-        const upiQr = document.getElementById('upi-qr');
-        
-        // Admin Elements
-        const adminToggle = document.getElementById('admin-toggle-btn');
-        const adminPanel = document.getElementById('admin-panel');
-        const closeAdmin = document.getElementById('close-admin');
-        const adminList = document.getElementById('admin-list');
-
-        // UPI ID
-        const UPI_ID = "technoviaxtech@ybl";
-
-        // Update QR
-        amountInput.addEventListener('input', (e) => {
-            const amt = e.target.value;
-            const url = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${UPI_ID}&pn=TechnoviaX%20Tech&cu=INR${amt ? '&am='+amt : ''}`;
-            upiQr.src = url;
-        });
-
-        // Auth Monitor
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                lockScreen.classList.add('hidden');
-                paymentContent.classList.remove('opacity-30', 'pointer-events-none');
-                userNameInput.value = user.displayName || 'Valued Client';
-                userEmailInput.value = user.email;
-                loadPaymentHistory(user.uid);
-            } else {
-                lockScreen.classList.remove('hidden');
-                paymentContent.classList.add('opacity-30', 'pointer-events-none');
-                historyList.innerHTML = '';
-            }
-        });
-
-        // Load User History
-        function loadPaymentHistory(userId) {
-            const q = query(collection(db, "payments"), where("userId", "==", userId), orderBy("createdAt", "desc"));
-            onSnapshot(q, (snapshot) => {
-                historyLoading.classList.add('hidden');
-                if (snapshot.empty) {
-                    historyEmpty.classList.remove('hidden');
-                    historyList.innerHTML = '';
-                    return;
-                }
-                historyEmpty.classList.add('hidden');
-                historyList.innerHTML = '';
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const date = data.createdAt ? data.createdAt.toDate().toLocaleDateString() : 'Just now';
-                    const statusClass = data.status === 'Success' ? 'status-success' : (data.status === 'Failed' ? 'status-failed' : 'status-pending');
-                    const icon = data.status === 'Success' ? 'fa-check-circle' : (data.status === 'Failed' ? 'fa-times-circle' : 'fa-clock');
-                    
-                    historyList.innerHTML += `
-                        <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex justify-between items-center">
-                            <div>
-                                <div class="flex items-center gap-2 mb-1">
-                                    <span class="font-bold text-secondary">₹${data.amount}</span>
-                                    <span class="status-badge ${statusClass}">${data.status}</span>
-                                </div>
-                                <p class="text-xs text-gray-500">${date} | ${data.purpose}</p>
-                                <p class="text-xs text-gray-400 font-mono">Ref: ${data.transactionId}</p>
-                            </div>
-                            <div class="text-right">
-                                <div class="w-8 h-8 rounded-full ${data.status === 'Success' ? 'bg-green-100 text-success' : 'bg-yellow-100 text-yellow-600'} flex items-center justify-center">
-                                    <i class="fas ${icon}"></i>
-                                </div>
-                            </div>
-                        </div>`;
-                });
-            });
-        }
-
-        // Submit Payment
-        paymentForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('submit-payment');
-            const originalBtnText = submitBtn.innerHTML;
-            if(!auth.currentUser) return;
-            
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-
-            try {
-                await addDoc(collection(db, "payments"), {
-                    userId: auth.currentUser.uid,
-                    userEmail: auth.currentUser.email,
-                    userName: auth.currentUser.displayName,
-                    amount: document.getElementById('amount').value,
-                    purpose: document.getElementById('purpose').value,
-                    transactionId: document.getElementById('transaction-id').value,
-                    method: document.querySelector('input[name="method"]:checked').value,
-                    status: "Pending Verification", // Stays pending until Admin approves
-                    createdAt: serverTimestamp()
-                });
-                alert("Payment submitted! Please wait for Admin approval.");
-                paymentForm.reset();
-                upiQr.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${UPI_ID}&pn=TechnoviaX%20Tech&cu=INR`;
-            } catch (error) {
-                alert("Error: " + error.message);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-            }
-        });
-
-        // Toggle Payment Methods
-        const methodRadios = document.querySelectorAll('input[name="method"]');
-        const upiSection = document.getElementById('upi-section');
-        const bankSection = document.getElementById('bank-section');
-        const cardSection = document.getElementById('card-section');
-        methodRadios.forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                upiSection.classList.add('hidden');
-                bankSection.classList.add('hidden');
-                cardSection.classList.add('hidden');
-                if(e.target.value === 'upi') upiSection.classList.remove('hidden');
-                if(e.target.value === 'bank') bankSection.classList.remove('hidden');
-                if(e.target.value === 'card') cardSection.classList.remove('hidden');
-            });
-        });
-
-        // --- ADMIN PANEL LOGIC ---
-        adminToggle.addEventListener('click', () => {
-            adminPanel.classList.remove('hidden');
-            loadAdminData();
-        });
-        
-        closeAdmin.addEventListener('click', () => {
-            adminPanel.classList.add('hidden');
-        });
-
-        function loadAdminData() {
-            const q = query(collection(db, "payments"), orderBy("createdAt", "desc"));
-            onSnapshot(q, (snapshot) => {
-                if (snapshot.empty) {
-                    adminList.innerHTML = '<p class="text-center">No transactions found.</p>';
-                    return;
-                }
-                adminList.innerHTML = '';
-                snapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    const id = docSnap.id;
-                    const date = data.createdAt ? data.createdAt.toDate().toLocaleString() : '';
-                    
-                    // Action Buttons (Only show for Pending)
-                    let actions = '';
-                    if(data.status === 'Pending Verification') {
-                        actions = `
-                            <div class="flex gap-2 mt-2 justify-end">
-                                <button onclick="window.rejectPayment('${id}')" class="bg-red-100 text-red-600 px-3 py-1 rounded text-xs font-bold hover:bg-red-200">Reject</button>
-                                <button onclick="window.approvePayment('${id}')" class="bg-green-100 text-green-600 px-3 py-1 rounded text-xs font-bold hover:bg-green-200">Approve</button>
-                            </div>
-                        `;
-                    } else {
-                        actions = `<div class="mt-2 text-right text-xs font-bold text-gray-400">Action: ${data.status}</div>`;
-                    }
-
-                    adminList.innerHTML += `
-                        <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
-                            <div class="flex justify-between">
-                                <div>
-                                    <p class="font-bold text-lg">₹${data.amount} <span class="text-xs font-normal text-gray-500">by ${data.userName}</span></p>
-                                    <p class="text-sm text-gray-600">${data.purpose} (${data.method})</p>
-                                    <p class="text-xs text-gray-400 font-mono">ID: ${data.transactionId}</p>
-                                </div>
-                                <div class="text-right">
-                                    <span class="status-badge ${data.status === 'Success' ? 'status-success' : (data.status === 'Failed' ? 'status-failed' : 'status-pending')}">${data.status}</span>
-                                    <p class="text-xs text-gray-400 mt-1">${date}</p>
-                                </div>
-                            </div>
-                            ${actions}
-                        </div>
-                    `;
-                });
-            });
-        }
-
-        // Global functions for Admin Actions
-        window.approvePayment = async (id) => {
-            if(confirm('Confirm Approval?')) {
-                await updateDoc(doc(db, "payments", id), { status: "Success" });
-            }
-        };
-        
-        window.rejectPayment = async (id) => {
-            if(confirm('Confirm Rejection?')) {
-                await updateDoc(doc(db, "payments", id), { status: "Failed" });
-            }
-        };
-
-    </script>
-
-    <!-- Main UI Logic -->
+    <!-- Main UI Logic (Simplified) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Handle loading screen
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
                 setTimeout(() => {
                     loadingScreen.style.opacity = '0';
-                    setTimeout(() => loading.style.display = 'none', 500);
+                    setTimeout(() => loadingScreen.style.display = 'none', 500);
                 }, 800);
             }
-            // Scroll Animation
+            
+            // Scroll animation
             function animateOnScroll() {
                 const elements = document.querySelectorAll('.animate-on-scroll');
                 elements.forEach(element => {
@@ -607,8 +421,69 @@
                     }
                 });
             }
+            
+            // Initial animation check
             animateOnScroll();
+            
+            // Listen for scroll events
             window.addEventListener('scroll', () => window.requestAnimationFrame(animateOnScroll));
+            
+            // Handle mobile view adjustments
+            function handleMobileView() {
+                const whatsappFloat = document.querySelector('.whatsapp-float');
+                const stickyCta = document.querySelector('.sticky-cta');
+                
+                if (window.innerWidth <= 768) {
+                    if (whatsappFloat) {
+                        whatsappFloat.style.bottom = '20px';
+                        whatsappFloat.style.right = '20px';
+                    }
+                    if (stickyCta) {
+                        stickyCta.style.bottom = '20px';
+                        stickyCta.style.left = '20px';
+                        stickyCta.style.fontSize = '14px';
+                        stickyCta.style.padding = '10px 20px';
+                    }
+                } else {
+                    if (whatsappFloat) {
+                        whatsappFloat.style.bottom = '40px';
+                        whatsappFloat.style.right = '40px';
+                    }
+                    if (stickyCta) {
+                        stickyCta.style.bottom = '40px';
+                        stickyCta.style.left = '40px';
+                        stickyCta.style.fontSize = '';
+                        stickyCta.style.padding = '12px 24px';
+                    }
+                }
+            }
+            
+            // Initial mobile view check
+            handleMobileView();
+            
+            // Listen for window resize
+            window.addEventListener('resize', handleMobileView);
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    // Only handle internal anchor links
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
         });
     </script>
 </body>

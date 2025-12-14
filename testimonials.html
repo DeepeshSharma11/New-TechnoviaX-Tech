@@ -3,367 +3,362 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Testimonials - TechnoviaX Tech</title>
+    <title>Client Testimonials - TechnoviaX Tech | Success Stories</title>
     <meta name="description" content="Read what our satisfied clients have to say about TechnoviaX Tech. Real stories of digital transformation and success.">
+    <meta name="author" content="TechnoviaX Tech">
     
-    <!-- Dynamic Favicon -->
+    <!-- Dynamic Favicon Loader -->
     <script src="js/favicon-loader.js"></script>
     
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS & Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2563eb',
-                        'primary-dark': '#1d4ed8',
+                        primary: '#1e40af',
+                        'primary-dark': '#1e3a8a',
+                        'primary-light': '#3b82f6',
                         secondary: '#0f172a',
-                        accent: '#22d3ee',
-                        'accent-dark': '#06b6d4',
+                        accent: '#059669',
+                        'accent-dark': '#047857',
+                        'accent-light': '#10b981',
                         light: '#f8fafc',
-                        gray: '#64748b',
+                        dark: '#1e293b',
+                        'dark-light': '#334155',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#dc2626',
+                        info: '#3b82f6',
                         whatsapp: '#25D366',
                         'whatsapp-dark': '#128C7E',
-                        success: '#10b981',
-                        error: '#ef4444',
-                        'pastel-blue': '#a5d8ff',
-                        'pastel-green': '#b2f2bb',
-                        'pastel-purple': '#d0bfff',
-                        'pastel-pink': '#ffc9c9', 
-                        'pastel-yellow': '#ffec99',
+                        'pastel-blue': '#eff6ff',
+                        'pastel-green': '#f0fdf4',
+                        'pastel-purple': '#f5f3ff',
+                        'pastel-pink': '#fdf2f8'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
                     }
                 }
             }
         }
     </script>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Custom Styles -->
     <style>
-        /* WhatsApp Float */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
+        /* Shared Styles */
+        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
+        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
+        
+        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
+        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
+        
+        .section-title{position:relative;display:inline-block;padding-bottom:15px}
+        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#1e40af,#059669);border-radius:2px}
+        
+        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
+        .cta-gradient{background:linear-gradient(135deg,#1e40af 0%,#059669 100%);color:white}
+        
+        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
+        
+        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
+        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .loading-logo span{color:#059669}
+        
+        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
+        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
+        
+        .btn-whatsapp{background:linear-gradient(135deg,#25D366 0%,#128C7E 100%);color:white;transition:all 0.3s ease}
+        .btn-whatsapp:hover{background:linear-gradient(135deg,#22c55e 0%,#0f766e 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(37,211,102,0.3)}
+
+        /* Carousel Specific Styles */
+        .carousel-container {
+            overflow: hidden;
+            position: relative;
+            padding: 20px 0 60px 0;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            gap: 2rem;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            opacity: 0.5;
+            transform: scale(0.9);
+            transition: all 0.5s ease;
+        }
+        .carousel-slide.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        @media (min-width: 768px) {
+            .carousel-slide {
+                min-width: 50%;
+            }
+        }
+        @media (min-width: 1024px) {
+            .carousel-slide {
+                min-width: 33.333%;
+            }
+        }
+        
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-        }
-
-        /* Sticky CTA button */
-        .sticky-cta {
-            position: fixed;
-            bottom: 40px;
-            left: 40px;
-            background: #2563eb;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            z-index: 99;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .sticky-cta:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-        }
-
-        /* Navigation Links Styling */
-        .nav-links li a {
-            position: relative;
-            padding: 8px 0;
-            white-space: nowrap;
-        }
-        
-        .nav-links li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #2563eb;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links li a:hover::after,
-        .nav-links li a.active::after {
-            width: 100%;
-        }
-
-        /* Mobile Navigation Scroll Fix & Sizing */
-        @media (max-width: 768px) {
-            .nav-links {
-                overflow-x: auto;
-                padding-bottom: 8px;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            /* REDUCED SIZE FOR MOBILE */
-            .nav-links li a {
-                font-size: 14px;
-                padding: 6px 0;
-            }
-
-            .nav-links::-webkit-scrollbar { height: 4px; }
-            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-
-            .sticky-cta {
-                bottom: 20px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             cursor: pointer;
-            border: none;
+            z-index: 10;
+            color: #1e40af;
+            transition: all 0.3s ease;
         }
-        .btn-primary {
-            background-color: #2563eb;
+        .nav-btn:hover {
+            background: #1e40af;
             color: white;
+            box-shadow: 0 6px 16px rgba(30,64,175,0.3);
         }
-        .btn-primary:hover {
-            background-color: #1d4ed8;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Testimonial Card */
-        .testimonial-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        /* Animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .animate-on-scroll.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Initial Hero Animation */
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
         
-        /* Section Title Line */
-        .section-title {
-            position: relative;
-            display: inline-block;
-        }
-        .section-title::after {
-            content: '';
+        .carousel-indicators {
             position: absolute;
-            bottom: -10px;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: #2563eb;
-            border-radius: 2px;
+            display: flex;
+            gap: 8px;
         }
-        
-        /* Pastel Gradient */
-        .pastel-gradient {
-            background: linear-gradient(135deg, #f8fafc 0%, #a5d8ff 50%, #d0bfff 100%);
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
+        .indicator.active {
+            background: #1e40af;
+            width: 24px;
+            border-radius: 10px;
+        }
+
+        html{scroll-behavior:smooth;scroll-padding-top:100px}
+        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
     </style>
 </head>
-<body class="font-sans text-secondary bg-slate-50">
+<body class="font-sans text-secondary bg-light">
 
     <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
+        <div class="loading-logo">Technovia<span>X</span></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <p class="text-white mt-4 font-medium">Loading Testimonials...</p>
     </div>
 
-    <!-- WhatsApp Float Button -->
+    <!-- Floating Buttons -->
     <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
     
-    
-    <!-- Dynamic Navigation Injection -->
-    <script src="js/navigation.js"></script>
+    <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
+        <i class="fas fa-envelope"></i> Contact Us
+    </a>
 
-    <!-- Main Content -->
-    <main class="pt-40 pb-20">
-        <div class="container mx-auto px-4">
-            <!-- Hero Section -->
-            <div class="text-center mb-16 animate-fade-in-up">
-                <h1 class="text-4xl md:text-5xl font-bold mb-6">Client Testimonials</h1>
-                <p class="text-gray-600 text-lg max-w-3xl mx-auto">Discover what our clients have to say about working with TechnoviaX Tech and the impact we've made on their businesses.</p>
+    <!-- Navigation Injection -->
+    <script src="js/navigation.js" defer></script>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-gradient pt-12 pb-16">
+            <div class="container mx-auto px-4 text-center animate-on-scroll">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary">
+                    Client <span class="text-primary">Testimonials</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-dark-light max-w-3xl mx-auto mb-8">
+                    Discover what our clients have to say about working with TechnoviaX Tech and the impact we've made on their businesses.
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
+        </section>
 
-            <!-- Testimonials Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <!-- Carousel Section -->
+        <div class="container mx-auto px-4 pb-12 relative">
+            <div class="carousel-container max-w-7xl mx-auto">
+                <button class="nav-btn prev-btn" aria-label="Previous Slide">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="nav-btn next-btn" aria-label="Next Slide">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <div class="carousel-track py-8" id="carousel-track">
+                    <!-- Testimonial 1 -->
+                    <div class="carousel-slide">
+                        <div class="bg-white rounded-2xl shadow-lg p-8 h-full border border-gray-100 flex flex-col relative transform transition-all duration-300 hover:-translate-y-2">
+                            <div class="text-4xl text-primary/10 absolute top-6 right-6">
+                                <i class="fas fa-quote-right"></i>
+                            </div>
+                            <div class="text-yellow-400 text-lg mb-4 flex gap-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-dark-light mb-6 italic text-lg flex-grow">"TechnoviaX Tech transformed our outdated website into a modern, responsive platform that has increased our conversion rate by 45%. Their team was professional and delivered on time."</p>
+                            <div class="flex items-center gap-4 mt-auto border-t border-gray-100 pt-4">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary font-bold text-xl ring-2 ring-white shadow-sm">R</div>
+                                <div>
+                                    <h4 class="font-bold text-secondary">Rajesh Kumar</h4>
+                                    <p class="text-gray-500 text-sm">CEO, Retail Solutions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="carousel-slide">
+                        <div class="bg-white rounded-2xl shadow-lg p-8 h-full border border-gray-100 flex flex-col relative transform transition-all duration-300 hover:-translate-y-2">
+                            <div class="text-4xl text-accent/10 absolute top-6 right-6">
+                                <i class="fas fa-quote-right"></i>
+                            </div>
+                            <div class="text-yellow-400 text-lg mb-4 flex gap-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-dark-light mb-6 italic text-lg flex-grow">"The mobile app developed by TechnoviaX Tech has revolutionized how we interact with our customers. User engagement increased by 60% within the first month of launch."</p>
+                            <div class="flex items-center gap-4 mt-auto border-t border-gray-100 pt-4">
+                                <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-accent-dark font-bold text-xl ring-2 ring-white shadow-sm">P</div>
+                                <div>
+                                    <h4 class="font-bold text-secondary">Priya Sharma</h4>
+                                    <p class="text-gray-500 text-sm">Product Manager, HealthTech</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="carousel-slide">
+                        <div class="bg-white rounded-2xl shadow-lg p-8 h-full border border-gray-100 flex flex-col relative transform transition-all duration-300 hover:-translate-y-2">
+                            <div class="text-4xl text-info/10 absolute top-6 right-6">
+                                <i class="fas fa-quote-right"></i>
+                            </div>
+                            <div class="text-yellow-400 text-lg mb-4 flex gap-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <p class="text-dark-light mb-6 italic text-lg flex-grow">"Their cloud migration services helped us reduce infrastructure costs by 40% while improving system reliability. Exceptional service and ongoing support throughout the process."</p>
+                            <div class="flex items-center gap-4 mt-auto border-t border-gray-100 pt-4">
+                                <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-info font-bold text-xl ring-2 ring-white shadow-sm">A</div>
+                                <div>
+                                    <h4 class="font-bold text-secondary">Amit Patel</h4>
+                                    <p class="text-gray-500 text-sm">CTO, FinTech Solutions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 4 -->
+                    <div class="carousel-slide">
+                        <div class="bg-white rounded-2xl shadow-lg p-8 h-full border border-gray-100 flex flex-col relative transform transition-all duration-300 hover:-translate-y-2">
+                            <div class="text-4xl text-red-100 absolute top-6 right-6">
+                                <i class="fas fa-quote-right"></i>
+                            </div>
+                            <div class="text-yellow-400 text-lg mb-4 flex gap-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-dark-light mb-6 italic text-lg flex-grow">"The digital marketing campaign increased our online sales by 150%. Their data-driven approach and continuous optimization made all the difference in our quarterly results."</p>
+                            <div class="flex items-center gap-4 mt-auto border-t border-gray-100 pt-4">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-error font-bold text-xl ring-2 ring-white shadow-sm">N</div>
+                                <div>
+                                    <h4 class="font-bold text-secondary">Neha Verma</h4>
+                                    <p class="text-gray-500 text-sm">Marketing Director</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 5 -->
+                    <div class="carousel-slide">
+                        <div class="bg-white rounded-2xl shadow-lg p-8 h-full border border-gray-100 flex flex-col relative transform transition-all duration-300 hover:-translate-y-2">
+                            <div class="text-4xl text-yellow-100 absolute top-6 right-6">
+                                <i class="fas fa-quote-right"></i>
+                            </div>
+                            <div class="text-yellow-400 text-lg mb-4 flex gap-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-dark-light mb-6 italic text-lg flex-grow">"Cybersecurity implementation was seamless. Their team identified vulnerabilities we didn't know existed and provided comprehensive protection for our enterprise data."</p>
+                            <div class="flex items-center gap-4 mt-auto border-t border-gray-100 pt-4">
+                                <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-warning font-bold text-xl ring-2 ring-white shadow-sm">S</div>
+                                <div>
+                                    <h4 class="font-bold text-secondary">Sanjay Mehta</h4>
+                                    <p class="text-gray-500 text-sm">IT Director</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 6 -->
+                    <div class="carousel-slide">
+                        <div class="bg-white rounded-2xl shadow-lg p-8 h-full border border-gray-100 flex flex-col relative transform transition-all duration-300 hover:-translate-y-2">
+                            <div class="text-4xl text-teal-100 absolute top-6 right-6">
+                                <i class="fas fa-quote-right"></i>
+                            </div>
+                            <div class="text-yellow-400 text-lg mb-4 flex gap-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-dark-light mb-6 italic text-lg flex-grow">"Working with TechnoviaX was a game-changer. Their AI solution automated 70% of our manual processes, saving us thousands of hours annually. Truly innovative."</p>
+                            <div class="flex items-center gap-4 mt-auto border-t border-gray-100 pt-4">
+                                <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 font-bold text-xl ring-2 ring-white shadow-sm">R</div>
+                                <div>
+                                    <h4 class="font-bold text-secondary">Rahul Gupta</h4>
+                                    <p class="text-gray-500 text-sm">Operations Head</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
-                <!-- Testimonial 1 -->
-                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll">
-                    <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"TechnoviaX Tech transformed our outdated website into a modern, responsive platform that has increased our conversion rate by 45%. Their team was professional and delivered on time."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary font-bold text-xl">R</div>
-                        <div>
-                            <h4 class="font-bold">Rajesh Kumar</h4>
-                            <p class="text-gray-500 text-sm">CEO, Retail Solutions</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 2 -->
-                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll" style="animation-delay: 0.1s;">
-                    <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"The mobile app developed by TechnoviaX Tech has revolutionized how we interact with our customers. User engagement increased by 60% within the first month of launch."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-xl">P</div>
-                        <div>
-                            <h4 class="font-bold">Priya Sharma</h4>
-                            <p class="text-gray-500 text-sm">Product Manager, HealthTech</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 3 -->
-                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll" style="animation-delay: 0.2s;">
-                    <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"Their cloud migration services helped us reduce infrastructure costs by 40% while improving system reliability. Exceptional service and ongoing support."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-success font-bold text-xl">A</div>
-                        <div>
-                            <h4 class="font-bold">Amit Patel</h4>
-                            <p class="text-gray-500 text-sm">CTO, FinTech Solutions</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 4 -->
-                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll">
-                    <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"The digital marketing campaign increased our online sales by 150%. Their data-driven approach and continuous optimization made all the difference."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold text-xl">N</div>
-                        <div>
-                            <h4 class="font-bold">Neha Verma</h4>
-                            <p class="text-gray-500 text-sm">Marketing Director</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 5 -->
-                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll" style="animation-delay: 0.1s;">
-                    <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"Cybersecurity implementation was seamless. Their team identified vulnerabilities we didn't know existed and provided comprehensive protection."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 font-bold text-xl">S</div>
-                        <div>
-                            <h4 class="font-bold">Sanjay Mehta</h4>
-                            <p class="text-gray-500 text-sm">IT Director</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 6 -->
-                <div class="testimonial-card bg-white rounded-xl shadow-lg p-8 animate-on-scroll" style="animation-delay: 0.2s;">
-                    <div class="text-yellow-400 text-xl mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"Working with TechnoviaX was a game-changer. Their AI solution automated 70% of our manual processes, saving us thousands of hours annually."</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center text-accent-dark font-bold text-xl">R</div>
-                        <div>
-                            <h4 class="font-bold">Rahul Gupta</h4>
-                            <p class="text-gray-500 text-sm">Operations Head</p>
-                        </div>
-                    </div>
+                <div class="carousel-indicators" id="carousel-indicators">
+                    <!-- Dots injected via JS -->
                 </div>
             </div>
 
-            <!-- Submit Your Review Section -->
-            <section class="bg-gradient-to-r from-primary to-accent rounded-2xl p-10 text-center text-white shadow-lg animate-on-scroll">
+            <!-- Submit Review CTA -->
+            <section class="mt-16 bg-gradient-to-r from-primary to-accent rounded-2xl p-10 text-center text-white shadow-lg animate-on-scroll">
                 <h2 class="text-3xl font-bold mb-4">Worked with us?</h2>
                 <p class="mb-8 max-w-2xl mx-auto text-blue-50 text-lg">We'd love to hear about your experience. Your feedback helps us serve you better.</p>
                 <div class="flex flex-wrap gap-4 justify-center">
-                    <a href="https://g.page/r/YOUR_GOOGLE_REVIEW_LINK" target="_blank" class="btn bg-white text-primary font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors shadow-md flex items-center gap-2">
+                    <a href="https://g.page/r/YOUR_GOOGLE_REVIEW_LINK" target="_blank" class="bg-white text-primary font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors shadow-md flex items-center gap-2 transform hover:-translate-y-1">
                         <i class="fab fa-google"></i> Leave a Review
                     </a>
-                    <a href="/contact.html" class="btn bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-primary transition-colors flex items-center gap-2">
+                    <a href="/contact.html" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-primary transition-colors flex items-center gap-2">
                         <i class="fas fa-envelope"></i> Contact Us
                     </a>
                 </div>
@@ -371,141 +366,209 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-secondary text-white py-12 sm:py-16">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
-                <div>
-                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Technovia<span class="text-accent">X</span></div>
-                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">Innovative IT solutions and services to help businesses transform and thrive in the digital era.</p>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Quick Links</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Home</a></li>
-                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Services</a></li>
-                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
-                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
-                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                        <!-- Footer Login Link Added -->
-                        <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Services</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Web Development</a></li>
-                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">App Development</a></li>
-                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Cloud Solutions</a></li>
-                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Digital Marketing</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
-                <p class="text-gray-400 text-sm sm:text-base">&copy; 2023 TechnoviaX Tech. All Rights Reserved.</p>
-                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
-                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
-                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
-                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Terms & Conditions</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer Injection -->
+    <div id="footer-container"></div>
+    <script src="js/footer.js" defer></script>
 
-    <!-- Integrated Main.js Logic -->
+    <!-- Firebase Auth Script -->
+    <script type="module" src="js/loginfirebase.js" defer></script>
+
+    <!-- Main Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('TechnoviaX Tech Website - Testimonials Page Loaded');
-            
-            // 1. Loading Screen Logic
+            // Loading screen logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
                 setTimeout(() => {
-                    loadingScreen.style.transition = 'opacity 0.5s ease';
                     loadingScreen.style.opacity = '0';
                     setTimeout(() => {
                         loadingScreen.style.display = 'none';
                         document.body.style.overflow = 'auto';
                     }, 500);
-                }, 800);
-            } else {
-                document.body.style.overflow = 'auto';
+                }, 500);
             }
 
-            // 2. Smooth Scrolling
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href === '#' || href === '#!') return;
-                    if (href.startsWith('#')) {
-                        e.preventDefault();
-                        const targetId = href.substring(1);
-                        const targetElement = document.getElementById(targetId);
-                        if (targetElement) {
-                            const headerHeight = document.querySelector('header').offsetHeight || 80;
-                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                            window.scrollTo({ top: targetPosition - headerHeight - 10, behavior: 'smooth' });
-                        }
-                    }
-                });
-            });
-
-            // 3. Scroll Animation
+            // Scroll Animation
             function animateOnScroll() {
-                const animatedElements = document.querySelectorAll('.animate-on-scroll');
-                animatedElements.forEach(element => {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+                elements.forEach(element => {
                     if (element.classList.contains('animated')) return;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const screenPosition = window.innerHeight - (window.innerHeight / 4);
-                    if (elementPosition < screenPosition) {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    if (elementTop < windowHeight * 0.85) {
                         element.classList.add('animated');
                     }
                 });
             }
-            animateOnScroll(); // Run on load
+            animateOnScroll();
             
-            let isScrolling = false;
-            window.addEventListener('scroll', () => {
-                if (!isScrolling) {
-                    window.requestAnimationFrame(() => {
-                        animateOnScroll();
-                        isScrolling = false;
+            // Carousel Logic
+            const track = document.getElementById('carousel-track');
+            const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+            const prevButton = document.querySelector('.prev-btn');
+            const nextButton = document.querySelector('.next-btn');
+            const indicatorsContainer = document.getElementById('carousel-indicators');
+            
+            let currentIndex = 0;
+            let slidesPerView = 1;
+            let autoplayInterval;
+
+            // Determine slides per view based on screen width
+            function updateSlidesPerView() {
+                if (window.innerWidth >= 1024) slidesPerView = 3;
+                else if (window.innerWidth >= 768) slidesPerView = 2;
+                else slidesPerView = 1;
+                updateCarousel();
+                createIndicators();
+            }
+
+            function createIndicators() {
+                indicatorsContainer.innerHTML = '';
+                const numDots = Math.ceil(slides.length / slidesPerView) + (slides.length % slidesPerView === 0 ? 0 : 1);
+                // Simplify dots: one dot per group scroll or just total - visible + 1
+                const maxIndex = slides.length - slidesPerView;
+                const dotCount = maxIndex + 1; // Simplified for 1-by-1 sliding
+                
+                for (let i = 0; i < dotCount; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('indicator');
+                    if (i === currentIndex) dot.classList.add('active');
+                    dot.addEventListener('click', () => {
+                        currentIndex = i;
+                        updateCarousel();
+                        resetAutoplay();
                     });
-                    isScrolling = true;
+                    indicatorsContainer.appendChild(dot);
                 }
+            }
+
+            function updateCarousel() {
+                const slideWidth = slides[0].getBoundingClientRect().width;
+                // Add gap calculation
+                const gap = 32; // 2rem gap
+                const moveAmount = currentIndex * (slideWidth + gap); 
+                // However, percentage based transform is cleaner if we assume flex container width
+                // For exact pixel matching with gap:
+                // Better approach: simpler percentage transform based on slidesPerView
+                const percentage = -(currentIndex * (100 / slidesPerView));
+                
+                // Adjust for gap in CSS flex:
+                // Actually with flex gap, simple percentage translate might offset slightly wrong.
+                // Robust solution: transform: translateX(calc(-100% * index - gap * index))
+                // But simplified for this context:
+                
+                // Let's use direct style calculation
+                track.style.transform = `translateX(calc(-${currentIndex} * (100% / ${slidesPerView} + 2rem)))`;
+                
+                // Update dots
+                const dots = document.querySelectorAll('.indicator');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+
+                // Update active slide class for styling
+                slides.forEach((slide, index) => {
+                    if(index >= currentIndex && index < currentIndex + slidesPerView) {
+                        slide.classList.add('active');
+                        slide.style.opacity = '1';
+                        slide.style.transform = 'scale(1)';
+                    } else {
+                        slide.classList.remove('active');
+                        slide.style.opacity = '0.5';
+                        slide.style.transform = 'scale(0.9)';
+                    }
+                });
+                
+                // Button visibility
+                prevButton.style.opacity = currentIndex === 0 ? '0.5' : '1';
+                prevButton.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+                
+                const maxIndex = slides.length - slidesPerView;
+                nextButton.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
+                nextButton.style.pointerEvents = currentIndex >= maxIndex ? 'none' : 'auto';
+            }
+
+            function nextSlide() {
+                const maxIndex = slides.length - slidesPerView;
+                if (currentIndex < maxIndex) {
+                    currentIndex++;
+                    updateCarousel();
+                } else {
+                    // Loop back to start
+                    currentIndex = 0;
+                    updateCarousel();
+                }
+            }
+
+            function prevSlide() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            }
+
+            function startAutoplay() {
+                stopAutoplay();
+                autoplayInterval = setInterval(nextSlide, 5000);
+            }
+
+            function stopAutoplay() {
+                clearInterval(autoplayInterval);
+            }
+
+            function resetAutoplay() {
+                stopAutoplay();
+                startAutoplay();
+            }
+
+            // Event Listeners
+            nextButton.addEventListener('click', () => {
+                nextSlide();
+                resetAutoplay();
             });
 
-            // 4. Active Navigation State (Handled by navigation.js, but kept for safety)
-            const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => {
-                const linkHref = link.getAttribute('href');
-                link.classList.remove('active', 'text-primary', 'font-bold');
-                link.classList.add('text-secondary');
+            prevButton.addEventListener('click', () => {
+                prevSlide();
+                resetAutoplay();
+            });
 
-                if (linkHref === '/testimonials.html' || (currentPath.includes('testimonials.html') && linkHref.includes('testimonials.html'))) {
-                    link.classList.add('active', 'text-primary', 'font-bold');
-                    link.classList.remove('text-secondary');
+            track.addEventListener('mouseenter', stopAutoplay);
+            track.addEventListener('mouseleave', startAutoplay);
+            
+            // Touch Swipe Support
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            track.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+                stopAutoplay();
+            }, {passive: true});
+            
+            track.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+                startAutoplay();
+            }, {passive: true});
+            
+            function handleSwipe() {
+                if (touchStartX - touchEndX > 50) {
+                    nextSlide(); // Swipe Left
                 }
+                if (touchEndX - touchStartX > 50) {
+                    prevSlide(); // Swipe Right
+                }
+            }
+
+            // Init
+            window.addEventListener('resize', updateSlidesPerView);
+            updateSlidesPerView(); // Initial call
+            startAutoplay();
+            
+            // Re-run animation on scroll
+            window.addEventListener('scroll', () => {
+                window.requestAnimationFrame(animateOnScroll);
             });
         });
     </script>
-
-    <!-- Global Navbar Auth Logic -->
-    <script src="js/loginfirebase.js" type="module"></script>
-
 </body>
 </html>

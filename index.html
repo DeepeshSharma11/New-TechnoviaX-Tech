@@ -8,47 +8,48 @@
     <meta name="keywords" content="IT solutions, web development, app development, cloud solutions, digital marketing, cybersecurity, Bareilly, India">
     <meta name="author" content="TechnoviaX Tech">
     
-    <!-- Dynamic Favicon -->
-    <script src="js/favicon-loader.js"></script>
+    <link id="dynamic-favicon" rel="icon" href="/favicon.ico" type="image/x-icon">
     
-    <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2563eb',
-                        'primary-dark': '#1d4ed8',
+                        primary: '#1e40af',
+                        'primary-dark': '#1e3a8a',
+                        'primary-light': '#3b82f6',
                         secondary: '#0f172a',
-                        accent: '#22d3ee',
-                        'accent-dark': '#06b6d4',
+                        accent: '#059669',
+                        'accent-dark': '#047857',
+                        'accent-light': '#10b981',
                         light: '#f8fafc',
-                        gray: '#64748b',
-                        whatsapp: '#25D366',
-                        'whatsapp-dark': '#128C7E',
+                        dark: '#1e293b',
+                        'dark-light': '#334155',
                         success: '#10b981',
-                        error: '#ef4444',
-                        'pastel-blue': '#a5d8ff',
-                        'pastel-green': '#b2f2bb',
-                        'pastel-purple': '#d0bfff',
-                        'pastel-pink': '#ffc9c9',
-                        'pastel-yellow': '#ffec99',
-                        'pastel-peach': '#ffd8a8',
+                        warning: '#f59e0b',
+                        error: '#dc2626',
+                        info: '#3b82f6',
+                        whatsapp: '#25D366',
+                        'whatsapp-dark': '#128C7E'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
                     animation: {
                         'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
                         }
                     }
                 }
@@ -56,222 +57,106 @@
         }
     </script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Custom Styles -->
     <style>
-        /* WhatsApp Float */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-        }
-        
-        /* Sticky CTA button */
-        .sticky-cta {
-            position: fixed;
-            bottom: 40px;
-            left: 40px;
-            background: #2563eb;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            z-index: 99;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .sticky-cta:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-        }
-
-        /* Navigation Links */
-        .nav-links li a {
-            position: relative;
-            padding: 8px 0;
-            white-space: nowrap;
-        }
-        
-        .nav-links li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #2563eb;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links li a:hover::after,
-        .nav-links li a.active::after {
-            width: 100%;
-        }
-
-        /* Mobile Navigation Scroll Fix & Sizing */
-        @media (max-width: 768px) {
-            .nav-links {
-                overflow-x: auto;
-                padding-bottom: 8px;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            /* REDUCED SIZE FOR MOBILE - Matches about.html */
-            .nav-links li a {
-                font-size: 14px;
-                padding: 6px 0;
-            }
-
-            .nav-links::-webkit-scrollbar { height: 4px; }
-            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-
-            .sticky-cta {
-                bottom: 20px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-        }
-
-        /* Service Card Hover */
-        .service-card {
-            transition: all 0.3s ease;
-        }
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        /* Section Title Line */
-        .section-title {
-            position: relative;
-            display: inline-block;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: #2563eb;
-            border-radius: 2px;
-        }
-
-        /* Pastel Gradient */
-        .pastel-gradient {
-            background: linear-gradient(135deg, #f8fafc 0%, #a5d8ff 50%, #d0bfff 100%);
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #2563eb 0%, #22d3ee 100%);
-            color: white;
-        }
-
-        /* Animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .animate-on-scroll.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
+        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
+        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
+        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
+        .service-card{transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);border:2px solid transparent}
+        .service-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,0.12);border-color:#1e40af}
+        .section-title{position:relative;display:inline-block;padding-bottom:15px}
+        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#1e40af,#059669);border-radius:2px}
+        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
+        .cta-gradient{background:linear-gradient(135deg,#1e40af 0%,#059669 100%);color:white}
+        .footer-gradient{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%)}
+        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
+        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center}
+        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .loading-logo span{color:#059669}
+        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
+        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
+        .btn-accent{background:linear-gradient(135deg,#059669 0%,#10b981 100%);color:white;transition:all 0.3s ease}
+        .btn-accent:hover{background:linear-gradient(135deg,#047857 0%,#0da271 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(5,150,105,0.3)}
+        .btn-whatsapp{background:linear-gradient(135deg,#25D366 0%,#128C7E 100%);color:white;transition:all 0.3s ease}
+        .btn-whatsapp:hover{background:linear-gradient(135deg,#22c55e 0%,#0f766e 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(37,211,102,0.3)}
+        .social-icon{transition:all 0.3s ease}
+        .social-icon:hover{transform:translateY(-3px) scale(1.1)}
+        html{scroll-behavior:smooth;scroll-padding-top:var(--header-height,80px)}
+        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
+        @media (max-width:640px){.hero-section h1{font-size:2rem!important;line-height:1.2}.hero-section p{font-size:1rem!important}}
     </style>
 </head>
-<body class="font-sans text-secondary bg-slate-50">
+<body class="font-sans text-secondary bg-light">
 
-    <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    <div id="loading" class="fixed inset-0 z-50 flex flex-col items-center justify-center">
+        <div class="loading-logo">Technovia<span>X</span></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <p class="text-white mt-4">Loading...</p>
     </div>
 
-    <!-- WhatsApp Float Button -->
     <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
     
-    <!-- Sticky Contact CTA Button -->
     <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
         <i class="fas fa-envelope"></i> Contact Us
     </a>
 
-    <!-- Dynamic Navigation Injection -->
     <script src="js/navigation.js"></script>
 
-    <!-- Main Content -->
-    <main id="main-content" class="pt-32 pb-20">
+    <main id="main-content">
         <!-- Hero Section -->
-        <section class="pt-10 pb-20 pastel-gradient">
+        <section class="hero-gradient pt-10 pb-20 hero-section">
             <div class="container mx-auto px-4">
-                <div class="flex flex-col md:flex-row items-center gap-12">
-                    <div class="flex-1 text-center md:text-left animate-fade-in-up">
-                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">Innovative IT Solutions for <span class="text-primary">Your Business</span></h1>
-                        <p class="text-lg sm:text-xl text-gray-700 mb-8">TechnoviaX Tech provides cutting-edge software development, web solutions, and digital transformation services to help businesses thrive in the digital age.</p>
-                        <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                            <a href="/services.html" class="bg-primary text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-primary-dark transition-all hover:shadow-lg transform hover:-translate-y-1">Our Services</a>
-                            <a href="/contact.html" class="bg-accent text-secondary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-accent-dark transition-all hover:shadow-lg transform hover:-translate-y-1">Get in Touch</a>
-                            <a href="https://wa.me/918433125736" class="bg-whatsapp text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-whatsapp-dark transition-all hover:shadow-lg flex items-center gap-2 transform hover:-translate-y-1" target="_blank" aria-label="Contact us on WhatsApp">
-                                <i class="fab fa-whatsapp"></i> <span class="hidden sm:inline">WhatsApp Us</span>
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                    <div class="flex-1 text-center md:text-left animate-fade-in">
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                            Innovative IT Solutions for <span class="text-primary">Digital Success</span>
+                        </h1>
+                        <p class="text-lg sm:text-xl text-dark mb-8 max-w-2xl">
+                            Transform your business with cutting-edge technology solutions. We deliver exceptional web development, mobile apps, and digital services.
+                        </p>
+                        <div class="flex flex-wrap gap-3 sm:gap-4 justify-center md:justify-start">
+                            <a href="/services.html" class="btn-primary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold">
+                                <i class="fas fa-rocket mr-2"></i>Our Services
+                            </a>
+                            <a href="/contact.html" class="btn-accent px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold">
+                                <i class="fas fa-phone-alt mr-2"></i>Get in Touch
+                            </a>
+                            <a href="https://wa.me/918433125736" class="btn-whatsapp px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold" target="_blank">
+                                <i class="fab fa-whatsapp mr-2"></i>WhatsApp
                             </a>
                         </div>
+                        <div class="mt-8 flex flex-wrap gap-4 sm:gap-6 text-dark text-sm sm:text-base">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>100+ Projects</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>24/7 Support</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>Expert Team</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex-1 mt-12 md:mt-0 animate-fade-in-up" style="animation-delay: 0.2s;">
-                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="TechnoviaX Tech Solutions" class="rounded-xl shadow-xl w-full animate-float">
+                    <div class="flex-1 mt-8 md:mt-0 animate-fade-in" style="animation-delay:0.2s">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="TechnoviaX Tech Solutions" 
+                                 class="rounded-xl shadow-2xl w-full animate-float">
+                            <div class="absolute -bottom-3 -right-3 bg-white p-3 rounded-lg shadow-lg hidden md:block">
+                                <div class="text-primary text-xl font-bold">3+ Years</div>
+                                <div class="text-dark text-sm">Experience</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -281,65 +166,99 @@
         <section class="py-16 sm:py-20 bg-white">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-12 sm:mb-16 animate-on-scroll">
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 section-title">Our Services</h2>
-                    <p class="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">We offer a wide range of IT services to help your business grow and succeed in the digital world.</p>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 section-title">Our Core Services</h2>
+                    <p class="text-dark-light text-base sm:text-lg max-w-2xl mx-auto">
+                        Comprehensive IT solutions designed to accelerate your digital transformation journey
+                    </p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                    <!-- Service Card 1 -->
-                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg border-l-4 border-pastel-blue hover:border-primary animate-on-scroll">
-                        <div class="text-primary text-4xl sm:text-5xl mb-4 sm:mb-6">
-                            <i class="fas fa-laptop-code" aria-hidden="true"></i>
+                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll">
+                        <div class="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-laptop-code text-primary text-3xl"></i>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Web Development</h3>
-                        <p class="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Custom websites and web applications built with the latest technologies.</p>
-                        <a href="/services.html#web-development" class="text-primary font-semibold flex items-center gap-2 text-sm sm:text-base hover:text-primary-dark">
-                            Learn More <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-primary">Web Development</h3>
+                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
+                            Custom websites and web applications built with modern technologies like React, Angular, and Node.js.
+                        </p>
+                        <a href="/services.html#web-development" class="text-primary font-semibold flex items-center gap-2 text-sm sm:text-base group">
+                            Explore Details 
+                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
                         </a>
                     </div>
                     
-                    <!-- Service Card 2 -->
-                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg border-l-4 border-pastel-green hover:border-primary animate-on-scroll" style="animation-delay: 0.1s;">
-                        <div class="text-primary text-4xl sm:text-5xl mb-4 sm:mb-6">
-                            <i class="fas fa-mobile-alt" aria-hidden="true"></i>
+                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll" style="animation-delay:0.1s">
+                        <div class="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-mobile-alt text-accent text-3xl"></i>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">App Development</h3>
-                        <p class="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Native and cross-platform mobile applications for iOS and Android.</p>
-                        <a href="/services.html#app-development" class="text-primary font-semibold flex items-center gap-2 text-sm sm:text-base hover:text-primary-dark">
-                            Learn More <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent">App Development</h3>
+                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
+                            Native and cross-platform mobile applications for iOS and Android using Flutter and React Native.
+                        </p>
+                        <a href="/services.html#app-development" class="text-accent font-semibold flex items-center gap-2 text-sm sm:text-base group">
+                            Explore Details
+                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
                         </a>
                     </div>
                     
-                    <!-- Service Card 3 -->
-                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg border-l-4 border-pastel-purple hover:border-primary animate-on-scroll" style="animation-delay: 0.2s;">
-                        <div class="text-primary text-4xl sm:text-5xl mb-4 sm:mb-6">
-                            <i class="fas fa-cloud" aria-hidden="true"></i>
+                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll" style="animation-delay:0.2s">
+                        <div class="bg-info/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-cloud text-info text-3xl"></i>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Cloud Solutions</h3>
-                        <p class="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Secure and scalable cloud infrastructure solutions.</p>
-                        <a href="/services.html#cloud-solutions" class="text-primary font-semibold flex items-center gap-2 text-sm sm:text-base hover:text-primary-dark">
-                            Learn More <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-info">Cloud Solutions</h3>
+                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
+                            Secure and scalable cloud infrastructure on AWS, Azure, and Google Cloud Platform.
+                        </p>
+                        <a href="/services.html#cloud-solutions" class="text-info font-semibold flex items-center gap-2 text-sm sm:text-base group">
+                            Explore Details
+                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
                         </a>
                     </div>
                 </div>
                 <div class="text-center mt-10 animate-on-scroll">
-                    <a href="/services.html" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-all hover:shadow-lg inline-flex items-center gap-2 transform hover:-translate-y-1">
-                        View All Services <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    <a href="/services.html" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-flex items-center gap-2">
+                        View All Services <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
         </section>
 
+        <!-- Stats Section -->
+        <section class="py-16 bg-dark text-white">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+                    <div class="text-center animate-on-scroll">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-accent mb-2">50+</div>
+                        <div class="text-light text-sm sm:text-base">Happy Clients</div>
+                    </div>
+                    <div class="text-center animate-on-scroll" style="animation-delay:0.1s">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-2">10+</div>
+                        <div class="text-light text-sm sm:text-base">Projects Completed</div>
+                    </div>
+                    <div class="text-center animate-on-scroll" style="animation-delay:0.2s">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-success mb-2">24/7</div>
+                        <div class="text-light text-sm sm:text-base">Support</div>
+                    </div>
+                    <div class="text-center animate-on-scroll" style="animation-delay:0.3s">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-warning mb-2">3+</div>
+                        <div class="text-light text-sm sm:text-base">Years Experience</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- CTA Section -->
-        <section class="py-16 sm:py-20 gradient-bg">
+        <section class="py-16 sm:py-20 cta-gradient">
             <div class="container mx-auto px-4 text-center animate-on-scroll">
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
-                <p class="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">Get started with our innovative IT solutions today</p>
-                <div class="flex flex-wrap gap-4 justify-center">
-                    <a href="/contact.html" class="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all hover:shadow-lg transform hover:-translate-y-1">
-                        Start Your Project
+                <p class="text-white/90 text-base sm:text-lg mb-8 max-w-2xl mx-auto">
+                    Partner with us to create innovative digital solutions that drive growth and success.
+                </p>
+                <div class="flex flex-wrap gap-3 sm:gap-4 justify-center">
+                    <a href="/contact.html" class="bg-white text-primary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <i class="fas fa-calendar-check mr-2"></i>Start Your Project
                     </a>
-                    <a href="/payment.html" class="bg-success text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all hover:shadow-lg transform hover:-translate-y-1">
-                        Make Payment
+                    <a href="/payment.html" class="bg-success text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-green-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <i class="fas fa-credit-card mr-2"></i>Make Payment
                     </a>
                 </div>
             </div>
@@ -347,123 +266,140 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-secondary text-white py-12 sm:py-16">
+    <footer class="footer-gradient text-white py-12 sm:py-16">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
                 <div>
-                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Technovia<span class="text-accent">X</span></div>
-                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">Innovative IT solutions and services to help businesses transform and thrive in the digital era.</p>
+                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+                        Technovia<span class="text-accent">X</span> <span class="text-primary-light">Tech</span>
+                    </div>
+                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">
+                        Leading IT solutions provider delivering innovative technology services for businesses worldwide.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="#" class="social-icon text-white hover:text-facebook text-lg">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="social-icon text-white hover:text-twitter text-lg">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon text-white hover:text-linkedin text-lg">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-icon text-white hover:text-instagram text-lg">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
                 </div>
                 
                 <div>
                     <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Quick Links</h3>
                     <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Home</a></li>
-                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Services</a></li>
-                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
-                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
-                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                        <!-- Footer Login Link Added -->
-                        <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a></li>
+                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-home text-xs"></i> Home</a></li>
+                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-cogs text-xs"></i> Services</a></li>
+                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-info-circle text-xs"></i> About</a></li>
+                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-briefcase text-xs"></i> Portfolio</a></li>
+                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-user-tie text-xs"></i> Careers</a></li>
+                        <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-sign-in-alt text-xs"></i> Login</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Services</h3>
                     <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Web Development</a></li>
-                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">App Development</a></li>
-                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Cloud Solutions</a></li>
-                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Digital Marketing</a></li>
+                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-primary-light transition-colors text-sm sm:text-base"><i class="fas fa-chevron-right text-xs mr-2"></i> Web Development</a></li>
+                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-primary-light transition-colors text-sm sm:text-base"><i class="fas fa-chevron-right text-xs mr-2"></i> App Development</a></li>
+                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-primary-light transition-colors text-sm sm:text-base"><i class="fas fa-chevron-right text-xs mr-2"></i> Cloud Solutions</a></li>
+                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-primary-light transition-colors text-sm sm:text-base"><i class="fas fa-chevron-right text-xs mr-2"></i> Digital Marketing</a></li>
+                        <li><a href="/services.html#cybersecurity" class="text-gray-300 hover:text-primary-light transition-colors text-sm sm:text-base"><i class="fas fa-chevron-right text-xs mr-2"></i> Cybersecurity</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
+                    <ul class="space-y-3 sm:space-y-4">
+                        <li class="text-gray-300 text-sm sm:text-base flex items-start">
+                            <i class="fas fa-map-marker-alt mr-3 text-accent mt-1"></i>
+                            <span>Tech Street, Bareilly, Uttar Pradesh, India</span>
+                        </li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center">
+                            <i class="fas fa-phone mr-3 text-accent"></i>
+                            <span>+91 8433125736</span>
+                        </li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center">
+                            <i class="fas fa-envelope mr-3 text-accent"></i>
+                            <span>info.technoviax@gmail.com</span>
+                        </li>
+                        <li class="text-gray-300 text-sm sm:text-base flex items-center">
+                            <i class="fab fa-whatsapp mr-3 text-accent"></i>
+                            <span>+91 8433125736</span>
+                        </li>
                     </ul>
                 </div>
             </div>
             
             <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
-                <p class="text-gray-400 text-sm sm:text-base">&copy; <span id="year">2023</span> TechnoviaX Tech. All Rights Reserved.</p>
-                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
-                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
-                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
-                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Terms & Conditions</a>
+                <p class="text-gray-400 text-sm sm:text-base">
+                    &copy; <span id="year">2023</span> TechnoviaX Tech. All Rights Reserved.
+                </p>
+                <div class="mt-4 flex flex-wrap justify-center gap-3 sm:gap-4">
+                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">
+                        <i class="fas fa-shield-alt mr-1"></i> Privacy Policy
+                    </a>
+                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">
+                        <i class="fas fa-exclamation-triangle mr-1"></i> Disclaimer
+                    </a>
+                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">
+                        <i class="fas fa-file-contract mr-1"></i> Terms & Conditions
+                    </a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Integrated Main.js Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Update Copyright Year
             const yearEl = document.getElementById('year');
             if(yearEl) yearEl.textContent = new Date().getFullYear();
 
-            // Loading screen logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
-                // Removed the 800ms delay for faster load feeling
-                loadingScreen.style.opacity = '0';
                 setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }, 300); // Short fade out duration
-            } else {
-                document.body.style.overflow = 'auto';
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => loadingScreen.style.display = 'none', 300);
+                }, 500);
             }
-            
-            // Smooth Scrolling
+
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
-                    
                     if (href === '#' || href === '#!') return;
-                    
                     if (href.startsWith('#')) {
                         e.preventDefault();
                         const targetElement = document.querySelector(href);
-                        
                         if (targetElement) {
+                            const header = document.querySelector('header');
+                            const headerHeight = header ? header.offsetHeight : 80;
                             const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                            const finalPosition = targetPosition - headerHeight - 10;
-                            
-                            window.scrollTo({
-                                top: finalPosition,
-                                behavior: 'smooth'
-                            });
+                            const finalPosition = targetPosition - headerHeight - 20;
+                            window.scrollTo({top:finalPosition,behavior:'smooth'});
+                            history.pushState(null, null, href);
                         }
                     }
                 });
             });
             
-            // Scroll Animation
             function animateOnScroll() {
-                const animatedElements = document.querySelectorAll('.animate-on-scroll');
-                
-                animatedElements.forEach(element => {
+                document.querySelectorAll('.animate-on-scroll').forEach(element => {
                     if (element.classList.contains('animated')) return;
-                    
                     const elementPosition = element.getBoundingClientRect().top;
                     const elementHeight = element.offsetHeight;
-                    const screenPosition = window.innerHeight - elementHeight / 4; 
-                    
-                    if (elementPosition < screenPosition) {
-                        element.classList.add('animated');
-                        element.style.opacity = '1';
-                        element.style.transform = 'translateY(0)';
-                    }
+                    const screenPosition = window.innerHeight - elementHeight / 3;
+                    if (elementPosition < screenPosition) element.classList.add('animated');
                 });
             }
-            animateOnScroll();
             
+            animateOnScroll();
             let isScrolling = false;
             window.addEventListener('scroll', () => {
                 if (!isScrolling) {
@@ -475,19 +411,42 @@
                 }
             });
 
-            // 20-second login reminder
-            setTimeout(function() {
-                const navLoginBtn = document.getElementById('nav-login');
-                if (navLoginBtn && !navLoginBtn.classList.contains('hidden')) {
-                    // alert("You must login to continue visiting this page.");
-                    // window.location.href = "/login.html";
-                }
+            setTimeout(() => {
+                const isLoggedIn = localStorage.getItem('userLoggedIn') || false;
+                if (!isLoggedIn) console.log("Reminder: Login to access all features");
             }, 20000);
         });
+
+        window.addEventListener('error', function(e) {
+            if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK') {
+                console.warn('Failed to load:', e.target.src || e.target.href);
+                if (e.target.src && e.target.src.includes('loginfirebase.js')) {
+                    const loginItem = document.getElementById('footer-login-item');
+                    if (loginItem) loginItem.innerHTML = `<a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base"><i class="fas fa-sign-in-alt mr-2"></i>Login (Manual)</a>`;
+                }
+            }
+        }, true);
     </script>
 
-    <!-- Global Navbar Auth Logic -->
-    <script src="js/loginfirebase.js" type="module"></script>
+    <script type="module">
+        try {
+            import('./js/loginfirebase.js').catch(err => {
+                console.warn('Firebase auth not available:', err);
+                const loginItems = document.querySelectorAll('#footer-login-item');
+                loginItems.forEach(item => {
+                    if (item) {
+                        const link = item.querySelector('a');
+                        if (link) {
+                            link.href = '/login.html';
+                            link.innerHTML = link.innerHTML.replace('Login', 'Login (Manual)');
+                        }
+                    }
+                });
+            });
+        } catch (error) {
+            console.warn('Module import failed:', error);
+        }
+    </script>
 
 </body>
 </html>

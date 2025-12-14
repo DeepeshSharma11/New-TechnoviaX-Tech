@@ -3,338 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Helpdesk & Support - TechnoviaX Tech</title>
+    <title>Helpdesk & Support - TechnoviaX Tech | 24/7 Assistance</title>
     <meta name="description" content="Get technical support, browse FAQs, and find solutions for your queries. We're here to help you 24/7.">
-     <script src="js/favicon-loader.js"></script>
+    <meta name="author" content="TechnoviaX Tech">
+    
+    <!-- Dynamic Favicon Loader -->
+    <script src="js/favicon-loader.js"></script>
+    
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS & Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2563eb',
-                        'primary-dark': '#1d4ed8',
+                        primary: '#1e40af',
+                        'primary-dark': '#1e3a8a',
+                        'primary-light': '#3b82f6',
                         secondary: '#0f172a',
-                        accent: '#22d3ee',
-                        'accent-dark': '#06b6d4',
+                        accent: '#059669',
+                        'accent-dark': '#047857',
+                        'accent-light': '#10b981',
                         light: '#f8fafc',
-                        gray: '#64748b',
+                        dark: '#1e293b',
+                        'dark-light': '#334155',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#dc2626',
+                        info: '#3b82f6',
                         whatsapp: '#25D366',
                         'whatsapp-dark': '#128C7E',
-                        success: '#10b981',
-                        error: '#ef4444',
+                        'pastel-blue': '#eff6ff',
+                        'pastel-green': '#f0fdf4',
+                        'pastel-purple': '#f5f3ff',
+                        'pastel-pink': '#fdf2f8'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
                     }
                 }
             }
         }
     </script>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Custom Styles -->
     <style>
-        /* WhatsApp Float */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-        }
-
-        /* Navigation Links */
-        .nav-links li a {
-            position: relative;
-            padding: 8px 0;
-            white-space: nowrap;
-        }
+        /* Shared Styles */
+        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
+        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
         
-        .nav-links li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #2563eb;
-            transition: width 0.3s ease;
-        }
+        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
+        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
         
-        .nav-links li a:hover::after,
-        .nav-links li a.active::after {
-            width: 100%;
-        }
-
-        /* Mobile Navigation Scroll Fix */
-        @media (max-width: 768px) {
-            .nav-links {
-                overflow-x: auto;
-                padding-bottom: 4px;
-                -webkit-overflow-scrolling: touch;
-            }
-            .nav-links::-webkit-scrollbar { height: 4px; }
-            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .btn-primary {
-            background-color: #2563eb;
-            color: white;
-        }
-        .btn-primary:hover {
-            background-color: #1d4ed8;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
+        .section-title{position:relative;display:inline-block;padding-bottom:15px}
+        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#1e40af,#059669);border-radius:2px}
+        
+        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
+        .cta-gradient{background:linear-gradient(135deg,#1e40af 0%,#059669 100%);color:white}
+        
+        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
+        
+        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
+        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .loading-logo span{color:#059669}
+        
+        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
+        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
+        
         /* Form Elements */
         .form-input, .form-select, .form-textarea {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #d1d5db;
+            border: 1px solid #e2e8f0;
             border-radius: 0.5rem;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
         }
         .form-input:focus, .form-select:focus, .form-textarea:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            border-color: #1e40af;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
         }
         .form-label {
             display: block;
-            font-weight: 500;
+            font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #374151;
-        }
-
-        /* Animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .animate-on-scroll.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Status Messages */
-        .form-status {
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            display: none;
-        }
-        .form-status.success {
-            background-color: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
-        }
-        .form-status.error {
-            background-color: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-        }
-        .form-status.loading {
-            background-color: #dbeafe;
-            color: #1e40af;
-            border: 1px solid #93c5fd;
+            color: #1e293b;
+            font-size: 0.9rem;
         }
 
         /* FAQ Accordion Animation */
         .faq-answer {
-            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            transition: max-height 0.3s ease-out, padding 0.3s ease, opacity 0.3s ease;
             max-height: 0;
+            opacity: 0;
             overflow: hidden;
-            padding-top: 0;
-            padding-bottom: 0;
         }
         .faq-answer.open {
-            max-height: 500px; /* Arbitrary large number */
-            padding-top: 1.5rem;
+            max-height: 500px;
+            opacity: 1;
+            padding-top: 1rem;
             padding-bottom: 1.5rem;
-            border-top-width: 1px;
         }
         .rotate-180 {
             transform: rotate(180deg);
         }
+
+        /* Status Messages */
+        .form-status { padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; display: none; }
+        .form-status.success { background-color: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+        .form-status.error { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+        html{scroll-behavior:smooth;scroll-padding-top:100px}
+        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
     </style>
 </head>
-<body class="font-sans text-secondary bg-slate-50">
+<body class="font-sans text-secondary bg-light">
 
     <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
+        <div class="loading-logo">Technovia<span>X</span></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <p class="text-white mt-4 font-medium">Loading Helpdesk...</p>
     </div>
 
-    <!-- Header -->
-    <header class="bg-white shadow-md fixed w-full top-0 z-40">
-        <div class="container mx-auto px-4">
-            <nav class="flex flex-col md:flex-row justify-between items-center py-4">
-                <div class="logo flex items-center gap-2 mb-3 md:mb-0">
-                    <a href="/" class="logo-text text-2xl font-bold text-primary">Technovia<span class="text-accent">X</span></a>
-                </div>
-                
-                <div class="w-full md:w-auto">
-                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
-                        <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
-                        <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
-                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
-                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
-                        <li><a href="/testimonials.html" class="text-secondary font-medium hover:text-primary transition-colors">Testimonials</a></li>
-                        <li><a href="/helpdesk.html" class="text-primary font-bold active">Helpdesk</a></li>
-                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
-                        <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </header>
+    <!-- Floating Buttons -->
+    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
+        <i class="fas fa-envelope"></i> Contact Us
+    </a>
 
-    <!-- Main Content -->
-    <main class="pt-32 pb-20">
-        <div class="container mx-auto px-4">
-            <!-- Hero Section -->
-            <div class="text-center mb-16 animate-fade-in-up">
-                <h1 class="text-4xl md:text-5xl font-bold mb-6">Helpdesk & Support</h1>
-                <p class="text-gray-600 text-lg max-w-3xl mx-auto">We're here to help you 24/7. Find solutions, get technical support, or browse our comprehensive FAQ section.</p>
+    <!-- Navigation Injection -->
+    <script src="js/navigation.js" defer></script>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-gradient pt-12 pb-16">
+            <div class="container mx-auto px-4 text-center animate-on-scroll">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary">
+                    Helpdesk & <span class="text-primary">Support</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-dark-light max-w-3xl mx-auto mb-8">
+                    We're here to help you 24/7. Find solutions, get technical support, or browse our comprehensive FAQ section.
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
+        </section>
 
-            <!-- Support Options -->
+        <!-- Support Options -->
+        <div class="container mx-auto px-4 pb-12">
             <section class="mb-16 animate-on-scroll">
-                <h2 class="text-3xl font-bold mb-8 text-center">How Can We Help You?</h2>
+                <h2 class="text-2xl sm:text-3xl font-bold mb-10 text-center text-secondary">How Can We Help You?</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Option 1 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
-                        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-primary rounded-full mb-6">
+                    <div class="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition-all duration-300 border border-gray-100 group">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-pastel-blue text-primary rounded-2xl mb-6 group-hover:scale-110 transition-transform">
                             <i class="fas fa-headset text-2xl"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-4">Technical Support</h3>
-                        <p class="text-gray-600 mb-6">Get expert help with technical issues, bugs, or system problems.</p>
-                        <button class="text-primary font-semibold hover:underline tech-support-link">Contact Support</button>
+                        <h3 class="text-xl font-bold mb-3 text-secondary">Technical Support</h3>
+                        <p class="text-dark-light mb-6 text-sm">Get expert help with technical issues, bugs, or system problems.</p>
+                        <button class="text-primary font-semibold hover:text-primary-dark transition-colors tech-support-link flex items-center justify-center gap-2 mx-auto">
+                            Contact Support <i class="fas fa-arrow-right text-xs"></i>
+                        </button>
                     </div>
                     
                     <!-- Option 2 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
-                        <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 text-success rounded-full mb-6">
-                            <i class="fab fa-whatsapp text-2xl"></i>
+                    <div class="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition-all duration-300 border border-gray-100 group">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-pastel-green text-success rounded-2xl mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fab fa-whatsapp text-3xl"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-4">WhatsApp Support</h3>
-                        <p class="text-gray-600 mb-6">Quick chat support for immediate assistance and queries.</p>
-                        <a href="https://wa.me/918433125736" target="_blank" class="text-success font-semibold hover:underline">Chat Now</a>
+                        <h3 class="text-xl font-bold mb-3 text-secondary">WhatsApp Support</h3>
+                        <p class="text-dark-light mb-6 text-sm">Quick chat support for immediate assistance and queries.</p>
+                        <a href="https://wa.me/918433125736" target="_blank" class="text-success font-semibold hover:text-green-700 transition-colors flex items-center justify-center gap-2 mx-auto">
+                            Chat Now <i class="fas fa-external-link-alt text-xs"></i>
+                        </a>
                     </div>
                     
                     <!-- Option 3 -->
-                    <div class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
-                        <div class="inline-flex items-center justify-center w-16 h-16 bg-purple-100 text-purple-600 rounded-full mb-6">
+                    <div class="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition-all duration-300 border border-gray-100 group">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-pastel-purple text-purple-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform">
                             <i class="fas fa-ticket-alt text-2xl"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-4">Submit a Ticket</h3>
-                        <p class="text-gray-600 mb-6">Create a support ticket for detailed technical assistance.</p>
-                        <button class="text-purple-600 font-semibold hover:underline support-ticket-link">Create Ticket</button>
+                        <h3 class="text-xl font-bold mb-3 text-secondary">Submit a Ticket</h3>
+                        <p class="text-dark-light mb-6 text-sm">Create a detailed support ticket for complex technical assistance.</p>
+                        <button class="text-purple-600 font-semibold hover:text-purple-800 transition-colors support-ticket-link flex items-center justify-center gap-2 mx-auto">
+                            Create Ticket <i class="fas fa-plus text-xs"></i>
+                        </button>
                     </div>
                 </div>
             </section>
 
             <!-- FAQ Section -->
             <section class="mb-16 animate-on-scroll">
-                <h2 class="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+                <h2 class="text-2xl sm:text-3xl font-bold mb-8 text-center text-secondary">Frequently Asked Questions</h2>
                 
                 <div class="max-w-3xl mx-auto space-y-4">
                     <!-- FAQ 1 -->
-                    <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                         <button class="faq-question w-full text-left p-6 flex justify-between items-center hover:bg-gray-50 transition-colors focus:outline-none">
-                            <span class="font-semibold text-lg">How long does it take to complete a web development project?</span>
-                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            <span class="font-semibold text-secondary">How long does it take to complete a web development project?</span>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
                         </button>
-                        <div class="faq-answer border-gray-100 px-6">
-                            <p class="text-gray-600">The timeline depends on project complexity. A simple website takes 2-3 weeks, while complex web applications may require 2-3 months. We provide detailed timelines after understanding your requirements.</p>
+                        <div class="faq-answer px-6 bg-gray-50/50">
+                            <p class="text-dark-light text-sm leading-relaxed">The timeline depends on project complexity. A simple website takes 2-3 weeks, while complex web applications may require 2-3 months. We provide detailed timelines after understanding your requirements.</p>
                         </div>
                     </div>
                     
                     <!-- FAQ 2 -->
-                    <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                         <button class="faq-question w-full text-left p-6 flex justify-between items-center hover:bg-gray-50 transition-colors focus:outline-none">
-                            <span class="font-semibold text-lg">Do you provide ongoing support after project completion?</span>
-                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            <span class="font-semibold text-secondary">Do you provide ongoing support after project completion?</span>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
                         </button>
-                        <div class="faq-answer border-gray-100 px-6">
-                            <p class="text-gray-600">Yes, we offer various maintenance packages including monthly updates, security monitoring, and technical support. We also provide 30 days of free support after project delivery.</p>
+                        <div class="faq-answer px-6 bg-gray-50/50">
+                            <p class="text-dark-light text-sm leading-relaxed">Yes, we offer various maintenance packages including monthly updates, security monitoring, and technical support. We also provide 30 days of free support after project delivery.</p>
                         </div>
                     </div>
                     
                     <!-- FAQ 3 -->
-                    <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                         <button class="faq-question w-full text-left p-6 flex justify-between items-center hover:bg-gray-50 transition-colors focus:outline-none">
-                            <span class="font-semibold text-lg">What technologies do you work with?</span>
-                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            <span class="font-semibold text-secondary">What technologies do you work with?</span>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
                         </button>
-                        <div class="faq-answer border-gray-100 px-6">
-                            <p class="text-gray-600">We work with modern technologies including React, Angular, Vue.js, Node.js, Python, PHP, WordPress, React Native, Flutter, AWS, Azure, and various databases. We choose the best stack for your specific needs.</p>
+                        <div class="faq-answer px-6 bg-gray-50/50">
+                            <p class="text-dark-light text-sm leading-relaxed">We work with modern technologies including React, Angular, Vue.js, Node.js, Python, PHP, WordPress, React Native, Flutter, AWS, Azure, and various databases. We choose the best stack for your specific needs.</p>
                         </div>
                     </div>
 
                     <!-- FAQ 4 -->
-                    <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                         <button class="faq-question w-full text-left p-6 flex justify-between items-center hover:bg-gray-50 transition-colors focus:outline-none">
-                            <span class="font-semibold text-lg">What is your payment process?</span>
-                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            <span class="font-semibold text-secondary">What is your payment process?</span>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
                         </button>
-                        <div class="faq-answer border-gray-100 px-6">
-                            <p class="text-gray-600">We typically follow a 50% advance and 50% on completion model for most projects. For larger projects, we can arrange milestone-based payments. We accept UPI, bank transfers, and PayPal.</p>
+                        <div class="faq-answer px-6 bg-gray-50/50">
+                            <p class="text-dark-light text-sm leading-relaxed">We typically follow a 50% advance and 50% on completion model for most projects. For larger projects, we can arrange milestone-based payments. We accept UPI, bank transfers, and PayPal.</p>
                         </div>
                     </div>
                 </div>
@@ -342,143 +273,91 @@
 
             <!-- Troubleshooting Guides -->
             <section class="mb-16 animate-on-scroll">
-                <h2 class="text-3xl font-bold mb-8 text-center">Quick Troubleshooting Guides</h2>
+                <h2 class="text-2xl sm:text-3xl font-bold mb-8 text-center text-secondary">Quick Troubleshooting</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="bg-blue-50 rounded-xl p-6">
-                        <h3 class="text-xl font-bold mb-4 text-blue-700">Website Not Loading</h3>
-                        <ol class="list-decimal pl-5 space-y-2 text-gray-600">
+                    <div class="bg-blue-50 rounded-2xl p-8 border border-blue-100">
+                        <h3 class="text-xl font-bold mb-4 text-primary flex items-center gap-2">
+                            <i class="fas fa-globe"></i> Website Not Loading
+                        </h3>
+                        <ol class="list-decimal pl-5 space-y-3 text-dark-light text-sm marker:text-primary font-medium">
                             <li>Clear your browser cache and cookies</li>
-                            <li>Check your internet connection</li>
-                            <li>Try accessing from a different browser</li>
-                            <li>Contact your hosting provider</li>
-                            <li>Check domain DNS settings</li>
+                            <li>Check your internet connection stability</li>
+                            <li>Try accessing from a different browser or device</li>
+                            <li>Check domain DNS settings if you have access</li>
+                            <li>Contact your hosting provider or our support</li>
                         </ol>
                     </div>
                     
-                    <div class="bg-green-50 rounded-xl p-6">
-                        <h3 class="text-xl font-bold mb-4 text-green-700">Email Issues</h3>
-                        <ol class="list-decimal pl-5 space-y-2 text-gray-600">
-                            <li>Check spam/junk folder</li>
-                            <li>Verify email address is correct</li>
-                            <li>Check email server settings</li>
-                            <li>Clear email client cache</li>
-                            <li>Contact email service provider</li>
+                    <div class="bg-green-50 rounded-2xl p-8 border border-green-100">
+                        <h3 class="text-xl font-bold mb-4 text-green-700 flex items-center gap-2">
+                            <i class="fas fa-envelope-open"></i> Email Issues
+                        </h3>
+                        <ol class="list-decimal pl-5 space-y-3 text-dark-light text-sm marker:text-green-600 font-medium">
+                            <li>Check your spam or junk folder first</li>
+                            <li>Verify the recipient email address is correct</li>
+                            <li>Check your email server storage quota</li>
+                            <li>Clear your email client cache or restart app</li>
+                            <li>Contact your email service provider</li>
                         </ol>
                     </div>
                 </div>
             </section>
 
-            <!-- Contact Section -->
-            <section class="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 text-center text-white animate-on-scroll">
+            <!-- Contact CTA -->
+            <section class="bg-gradient-to-r from-primary to-accent rounded-2xl p-10 text-center text-white shadow-lg animate-on-scroll">
                 <h2 class="text-3xl font-bold mb-4">Still Need Help?</h2>
-                <p class="mb-6 max-w-2xl mx-auto">Our support team is available 24/7 to assist you with any issues or questions.</p>
+                <p class="mb-8 max-w-2xl mx-auto text-blue-50 text-lg">Our support team is available 24/7 to assist you with any issues or questions you might have.</p>
                 <div class="flex flex-wrap gap-4 justify-center">
-                    <a href="https://wa.me/918433125736" target="_blank" class="btn bg-white text-primary hover:bg-gray-100">
-                        <i class="fab fa-whatsapp mr-2"></i> Chat on WhatsApp
+                    <a href="https://wa.me/918433125736" target="_blank" class="bg-white text-primary font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors shadow-md flex items-center gap-2 transform hover:-translate-y-1">
+                        <i class="fab fa-whatsapp text-xl"></i> Chat on WhatsApp
                     </a>
-                    <a href="mailto:info.technoviax@gmail.com" class="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">
-                        <i class="fas fa-envelope mr-2"></i> Email Support
+                    <a href="mailto:info.technoviax@gmail.com" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-primary transition-colors flex items-center gap-2">
+                        <i class="fas fa-envelope text-xl"></i> Email Support
                     </a>
                 </div>
             </section>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-secondary text-white py-12 sm:py-16">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
-                <div>
-                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Technovia<span class="text-accent">X</span></div>
-                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">Innovative IT solutions and services to help businesses transform and thrive in the digital era.</p>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Quick Links</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Home</a></li>
-                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Services</a></li>
-                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
-                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
-                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Services</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Web Development</a></li>
-                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">App Development</a></li>
-                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Cloud Solutions</a></li>
-                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Digital Marketing</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
-                <p class="text-gray-400 text-sm sm:text-base">&copy; 2023 TechnoviaX Tech. All Rights Reserved.</p>
-                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
-                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
-                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
-                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Terms & Conditions</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
     <!-- Technical Support Modal -->
-    <div id="tech-support-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-xl w-full max-w-2xl transform scale-95 transition-transform duration-300">
+    <div id="tech-support-modal" class="fixed inset-0 bg-secondary/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl w-full max-w-2xl transform scale-95 transition-transform duration-300 shadow-2xl overflow-hidden">
             <div class="p-8">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold">Technical Support Request</h2>
-                    <button id="close-tech-modal" class="text-gray-500 hover:text-gray-700">
+                <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-bold text-secondary">Technical Support Request</h2>
+                    <button id="close-tech-modal" class="text-gray-400 hover:text-error transition-colors">
                         <i class="fas fa-times text-2xl"></i>
                     </button>
                 </div>
                 
-                <div class="mb-6 p-4 bg-blue-50 rounded-lg">
-                    <p class="text-blue-700 text-sm">Please fill out our technical support form. Our team will respond within 24 hours. For urgent issues, use WhatsApp support.</p>
+                <div class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100 flex gap-3 items-start">
+                    <i class="fas fa-info-circle text-primary mt-1"></i>
+                    <p class="text-blue-800 text-sm">Please fill out the form below. Our team typically responds within 24 hours. For urgent issues, please use WhatsApp.</p>
                 </div>
                 
-                <form id="tech-support-form" data-web3forms class="space-y-6">
+                <form id="tech-support-form" class="space-y-5">
                     <input type="hidden" name="access_key" value="27443247-267a-43b2-9dfc-0b2a5f55713e">
                     <input type="hidden" name="subject" value="Technical Support Request">
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div class="form-group">
-                            <label for="support-name" class="form-label">Full Name *</label>
-                            <input type="text" id="support-name" name="name" class="form-input" required>
+                            <label for="support-name" class="form-label">Full Name <span class="text-error">*</span></label>
+                            <input type="text" id="support-name" name="name" class="form-input" required placeholder="John Doe">
                         </div>
                         <div class="form-group">
-                            <label for="support-email" class="form-label">Email Address *</label>
-                            <input type="email" id="support-email" name="email" class="form-input" required>
+                            <label for="support-email" class="form-label">Email Address <span class="text-error">*</span></label>
+                            <input type="email" id="support-email" name="email" class="form-input" required placeholder="john@example.com">
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div class="form-group">
-                            <label for="support-phone" class="form-label">Phone Number *</label>
-                            <input type="tel" id="support-phone" name="phone" class="form-input" required>
+                            <label for="support-phone" class="form-label">Phone Number <span class="text-error">*</span></label>
+                            <input type="tel" id="support-phone" name="phone" class="form-input" required placeholder="+91 98765 43210">
                         </div>
                         <div class="form-group">
-                            <label for="support-issue" class="form-label">Issue Type *</label>
+                            <label for="support-issue" class="form-label">Issue Type <span class="text-error">*</span></label>
                             <select id="support-issue" name="issue_type" class="form-select" required>
                                 <option value="">Select issue type</option>
                                 <option value="Website Problem">Website Problem</option>
@@ -490,15 +369,15 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="support-description" class="form-label">Issue Description *</label>
-                        <textarea id="support-description" name="description" class="form-textarea h-32" required placeholder="Please describe your issue in detail..."></textarea>
+                        <label for="support-description" class="form-label">Issue Description <span class="text-error">*</span></label>
+                        <textarea id="support-description" name="description" class="form-textarea h-32" required placeholder="Please describe the issue, error messages, or steps to reproduce..."></textarea>
                     </div>
                     
-                    <div class="form-status hidden mb-4"></div>
+                    <div class="form-status hidden"></div>
                     
-                    <div class="text-center">
-                        <button type="submit" id="submit-btn" class="btn btn-primary">
-                            <i class="fas fa-paper-plane mr-2"></i> Submit Request
+                    <div class="text-right pt-2">
+                        <button type="submit" id="submit-btn" class="btn-primary px-8 py-3 rounded-lg font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
+                            <i class="fas fa-paper-plane"></i> Submit Request
                         </button>
                     </div>
                 </form>
@@ -506,55 +385,72 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Footer Injection -->
+    <div id="footer-container"></div>
+    <script src="js/footer.js" defer></script>
+
+    <!-- Firebase Auth Script -->
+    <script type="module" src="js/loginfirebase.js" defer></script>
+
+    <!-- Main Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Loading Screen
+            // Loading Screen Logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
                 setTimeout(() => {
                     loadingScreen.style.opacity = '0';
                     setTimeout(() => {
                         loadingScreen.style.display = 'none';
+                        document.body.style.overflow = 'auto';
                     }, 500);
-                }, 800);
+                }, 500);
             }
 
-            // 2. Smooth Scroll
+            // Smooth Scroll
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
                     if (href === '#' || href === '#!') return;
-                    e.preventDefault();
-                    const targetElement = document.querySelector(href);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            const headerHeight = document.querySelector('header') ? document.querySelector('header').offsetHeight : 80;
+                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                            window.scrollTo({
+                                top: targetPosition - headerHeight - 20, 
+                                behavior: 'smooth'
+                            });
+                        }
                     }
                 });
             });
 
-            // 3. Scroll Animation
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animated');
+            // Scroll Animation
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+                elements.forEach(element => {
+                    if (element.classList.contains('animated')) return;
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    if (elementTop < windowHeight * 0.85) {
+                        element.classList.add('animated');
                     }
                 });
-            }, { threshold: 0.1 });
+            }
+            animateOnScroll();
+            window.addEventListener('scroll', () => window.requestAnimationFrame(animateOnScroll));
 
-            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-
-            // 4. FAQ Logic
+            // FAQ Logic
             const faqQuestions = document.querySelectorAll('.faq-question');
             faqQuestions.forEach(question => {
                 question.addEventListener('click', function() {
                     const answer = this.nextElementSibling;
                     const icon = this.querySelector('i');
                     
-                    // Close other open FAQs (Optional - remove if you want multiple open)
+                    // Close others
                     faqQuestions.forEach(q => {
                         if (q !== this) {
                             q.nextElementSibling.classList.remove('open');
@@ -567,7 +463,7 @@
                 });
             });
 
-            // 5. Tech Support Modal Logic
+            // Tech Support Modal Logic
             const modal = document.getElementById('tech-support-modal');
             const modalContent = modal.querySelector('div');
             const openBtns = document.querySelectorAll('.tech-support-link, .support-ticket-link');
@@ -575,6 +471,7 @@
 
             function openModal() {
                 modal.classList.remove('hidden');
+                // Small delay to allow display:block to apply before opacity transition
                 setTimeout(() => {
                     modal.classList.remove('opacity-0');
                     modalContent.classList.remove('scale-95');
@@ -598,12 +495,13 @@
                 openModal();
             }));
             
-            closeBtn.addEventListener('click', closeModal);
+            if(closeBtn) closeBtn.addEventListener('click', closeModal);
+            
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) closeModal();
             });
 
-            // 6. Form Submission Logic (Web3Forms)
+            // Form Submission Logic
             const form = document.getElementById('tech-support-form');
             const submitBtn = document.getElementById('submit-btn');
             const formStatus = document.querySelector('.form-status');
@@ -620,7 +518,7 @@
                             field.style.borderColor = '#ef4444';
                             valid = false;
                         } else {
-                            field.style.borderColor = '#d1d5db';
+                            field.style.borderColor = '#e2e8f0';
                         }
                     });
                     
@@ -641,51 +539,23 @@
                         const result = await response.json();
 
                         if (result.success) {
-                            formStatus.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Ticket created successfully! We will contact you soon.';
-                            formStatus.className = 'form-status success mb-4 block';
+                            formStatus.innerHTML = '<div class="flex items-center gap-2"><i class="fas fa-check-circle"></i> Ticket created successfully! We will contact you soon.</div>';
+                            formStatus.className = 'form-status success mb-4 block text-sm font-medium';
                             form.reset();
                             setTimeout(closeModal, 3000);
                         } else {
                             throw new Error(result.message);
                         }
                     } catch (error) {
-                        formStatus.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i> Error submitting ticket. Please try again.';
-                        formStatus.className = 'form-status error mb-4 block';
+                        formStatus.innerHTML = '<div class="flex items-center gap-2"><i class="fas fa-exclamation-circle"></i> Error submitting ticket. Please try again.</div>';
+                        formStatus.className = 'form-status error mb-4 block text-sm font-medium';
                     } finally {
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = originalText;
                     }
                 });
             }
-            
-            // 7. Active Navigation State
-            const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => {
-                const linkHref = link.getAttribute('href');
-                if (linkHref === '/helpdesk.html' || (currentPath.includes('helpdesk.html') && linkHref.includes('helpdesk.html'))) {
-                    link.classList.add('active', 'text-primary', 'font-bold');
-                    link.classList.remove('text-secondary');
-                }
-            });
-        });
-      // 2. Smooth Scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href === '#' || href === '#!' || href.includes('.html')) return;
-                e.preventDefault();
-                const targetId = href.substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
         });
     </script>
-    <script src="js/loginfirebase.js" type="module"></script>
 </body>
 </html>

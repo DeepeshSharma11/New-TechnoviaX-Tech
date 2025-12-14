@@ -3,132 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - TechnoviaX Tech</title>
-    <meta name="description" content="Get in touch with TechnoviaX Tech for IT solutions, web development, and digital transformation services.">
+    <title>Contact Us - TechnoviaX Tech | Get in Touch</title>
+    <meta name="description" content="Get in touch with TechnoviaX Tech for IT solutions, web development, and digital transformation services. We are here to help you grow.">
+    <meta name="author" content="TechnoviaX Tech">
+    
+    <!-- Dynamic Favicon Loader -->
+    <script src="js/favicon-loader.js"></script>
     
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS & Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2563eb',
-                        'primary-dark': '#1d4ed8',
+                        primary: '#1e40af',
+                        'primary-dark': '#1e3a8a',
+                        'primary-light': '#3b82f6',
                         secondary: '#0f172a',
-                        accent: '#22d3ee',
-                        'accent-dark': '#06b6d4',
+                        accent: '#059669',
+                        'accent-dark': '#047857',
+                        'accent-light': '#10b981',
                         light: '#f8fafc',
-                        gray: '#64748b',
+                        dark: '#1e293b',
+                        'dark-light': '#334155',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#dc2626',
+                        info: '#3b82f6',
                         whatsapp: '#25D366',
                         'whatsapp-dark': '#128C7E',
-                        success: '#10b981',
-                        error: '#ef4444',
+                        'pastel-blue': '#eff6ff',
+                        'pastel-green': '#f0fdf4',
+                        'pastel-purple': '#f5f3ff',
+                        'pastel-pink': '#fdf2f8'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
                     }
                 }
             }
         }
     </script>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Custom Styles -->
     <style>
-        /* WhatsApp Float */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-        }
-
-        /* Navigation Links */
-        .nav-links li a {
-            position: relative;
-            padding: 8px 0;
-            white-space: nowrap;
-        }
+        /* Shared Styles */
+        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
+        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
         
-        .nav-links li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #2563eb;
-            transition: width 0.3s ease;
-        }
+        /* Sticky CTA hidden on contact page to avoid redundancy */
+        .sticky-cta { display: none; }
         
-        .nav-links li a:hover::after,
-        .nav-links li a.active::after {
-            width: 100%;
-        }
-
-        /* Mobile Navigation Scroll Fix */
-        @media (max-width: 768px) {
-            .nav-links {
-                overflow-x: auto;
-                padding-bottom: 4px;
-                -webkit-overflow-scrolling: touch;
-            }
-            .nav-links::-webkit-scrollbar { height: 4px; }
-            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .btn-primary {
-            background-color: #2563eb;
-            color: white;
-        }
-        .btn-primary:hover {
-            background-color: #1d4ed8;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
+        .section-title{position:relative;display:inline-block;padding-bottom:15px}
+        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#1e40af,#059669);border-radius:2px}
+        
+        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
+        .cta-gradient{background:linear-gradient(135deg,#1e40af 0%,#059669 100%);color:white}
+        
+        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
+        
+        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
+        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .loading-logo span{color:#059669}
+        
+        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
+        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
+        
         /* Form Elements */
         .form-input, .form-select, .form-textarea {
             width: 100%;
@@ -136,194 +99,138 @@
             border: 1px solid #e2e8f0;
             border-radius: 0.5rem;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
         }
         .form-input:focus, .form-select:focus, .form-textarea:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            border-color: #1e40af;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
         }
         .form-label {
             display: block;
-            font-weight: 500;
+            font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #334155;
+            color: #1e293b;
+            font-size: 0.9rem;
+        }
+        .input-error {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+        }
+        .error-msg {
+            color: #ef4444;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            display: none;
         }
 
         /* Status Messages */
-        .form-status {
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            display: none;
-        }
-        .form-status.success {
-            background-color: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
-        }
-        .form-status.error {
-            background-color: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-        }
-        .form-status.loading {
-            background-color: #dbeafe;
-            color: #1e40af;
-            border: 1px solid #93c5fd;
-        }
+        .form-status { padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; display: none; }
+        .form-status.success { background-color: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+        .form-status.error { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
-        /* Animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .animate-on-scroll.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Section Title Line */
-        .section-title {
-            position: relative;
-            display: inline-block;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: #2563eb;
-            border-radius: 2px;
-        }
+        html{scroll-behavior:smooth;scroll-padding-top:100px}
+        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}}
     </style>
 </head>
-<body class="font-sans text-secondary bg-slate-50">
+<body class="font-sans text-secondary bg-light">
 
     <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
+        <div class="loading-logo">Technovia<span>X</span></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <p class="text-white mt-4 font-medium">Loading...</p>
     </div>
 
-    <!-- Header -->
-    <header class="bg-white shadow-md fixed w-full top-0 z-40">
-        <div class="container mx-auto px-4">
-            <nav class="flex flex-col md:flex-row justify-between items-center py-4">
-                <div class="logo flex items-center gap-2 mb-3 md:mb-0">
-                    <a href="/" class="logo-text text-2xl font-bold text-primary">Technovia<span class="text-accent">X</span></a>
-                </div>
-                
-                <div class="w-full md:w-auto">
-                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center list-none gap-4 md:gap-8 overflow-x-auto">
-                        <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
-                        <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
-                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
-                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
-                        <li><a href="/testimonials.html" class="text-secondary font-medium hover:text-primary transition-colors">Testimonials</a></li>
-                        <li><a href="/helpdesk.html" class="text-secondary font-medium hover:text-primary transition-colors">Helpdesk</a></li>
-                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
-                        <li><a href="/contact.html" class="text-primary font-bold active">Contact</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </header>
+    <!-- Floating Buttons -->
+    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-    <!-- Main Content -->
-    <main class="pt-32 pb-20">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12 animate-fade-in-up">
-                <h1 class="text-4xl font-bold mb-4 section-title">Contact Us</h1>
-                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Get in touch with us to discuss how we can help your business grow.</p>
+    <!-- Navigation Injection -->
+    <script src="js/navigation.js" defer></script>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-gradient pt-12 pb-16">
+            <div class="container mx-auto px-4 text-center animate-on-scroll">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary">
+                    Contact <span class="text-primary">Us</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-dark-light max-w-3xl mx-auto mb-8">
+                    Get in touch with us to discuss how we can help your business grow. We're here to answer your questions and provide the best solutions.
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
+        </section>
 
+        <div class="container mx-auto px-4 pb-12">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Contact Information -->
+                
+                <!-- Contact Information Column -->
                 <div class="lg:col-span-1 animate-on-scroll">
-                    <div class="bg-white rounded-xl shadow-lg p-8 h-full">
-                        <h2 class="text-2xl font-bold mb-6">Get in Touch</h2>
+                    <div class="bg-white rounded-2xl shadow-lg p-8 h-full border border-gray-100">
+                        <h2 class="text-2xl font-bold mb-8 text-secondary">Get in Touch</h2>
                         
-                        <div class="space-y-6">
+                        <div class="space-y-8">
                             <div class="flex items-start gap-4">
-                                <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-lg">
-                                    <i class="fas fa-map-marker-alt"></i>
+                                <div class="bg-pastel-blue text-primary p-4 rounded-2xl">
+                                    <i class="fas fa-map-marker-alt text-xl"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-bold mb-1">Our Location</h3>
-                                    <p class="text-gray-600">Tech Street, Bareilly<br>Uttar Pradesh, India</p>
+                                    <h3 class="font-bold mb-1 text-secondary">Our Location</h3>
+                                    <p class="text-dark-light text-sm leading-relaxed">Tech Street, Bareilly<br>Uttar Pradesh, India</p>
                                 </div>
                             </div>
                             
                             <div class="flex items-start gap-4">
-                                <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-lg">
-                                    <i class="fas fa-phone"></i>
+                                <div class="bg-pastel-green text-success p-4 rounded-2xl">
+                                    <i class="fas fa-phone-alt text-xl"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-bold mb-1">Phone Number</h3>
-                                    <p class="text-gray-600">+91 8433125736</p>
-                                    <a href="tel:+918433125736" class="text-primary hover:underline text-sm">Call us now</a>
+                                    <h3 class="font-bold mb-1 text-secondary">Phone Number</h3>
+                                    <p class="text-dark-light text-sm mb-1">+91 8433125736</p>
+                                    <a href="tel:+918433125736" class="text-primary hover:text-primary-dark text-sm font-medium transition-colors">Call us now</a>
                                 </div>
                             </div>
                             
                             <div class="flex items-start gap-4">
-                                <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-lg">
-                                    <i class="fas fa-envelope"></i>
+                                <div class="bg-pastel-purple text-info p-4 rounded-2xl">
+                                    <i class="fas fa-envelope text-xl"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-bold mb-1">Email Address</h3>
-                                    <p class="text-gray-600">info.technoviax@gmail.com</p>
-                                    <a href="mailto:info.technoviax@gmail.com" class="text-primary hover:underline text-sm">Send email</a>
+                                    <h3 class="font-bold mb-1 text-secondary">Email Address</h3>
+                                    <p class="text-dark-light text-sm mb-1">info.technoviax@gmail.com</p>
+                                    <a href="mailto:info.technoviax@gmail.com" class="text-primary hover:text-primary-dark text-sm font-medium transition-colors">Send email</a>
                                 </div>
                             </div>
                             
                             <div class="flex items-start gap-4">
-                                <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-lg">
-                                    <i class="fab fa-whatsapp"></i>
+                                <div class="bg-gray-100 text-gray-600 p-4 rounded-2xl">
+                                    <i class="fas fa-clock text-xl"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-bold mb-1">WhatsApp</h3>
-                                    <p class="text-gray-600">+91 8433125736</p>
-                                    <a href="https://wa.me/918433125736" target="_blank" class="text-success hover:underline text-sm">Chat on WhatsApp</a>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start gap-4">
-                                <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-lg">
-                                    <i class="fas fa-clock"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold mb-1">Working Hours</h3>
-                                    <p class="text-gray-600">Monday - Friday: 9AM - 6PM<br>Saturday: 10AM - 4PM</p>
+                                    <h3 class="font-bold mb-1 text-secondary">Working Hours</h3>
+                                    <p class="text-dark-light text-sm">Mon - Fri: 9:00 AM - 6:00 PM</p>
+                                    <p class="text-dark-light text-sm">Sat: 10:00 AM - 4:00 PM</p>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="mt-8 pt-6 border-t border-gray-200">
-                            <h3 class="font-bold mb-4">Follow Us</h3>
-                            <div class="flex gap-4">
-                                <a href="#" class="bg-gray-100 text-gray-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                        <div class="mt-10 pt-8 border-t border-gray-100">
+                            <h3 class="font-bold mb-4 text-secondary">Follow Us</h3>
+                            <div class="flex gap-3">
+                                <a href="#" class="bg-gray-50 text-gray-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
-                                <a href="#" class="bg-gray-100 text-gray-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                                <a href="#" class="bg-gray-50 text-gray-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm">
                                     <i class="fab fa-twitter"></i>
                                 </a>
-                                <a href="#" class="bg-gray-100 text-gray-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                                <a href="#" class="bg-gray-50 text-gray-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm">
                                     <i class="fab fa-instagram"></i>
                                 </a>
-                                <a href="#" class="bg-gray-100 text-gray-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                                <a href="#" class="bg-gray-50 text-gray-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-sm">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
                             </div>
@@ -331,56 +238,40 @@
                     </div>
                 </div>
 
-                <!-- Contact Form Panel (Logic updated for Login Check) -->
+                <!-- Contact Form Column -->
                 <div class="lg:col-span-2 animate-on-scroll" style="animation-delay: 0.1s;">
-                    <div class="bg-white rounded-xl shadow-lg p-8 relative overflow-hidden">
-                        
-                        <!-- 1. Login Lock Screen (Shown if not logged in) -->
-                        <div id="login-lock-screen" class="absolute inset-0 bg-white/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center text-center p-6 hidden">
-                            <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-6 shadow-lg">
-                                <i class="fas fa-lock text-4xl text-primary"></i>
-                            </div>
-                            <h2 class="text-3xl font-bold mb-3 text-gray-800">Login Required</h2>
-                            <p class="text-gray-600 mb-8 max-w-md text-lg">You must be logged in to send us a message or fill out this form.</p>
-                            <a href="/login.html" class="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-primary-dark transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center gap-3">
-                                <i class="fas fa-sign-in-alt"></i> Login to Continue
-                            </a>
-                            <p class="mt-4 text-sm text-gray-500">Don't have an account? It's free!</p>
+                    <div class="bg-white rounded-2xl shadow-lg p-8 relative overflow-hidden h-full border border-gray-100">
+                        <div class="mb-8">
+                            <h2 class="text-2xl font-bold mb-2 text-secondary">Send us a Message</h2>
+                            <p class="text-dark-light text-sm">Fill out the form below and our team will get back to you within 24 hours.</p>
                         </div>
-
-                        <!-- 2. The Form Container (Content) -->
-                        <div id="form-content">
-                            <h2 class="text-2xl font-bold mb-6">Send us a Message</h2>
+                        
+                        <form id="contact-form" class="space-y-6">
+                            <!-- Web3Forms Configuration -->
+                            <input type="hidden" name="access_key" value="27443247-267a-43b2-9dfc-0b2a5f55713e">
+                            <input type="hidden" name="subject" value="New Contact Inquiry - TechnoviaX">
+                            <input type="hidden" name="from_name" value="TechnoviaX Website">
                             
-                            <form id="contact-form" data-web3forms class="space-y-6">
-                                <!-- Hidden inputs for Web3Forms -->
-                                <input type="hidden" name="access_key" value="27443247-267a-43b2-9dfc-0b2a5f55713e">
-                                <input type="hidden" name="subject" value="Contact Form - TechnoviaX Website">
-                                <input type="hidden" name="from_name" value="TechnoviaX Website">
-                                
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="form-group">
-                                        <label for="contact-name" class="form-label">Full Name *</label>
-                                        <input type="text" id="contact-name" name="name" class="form-input" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="contact-email" class="form-label">Email Address *</label>
-                                        <input type="email" id="contact-email" name="email" class="form-input" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="contact-phone" class="form-label">Phone Number</label>
-                                        <input type="tel" id="contact-phone" name="phone" class="form-input">
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="contact-company" class="form-label">Company / Business Name</label>
-                                        <input type="text" id="contact-company" name="company" class="form-input">
-                                    </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="contact-name" class="form-label">Full Name <span class="text-error">*</span></label>
+                                    <input type="text" id="contact-name" name="name" class="form-input" required placeholder="John Doe">
+                                    <span class="error-msg" id="name-error">Please enter your full name</span>
                                 </div>
-
-                                <div class="form-group">
+                                <div>
+                                    <label for="contact-email" class="form-label">Email Address <span class="text-error">*</span></label>
+                                    <input type="email" id="contact-email" name="email" class="form-input" required placeholder="john@example.com">
+                                    <span class="error-msg" id="email-error">Please enter a valid email address</span>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="contact-phone" class="form-label">Phone Number</label>
+                                    <input type="tel" id="contact-phone" name="phone" class="form-input" placeholder="+91 98765 43210">
+                                    <span class="error-msg" id="phone-error">Please enter a valid phone number</span>
+                                </div>
+                                <div>
                                     <label for="contact-service" class="form-label">Service Interested In</label>
                                     <select id="contact-service" name="service" class="form-select">
                                         <option value="">Select a service</option>
@@ -389,174 +280,77 @@
                                         <option value="Cloud Solutions">Cloud Solutions</option>
                                         <option value="Digital Marketing">Digital Marketing</option>
                                         <option value="Cyber Security">Cyber Security</option>
-                                        <option value="AI & ML Solutions">AI & ML Solutions</option>
                                         <option value="Consultation">Consultation</option>
                                         <option value="Other">Other</option>
                                     </select>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="contact-message" class="form-label">Your Message *</label>
-                                    <textarea id="contact-message" name="message" class="form-textarea" rows="6" required placeholder="Tell us about your project or inquiry..."></textarea>
+                            </div>
+                            
+                            <div>
+                                <label for="contact-message" class="form-label">Your Message <span class="text-error">*</span></label>
+                                <textarea id="contact-message" name="message" class="form-textarea h-32" required placeholder="Tell us about your project or inquiry..."></textarea>
+                            </div>
+                            
+                            <div class="flex items-start gap-3">
+                                <div class="flex items-center h-5">
+                                    <input type="checkbox" id="contact-consent" name="consent" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary" required>
                                 </div>
+                                <label for="contact-consent" class="text-sm text-gray-600">
+                                    I agree to the <a href="/privacy.html" class="text-primary hover:underline font-medium">Privacy Policy</a> and consent to being contacted regarding my inquiry. <span class="text-error">*</span>
+                                </label>
+                            </div>
 
-                                <div class="form-group">
-                                    <div class="flex items-center">
-                                        <input type="checkbox" id="contact-consent" name="consent" class="mr-2" required>
-                                        <label for="contact-consent" class="text-sm">
-                                            I agree to the <a href="/privacy.html" class="text-primary hover:underline">Privacy Policy</a> and consent to being contacted *
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="form-status" id="form-status"></div>
-
-                                <div class="text-center">
-                                    <button type="submit" id="submit-btn" class="btn btn-primary px-8">
-                                        <i class="fas fa-paper-plane mr-2"></i> Send Message
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="form-status hidden"></div>
+                            
+                            <div class="pt-2">
+                                <button type="submit" id="submit-btn" class="btn-primary w-full md:w-auto px-8 py-3.5 rounded-xl font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                                    <i class="fas fa-paper-plane"></i> Send Message
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-secondary text-white py-12 sm:py-16">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
-                <div>
-                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Technovia<span class="text-accent">X</span></div>
-                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">Innovative IT solutions and services to help businesses transform and thrive in the digital era.</p>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Quick Links</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Home</a></li>
-                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Services</a></li>
-                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
-                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
-                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Services</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Web Development</a></li>
-                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">App Development</a></li>
-                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Cloud Solutions</a></li>
-                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Digital Marketing</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
-                <p class="text-gray-400 text-sm sm:text-base">&copy; 2023 TechnoviaX Tech. All Rights Reserved.</p>
-                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
-                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
-                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
-                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Terms & Conditions</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer Injection -->
+    <div id="footer-container"></div>
+    <script src="js/footer.js" defer></script>
 
-    <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <!-- Firebase Auth Script -->
+    <script type="module" src="js/loginfirebase.js" defer></script>
 
-    <!-- Auth Logic (Must be module type for import) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-
-        // Firebase Config (Same as in js/loginfirebase.js)
-        const firebaseConfig = {
-            apiKey: "AIzaSyBk33C9Xlw54hwJkgfC0mJWeFXBtZi7FPM",
-            authDomain: "technoviax-tech.firebaseapp.com",
-            projectId: "technoviax-tech",
-            storageBucket: "technoviax-tech.firebasestorage.app",
-            messagingSenderId: "238376394946",
-            appId: "1:238376394946:web:4fbb7be471316c0cea5b5b",
-            measurementId: "G-BYG4TMPMMV"
-        };
-
-        // Initialize
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        const lockScreen = document.getElementById('login-lock-screen');
-        const formContent = document.getElementById('form-content');
-        const nameInput = document.getElementById('contact-name');
-        const emailInput = document.getElementById('contact-email');
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // LOGGED IN: Show Form
-                lockScreen.classList.add('hidden');
-                formContent.classList.remove('opacity-30', 'pointer-events-none', 'blur-sm'); // Make form usable
-                
-                // Auto-fill data (Bonus UX)
-                if(nameInput && !nameInput.value) nameInput.value = user.displayName || '';
-                if(emailInput && !emailInput.value) emailInput.value = user.email || '';
-            } else {
-                // LOGGED OUT: Show Lock Screen
-                lockScreen.classList.remove('hidden');
-                // Add visual cues that form is disabled
-                formContent.classList.add('opacity-30', 'pointer-events-none', 'blur-sm'); 
-            }
-        });
-    </script>
-
-    <!-- Standard Page Logic -->
+    <!-- Main Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('TechnoviaX Tech Website - Contact Page Loaded');
-            
-            // 1. Loading Screen Logic
+            // 1. Loading Screen
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
                 setTimeout(() => {
-                    loadingScreen.style.transition = 'opacity 0.5s ease';
                     loadingScreen.style.opacity = '0';
                     setTimeout(() => {
                         loadingScreen.style.display = 'none';
                         document.body.style.overflow = 'auto';
                     }, 500);
-                }, 800);
+                }, 500);
             }
 
-            // 2. Smooth Scrolling
-            const header = document.querySelector('header');
-            const headerHeight = header ? header.offsetHeight : 80;
-            
+            // 2. Smooth Scroll
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
                     if (href === '#' || href === '#!') return;
                     if (href.startsWith('#')) {
                         e.preventDefault();
-                        const targetElement = document.querySelector(href);
+                        const targetId = href.substring(1);
+                        const targetElement = document.getElementById(targetId);
                         if (targetElement) {
-                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                            const finalPosition = targetPosition - headerHeight - 10;
-                            window.scrollTo({ top: finalPosition, behavior: 'smooth' });
+                            const headerHeight = document.querySelector('header') ? document.querySelector('header').offsetHeight : 80;
+                            window.scrollTo({
+                                top: targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20, 
+                                behavior: 'smooth'
+                            });
                         }
                     }
                 });
@@ -564,30 +358,26 @@
 
             // 3. Scroll Animation
             function animateOnScroll() {
-                const animatedElements = document.querySelectorAll('.animate-on-scroll');
-                animatedElements.forEach(element => {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+                elements.forEach(element => {
                     if (element.classList.contains('animated')) return;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const screenPosition = window.innerHeight - (window.innerHeight / 4);
-                    
-                    if (elementPosition < screenPosition) {
+                    const elementTop = element.getBoundingClientRect().top;
+                    if (elementTop < window.innerHeight * 0.85) {
                         element.classList.add('animated');
                     }
                 });
             }
-            animateOnScroll(); 
-            window.addEventListener('scroll', () => {
-                window.requestAnimationFrame(animateOnScroll);
-            });
+            animateOnScroll();
+            window.addEventListener('scroll', () => window.requestAnimationFrame(animateOnScroll));
 
-            // 4. URL Parameter Pre-filling
+            // 4. URL Parameter Pre-filling (Service)
             const urlParams = new URLSearchParams(window.location.search);
             const serviceParam = urlParams.get('service');
             if (serviceParam) {
                 const serviceSelect = document.getElementById('contact-service');
                 if (serviceSelect) {
                     for (let i = 0; i < serviceSelect.options.length; i++) {
-                        if (serviceSelect.options[i].value === serviceParam || serviceSelect.options[i].value.toLowerCase().includes(serviceParam.toLowerCase())) {
+                        if (serviceSelect.options[i].value.toLowerCase() === serviceParam.toLowerCase()) {
                             serviceSelect.selectedIndex = i;
                             break;
                         }
@@ -595,35 +385,60 @@
                 }
             }
 
-            // 5. Contact Form Handler (Web3Forms)
+            // 5. Form Validation & Submission
             const contactForm = document.getElementById('contact-form');
             const submitBtn = document.getElementById('submit-btn');
-            const formStatus = document.getElementById('form-status');
+            const formStatus = document.querySelector('.form-status');
+            
+            // Validation Patterns
+            const patterns = {
+                email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                phone: /^\+?[0-9]{10,15}$/
+            };
 
+            // Real-time Validation
+            const inputs = contactForm.querySelectorAll('input[required], textarea[required]');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const fieldName = this.name;
+                    const errorSpan = document.getElementById(`${fieldName}-error`);
+                    
+                    this.classList.remove('input-error');
+                    if (errorSpan) errorSpan.style.display = 'none';
+
+                    if (fieldName === 'email' && !patterns.email.test(this.value) && this.value.length > 0) {
+                        this.classList.add('input-error');
+                        if (errorSpan) errorSpan.style.display = 'block';
+                    }
+                });
+            });
+
+            // Submission Handler
             if (contactForm) {
                 contactForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
-                    const requiredFields = contactForm.querySelectorAll('[required]');
                     let isValid = true;
-                    requiredFields.forEach(field => {
-                        if (!field.value.trim()) {
+                    inputs.forEach(input => {
+                        if (!input.value.trim()) {
+                            input.classList.add('input-error');
                             isValid = false;
-                            field.style.borderColor = '#ef4444';
-                        } else {
-                            field.style.borderColor = '#d1d5db';
+                        }
+                        if (input.name === 'email' && !patterns.email.test(input.value)) {
+                            input.classList.add('input-error');
+                            isValid = false;
                         }
                     });
 
                     if (!isValid) {
-                        showStatus('Please fill in all required fields.', 'error');
+                        showStatus('Please fill in all required fields correctly.', 'error');
                         return;
                     }
 
                     const originalBtnText = submitBtn.innerHTML;
                     submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
-                    formStatus.style.display = 'none';
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                    formStatus.classList.add('hidden');
 
                     try {
                         const formData = new FormData(this);
@@ -632,15 +447,16 @@
                             body: formData
                         });
                         const result = await response.json();
-                        
+
                         if (response.ok && result.success) {
                             showStatus('Thank you! Your message has been sent successfully.', 'success');
                             contactForm.reset();
                         } else {
-                            showStatus(result.message || 'Something went wrong.', 'error');
+                            throw new Error(result.message);
                         }
                     } catch (error) {
-                        showStatus('Network error. Please check your connection.', 'error');
+                        console.error('Submission error:', error);
+                        showStatus('Something went wrong. Please check your connection and try again.', 'error');
                     } finally {
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = originalBtnText;
@@ -649,42 +465,10 @@
             }
 
             function showStatus(message, type) {
-                formStatus.innerHTML = message;
-                formStatus.className = 'form-status ' + type;
-                formStatus.style.display = 'block';
-                if (type === 'success') setTimeout(() => formStatus.style.display = 'none', 5000);
+                formStatus.innerHTML = `<div class="flex items-center gap-2"><i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}</div>`;
+                formStatus.className = `form-status ${type} block text-sm font-medium`;
             }
-
-            // 6. Active Navigation State
-            const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => {
-                const linkHref = link.getAttribute('href');
-                link.classList.remove('active', 'text-primary', 'font-bold');
-                link.classList.add('text-secondary');
-                if (linkHref === '/contact.html' || (currentPath.includes('contact.html') && linkHref.includes('contact.html'))) {
-                    link.classList.add('active', 'text-primary', 'font-bold');
-                    link.classList.remove('text-secondary');
-                }
-            });
-        });
-      // 2. Smooth Scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href === '#' || href === '#!' || href.includes('.html')) return;
-                e.preventDefault();
-                const targetId = href.substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
         });
     </script>
-    <script src="js/loginfirebase.js" type="module"></script>
 </body>
 </html>

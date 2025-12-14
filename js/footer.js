@@ -2,8 +2,9 @@
 (function() {
     'use strict';
     
+    // Using Tailwind classes directly instead of custom .footer-gradient
     const footerHTML = `
-    <footer class="footer-gradient text-white py-12 sm:py-16">
+    <footer class="bg-gradient-to-br from-secondary to-dark text-white py-12 sm:py-16">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
                 <div>
@@ -14,16 +15,16 @@
                         Leading IT solutions provider delivering innovative technology services for businesses worldwide.
                     </p>
                     <div class="flex gap-3">
-                        <a href="#" class="social-icon text-white hover:text-facebook text-lg">
+                        <a href="#" class="social-icon text-white hover:text-blue-500 transition-colors text-lg" aria-label="Facebook">
                             <i class="fab fa-facebook"></i>
                         </a>
-                        <a href="#" class="social-icon text-white hover:text-twitter text-lg">
+                        <a href="#" class="social-icon text-white hover:text-blue-400 transition-colors text-lg" aria-label="Twitter">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="social-icon text-white hover:text-linkedin text-lg">
+                        <a href="#" class="social-icon text-white hover:text-blue-600 transition-colors text-lg" aria-label="LinkedIn">
                             <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="#" class="social-icon text-white hover:text-instagram text-lg">
+                        <a href="#" class="social-icon text-white hover:text-pink-500 transition-colors text-lg" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
@@ -37,6 +38,7 @@
                         <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-info-circle text-xs"></i> About</a></li>
                         <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-briefcase text-xs"></i> Portfolio</a></li>
                         <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-user-tie text-xs"></i> Careers</a></li>
+                        <!-- ID used by loginfirebase.js to inject user name -->
                         <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-sign-in-alt text-xs"></i> Login</a></li>
                     </ul>
                 </div>
@@ -106,14 +108,16 @@
                 yearElement.textContent = new Date().getFullYear();
             }
             
-            console.log('✅ Footer loaded successfully');
+            // Dispatch event to notify listeners (like loginfirebase.js) that footer is ready
+            window.dispatchEvent(new CustomEvent('footerInjected'));
+            
         } else {
             // Retry if container not found
-            setTimeout(injectFooter, 100);
+            setTimeout(injectFooter, 50);
         }
     }
     
-    // Inject footer when DOM is ready
+    // Inject footer when DOM is ready or if already ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', injectFooter);
     } else {

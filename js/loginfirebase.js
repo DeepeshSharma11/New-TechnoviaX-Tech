@@ -274,6 +274,9 @@ if (googleBtn) {
             .then((result) => {
                 const user = result.user;
                 showToast(`Welcome back, ${user.displayName.split(' ')[0]}!`, 'success');
+                
+                // Create/update user profile in Firestore when logging in
+                createUserProfile(user);
             })
             .catch((error) => {
                 if (errorMsg) {
@@ -303,6 +306,10 @@ if (emailForm) {
             .then((userCredential) => {
                 const user = userCredential.user;
                 showToast(`Welcome back, ${user.displayName ? user.displayName.split(' ')[0] : 'User'}!`, 'success');
+                
+                // Create/update user profile in Firestore when logging in
+                createUserProfile(user);
+                
                 // Button reset happens in UI update or redirect
                 setTimeout(() => {
                      submitBtn.disabled = false;
@@ -321,21 +328,85 @@ if (emailForm) {
     });
 }
 
-function handleLogout() {
+// Function to create/update user profile in Firestore
+async function createUserProfile(user) {
+    try {
+        const { doc, setDoc, getDoc, serverTimestamp } = await import(
+            "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js"
+        );
+        
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        
+        if (!userSnap.exists()) {
+            // Create new user profile
+            const userData = {
+                name: user.displayName || user.email.split('@')[0],
+                email: user.email,
+                photoURL: user.photoURL || '',
+                phone: '',
+                altEmail: '',
+                address: '',
+                contactMethod: 'email',
+                createdAt: serverTimestamp(),
+                lastLogin: serverTimestamp(),
+                totalLogins: 1,
+                preferences: {
+                    emailPayments: true,
+                    emailUpdates: true,
+                    emailPromotional: false,
+                    privacyProfile: true,
+                    privacyActivity: false
+                },
+                isActive: true
+            };
+            
+            await setDoc(userRef, userData);
+            console.log("New user profile created in Firestore");
+        } else {
+            // Update last login and increment login count
+            const userData = userSnap.data();
+            await setDoc(userRef, {
+                lastLogin: serverTimestamp(),
+                totalLogins: (userData.totalLogins || 0) + 1
+            }, { merge: true });
+        }
+    } catch (error) {
+        console.error("Error creating/updating user profile:", error);
+    }
+}
+
+// Enhanced logout function to update last logout time
+async function handleLogout() {
     if(confirm("Are you sure you want to logout?")) {
-        signOut(auth).then(() => {
+        try {
+            const user = auth.currentUser;
+            if (user) {
+                // Update last logout time in Firestore
+                const { doc, setDoc, serverTimestamp } = await import(
+                    "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js"
+                );
+                
+                const userRef = doc(db, "users", user.uid);
+                await setDoc(userRef, {
+                    lastLogout: serverTimestamp()
+                }, { merge: true });
+            }
+            
+            await signOut(auth);
             showToast("Logged out successfully", 'success');
+            
             if (window.location.pathname === '/login.html') {
                 window.location.reload();
             } else {
-                // Clear all login states
                 updateAuthUI(null);
-                // Redirect to home if needed, or just stay
-                // window.location.href = '/'; 
+                // Optional: Redirect to home
+                // window.location.href = '/';
             }
-        }).catch((error) => {
+        } catch (error) {
+            console.error("Error logging out:", error);
             showToast("Error logging out", 'error');
-        });
+        }
     }
 }
 
@@ -350,6 +421,9 @@ onAuthStateChanged(auth, (user) => {
     
     if (!user) {
         checkFirstTimeVisitor();
+    } else {
+        // Create/update user profile when auth state changes
+        createUserProfile(user);
     }
 });
 
@@ -416,7 +490,6 @@ function updateAuthUI(user) {
         // 4. Footer
         if (footerLoginItem) {
             const firstName = user.displayName ? user.displayName.split(' ')[0] : 'User';
-            // Added explicit "Welcome" check here based on user query potential intent
             footerLoginItem.innerHTML = `<span class="text-primary font-bold cursor-default">Welcome, ${firstName}</span>`;
         }
 

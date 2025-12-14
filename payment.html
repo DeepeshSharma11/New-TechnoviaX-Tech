@@ -325,36 +325,50 @@
             </div>
         </div>
 
-        <!-- Admin View Button (Visible for Demo) -->
-        <div class="fixed bottom-4 right-4 z-50">
-            <button id="admin-toggle-btn" class="bg-gray-800 text-white text-xs px-3 py-1 rounded shadow-lg opacity-50 hover:opacity-100 transition-opacity">
-                Admin View (Demo)
-            </button>
-        </div>
+        <!-- === ADMIN SECTION STARTS === -->
+        
+        <!-- Admin Toggle Button (Hidden by default, shown by admin.js if authorized) -->
+        <button id="admin-toggle-btn" style="display: none;" class="fixed bottom-4 right-4 z-50 px-4 py-2 rounded-lg shadow-lg text-sm font-bold transition-all transform hover:scale-105">
+            Admin
+        </button>
 
-        <!-- Admin Panel (Initially Hidden) -->
-        <div id="admin-panel" class="fixed inset-0 bg-white z-[60] hidden overflow-y-auto">
+        <!-- Admin Panel Modal (Hidden by default) -->
+        <div id="admin-panel" style="display: none;" class="fixed inset-0 bg-secondary/95 z-[60] overflow-y-auto backdrop-blur-sm">
             <div class="container mx-auto px-4 py-8">
-                <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-3xl font-bold text-secondary">Admin Payment Dashboard</h1>
-                    <button id="close-admin" class="bg-red-100 text-red-600 px-4 py-2 rounded-lg font-bold hover:bg-red-200">
-                        Exit Admin View
+                <div class="flex justify-between items-center mb-8 sticky top-0 bg-secondary/95 py-4 z-10 border-b border-gray-700">
+                    <div>
+                        <h1 class="text-3xl font-bold text-white">Admin Dashboard <span class="text-xs bg-red-600 px-2 py-1 rounded ml-2">SECURE</span></h1>
+                        <p class="text-gray-400 text-sm">Payment Verification Portal</p>
+                    </div>
+                    <button id="close-admin" class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 border border-gray-600 transition-colors">
+                        <i class="fas fa-times mr-2"></i> Close
                     </button>
                 </div>
                 
-                <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-bold">All Transactions</h2>
-                        <div class="text-sm text-gray-500">Real-time Feed</div>
-                    </div>
-                    
-                    <div id="admin-list" class="space-y-3">
-                        <!-- Admin items injected here -->
-                        <div class="text-center py-10">Loading admin data...</div>
+                <div class="grid gap-6">
+                    <div class="bg-gray-900 rounded-xl p-6 border border-gray-800">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                                <i class="fas fa-list text-primary"></i> Transaction Feed
+                            </h2>
+                            <span class="text-xs text-green-400 flex items-center gap-1">
+                                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> Live
+                            </span>
+                        </div>
+                        
+                        <!-- Admin List Container -->
+                        <div id="admin-list" class="space-y-4">
+                            <!-- Items injected by admin.js -->
+                            <div class="text-center py-12 text-gray-500">
+                                <i class="fas fa-shield-alt text-4xl mb-3 opacity-20"></i>
+                                <p>Waiting for secure data...</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- === ADMIN SECTION ENDS === -->
 
     </main>
 
@@ -362,16 +376,19 @@
     <div id="footer-container"></div>
     <script src="js/footer.js" defer></script>
 
-    <!-- Firebase Auth Script -->
+    <!-- Firebase Auth Script (User Logic) -->
     <script type="module" src="js/loginfirebase.js" defer></script>
 
-    <!-- Firebase Auth & Firestore Logic -->
+    <!-- SECURE ADMIN LOGIC (Loads separately) -->
+    <script type="module" src="js/admin.js"></script>
+
+    <!-- User-Side Payment Logic (Inline) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-        // Reuse config
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyBk33C9Xlw54hwJkgfC0mJWeFXBtZi7FPM",
             authDomain: "technoviax-tech.firebaseapp.com",
@@ -386,7 +403,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // DOM Elements
+        // Elements
         const lockScreen = document.getElementById('login-lock-screen');
         const paymentContent = document.getElementById('payment-content');
         const userNameInput = document.getElementById('user-name');
@@ -397,14 +414,6 @@
         const historyEmpty = document.getElementById('history-empty');
         const amountInput = document.getElementById('amount');
         const upiQr = document.getElementById('upi-qr');
-        
-        // Admin Elements
-        const adminToggle = document.getElementById('admin-toggle-btn');
-        const adminPanel = document.getElementById('admin-panel');
-        const closeAdmin = document.getElementById('close-admin');
-        const adminList = document.getElementById('admin-list');
-
-        // UPI ID
         const UPI_ID = "technoviaxtech@ybl";
 
         // Update QR
@@ -414,7 +423,7 @@
             upiQr.src = url;
         });
 
-        // Auth Monitor
+        // Auth Listener
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 lockScreen.classList.add('hidden');
@@ -429,7 +438,7 @@
             }
         });
 
-        // Load User History
+        // Payment History
         function loadPaymentHistory(userId) {
             const q = query(collection(db, "payments"), where("userId", "==", userId), orderBy("createdAt", "desc"));
             onSnapshot(q, (snapshot) => {
@@ -448,14 +457,13 @@
                     const icon = data.status === 'Success' ? 'fa-check-circle' : (data.status === 'Failed' ? 'fa-times-circle' : 'fa-clock');
                     
                     historyList.innerHTML += `
-                        <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex justify-between items-center">
+                        <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex justify-between items-center animate-fade-in-up">
                             <div>
                                 <div class="flex items-center gap-2 mb-1">
                                     <span class="font-bold text-secondary">₹${data.amount}</span>
                                     <span class="status-badge ${statusClass}">${data.status}</span>
                                 </div>
                                 <p class="text-xs text-gray-500">${date} | ${data.purpose}</p>
-                                <p class="text-xs text-gray-400 font-mono">Ref: ${data.transactionId}</p>
                             </div>
                             <div class="text-right">
                                 <div class="w-8 h-8 rounded-full ${data.status === 'Success' ? 'bg-green-100 text-success' : 'bg-yellow-100 text-yellow-600'} flex items-center justify-center">
@@ -467,7 +475,7 @@
             });
         }
 
-        // Submit Payment
+        // Submit Logic
         paymentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = document.getElementById('submit-payment');
@@ -486,7 +494,7 @@
                     purpose: document.getElementById('purpose').value,
                     transactionId: document.getElementById('transaction-id').value,
                     method: document.querySelector('input[name="method"]:checked').value,
-                    status: "Pending Verification", // Stays pending until Admin approves
+                    status: "Pending Verification",
                     createdAt: serverTimestamp()
                 });
                 alert("Payment submitted! Please wait for Admin approval.");
@@ -500,7 +508,7 @@
             }
         });
 
-        // Toggle Payment Methods
+        // UI Toggles
         const methodRadios = document.querySelectorAll('input[name="method"]');
         const upiSection = document.getElementById('upi-section');
         const bankSection = document.getElementById('bank-section');
@@ -515,76 +523,6 @@
                 if(e.target.value === 'card') cardSection.classList.remove('hidden');
             });
         });
-
-        // --- ADMIN PANEL LOGIC ---
-        adminToggle.addEventListener('click', () => {
-            adminPanel.classList.remove('hidden');
-            loadAdminData();
-        });
-        
-        closeAdmin.addEventListener('click', () => {
-            adminPanel.classList.add('hidden');
-        });
-
-        function loadAdminData() {
-            const q = query(collection(db, "payments"), orderBy("createdAt", "desc"));
-            onSnapshot(q, (snapshot) => {
-                if (snapshot.empty) {
-                    adminList.innerHTML = '<p class="text-center">No transactions found.</p>';
-                    return;
-                }
-                adminList.innerHTML = '';
-                snapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    const id = docSnap.id;
-                    const date = data.createdAt ? data.createdAt.toDate().toLocaleString() : '';
-                    
-                    // Action Buttons (Only show for Pending)
-                    let actions = '';
-                    if(data.status === 'Pending Verification') {
-                        actions = `
-                            <div class="flex gap-2 mt-2 justify-end">
-                                <button onclick="window.rejectPayment('${id}')" class="bg-red-100 text-red-600 px-3 py-1 rounded text-xs font-bold hover:bg-red-200">Reject</button>
-                                <button onclick="window.approvePayment('${id}')" class="bg-green-100 text-green-600 px-3 py-1 rounded text-xs font-bold hover:bg-green-200">Approve</button>
-                            </div>
-                        `;
-                    } else {
-                        actions = `<div class="mt-2 text-right text-xs font-bold text-gray-400">Action: ${data.status}</div>`;
-                    }
-
-                    adminList.innerHTML += `
-                        <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
-                            <div class="flex justify-between">
-                                <div>
-                                    <p class="font-bold text-lg">₹${data.amount} <span class="text-xs font-normal text-gray-500">by ${data.userName}</span></p>
-                                    <p class="text-sm text-gray-600">${data.purpose} (${data.method})</p>
-                                    <p class="text-xs text-gray-400 font-mono">ID: ${data.transactionId}</p>
-                                </div>
-                                <div class="text-right">
-                                    <span class="status-badge ${data.status === 'Success' ? 'status-success' : (data.status === 'Failed' ? 'status-failed' : 'status-pending')}">${data.status}</span>
-                                    <p class="text-xs text-gray-400 mt-1">${date}</p>
-                                </div>
-                            </div>
-                            ${actions}
-                        </div>
-                    `;
-                });
-            });
-        }
-
-        // Global functions for Admin Actions
-        window.approvePayment = async (id) => {
-            if(confirm('Confirm Approval?')) {
-                await updateDoc(doc(db, "payments", id), { status: "Success" });
-            }
-        };
-        
-        window.rejectPayment = async (id) => {
-            if(confirm('Confirm Rejection?')) {
-                await updateDoc(doc(db, "payments", id), { status: "Failed" });
-            }
-        };
-
     </script>
 
     <!-- Main UI Logic -->

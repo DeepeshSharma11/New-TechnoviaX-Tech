@@ -13,7 +13,7 @@
                 <!-- Logo -->
                 <div class="logo flex-shrink-0 flex items-center gap-2">
                     <a href="/" class="text-xl md:text-2xl font-bold text-primary hover:scale-105 transition-transform duration-300 whitespace-nowrap">
-                        <span class="hidden xs:inline">Technovia</span><span class="text-accent">X</span>
+                        <span class="hidden xs:inline">Technovia</span><span class="text-accent">TechnoviaX</span>
                     </a>
                 </div>
                 
@@ -643,7 +643,6 @@
             const mobileNavContainer = document.getElementById('mobile-nav-container');
             return mobileNavContainer && mobileNavContainer.classList.contains('open');
         }
-    };
     
     // Dispatch event when navigation is ready
     document.addEventListener('DOMContentLoaded', function() {

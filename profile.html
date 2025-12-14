@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile - TechnoviaX Tech</title>
+    <meta name="description" content="Manage your TechnoviaX Tech account profile, settings, and view activity history.">
     
-    <!-- External Dependencies -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Dynamic Favicon Loader -->
+    <!-- Imports -->
     <script src="js/favicon-loader.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,247 +16,129 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#1e40af',
-                        'primary-dark': '#1e3a8a',
-                        'primary-light': '#3b82f6',
-                        secondary: '#0f172a',
-                        accent: '#059669',
-                        'accent-dark': '#047857',
-                        'accent-light': '#10b981',
-                        light: '#f8fafc',
-                        dark: '#1e293b',
-                        'dark-light': '#334155',
-                        success: '#10b981',
-                        warning: '#f59e0b',
-                        error: '#dc2626',
-                        info: '#3b82f6'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
+                    colors: { primary: '#1e40af', secondary: '#0f172a', accent: '#059669', light: '#f8fafc', success: '#10b981', warning: '#f59e0b', error: '#dc2626', },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
             }
         }
     </script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* Loading Screen */
-        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
-        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
-        .loading-logo span{color:#059669}
-
-        /* Form Styles */
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            outline: none;
-            transition: all 0.3s ease;
-            background-color: #f8fafc;
-        }
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            border-color: #1e40af;
-            background-color: #fff;
-            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
-        }
-        .form-label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #1e293b;
-            font-size: 0.9rem;
-        }
-
+        .sticky-cta { position: fixed; bottom: 40px; left: 40px; background: #1e40af; color: white; padding: 12px 24px; border-radius: 50px; z-index: 99; display: flex; align-items: center; gap: 8px; }
+        .hero-gradient { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
         /* Status Badges */
         .status-badge { padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
         .status-active { background-color: #d1fae5; color: #059669; }
-        .status-inactive { background-color: #fef3c7; color: #d97706; }
 
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        /* Toast Notification */
-        .profile-toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            color: #1e293b;
-            padding: 16px 24px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            z-index: 10000;
-            opacity: 0;
-            transform: translateX(100%);
-            transition: all 0.3s ease;
-            border-left: 4px solid #1e40af;
-            max-width: 350px;
-        }
-        .profile-toast.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
+        /* Toast */
+        .profile-toast { position: fixed; top: 20px; right: 20px; background: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 10000; opacity: 0; transform: translateX(100%); transition: all 0.3s ease; border-left: 4px solid #1e40af; }
+        .profile-toast.show { opacity: 1; transform: translateX(0); }
         .profile-toast.success { border-left-color: #10b981; }
         .profile-toast.error { border-left-color: #dc2626; }
-
-        /* Tab Styles */
-        .tab-button {
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            color: #64748b;
-        }
-        .tab-button.active {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            color: white;
-            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
-        }
+        
+        /* Tabs */
+        .tab-button.active { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2); }
+        
+        /* Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="font-sans text-secondary bg-light">
 
     <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
-        <div class="loading-logo">Technovia<span>X</span></div>
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        <p class="text-white mt-4 font-medium">Loading Profile...</p>
+    <div id="loading" class="fixed inset-0 bg-white z-[100] flex items-center justify-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
     </div>
 
     <!-- Navigation Injection -->
     <script src="js/navigation.js" defer></script>
+    <div id="mobile-login-container" class="hidden"></div>
+    <div id="mobile-full-login-container" class="hidden"></div>
 
-    <!-- Main Content -->
-    <main id="main-content" class="min-h-screen">
-        <!-- Profile Header -->
-        <section class="bg-gradient-to-r from-primary to-primary-light pt-20 pb-16">
-            <div class="container mx-auto px-4">
-                <div class="flex flex-col md:flex-row items-center justify-between">
-                    <div class="text-center md:text-left">
-                        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">My Profile</h1>
-                        <p class="text-primary-light">Manage your account details and preferences</p>
-                    </div>
-                    <div class="mt-6 md:mt-0">
-                        <div class="flex items-center gap-4">
-                            <a href="/" class="text-white hover:text-primary-light transition-colors">
-                                <i class="fas fa-home mr-2"></i> Home
-                            </a>
-                            <a href="/index.html" class="text-white hover:text-primary-light transition-colors">
-                                <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
-                            </a>
-                        </div>
-                    </div>
-                </div>
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-gradient pt-12 pb-16">
+            <div class="container mx-auto px-4 text-center animate-fade-in-up">
+                <h1 class="text-4xl font-bold mb-6">User <span class="text-primary">Profile</span></h1>
+                <p class="text-lg text-gray-600">Manage your personal information and account settings.</p>
             </div>
         </section>
 
-        <!-- Profile Content -->
-        <div class="container mx-auto px-4 py-8 -mt-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="container mx-auto px-4 pb-12 relative min-h-[500px]">
+            
+            <!-- Login Guard (Overlay) -->
+            <div id="login-lock-screen" class="absolute inset-0 bg-white/90 z-30 flex flex-col items-center justify-center hidden backdrop-blur-sm">
+                <div class="text-center p-8 bg-white rounded-2xl shadow-xl border border-gray-200">
+                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-lock text-4xl text-gray-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Login Required</h2>
+                    <p class="text-gray-500 mb-6">You must be logged in to view your profile.</p>
+                    <a href="/login.html" class="bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition-colors shadow-lg">Login Now</a>
+                </div>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10 transition-opacity duration-300 opacity-30 pointer-events-none" id="profile-content">
                 
-                <!-- Left Sidebar (Profile Overview) -->
-                <div class="lg:col-span-4">
-                    <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 sticky top-8">
-                        <!-- Profile Avatar -->
-                        <div class="text-center mb-6">
-                            <div class="relative inline-block">
-                                <img id="profile-avatar" 
-                                     src="https://via.placeholder.com/150" 
-                                     alt="Profile" 
-                                     class="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover">
-                                <button id="change-avatar-btn" 
-                                        class="absolute bottom-2 right-2 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary-dark transition">
-                                    <i class="fas fa-camera"></i>
-                                </button>
-                            </div>
-                            <h2 id="profile-name" class="text-2xl font-bold mt-4 text-secondary">Loading...</h2>
-                            <p id="profile-email" class="text-gray-500 text-sm">Loading...</p>
-                            <div class="mt-2">
-                                <span class="status-badge status-active">Active Account</span>
-                            </div>
+                <!-- Left Sidebar: Identity (4/12) -->
+                <div class="lg:col-span-4 animate-fade-in-up">
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 text-center h-full sticky top-8">
+                        <div class="relative w-32 h-32 mx-auto mb-4">
+                            <img id="profile-pic" src="https://via.placeholder.com/150" alt="Profile" class="w-full h-full rounded-full object-cover border-4 border-white shadow-md">
+                        </div>
+                        
+                        <h2 class="text-2xl font-bold text-secondary mb-1" id="display-name">Loading...</h2>
+                        <p class="text-sm text-gray-500 mb-4" id="display-email">loading@example.com</p>
+                        
+                        <div class="inline-block mb-6">
+                            <span class="status-badge status-active">Active Account</span>
                         </div>
 
-                        <!-- Account Stats -->
-                        <div class="space-y-4 mb-6">
-                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-blue-100 text-primary rounded-lg flex items-center justify-center">
-                                        <i class="fas fa-credit-card"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-500">Total Payments</p>
-                                        <p id="total-payments" class="font-bold text-lg">0</p>
-                                    </div>
+                        <div class="flex flex-col gap-3 border-t border-gray-100 pt-6">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <p class="text-xl font-bold text-primary" id="total-payments">0</p>
+                                    <p class="text-xs text-gray-500">Payments</p>
                                 </div>
-                                <a href="/payment.html" class="text-primary hover:text-primary-dark">
-                                    <i class="fas fa-arrow-right"></i>
-                                </a>
-                            </div>
-
-                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-green-100 text-success rounded-lg flex items-center justify-center">
-                                        <i class="fas fa-calendar-check"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-500">Member Since</p>
-                                        <p id="member-since" class="font-bold">-</p>
-                                    </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <p class="text-xl font-bold text-success" id="total-logins">0</p>
+                                    <p class="text-xs text-gray-500">Logins</p>
                                 </div>
                             </div>
+                            <button id="logout-btn-page" class="w-full py-2 px-4 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 font-semibold transition-colors flex items-center justify-center gap-2">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
                         </div>
 
-                        <!-- Quick Actions -->
-                        <div class="border-t border-gray-100 pt-6">
-                            <h3 class="font-bold text-gray-800 mb-4">Quick Actions</h3>
-                            <div class="space-y-2">
-                                <button id="edit-profile-btn" 
-                                        class="w-full flex items-center gap-3 p-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                                    <i class="fas fa-edit text-primary w-5"></i>
-                                    <span>Edit Profile</span>
-                                </button>
-                                <button id="change-password-btn" 
-                                        class="w-full flex items-center gap-3 p-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                                    <i class="fas fa-lock text-warning w-5"></i>
-                                    <span>Change Password</span>
-                                </button>
-                                <button id="export-data-btn" 
-                                        class="w-full flex items-center gap-3 p-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                                    <i class="fas fa-download text-accent w-5"></i>
-                                    <span>Export My Data</span>
-                                </button>
-                                <button id="logout-btn" 
-                                        class="w-full flex items-center gap-3 p-3 text-left text-red-600 hover:bg-red-50 rounded-lg transition-colors mt-2">
-                                    <i class="fas fa-sign-out-alt w-5"></i>
-                                    <span>Logout</span>
-                                </button>
-                            </div>
+                        <div class="mt-4 text-xs text-gray-400">
+                            Member since <span id="join-date">...</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Content (Details & Tabs) -->
-                <div class="lg:col-span-8">
-                    <!-- Tabs Navigation -->
+                <!-- Right Content: Tabs (8/12) -->
+                <div class="lg:col-span-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+                    
+                    <!-- Tabs Nav -->
                     <div class="flex flex-wrap gap-2 mb-6 bg-white rounded-2xl p-2 shadow-sm border border-gray-100">
-                        <button data-tab="personal" class="tab-button active">
-                            <i class="fas fa-user mr-2"></i> Personal Info
+                        <button data-tab="personal" class="tab-button active px-6 py-3 rounded-xl font-semibold text-gray-600 hover:text-primary transition-all">
+                            <i class="fas fa-user mr-2"></i> Personal
                         </button>
-                        <button data-tab="contact" class="tab-button">
-                            <i class="fas fa-address-book mr-2"></i> Contact Details
+                        <button data-tab="contact" class="tab-button px-6 py-3 rounded-xl font-semibold text-gray-600 hover:text-primary transition-all">
+                            <i class="fas fa-address-book mr-2"></i> Contact
                         </button>
-                        <button data-tab="preferences" class="tab-button">
+                        <button data-tab="preferences" class="tab-button px-6 py-3 rounded-xl font-semibold text-gray-600 hover:text-primary transition-all">
                             <i class="fas fa-cog mr-2"></i> Preferences
                         </button>
-                        <button data-tab="activity" class="tab-button">
+                        <button data-tab="activity" class="tab-button px-6 py-3 rounded-xl font-semibold text-gray-600 hover:text-primary transition-all">
                             <i class="fas fa-history mr-2"></i> Activity
                         </button>
                     </div>
@@ -269,54 +150,30 @@
                         <div id="personal-tab" class="tab-content bg-white rounded-2xl shadow-lg p-6 border border-gray-100 animate-fadeIn">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="text-xl font-bold text-secondary">Personal Information</h3>
-                                <button id="edit-personal-btn" 
-                                        class="text-primary hover:text-primary-dark font-medium flex items-center gap-2">
+                                <button id="edit-personal-btn" class="text-primary hover:text-primary-dark font-medium flex items-center gap-2">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
                             </div>
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label class="form-label">Full Name</label>
-                                    <div id="display-name" class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                        Loading...
-                                    </div>
-                                    <input type="text" id="edit-name" class="form-input hidden" placeholder="Enter your full name">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
+                                    <input type="text" id="input-name" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:outline-none" readonly>
                                 </div>
-                                
                                 <div>
-                                    <label class="form-label">Email Address</label>
-                                    <div class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg flex items-center justify-between">
-                                        <span id="display-email">Loading...</span>
-                                        <span class="status-badge status-active text-xs">Verified</span>
-                                    </div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email</label>
+                                    <input type="text" id="input-email" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-500 cursor-not-allowed" readonly>
                                 </div>
-                                
                                 <div>
-                                    <label class="form-label">Account Type</label>
-                                    <div class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                        <span id="account-type">Regular User</span>
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <label class="form-label">User ID</label>
-                                    <div class="text-sm font-mono text-gray-600 p-2 bg-gray-50 rounded-lg break-all">
-                                        <span id="user-id">Loading...</span>
-                                    </div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">UID</label>
+                                    <input type="text" id="input-uid" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-400 font-mono text-xs cursor-not-allowed" readonly>
                                 </div>
                             </div>
-                            
-                            <!-- Save/Cancel Buttons (Initially Hidden) -->
-                            <div id="personal-actions" class="hidden mt-6 flex justify-end gap-3">
-                                <button id="cancel-personal-btn" 
-                                        class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
-                                    Cancel
-                                </button>
-                                <button id="save-personal-btn" 
-                                        class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition">
-                                    Save Changes
-                                </button>
+
+                            <!-- Actions (Hidden) -->
+                            <div id="personal-actions" class="hidden mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
+                                <button id="cancel-personal-btn" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">Cancel</button>
+                                <button id="save-personal-btn" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark">Save Changes</button>
                             </div>
                         </div>
 
@@ -324,710 +181,357 @@
                         <div id="contact-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="text-xl font-bold text-secondary">Contact Details</h3>
-                                <button id="edit-contact-btn" 
-                                        class="text-primary hover:text-primary-dark font-medium flex items-center gap-2">
+                                <button id="edit-contact-btn" class="text-primary hover:text-primary-dark font-medium flex items-center gap-2">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
                             </div>
-                            
-                            <div class="space-y-6">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="form-label">Phone Number</label>
-                                        <div id="display-phone" class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                            Not set
-                                        </div>
-                                        <input type="tel" id="edit-phone" class="form-input hidden" placeholder="+91 1234567890">
-                                    </div>
-                                    
-                                    <div>
-                                        <label class="form-label">Alternate Email</label>
-                                        <div id="display-alt-email" class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                            Not set
-                                        </div>
-                                        <input type="email" id="edit-alt-email" class="form-input hidden" placeholder="alternate@email.com">
-                                    </div>
-                                </div>
-                                
+
+                            <div class="grid md:grid-cols-2 gap-6">
                                 <div>
-                                    <label class="form-label">Address</label>
-                                    <div id="display-address" class="text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                        Not set
-                                    </div>
-                                    <textarea id="edit-address" class="form-textarea hidden" rows="3" placeholder="Enter your complete address"></textarea>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Phone Number</label>
+                                    <input type="tel" id="input-phone" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:outline-none" placeholder="Not set" readonly>
                                 </div>
-                                
                                 <div>
-                                    <label class="form-label">Preferred Contact Method</label>
-                                    <div id="display-contact-method" class="text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                        Email
-                                    </div>
-                                    <select id="edit-contact-method" class="form-select hidden">
-                                        <option value="email">Email</option>
-                                        <option value="whatsapp">WhatsApp</option>
-                                        <option value="phone">Phone Call</option>
-                                        <option value="sms">SMS</option>
-                                    </select>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Address</label>
+                                    <input type="text" id="input-address" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:outline-none" placeholder="Not set" readonly>
                                 </div>
                             </div>
-                            
-                            <!-- Save/Cancel Buttons (Initially Hidden) -->
-                            <div id="contact-actions" class="hidden mt-6 flex justify-end gap-3">
-                                <button id="cancel-contact-btn" 
-                                        class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
-                                    Cancel
-                                </button>
-                                <button id="save-contact-btn" 
-                                        class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition">
-                                    Save Changes
-                                </button>
+
+                            <!-- Actions (Hidden) -->
+                            <div id="contact-actions" class="hidden mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
+                                <button id="cancel-contact-btn" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">Cancel</button>
+                                <button id="save-contact-btn" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark">Save Changes</button>
                             </div>
                         </div>
 
                         <!-- Preferences Tab -->
-                        <div id="preferences-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                            <h3 class="text-xl font-bold text-secondary mb-6">Account Preferences</h3>
-                            
+                        <div id="preferences-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+                            <h3 class="text-xl font-bold text-secondary mb-6 border-b border-gray-100 pb-4">Account Preferences</h3>
                             <div class="space-y-6">
-                                <!-- Email Notifications -->
                                 <div>
                                     <h4 class="font-bold text-gray-800 mb-4">Email Notifications</h4>
                                     <div class="space-y-3">
                                         <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
                                             <input type="checkbox" id="email-payments" class="rounded text-primary" checked>
-                                            <span class="flex-1">Payment confirmations and receipts</span>
+                                            <span class="flex-1">Payment confirmations</span>
                                         </label>
                                         <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
                                             <input type="checkbox" id="email-updates" class="rounded text-primary" checked>
-                                            <span class="flex-1">Service updates and announcements</span>
-                                        </label>
-                                        <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
-                                            <input type="checkbox" id="email-promotional" class="rounded text-primary">
-                                            <span class="flex-1">Promotional offers</span>
+                                            <span class="flex-1">Service updates</span>
                                         </label>
                                     </div>
                                 </div>
-                                
-                                <!-- Privacy Settings -->
-                                <div class="border-t border-gray-100 pt-6">
-                                    <h4 class="font-bold text-gray-800 mb-4">Privacy Settings</h4>
-                                    <div class="space-y-3">
-                                        <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
-                                            <input type="checkbox" id="privacy-profile" class="rounded text-primary" checked>
-                                            <span class="flex-1">Show my profile to other users</span>
-                                        </label>
-                                        <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
-                                            <input type="checkbox" id="privacy-activity" class="rounded text-primary">
-                                            <span class="flex-1">Show my activity status</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                
-                                <!-- Save Preferences Button -->
                                 <div class="pt-4 border-t border-gray-100">
-                                    <button id="save-preferences-btn" 
-                                            class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition">
-                                        Save Preferences
-                                    </button>
+                                    <button id="save-preferences-btn" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition">Save Preferences</button>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Activity Tab -->
-                        <div id="activity-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                            <h3 class="text-xl font-bold text-secondary mb-6">Recent Activity</h3>
+                        <div id="activity-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+                             <h3 class="text-xl font-bold text-secondary mb-6 border-b border-gray-100 pb-4">Recent Payments</h3>
+                             <div id="activity-list" class="space-y-4 max-h-96 overflow-y-auto custom-scrollbar">
+                                 <div class="text-center py-12 text-gray-400">Loading activity...</div>
+                             </div>
+                        </div>
+                        
+                         <!-- Security Tab with Delete Account -->
+                        <div id="security-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+                            <h3 class="text-xl font-bold text-secondary mb-6 border-b border-gray-100 pb-4">Security Settings</h3>
                             
                             <div class="space-y-4">
-                                <!-- Activity items will be loaded here -->
-                                <div id="activity-list">
-                                    <div class="text-center py-8 text-gray-500">
-                                        <i class="fas fa-history text-4xl mb-3 opacity-30"></i>
-                                        <p>Loading activity...</p>
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                                    <div>
+                                        <p class="font-bold text-gray-800">Password Reset</p>
+                                        <p class="text-xs text-gray-500">Send a password reset link to your email.</p>
                                     </div>
+                                    <button id="reset-password-btn" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100 transition-colors">
+                                        Send Link
+                                    </button>
                                 </div>
-                                
-                                <!-- Activity Stats -->
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-gray-100">
-                                    <div class="text-center p-4 bg-blue-50 rounded-xl">
-                                        <p class="text-2xl font-bold text-primary" id="total-logins">0</p>
-                                        <p class="text-sm text-gray-600">Total Logins</p>
-                                    </div>
-                                    <div class="text-center p-4 bg-green-50 rounded-xl">
-                                        <p class="text-2xl font-bold text-success" id="last-login">-</p>
-                                        <p class="text-sm text-gray-600">Last Login</p>
-                                    </div>
-                                    <div class="text-center p-4 bg-yellow-50 rounded-xl">
-                                        <p class="text-2xl font-bold text-warning" id="sessions">1</p>
-                                        <p class="text-sm text-gray-600">Active Sessions</p>
-                                    </div>
-                                    <div class="text-center p-4 bg-purple-50 rounded-xl">
-                                        <p class="text-2xl font-bold text-purple-600" id="devices">1</p>
-                                        <p class="text-sm text-gray-600">Devices</p>
-                                    </div>
+
+                                <div class="mt-8 pt-6 border-t border-red-100">
+                                    <h3 class="text-lg font-bold text-red-600 mb-2">Danger Zone</h3>
+                                    <p class="text-sm text-gray-500 mb-4">Permanently delete your account and all associated data.</p>
+                                    <button id="delete-account-btn" class="px-6 py-2 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 text-sm font-bold transition-colors">
+                                        Delete Account
+                                    </button>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer Injection -->
     <div id="footer-container"></div>
     <script src="js/footer.js" defer></script>
 
-    <!-- Import Firebase Config -->
+    <!-- 1. Central Auth Logic -->
     <script type="module" src="js/loginfirebase.js" defer></script>
 
-    <!-- Profile Logic -->
+    <!-- 2. Page Specific Logic -->
     <script type="module">
-        import { auth } from "./js/loginfirebase.js";
-        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { auth, db, signOut } from "./js/loginfirebase.js";
+        import { onAuthStateChanged, sendPasswordResetEmail, deleteUser } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { 
+            doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, serverTimestamp, orderBy 
+        } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
         // DOM Elements
-        const loadingScreen = document.getElementById('loading');
-        const mainContent = document.getElementById('main-content');
-        const logoutBtn = document.getElementById('logout-btn');
-        const editProfileBtn = document.getElementById('edit-profile-btn');
-        const changePasswordBtn = document.getElementById('change-password-btn');
-        const exportDataBtn = document.getElementById('export-data-btn');
-        const changeAvatarBtn = document.getElementById('change-avatar-btn');
-
-        // Profile Elements
-        const profileAvatar = document.getElementById('profile-avatar');
-        const profileName = document.getElementById('profile-name');
-        const profileEmail = document.getElementById('profile-email');
-        const totalPayments = document.getElementById('total-payments');
-        const memberSince = document.getElementById('member-since');
-
+        const lockScreen = document.getElementById('login-lock-screen');
+        const profileContent = document.getElementById('profile-content');
+        
         // Display Elements
-        const displayName = document.getElementById('display-name');
-        const displayEmail = document.getElementById('display-email');
-        const displayPhone = document.getElementById('display-phone');
-        const displayAltEmail = document.getElementById('display-alt-email');
-        const displayAddress = document.getElementById('display-address');
-        const displayContactMethod = document.getElementById('display-contact-method');
-        const accountType = document.getElementById('account-type');
-        const userId = document.getElementById('user-id');
-
-        // Edit Inputs
-        const editName = document.getElementById('edit-name');
-        const editPhone = document.getElementById('edit-phone');
-        const editAltEmail = document.getElementById('edit-alt-email');
-        const editAddress = document.getElementById('edit-address');
-        const editContactMethod = document.getElementById('edit-contact-method');
-
-        // Buttons
-        const editPersonalBtn = document.getElementById('edit-personal-btn');
-        const savePersonalBtn = document.getElementById('save-personal-btn');
-        const cancelPersonalBtn = document.getElementById('cancel-personal-btn');
-        const editContactBtn = document.getElementById('edit-contact-btn');
-        const saveContactBtn = document.getElementById('save-contact-btn');
-        const cancelContactBtn = document.getElementById('cancel-contact-btn');
-        const savePreferencesBtn = document.getElementById('save-preferences-btn');
-
-        // Activity Elements
+        const displayNameEl = document.getElementById('display-name');
+        const displayEmailEl = document.getElementById('display-email');
+        const profilePicEl = document.getElementById('profile-pic');
+        const joinDateEl = document.getElementById('join-date');
+        const totalPaymentsEl = document.getElementById('total-payments');
+        const totalLoginsEl = document.getElementById('total-logins');
+        
+        // Input Fields
+        const inputName = document.getElementById('input-name');
+        const inputEmail = document.getElementById('input-email');
+        const inputUid = document.getElementById('input-uid');
+        const inputPhone = document.getElementById('input-phone');
+        const inputAddress = document.getElementById('input-address');
         const activityList = document.getElementById('activity-list');
-        const totalLogins = document.getElementById('total-logins');
-        const lastLogin = document.getElementById('last-login');
 
-        // Current User Data
         let currentUser = null;
-        let userProfileData = {};
 
-        // API Base URL for Python Backend
-        //const API_BASE_URL = 'http://localhost:5000'; // Change this to your Python server URL
-        const API_BASE_URL = 'http://technoviaxtech.site';
-        // Toast Notification
+        // Auth Listener
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                // Unlock UI
+                lockScreen.classList.add('hidden');
+                profileContent.classList.remove('opacity-30', 'pointer-events-none');
+                
+                // --- Load Data ---
+                await loadUserProfile(user);
+            } else {
+                // Lock UI
+                lockScreen.classList.remove('hidden');
+                profileContent.classList.add('opacity-30', 'pointer-events-none');
+            }
+        });
+
+        async function loadUserProfile(user) {
+            try {
+                // Basic Auth Data
+                const name = user.displayName || user.email.split('@')[0];
+                const email = user.email;
+                const photo = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=150`;
+                const created = new Date(user.metadata.creationTime).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+                // Update Sidebar
+                if(displayNameEl) displayNameEl.textContent = name;
+                if(displayEmailEl) displayEmailEl.textContent = email;
+                if(profilePicEl) profilePicEl.src = photo;
+                if(joinDateEl) joinDateEl.textContent = created;
+
+                // Update Basic Inputs
+                if(inputName) inputName.value = name;
+                if(inputEmail) inputEmail.value = email;
+                if(inputUid) inputUid.value = user.uid;
+
+                // Fetch Extended Data from Firestore (DIRECT - NO API)
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    const profileData = userSnap.data();
+                    // Update extra fields
+                    if(inputPhone) inputPhone.value = profileData.phone || '';
+                    if(inputAddress) inputAddress.value = profileData.address || '';
+                    if(totalLoginsEl) totalLoginsEl.textContent = profileData.totalLogins || 1;
+                    
+                    // Set preferences
+                    if (profileData.preferences) {
+                        if(document.getElementById('email-payments')) document.getElementById('email-payments').checked = profileData.preferences.emailPayments;
+                        if(document.getElementById('email-updates')) document.getElementById('email-updates').checked = profileData.preferences.emailUpdates;
+                    }
+
+                    // Update Login Count
+                    await updateDoc(userRef, {
+                        totalLogins: (profileData.totalLogins || 0) + 1,
+                        lastLogin: serverTimestamp()
+                    });
+                } else {
+                    // Initialize if first time
+                    await setDoc(userRef, {
+                        email: user.email,
+                        name: name,
+                        createdAt: serverTimestamp(),
+                        totalLogins: 1
+                    }, { merge: true });
+                }
+
+                // Fetch Payments & Activity (Direct Firestore Query)
+                const q = query(collection(db, "payments"), where("userId", "==", user.uid), orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                if(totalPaymentsEl) totalPaymentsEl.textContent = querySnapshot.size;
+                
+                // Populate Activity Tab
+                if (activityList) {
+                    if (querySnapshot.empty) {
+                        activityList.innerHTML = '<div class="text-center py-12 text-gray-400">No recent activity</div>';
+                    } else {
+                        activityList.innerHTML = '';
+                        querySnapshot.forEach(doc => {
+                            const data = doc.data();
+                            const date = data.createdAt ? data.createdAt.toDate().toLocaleDateString() : 'Processing';
+                            const statusColor = data.status === 'Success' ? 'text-green-600' : 'text-yellow-600';
+                            
+                            activityList.innerHTML += `
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                    <div>
+                                        <p class="font-bold">Payment of ₹${data.amount}</p>
+                                        <p class="text-xs text-gray-500">${date} • ${data.purpose}</p>
+                                    </div>
+                                    <span class="text-sm font-bold ${statusColor}">${data.status}</span>
+                                </div>
+                            `;
+                        });
+                    }
+                }
+
+            } catch (error) {
+                console.error("Profile Load Error:", error);
+                if(displayNameEl) displayNameEl.textContent = "Error Loading Data";
+                showToast("Failed to load profile data. Please refresh.", "error");
+            }
+        }
+
+        // Edit Mode Logic
+        function setupEditMode(btnId, cancelId, saveId, inputs) {
+            const editBtn = document.getElementById(btnId);
+            const cancelBtn = document.getElementById(cancelId);
+            const saveBtn = document.getElementById(saveId);
+            const actionDiv = document.getElementById(btnId.replace('edit-', '').replace('-btn', '-actions'));
+            
+            if(!editBtn) return;
+
+            editBtn.addEventListener('click', () => {
+                inputs.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) {
+                        el.removeAttribute('readonly');
+                        el.classList.remove('bg-gray-50', 'cursor-not-allowed');
+                        el.classList.add('bg-white', 'border-primary', 'ring-1', 'ring-primary');
+                    }
+                });
+                actionDiv.classList.remove('hidden');
+                editBtn.classList.add('hidden');
+            });
+
+            const reset = () => {
+                inputs.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) {
+                        el.setAttribute('readonly', 'true');
+                        el.classList.add('bg-gray-50', 'cursor-not-allowed');
+                        el.classList.remove('bg-white', 'border-primary', 'ring-1', 'ring-primary');
+                    }
+                });
+                actionDiv.classList.add('hidden');
+                editBtn.classList.remove('hidden');
+            };
+
+            cancelBtn.addEventListener('click', () => {
+                reset();
+                if(currentUser) loadUserProfile(currentUser);
+            });
+
+            saveBtn.addEventListener('click', async () => {
+                try {
+                    saveBtn.textContent = "Saving...";
+                    const updates = {};
+                    if(inputs.includes('input-name')) updates.name = document.getElementById('input-name').value;
+                    if(inputs.includes('input-phone')) updates.phone = document.getElementById('input-phone').value;
+                    if(inputs.includes('input-address')) updates.address = document.getElementById('input-address').value;
+                    
+                    // Direct Firestore Update
+                    await updateDoc(doc(db, "users", currentUser.uid), updates);
+                    showToast("Profile Updated Successfully!");
+                    reset();
+                    // Update display name immediately
+                    if(updates.name) displayNameEl.textContent = updates.name;
+
+                } catch(e) {
+                    showToast("Update failed: " + e.message, "error");
+                } finally {
+                    saveBtn.textContent = "Save Changes";
+                }
+            });
+        }
+
+        setupEditMode('edit-personal-btn', 'cancel-personal-btn', 'save-personal-btn', ['input-name']);
+        setupEditMode('edit-contact-btn', 'cancel-contact-btn', 'save-contact-btn', ['input-phone', 'input-address']);
+
+        // Tab Logic
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+                btn.classList.add('active');
+                document.getElementById(`${btn.dataset.tab}-tab`).classList.remove('hidden');
+            });
+        });
+
+        // Logout
+        document.getElementById('logout-btn-page').addEventListener('click', () => {
+            if(confirm("Logout?")) signOut(auth).then(() => window.location.href = '/login.html');
+        });
+
+        // Other Actions
+        document.getElementById('reset-password-btn').addEventListener('click', () => {
+            if(confirm(`Send reset email to ${currentUser.email}?`)) {
+                sendPasswordResetEmail(auth, currentUser.email)
+                    .then(() => showToast("Email sent! Check inbox."))
+                    .catch(e => showToast(e.message, "error"));
+            }
+        });
+        
+        // Delete Account Logic
+        const deleteBtn = document.getElementById('delete-account-btn');
+        if(deleteBtn) {
+            deleteBtn.addEventListener('click', async () => {
+                const confirmation = prompt("To permanently delete your account, type 'DELETE' below:");
+                if (confirmation === 'DELETE') {
+                    try {
+                        const uid = currentUser.uid;
+                        // 1. Delete Firestore Data
+                        await deleteDoc(doc(db, "users", uid));
+                        // 2. Delete User Auth
+                        await deleteUser(currentUser);
+                        
+                        alert("Your account has been deleted.");
+                        window.location.href = "/";
+                    } catch (error) {
+                        console.error("Delete Error:", error);
+                        alert("Error: " + error.message + ". You may need to re-login recently to perform this action.");
+                    }
+                }
+            });
+        }
+
+        // Toast Helper
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             toast.className = `profile-toast ${type}`;
-            toast.innerHTML = `
-                <div class="flex items-start gap-3">
-                    <i class="fas ${type === 'success' ? 'fa-check-circle text-success' : 'fa-exclamation-circle text-error'} text-lg mt-1"></i>
-                    <div>
-                        <p class="font-medium">${message}</p>
-                        <p class="text-sm text-gray-500 mt-1">Just now</p>
-                    </div>
-                </div>
-            `;
+            toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation-circle'}"></i> ${message}`;
             document.body.appendChild(toast);
-            
-            setTimeout(() => toast.classList.add('show'), 10);
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
         }
 
-        // Format Date
-        function formatDate(dateString) {
-            if (!dateString) return 'N/A';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-IN', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric'
-            });
-        }
-
-        // Format DateTime
-        function formatDateTime(dateString) {
-            if (!dateString) return 'N/A';
-            const date = new Date(dateString);
-            return date.toLocaleString('en-IN', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-
-        // Toggle Edit Mode
-        function toggleEditMode(section, isEditing) {
-            const displayElements = document.querySelectorAll(`#${section}-tab .text-lg, #${section}-tab .text-gray-800`);
-            const inputElements = document.querySelectorAll(`#${section}-tab .form-input, #${section}-tab .form-select, #${section}-tab .form-textarea`);
-            const actionsDiv = document.getElementById(`${section}-actions`);
-            
-            if (isEditing) {
-                displayElements.forEach(el => el.classList.add('hidden'));
-                inputElements.forEach(el => el.classList.remove('hidden'));
-                actionsDiv.classList.remove('hidden');
-            } else {
-                displayElements.forEach(el => el.classList.remove('hidden'));
-                inputElements.forEach(el => el.classList.add('hidden'));
-                actionsDiv.classList.add('hidden');
-            }
-        }
-
-        // Load User Profile Data from Python Backend
-        async function loadUserProfile(user) {
-            try {
-                // Get user profile from Python backend
-                const response = await fetch(`${API_BASE_URL}/api/profile/${user.uid}`, {
-                    headers: {
-                        'Authorization': `Bearer ${await user.getIdToken()}`
-                    }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    userProfileData = data.profile || {};
-                    
-                    // Load payment count
-                    const paymentsResponse = await fetch(`${API_BASE_URL}/api/payments/${user.uid}`, {
-                        headers: {
-                            'Authorization': `Bearer ${await user.getIdToken()}`
-                        }
-                    });
-                    
-                    let paymentCount = 0;
-                    if (paymentsResponse.ok) {
-                        const paymentsData = await paymentsResponse.json();
-                        paymentCount = paymentsData.count || 0;
-                    }
-                    
-                    // Update UI with loaded data
-                    updateProfileUI(user, userProfileData, paymentCount);
-                    
-                    // Load activity
-                    loadUserActivity(user.uid);
-                    
-                } else {
-                    // Create new profile if doesn't exist
-                    await createUserProfile(user);
-                }
-                
-            } catch (error) {
-                
-                console.error("Error loading profile:", error);
-                showToast("Error loading profile data", "error");
-                
-                // Fallback: Create basic profile from Firebase auth
-                createBasicProfile(user);
-            }
-        }
-
-        // Create basic profile from Firebase auth (fallback)
-        function createBasicProfile(user) {
-            const profileData = {
-                name: user.displayName || user.email.split('@')[0],
-                email: user.email,
-                phone: '',
-                altEmail: '',
-                address: '',
-                contactMethod: 'email',
-                createdAt: new Date().toISOString(),
-                lastLogin: new Date().toISOString(),
-                totalLogins: 1,
-                preferences: {
-                    emailPayments: true,
-                    emailUpdates: true,
-                    emailPromotional: false,
-                    privacyProfile: true,
-                    privacyActivity: false
-                }
-            };
-            
-            updateProfileUI(user, profileData, 0);
-        }
-
-        // Create new user profile in Python backend
-        async function createUserProfile(user) {
-            try {
-                const profileData = {
-                    uid: user.uid,
-                    name: user.displayName || user.email.split('@')[0],
-                    email: user.email,
-                    photoURL: user.photoURL || '',
-                    phone: '',
-                    altEmail: '',
-                    address: '',
-                    contactMethod: 'email',
-                    preferences: {
-                        emailPayments: true,
-                        emailUpdates: true,
-                        emailPromotional: false,
-                        privacyProfile: true,
-                        privacyActivity: false
-                    }
-                };
-                
-                const response = await fetch(`${API_BASE_URL}/api/profile`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${await user.getIdToken()}`
-                    },
-                    body: JSON.stringify(profileData)
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    userProfileData = data.profile;
-                    updateProfileUI(user, userProfileData, 0);
-                    showToast("Profile created successfully");
-                }
-                
-            } catch (error) {
-                console.error("Error creating profile:", error);
-                createBasicProfile(user);
-            }
-        }
-
-        // Update Profile UI
-        function updateProfileUI(user, profileData, paymentCount) {
-            // Profile header
-            profileAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.name)}&background=random&color=fff`;
-            profileName.textContent = profileData.name;
-            profileEmail.textContent = user.email;
-            
-            // Stats
-            totalPayments.textContent = paymentCount;
-            memberSince.textContent = profileData.createdAt ? formatDate(profileData.createdAt) : formatDate(user.metadata.creationTime);
-            
-            // Personal Info
-            displayName.textContent = profileData.name;
-            displayEmail.textContent = user.email;
-            userId.textContent = user.uid.substring(0, 8) + '...';
-            
-            // Contact Details
-            displayPhone.textContent = profileData.phone || 'Not set';
-            displayAltEmail.textContent = profileData.altEmail || 'Not set';
-            displayAddress.textContent = profileData.address || 'Not set';
-            displayContactMethod.textContent = profileData.contactMethod?.charAt(0).toUpperCase() + profileData.contactMethod?.slice(1) || 'Email';
-            
-            // Set edit inputs
-            editName.value = profileData.name;
-            editPhone.value = profileData.phone || '';
-            editAltEmail.value = profileData.altEmail || '';
-            editAddress.value = profileData.address || '';
-            editContactMethod.value = profileData.contactMethod || 'email';
-            
-            // Set preferences
-            if (profileData.preferences) {
-                document.getElementById('email-payments').checked = profileData.preferences.emailPayments !== false;
-                document.getElementById('email-updates').checked = profileData.preferences.emailUpdates !== false;
-                document.getElementById('email-promotional').checked = profileData.preferences.emailPromotional || false;
-                document.getElementById('privacy-profile').checked = profileData.preferences.privacyProfile !== false;
-                document.getElementById('privacy-activity').checked = profileData.preferences.privacyActivity || false;
-            }
-            
-            // Update activity stats
-            if (profileData.lastLogin) {
-                lastLogin.textContent = formatDate(profileData.lastLogin);
-            }
-            if (profileData.totalLogins) {
-                totalLogins.textContent = profileData.totalLogins;
-            }
-            
-            // Hide loading screen
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                mainContent.style.opacity = '1';
-            }, 500);
-        }
-
-        // Load User Activity from Python Backend
-        async function loadUserActivity(userId) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/activity/${userId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${await currentUser.getIdToken()}`
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Failed to load activity');
-                }
-                
-                const data = await response.json();
-                
-                if (!data.activities || data.activities.length === 0) {
-                    activityList.innerHTML = `
-                        <div class="text-center py-8 text-gray-500">
-                            <i class="fas fa-inbox text-4xl mb-3 opacity-30"></i>
-                            <p>No activity yet</p>
-                            <p class="text-sm mt-2">Make your first payment to see activity here</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                let activityHTML = '';
-                data.activities.forEach(activity => {
-                    activityHTML += `
-                        <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                            <div class="w-10 h-10 rounded-full ${activity.status === 'Success' ? 'bg-green-100 text-success' : activity.status === 'Failed' ? 'bg-red-100 text-error' : 'bg-yellow-100 text-warning'} flex items-center justify-center flex-shrink-0">
-                                <i class="fas ${activity.status === 'Success' ? 'fa-check-circle' : activity.status === 'Failed' ? 'fa-times-circle' : 'fa-clock'}"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="font-semibold">${activity.title}</p>
-                                        <p class="text-sm text-gray-600">${activity.description}</p>
-                                    </div>
-                                    <span class="text-sm text-gray-500">${formatDateTime(activity.timestamp)}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                activityList.innerHTML = activityHTML;
-                
-            } catch (error) {
-                console.error("Error loading activity:", error);
-                activityList.innerHTML = `
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-inbox text-4xl mb-3 opacity-30"></i>
-                        <p>No activity yet</p>
-                        <p class="text-sm mt-2">Activity tracking will be available soon</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Save Personal Info to Python Backend
-        async function savePersonalInfo() {
-            try {
-                const newName = editName.value.trim();
-                
-                if (!newName) {
-                    showToast("Please enter a valid name", "error");
-                    return;
-                }
-                
-                const response = await fetch(`${API_BASE_URL}/api/profile/${currentUser.uid}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${await currentUser.getIdToken()}`
-                    },
-                    body: JSON.stringify({
-                        name: newName
-                    })
-                });
-                
-                if (response.ok) {
-                    userProfileData.name = newName;
-                    updateProfileUI(currentUser, userProfileData, parseInt(totalPayments.textContent));
-                    toggleEditMode('personal', false);
-                    showToast("Profile updated successfully");
-                } else {
-                    throw new Error('Failed to update profile');
-                }
-                
-            } catch (error) {
-                console.error("Error saving personal info:", error);
-                showToast("Error saving changes", "error");
-            }
-        }
-
-        // Save Contact Info to Python Backend
-        async function saveContactInfo() {
-            try {
-                const contactData = {
-                    phone: editPhone.value.trim(),
-                    altEmail: editAltEmail.value.trim(),
-                    address: editAddress.value.trim(),
-                    contactMethod: editContactMethod.value
-                };
-                
-                const response = await fetch(`${API_BASE_URL}/api/profile/${currentUser.uid}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${await currentUser.getIdToken()}`
-                    },
-                    body: JSON.stringify(contactData)
-                });
-                
-                if (response.ok) {
-                    userProfileData.phone = contactData.phone;
-                    userProfileData.altEmail = contactData.altEmail;
-                    userProfileData.address = contactData.address;
-                    userProfileData.contactMethod = contactData.contactMethod;
-                    
-                    updateProfileUI(currentUser, userProfileData, parseInt(totalPayments.textContent));
-                    toggleEditMode('contact', false);
-                    showToast("Contact details updated");
-                } else {
-                    throw new Error('Failed to update contact details');
-                }
-                
-            } catch (error) {
-                console.error("Error saving contact info:", error);
-                showToast("Error saving changes", "error");
-            }
-        }
-
-        // Save Preferences to Python Backend
-        async function savePreferences() {
-            try {
-                const preferences = {
-                    emailPayments: document.getElementById('email-payments').checked,
-                    emailUpdates: document.getElementById('email-updates').checked,
-                    emailPromotional: document.getElementById('email-promotional').checked,
-                    privacyProfile: document.getElementById('privacy-profile').checked,
-                    privacyActivity: document.getElementById('privacy-activity').checked
-                };
-                
-                const response = await fetch(`${API_BASE_URL}/api/profile/${currentUser.uid}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${await currentUser.getIdToken()}`
-                    },
-                    body: JSON.stringify({ preferences })
-                });
-                
-                if (response.ok) {
-                    userProfileData.preferences = preferences;
-                    showToast("Preferences saved");
-                } else {
-                    throw new Error('Failed to save preferences');
-                }
-                
-            } catch (error) {
-                console.error("Error saving preferences:", error);
-                showToast("Error saving preferences", "error");
-            }
-        }
-
-        // Export User Data
-        async function exportUserData() {
-            try {
-                showToast("Export feature coming soon");
-                // This would call your Python backend to export data
-            } catch (error) {
-                console.error("Error exporting data:", error);
-                showToast("Error exporting data", "error");
-            }
-        }
-
-        // Initialize Auth State
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                loadUserProfile(user);
-            } else {
-                // Redirect to login if not authenticated
-                window.location.href = "/login.html";
-            }
-        });
-
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            // Tab switching
-            document.querySelectorAll('[data-tab]').forEach(button => {
-                button.addEventListener('click', () => {
-                    // Remove active class from all buttons
-                    document.querySelectorAll('[data-tab]').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked button
-                    button.classList.add('active');
-                    
-                    // Hide all tab contents
-                    document.querySelectorAll('.tab-content').forEach(content => {
-                        content.classList.add('hidden');
-                    });
-                    
-                    // Show selected tab content
-                    const tabId = button.getAttribute('data-tab');
-                    document.getElementById(`${tabId}-tab`).classList.remove('hidden');
-                });
-            });
-            
-            // Personal info edit
-            editPersonalBtn.addEventListener('click', () => toggleEditMode('personal', true));
-            cancelPersonalBtn.addEventListener('click', () => toggleEditMode('personal', false));
-            savePersonalBtn.addEventListener('click', savePersonalInfo);
-            
-            // Contact info edit
-            editContactBtn.addEventListener('click', () => toggleEditMode('contact', true));
-            cancelContactBtn.addEventListener('click', () => toggleEditMode('contact', false));
-            saveContactBtn.addEventListener('click', saveContactInfo);
-            
-            // Preferences
-            savePreferencesBtn.addEventListener('click', savePreferences);
-            
-            // Quick actions
-            editProfileBtn.addEventListener('click', () => {
-                document.querySelector('[data-tab="personal"]').click();
-                setTimeout(() => toggleEditMode('personal', true), 100);
-            });
-            
-            changePasswordBtn.addEventListener('click', () => {
-                showToast("Password change feature coming soon");
-            });
-            
-            exportDataBtn.addEventListener('click', exportUserData);
-            
-            changeAvatarBtn.addEventListener('click', () => {
-                showToast("Avatar change feature coming soon");
-            });
-            
-            // Logout
-            logoutBtn.addEventListener('click', async () => {
-                if (confirm("Are you sure you want to logout?")) {
-                    try {
-                        await signOut(auth);
-                        window.location.href = "/login.html";
-                    } catch (error) {
-                        console.error("Error logging out:", error);
-                        showToast("Error logging out", "error");
-                    }
-                }
-            });
-        });
-
+        // UI Loader
+        setTimeout(() => document.getElementById('loading').style.display = 'none', 500);
     </script>
 </body>
 </html>

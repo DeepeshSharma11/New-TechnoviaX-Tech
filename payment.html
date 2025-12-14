@@ -6,7 +6,7 @@
     <title>Secure Payment - TechnoviaX Tech</title>
     <meta name="description" content="Securely make payments for TechnoviaX services. Track your payment history and manage transactions.">
     
-    <!-- Dynamic Favicon Loader -->
+    <!-- Dynamic Favicon -->
     <script src="js/favicon-loader.js"></script>
     
     <!-- External Dependencies -->
@@ -121,7 +121,7 @@
     <div id="loading" class="fixed inset-0 transition-opacity duration-500">
         <div class="loading-logo">Technovia<span>X</span></div>
         <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        <p class="text-white mt-4 font-medium">Securing Payment Gateway...</p>
+        <p class="text-white mt-4 font-medium">Securing Dashboard...</p>
     </div>
 
     <!-- Floating Buttons -->
@@ -135,6 +135,10 @@
 
     <!-- Navigation Injection -->
     <script src="js/navigation.js" defer></script>
+    
+    <!-- Hidden Containers for Navigation Script Compatibility -->
+    <div id="mobile-login-container" class="hidden"></div>
+    <div id="mobile-full-login-container" class="hidden"></div>
 
     <main id="main-content">
         <!-- Hero Section -->
@@ -144,7 +148,7 @@
                     Secure <span class="text-primary">Payment</span>
                 </h1>
                 <p class="text-lg sm:text-xl text-dark-light max-w-3xl mx-auto mb-8">
-                    Fast, secure, and reliable payment options for your digital services.
+                    Manage your profile, make secure payments, and track your transaction history in real-time.
                 </p>
                 <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
@@ -158,9 +162,9 @@
                     <i class="fas fa-lock text-4xl text-primary"></i>
                 </div>
                 <h2 class="text-3xl font-bold mb-3 text-secondary">Authentication Required</h2>
-                <p class="text-dark-light mb-8 max-w-md text-lg">To ensure security and track your payment history, please log in before proceeding.</p>
+                <p class="text-dark-light mb-8 max-w-md text-lg">To ensure security and view your payment history, please log in.</p>
                 <a href="/login.html" class="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-primary-dark transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center gap-3">
-                    <i class="fas fa-sign-in-alt"></i> Login to Pay
+                    <i class="fas fa-sign-in-alt"></i> Login to Dashboard
                 </a>
             </div>
 
@@ -168,27 +172,26 @@
                 
                 <!-- Left Column: Payment Form (7/12) -->
                 <div class="lg:col-span-7 animate-on-scroll">
+                    <!-- Profile Summary Card -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100 flex items-center gap-6">
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-md">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-secondary" id="profile-name">Guest</h2>
+                            <p class="text-dark-light text-sm" id="profile-email">Please login</p>
+                        </div>
+                    </div>
+
                     <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100 h-full">
                         <div class="mb-8 border-b border-gray-100 pb-6">
                             <h2 class="text-2xl font-bold mb-2 flex items-center gap-2">
-                                <i class="fas fa-credit-card text-primary"></i> Make a Payment
+                                <i class="fas fa-wallet text-primary"></i> Make a Payment
                             </h2>
-                            <p class="text-dark-light text-sm">Fill in the details below. A receipt will be sent to your registered email.</p>
+                            <p class="text-dark-light text-sm">Fill in the details below. A receipt will be sent to your email.</p>
                         </div>
 
                         <form id="payment-form" class="space-y-6">
-                            <!-- User Details (Read Only) -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
-                                <div>
-                                    <label class="form-label text-xs uppercase tracking-wide text-gray-500">Payer Name</label>
-                                    <input type="text" id="user-name" class="bg-transparent border-none p-0 font-bold text-gray-800 w-full focus:ring-0" readonly value="Loading...">
-                                </div>
-                                <div>
-                                    <label class="form-label text-xs uppercase tracking-wide text-gray-500">Payer Email</label>
-                                    <input type="text" id="user-email" class="bg-transparent border-none p-0 font-bold text-gray-800 w-full focus:ring-0" readonly value="Loading...">
-                                </div>
-                            </div>
-
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="amount" class="form-label">Amount (₹) <span class="text-error">*</span></label>
@@ -229,13 +232,6 @@
                                             <div class="text-xs font-bold">Bank Transfer</div>
                                         </div>
                                     </label>
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="method" value="card" class="peer sr-only">
-                                        <div class="rounded-xl border-2 border-gray-200 p-3 text-center transition-all peer-checked:border-primary peer-checked:bg-blue-50 hover:bg-gray-50">
-                                            <i class="fas fa-credit-card text-2xl mb-1 text-gray-600 peer-checked:text-primary"></i>
-                                            <div class="text-xs font-bold">Card</div>
-                                        </div>
-                                    </label>
                                 </div>
                             </div>
 
@@ -260,15 +256,6 @@
                                     <div class="flex justify-between border-b border-gray-200 pb-1"><span>Account No:</span> <span class="font-mono font-semibold">50200012345678</span></div>
                                     <div class="flex justify-between border-b border-gray-200 pb-1"><span>IFSC Code:</span> <span class="font-mono font-semibold">HDFC0001234</span></div>
                                 </div>
-
-                                <!-- Card Details -->
-                                <div id="card-section" class="hidden text-center py-4">
-                                    <i class="fas fa-lock text-3xl text-gray-400 mb-2"></i>
-                                    <p class="text-sm text-gray-600 mb-4">Secure card payments are processed via Stripe/Razorpay.</p>
-                                    <a href="#" class="btn-primary px-6 py-2 rounded-full text-sm inline-flex items-center gap-2">
-                                        Request Payment Link <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                </div>
                             </div>
 
                             <!-- Transaction ID Input -->
@@ -290,7 +277,7 @@
                     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 h-full flex flex-col">
                         <div class="p-6 border-b border-gray-100 bg-gray-50 rounded-t-2xl flex justify-between items-center">
                             <h2 class="text-xl font-bold text-secondary flex items-center gap-2">
-                                <i class="fas fa-history text-primary"></i> Payment History
+                                <i class="fas fa-history text-primary"></i> My Transactions
                             </h2>
                             <button id="refresh-history" class="text-primary hover:text-primary-dark transition-colors" title="Refresh">
                                 <i class="fas fa-sync-alt"></i>
@@ -317,7 +304,7 @@
                         </div>
                         
                         <div class="p-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl text-center">
-                            <p class="text-xs text-gray-500"><i class="fas fa-lock mr-1"></i> Your financial data is encrypted and secure.</p>
+                            <p class="text-xs text-gray-500"><i class="fas fa-lock mr-1"></i> Data encrypted & secure.</p>
                         </div>
                     </div>
                 </div>
@@ -325,50 +312,18 @@
             </div>
         </div>
 
-        <!-- === ADMIN SECTION STARTS === -->
-        
-        <!-- Admin Toggle Button (Hidden by default, shown by admin.js if authorized) -->
-        <button id="admin-toggle-btn" style="display: none;" class="fixed bottom-4 right-4 z-50 px-4 py-2 rounded-lg shadow-lg text-sm font-bold transition-all transform hover:scale-105">
-            Admin
-        </button>
-
-        <!-- Admin Panel Modal (Hidden by default) -->
+        <!-- === ADMIN SECTION START === -->
+        <button id="admin-toggle-btn" style="display: none;" class="fixed bottom-4 right-4 z-50 px-4 py-2 rounded-lg shadow-lg text-sm font-bold transition-all transform hover:scale-105">Admin</button>
         <div id="admin-panel" style="display: none;" class="fixed inset-0 bg-secondary/95 z-[60] overflow-y-auto backdrop-blur-sm">
             <div class="container mx-auto px-4 py-8">
                 <div class="flex justify-between items-center mb-8 sticky top-0 bg-secondary/95 py-4 z-10 border-b border-gray-700">
-                    <div>
-                        <h1 class="text-3xl font-bold text-white">Admin Dashboard <span class="text-xs bg-red-600 px-2 py-1 rounded ml-2">SECURE</span></h1>
-                        <p class="text-gray-400 text-sm">Payment Verification Portal</p>
-                    </div>
-                    <button id="close-admin" class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 border border-gray-600 transition-colors">
-                        <i class="fas fa-times mr-2"></i> Close
-                    </button>
+                    <h1 class="text-3xl font-bold text-white">Admin Dashboard</h1>
+                    <button id="close-admin" class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 border border-gray-600 transition-colors"><i class="fas fa-times mr-2"></i> Close</button>
                 </div>
-                
-                <div class="grid gap-6">
-                    <div class="bg-gray-900 rounded-xl p-6 border border-gray-800">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                                <i class="fas fa-list text-primary"></i> Transaction Feed
-                            </h2>
-                            <span class="text-xs text-green-400 flex items-center gap-1">
-                                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> Live
-                            </span>
-                        </div>
-                        
-                        <!-- Admin List Container -->
-                        <div id="admin-list" class="space-y-4">
-                            <!-- Items injected by admin.js -->
-                            <div class="text-center py-12 text-gray-500">
-                                <i class="fas fa-shield-alt text-4xl mb-3 opacity-20"></i>
-                                <p>Waiting for secure data...</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="bg-gray-900 rounded-xl p-6 border border-gray-800"><div id="admin-list" class="space-y-4"></div></div>
             </div>
         </div>
-        <!-- === ADMIN SECTION ENDS === -->
+        <!-- === ADMIN SECTION END === -->
 
     </main>
 
@@ -376,38 +331,20 @@
     <div id="footer-container"></div>
     <script src="js/footer.js" defer></script>
 
-    <!-- Firebase Auth Script (User Logic) -->
+    <!-- Firebase Auth & Admin Scripts -->
     <script type="module" src="js/loginfirebase.js" defer></script>
-
-    <!-- SECURE ADMIN LOGIC (Loads separately) -->
     <script type="module" src="js/admin.js"></script>
 
-    <!-- User-Side Payment Logic (Inline) -->
+    <!-- Page Specific Logic -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
-        // Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyBk33C9Xlw54hwJkgfC0mJWeFXBtZi7FPM",
-            authDomain: "technoviax-tech.firebaseapp.com",
-            projectId: "technoviax-tech",
-            storageBucket: "technoviax-tech.firebasestorage.app",
-            messagingSenderId: "238376394946",
-            appId: "1:238376394946:web:4fbb7be471316c0cea5b5b",
-            measurementId: "G-BYG4TMPMMV"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        import { auth, db, onAuthStateChanged } from "./js/loginfirebase.js";
+        import { collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
         // Elements
         const lockScreen = document.getElementById('login-lock-screen');
         const paymentContent = document.getElementById('payment-content');
-        const userNameInput = document.getElementById('user-name');
-        const userEmailInput = document.getElementById('user-email');
+        const profileName = document.getElementById('profile-name');
+        const profileEmail = document.getElementById('profile-email');
         const paymentForm = document.getElementById('payment-form');
         const historyList = document.getElementById('history-list');
         const historyLoading = document.getElementById('history-loading');
@@ -416,70 +353,97 @@
         const upiQr = document.getElementById('upi-qr');
         const UPI_ID = "technoviaxtech@ybl";
 
-        // Update QR
+        // Update QR Code
         amountInput.addEventListener('input', (e) => {
             const amt = e.target.value;
             const url = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${UPI_ID}&pn=TechnoviaX%20Tech&cu=INR${amt ? '&am='+amt : ''}`;
             upiQr.src = url;
         });
 
-        // Auth Listener
+        // Authentication & History Loading
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                // Unlock Page
                 lockScreen.classList.add('hidden');
                 paymentContent.classList.remove('opacity-30', 'pointer-events-none');
-                userNameInput.value = user.displayName || 'Valued Client';
-                userEmailInput.value = user.email;
+                
+                // Set Profile
+                profileName.textContent = user.displayName || 'Valued User';
+                profileEmail.textContent = user.email;
+                
+                // Load User Specific History
                 loadPaymentHistory(user.uid);
             } else {
+                // Lock Page
                 lockScreen.classList.remove('hidden');
                 paymentContent.classList.add('opacity-30', 'pointer-events-none');
                 historyList.innerHTML = '';
             }
         });
 
-        // Payment History
         function loadPaymentHistory(userId) {
+            // SECURITY: Only querying data where userId == current user's UID
             const q = query(collection(db, "payments"), where("userId", "==", userId), orderBy("createdAt", "desc"));
+            
             onSnapshot(q, (snapshot) => {
                 historyLoading.classList.add('hidden');
+                
                 if (snapshot.empty) {
                     historyEmpty.classList.remove('hidden');
                     historyList.innerHTML = '';
                     return;
                 }
+                
                 historyEmpty.classList.add('hidden');
                 historyList.innerHTML = '';
+                
                 snapshot.forEach((doc) => {
                     const data = doc.data();
-                    const date = data.createdAt ? data.createdAt.toDate().toLocaleDateString() : 'Just now';
-                    const statusClass = data.status === 'Success' ? 'status-success' : (data.status === 'Failed' ? 'status-failed' : 'status-pending');
-                    const icon = data.status === 'Success' ? 'fa-check-circle' : (data.status === 'Failed' ? 'fa-times-circle' : 'fa-clock');
+                    const date = data.createdAt ? data.createdAt.toDate().toLocaleDateString() : 'Processing...';
                     
+                    // Status Badges
+                    let statusClass, icon;
+                    if (data.status === 'Success') {
+                        statusClass = 'status-success';
+                        icon = 'fa-check-circle';
+                    } else if (data.status === 'Failed') {
+                        statusClass = 'status-failed';
+                        icon = 'fa-times-circle';
+                    } else {
+                        statusClass = 'status-pending';
+                        icon = 'fa-clock';
+                    }
+
                     historyList.innerHTML += `
                         <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex justify-between items-center animate-fade-in-up">
                             <div>
                                 <div class="flex items-center gap-2 mb-1">
-                                    <span class="font-bold text-secondary">₹${data.amount}</span>
+                                    <span class="font-bold text-secondary text-lg">₹${data.amount}</span>
                                     <span class="status-badge ${statusClass}">${data.status}</span>
                                 </div>
                                 <p class="text-xs text-gray-500">${date} | ${data.purpose}</p>
+                                <p class="text-xs text-gray-400 font-mono mt-1">Ref: ${data.transactionId}</p>
                             </div>
                             <div class="text-right">
-                                <div class="w-8 h-8 rounded-full ${data.status === 'Success' ? 'bg-green-100 text-success' : 'bg-yellow-100 text-yellow-600'} flex items-center justify-center">
+                                <div class="w-10 h-10 rounded-full ${data.status === 'Success' ? 'bg-green-100 text-success' : (data.status === 'Failed' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600')} flex items-center justify-center text-lg">
                                     <i class="fas ${icon}"></i>
                                 </div>
                             </div>
                         </div>`;
                 });
+            }, (error) => {
+                console.error("Error loading history:", error);
+                historyLoading.classList.add('hidden');
+                historyList.innerHTML = `<p class="text-center text-red-500 text-sm">Failed to load history. Please try again.</p>`;
             });
         }
 
-        // Submit Logic
+        // Form Submission
         paymentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = document.getElementById('submit-payment');
-            const originalBtnText = submitBtn.innerHTML;
+            const originalText = submitBtn.innerHTML;
+            
             if(!auth.currentUser) return;
             
             submitBtn.disabled = true;
@@ -488,66 +452,44 @@
             try {
                 await addDoc(collection(db, "payments"), {
                     userId: auth.currentUser.uid,
-                    userEmail: auth.currentUser.email,
                     userName: auth.currentUser.displayName,
+                    userEmail: auth.currentUser.email,
                     amount: document.getElementById('amount').value,
                     purpose: document.getElementById('purpose').value,
                     transactionId: document.getElementById('transaction-id').value,
                     method: document.querySelector('input[name="method"]:checked').value,
-                    status: "Pending Verification",
+                    status: "Pending Verification", // Default status until Admin approves
                     createdAt: serverTimestamp()
                 });
-                alert("Payment submitted! Please wait for Admin approval.");
+                
+                alert("Payment Submitted! It will appear in your history as 'Pending' until verified by Admin.");
                 paymentForm.reset();
+                // Reset QR
                 upiQr.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${UPI_ID}&pn=TechnoviaX%20Tech&cu=INR`;
+                
             } catch (error) {
+                console.error("Submission Error:", error);
                 alert("Error: " + error.message);
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
+                submitBtn.innerHTML = originalText;
             }
         });
 
-        // UI Toggles
-        const methodRadios = document.querySelectorAll('input[name="method"]');
+        // Method Toggle
+        const radios = document.querySelectorAll('input[name="method"]');
         const upiSection = document.getElementById('upi-section');
         const bankSection = document.getElementById('bank-section');
-        const cardSection = document.getElementById('card-section');
-        methodRadios.forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                upiSection.classList.add('hidden');
-                bankSection.classList.add('hidden');
-                cardSection.classList.add('hidden');
-                if(e.target.value === 'upi') upiSection.classList.remove('hidden');
-                if(e.target.value === 'bank') bankSection.classList.remove('hidden');
-                if(e.target.value === 'card') cardSection.classList.remove('hidden');
-            });
-        });
-    </script>
+        
+        radios.forEach(r => r.addEventListener('change', (e) => {
+            upiSection.classList.add('hidden');
+            bankSection.classList.add('hidden');
+            if(e.target.value === 'upi') upiSection.classList.remove('hidden');
+            if(e.target.value === 'bank') bankSection.classList.remove('hidden');
+        }));
 
-    <!-- Main UI Logic -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.getElementById('loading');
-            if (loadingScreen) {
-                setTimeout(() => {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => loading.style.display = 'none', 500);
-                }, 800);
-            }
-            // Scroll Animation
-            function animateOnScroll() {
-                const elements = document.querySelectorAll('.animate-on-scroll');
-                elements.forEach(element => {
-                    if (element.classList.contains('animated')) return;
-                    if (element.getBoundingClientRect().top < window.innerHeight * 0.85) {
-                        element.classList.add('animated');
-                    }
-                });
-            }
-            animateOnScroll();
-            window.addEventListener('scroll', () => window.requestAnimationFrame(animateOnScroll));
-        });
+        // Initial Loader
+        setTimeout(() => document.getElementById('loading').style.display = 'none', 500);
     </script>
 </body>
 </html>

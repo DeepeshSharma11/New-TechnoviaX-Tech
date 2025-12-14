@@ -106,7 +106,7 @@ function injectAuthUI() {
                     </div>
                 </div>
                 <div class="p-2">
-                    <a href="/dashboard.html" class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                    <a href="/index.html" class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
                         <i class="fas fa-tachometer-alt text-gray-500"></i>
                         <span>Dashboard</span>
                     </a>
@@ -163,7 +163,7 @@ function injectAuthUI() {
                 </div>
             </div>
             <div class="space-y-1">
-                <a href="/dashboard.html" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                <a href="/index.html" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
                     <i class="fas fa-tachometer-alt text-gray-500 w-5"></i>
                     <span>Dashboard</span>
                 </a>

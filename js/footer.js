@@ -38,6 +38,7 @@
                         <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-info-circle text-xs"></i> About</a></li>
                         <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-briefcase text-xs"></i> Portfolio</a></li>
                         <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-user-tie text-xs"></i> Careers</a></li>
+                         <li><a href="/payment.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-user-tie text-xs"></i> Secure Payment</a></li>
                         <!-- ID used by loginfirebase.js to inject user name -->
                         <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base flex items-center gap-2"><i class="fas fa-sign-in-alt text-xs"></i> Login</a></li>
                     </ul>

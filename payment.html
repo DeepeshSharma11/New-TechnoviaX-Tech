@@ -75,8 +75,15 @@
         
         .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
         
-        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
-        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
+        /* Fixed Animation Classes */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         
         #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
         .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
@@ -143,12 +150,12 @@
     <main id="main-content">
         <!-- Hero Section -->
         <section class="hero-gradient pt-12 pb-16">
-            <div class="container mx-auto px-4 text-center animate-on-scroll">
+            <div class="container mx-auto px-4 text-center animate-fade-in-up">
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary">
-                    Secure <span class="text-primary">Payment</span>
+                    My <span class="text-primary">Profile</span>
                 </h1>
                 <p class="text-lg sm:text-xl text-dark-light max-w-3xl mx-auto mb-8">
-                    Manage your profile, make secure payments, and track your transaction history in real-time.
+                    Manage your account details and track your payment history securely.
                 </p>
                 <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
@@ -162,7 +169,7 @@
                     <i class="fas fa-lock text-4xl text-primary"></i>
                 </div>
                 <h2 class="text-3xl font-bold mb-3 text-secondary">Authentication Required</h2>
-                <p class="text-dark-light mb-8 max-w-md text-lg">To ensure security and view your payment history, please log in.</p>
+                <p class="text-dark-light mb-8 max-w-md text-lg">To ensure security and view your profile, please log in.</p>
                 <a href="/login.html" class="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-primary-dark transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center gap-3">
                     <i class="fas fa-sign-in-alt"></i> Login to Dashboard
                 </a>
@@ -170,20 +177,24 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10" id="payment-content">
                 
-                <!-- Left Column: Payment Form (7/12) -->
-                <div class="lg:col-span-7 animate-on-scroll">
-                    <!-- Profile Summary Card -->
+                <!-- Left Column: Profile & Payment (7/12) -->
+                <div class="lg:col-span-7 animate-fade-in-up">
+                    <!-- Profile Card -->
                     <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100 flex items-center gap-6">
-                        <div class="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-md">
+                        <div class="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-md">
                             <i class="fas fa-user"></i>
                         </div>
                         <div>
-                            <h2 class="text-xl font-bold text-secondary" id="profile-name">Guest</h2>
-                            <p class="text-dark-light text-sm" id="profile-email">Please login</p>
+                            <h2 class="text-2xl font-bold text-secondary" id="profile-name">Loading Name...</h2>
+                            <p class="text-dark-light" id="profile-email">Loading Email...</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full border border-green-200">
+                                <span class="w-2 h-2 bg-green-500 rounded-full inline-block mr-1"></span> Active Account
+                            </span>
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100 h-full">
+                    <!-- Payment Form -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100">
                         <div class="mb-8 border-b border-gray-100 pb-6">
                             <h2 class="text-2xl font-bold mb-2 flex items-center gap-2">
                                 <i class="fas fa-wallet text-primary"></i> Make a Payment
@@ -273,11 +284,11 @@
                 </div>
 
                 <!-- Right Column: History (5/12) -->
-                <div class="lg:col-span-5 animate-on-scroll" style="animation-delay: 0.1s;">
+                <div class="lg:col-span-5 animate-fade-in-up" style="animation-delay: 0.1s;">
                     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 h-full flex flex-col">
                         <div class="p-6 border-b border-gray-100 bg-gray-50 rounded-t-2xl flex justify-between items-center">
                             <h2 class="text-xl font-bold text-secondary flex items-center gap-2">
-                                <i class="fas fa-history text-primary"></i> My Transactions
+                                <i class="fas fa-history text-primary"></i> Payment History
                             </h2>
                             <button id="refresh-history" class="text-primary hover:text-primary-dark transition-colors" title="Refresh">
                                 <i class="fas fa-sync-alt"></i>
@@ -312,35 +323,35 @@
             </div>
         </div>
 
-        <!-- === ADMIN SECTION START === -->
-        <button id="admin-toggle-btn" style="display: none;" class="fixed bottom-4 right-4 z-50 px-4 py-2 rounded-lg shadow-lg text-sm font-bold transition-all transform hover:scale-105">Admin</button>
-        <div id="admin-panel" style="display: none;" class="fixed inset-0 bg-secondary/95 z-[60] overflow-y-auto backdrop-blur-sm">
+        <!-- Admin Components (Injected via admin.js if authorized) -->
+        <button id="admin-toggle-btn" style="display:none;"></button>
+        <div id="admin-panel" style="display:none;" class="fixed inset-0 bg-white z-[100] overflow-y-auto">
             <div class="container mx-auto px-4 py-8">
-                <div class="flex justify-between items-center mb-8 sticky top-0 bg-secondary/95 py-4 z-10 border-b border-gray-700">
-                    <h1 class="text-3xl font-bold text-white">Admin Dashboard</h1>
-                    <button id="close-admin" class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 border border-gray-600 transition-colors"><i class="fas fa-times mr-2"></i> Close</button>
+                <div class="flex justify-between mb-4">
+                    <h1 class="text-2xl font-bold">Admin Panel</h1>
+                    <button id="close-admin" class="px-4 py-2 bg-gray-200 rounded">Close</button>
                 </div>
-                <div class="bg-gray-900 rounded-xl p-6 border border-gray-800"><div id="admin-list" class="space-y-4"></div></div>
+                <div id="admin-list" class="space-y-3"></div>
             </div>
         </div>
-        <!-- === ADMIN SECTION END === -->
 
     </main>
 
-    <!-- Footer Injection -->
     <div id="footer-container"></div>
     <script src="js/footer.js" defer></script>
 
-    <!-- Firebase Auth & Admin Scripts -->
+    <!-- 1. Load Central Auth/DB Logic -->
     <script type="module" src="js/loginfirebase.js" defer></script>
-    <script type="module" src="js/admin.js"></script>
 
-    <!-- Page Specific Logic -->
+    <!-- 2. Load Secure Admin Logic (Will check auth internally) -->
+    <script type="module" src="js/admin.js" defer></script>
+
+    <!-- 3. User Payment Logic (Imports from centralized file) -->
     <script type="module">
+        // Import from your central file
         import { auth, db, onAuthStateChanged } from "./js/loginfirebase.js";
         import { collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-        // Elements
         const lockScreen = document.getElementById('login-lock-screen');
         const paymentContent = document.getElementById('payment-content');
         const profileName = document.getElementById('profile-name');
@@ -353,97 +364,78 @@
         const upiQr = document.getElementById('upi-qr');
         const UPI_ID = "technoviaxtech@ybl";
 
-        // Update QR Code
+        // Update QR
         amountInput.addEventListener('input', (e) => {
             const amt = e.target.value;
             const url = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${UPI_ID}&pn=TechnoviaX%20Tech&cu=INR${amt ? '&am='+amt : ''}`;
             upiQr.src = url;
         });
 
-        // Authentication & History Loading
+        // Auth Listener
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Unlock Page
+                // Unlock
                 lockScreen.classList.add('hidden');
                 paymentContent.classList.remove('opacity-30', 'pointer-events-none');
                 
-                // Set Profile
-                profileName.textContent = user.displayName || 'Valued User';
-                profileEmail.textContent = user.email;
+                // Fill Details
+                if(profileName) profileName.textContent = user.displayName || 'Valued User';
+                if(profileEmail) profileEmail.textContent = user.email;
                 
-                // Load User Specific History
-                loadPaymentHistory(user.uid);
+                // Load History
+                loadHistory(user.uid);
             } else {
-                // Lock Page
+                // Lock
                 lockScreen.classList.remove('hidden');
                 paymentContent.classList.add('opacity-30', 'pointer-events-none');
-                historyList.innerHTML = '';
+                historyList.innerHTML = '<div class="text-center py-10 text-gray-400">Please login to view history</div>';
             }
         });
 
-        function loadPaymentHistory(userId) {
-            // SECURITY: Only querying data where userId == current user's UID
-            const q = query(collection(db, "payments"), where("userId", "==", userId), orderBy("createdAt", "desc"));
-            
+        // History Loader
+        function loadHistory(uid) {
+            const q = query(collection(db, "payments"), where("userId", "==", uid), orderBy("createdAt", "desc"));
             onSnapshot(q, (snapshot) => {
-                historyLoading.classList.add('hidden');
+                if (historyLoading) historyLoading.classList.add('hidden');
                 
-                if (snapshot.empty) {
-                    historyEmpty.classList.remove('hidden');
+                if(snapshot.empty) {
+                    if (historyEmpty) historyEmpty.classList.remove('hidden');
                     historyList.innerHTML = '';
                     return;
                 }
                 
-                historyEmpty.classList.add('hidden');
+                if (historyEmpty) historyEmpty.classList.add('hidden');
                 historyList.innerHTML = '';
                 
-                snapshot.forEach((doc) => {
+                snapshot.forEach(doc => {
                     const data = doc.data();
                     const date = data.createdAt ? data.createdAt.toDate().toLocaleDateString() : 'Processing...';
-                    
-                    // Status Badges
-                    let statusClass, icon;
-                    if (data.status === 'Success') {
-                        statusClass = 'status-success';
-                        icon = 'fa-check-circle';
-                    } else if (data.status === 'Failed') {
-                        statusClass = 'status-failed';
-                        icon = 'fa-times-circle';
-                    } else {
-                        statusClass = 'status-pending';
-                        icon = 'fa-clock';
-                    }
+                    let statusClass = data.status === 'Success' ? 'bg-green-100 text-success' : (data.status === 'Failed' ? 'bg-red-100 text-error' : 'bg-yellow-100 text-yellow-600');
+                    let icon = data.status === 'Success' ? 'fa-check' : (data.status === 'Failed' ? 'fa-times' : 'fa-clock');
 
                     historyList.innerHTML += `
-                        <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex justify-between items-center animate-fade-in-up">
+                        <div class="bg-white border p-4 rounded-xl flex justify-between items-center hover:shadow-md transition-shadow mb-3 animate-fade-in-up">
                             <div>
-                                <div class="flex items-center gap-2 mb-1">
-                                    <span class="font-bold text-secondary text-lg">₹${data.amount}</span>
-                                    <span class="status-badge ${statusClass}">${data.status}</span>
+                                <div class="font-bold flex items-center gap-2">
+                                    ₹${data.amount} 
+                                    <span class="text-[10px] px-2 py-0.5 rounded-full uppercase ${statusClass}">${data.status}</span>
                                 </div>
-                                <p class="text-xs text-gray-500">${date} | ${data.purpose}</p>
-                                <p class="text-xs text-gray-400 font-mono mt-1">Ref: ${data.transactionId}</p>
+                                <div class="text-xs text-gray-500 mt-1">${date} • ${data.purpose}</div>
+                                <div class="text-xs text-gray-400 font-mono">Ref: ${data.transactionId}</div>
                             </div>
-                            <div class="text-right">
-                                <div class="w-10 h-10 rounded-full ${data.status === 'Success' ? 'bg-green-100 text-success' : (data.status === 'Failed' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600')} flex items-center justify-center text-lg">
-                                    <i class="fas ${icon}"></i>
-                                </div>
+                            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-600">
+                                <i class="fas ${icon}"></i>
                             </div>
                         </div>`;
                 });
-            }, (error) => {
-                console.error("Error loading history:", error);
-                historyLoading.classList.add('hidden');
-                historyList.innerHTML = `<p class="text-center text-red-500 text-sm">Failed to load history. Please try again.</p>`;
             });
         }
 
-        // Form Submission
+        // Submit Logic
         paymentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = document.getElementById('submit-payment');
-            const originalText = submitBtn.innerHTML;
-            
+            const originalBtnText = submitBtn.innerHTML;
             if(!auth.currentUser) return;
             
             submitBtn.disabled = true;
@@ -458,26 +450,22 @@
                     purpose: document.getElementById('purpose').value,
                     transactionId: document.getElementById('transaction-id').value,
                     method: document.querySelector('input[name="method"]:checked').value,
-                    status: "Pending Verification", // Default status until Admin approves
+                    status: "Pending Verification",
                     createdAt: serverTimestamp()
                 });
-                
-                alert("Payment Submitted! It will appear in your history as 'Pending' until verified by Admin.");
+                alert("Payment submitted! Please wait for Admin approval.");
                 paymentForm.reset();
-                // Reset QR
                 upiQr.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${UPI_ID}&pn=TechnoviaX%20Tech&cu=INR`;
-                
             } catch (error) {
-                console.error("Submission Error:", error);
                 alert("Error: " + error.message);
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
+                submitBtn.innerHTML = originalBtnText;
             }
         });
 
-        // Method Toggle
-        const radios = document.querySelectorAll('input[name="method"]');
+        // UI Toggles
+        const methodRadios = document.querySelectorAll('input[name="method"]');
         const upiSection = document.getElementById('upi-section');
         const bankSection = document.getElementById('bank-section');
         

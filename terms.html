@@ -3,424 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms & Conditions - TechnoviaX Tech</title>
+    <title>Terms & Conditions - TechnoviaX Tech | Legal</title>
     <meta name="description" content="Read our terms and conditions. Important legal terms governing the use of our website and services.">
+    <meta name="author" content="TechnoviaX Tech">
     
-    <!-- Dynamic Favicon -->
+    <!-- Dynamic Favicon Loader -->
     <script src="js/favicon-loader.js"></script>
     
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS & Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2563eb',
-                        'primary-dark': '#1d4ed8',
+                        primary: '#1e40af',
+                        'primary-dark': '#1e3a8a',
+                        'primary-light': '#3b82f6',
                         secondary: '#0f172a',
-                        accent: '#22d3ee',
-                        'accent-dark': '#06b6d4',
+                        accent: '#059669',
+                        'accent-dark': '#047857',
+                        'accent-light': '#10b981',
                         light: '#f8fafc',
-                        gray: '#64748b',
+                        dark: '#1e293b',
+                        'dark-light': '#334155',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#dc2626',
+                        info: '#3b82f6',
                         whatsapp: '#25D366',
                         'whatsapp-dark': '#128C7E',
-                        success: '#10b981',
-                        error: '#ef4444',
-                        'pastel-blue': '#a5d8ff',
-                        'pastel-green': '#b2f2bb',
-                        'pastel-purple': '#d0bfff',
-                        'pastel-pink': '#ffc9c9', 
-                        'pastel-yellow': '#ffec99',
+                        'pastel-blue': '#eff6ff',
+                        'pastel-green': '#f0fdf4',
+                        'pastel-purple': '#f5f3ff',
+                        'pastel-pink': '#fdf2f8'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
                     }
                 }
             }
         }
     </script>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Custom Styles -->
     <style>
-        /* WhatsApp Float */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-        }
-
-        /* Sticky CTA button */
-        .sticky-cta {
-            position: fixed;
-            bottom: 40px;
-            left: 40px;
-            background: #2563eb;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            z-index: 99;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
+        /* Shared Styles */
+        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
+        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
         
-        .sticky-cta:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-        }
-
-        /* Navigation Links Styling */
-        .nav-links li a {
-            position: relative;
-            padding: 8px 0;
-            white-space: nowrap;
-        }
+        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
+        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
         
-        .nav-links li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #2563eb;
-            transition: width 0.3s ease;
-        }
+        .section-title{position:relative;display:inline-block;padding-bottom:15px}
+        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#1e40af,#059669);border-radius:2px}
         
-        /* Show line on hover OR when active class is present */
-        .nav-links li a:hover::after,
-        .nav-links li a.active::after {
-            width: 100%;
-        }
-
-        /* Mobile Navigation Scroll Fix */
-        @media (max-width: 768px) {
-            .nav-links {
-                overflow-x: auto;
-                padding-bottom: 8px;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            /* REDUCED SIZE FOR MOBILE */
-            .nav-links li a {
-                font-size: 14px;
-                padding: 6px 0;
-            }
-
-            .nav-links::-webkit-scrollbar { height: 4px; }
-            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-
-            .sticky-cta {
-                bottom: 20px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-        }
-
-        /* Animations */
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
+        .cta-gradient{background:linear-gradient(135deg,#1e40af 0%,#059669 100%);color:white}
+        
+        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
+        
+        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
+        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .loading-logo span{color:#059669}
+        
+        html{scroll-behavior:smooth;scroll-padding-top:100px}
+        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
     </style>
 </head>
-<body class="font-sans text-secondary bg-slate-50">
+<body class="font-sans text-secondary bg-light">
 
     <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
+        <div class="loading-logo">Technovia<span>X</span></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <p class="text-white mt-4 font-medium">Loading Terms...</p>
     </div>
 
-    <!-- WhatsApp Float Button -->
+    <!-- Floating Buttons -->
     <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
     
-    <!-- Sticky Contact CTA Button -->
     <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
         <i class="fas fa-envelope"></i> Contact Us
     </a>
 
-    <!-- Dynamic Navigation Injection -->
-    <script src="js/navigation.js"></script>
+    <!-- Navigation Injection -->
+    <script src="js/navigation.js" defer></script>
 
-    <!-- Main Content -->
-    <main class="pt-32 pb-20">
-        <div class="container mx-auto px-4 max-w-4xl animate-fade-in-up">
-            <div class="text-center mb-12">
-                <h1 class="text-4xl font-bold mb-4">Terms & Conditions</h1>
-                <p class="text-gray-600">Last Updated: October 2023</p>
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-gradient pt-12 pb-16">
+            <div class="container mx-auto px-4 text-center animate-on-scroll">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary">
+                    Terms & <span class="text-primary">Conditions</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-dark-light max-w-3xl mx-auto mb-8">
+                    Important legal terms governing the use of our website and services.
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
+        </section>
 
-            <div class="bg-white rounded-xl shadow-lg p-8">
-                <div class="prose max-w-none">
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">1. Acceptance of Terms</h2>
-                        <p class="text-gray-600 mb-4">By accessing and using the TechnoviaX Tech website (https://technoviaX.com) and services, you accept and agree to be bound by the terms and provision of this agreement. In addition, when using our services, you shall be subject to any posted guidelines or rules applicable to such services.</p>
-                        <p class="text-gray-600">If you do not agree to these terms, please do not use our website or services. We reserve the right to update or change these Terms and Conditions at any time without prior notice. Your continued use of the service after we post any modifications constitutes your acceptance of the modified terms.</p>
-                    </section>
+        <div class="container mx-auto px-4 pb-12">
+            <div class="max-w-4xl mx-auto animate-on-scroll">
+                <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12 border border-gray-100">
+                    <div class="text-center mb-10 border-b border-gray-100 pb-6">
+                        <p class="text-gray-500 text-sm">Last Updated: October 2023</p>
+                    </div>
 
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">2. Services Description</h2>
-                        <p class="text-gray-600 mb-4">TechnoviaX Tech provides IT services including but not limited to:</p>
-                        <ul class="list-disc pl-5 mb-4 text-gray-600 space-y-1">
-                            <li>Web development and design</li>
-                            <li>Mobile application development</li>
-                            <li>Cloud solutions and infrastructure</li>
-                            <li>Digital marketing services</li>
-                            <li>Cybersecurity solutions</li>
-                            <li>AI and ML solutions</li>
-                            <li>Consulting and advisory services</li>
-                        </ul>
-                        <p class="text-gray-600">All services are provided on a project basis with specific terms outlined in individual service agreements.</p>
-                    </section>
+                    <div class="prose max-w-none text-dark-light space-y-8">
+                        <section>
+                            <h2 class="text-2xl font-bold mb-4 text-secondary flex items-center gap-2">
+                                <span class="text-primary">1.</span> Acceptance of Terms
+                            </h2>
+                            <p class="mb-4">By accessing and using the TechnoviaX Tech website (https://technoviaX.com) and services, you accept and agree to be bound by the terms and provision of this agreement. In addition, when using our services, you shall be subject to any posted guidelines or rules applicable to such services.</p>
+                            <p>If you do not agree to these terms, please do not use our website or services. We reserve the right to update or change these Terms and Conditions at any time without prior notice. Your continued use of the service after we post any modifications constitutes your acceptance of the modified terms.</p>
+                        </section>
 
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">3. User Obligations</h2>
-                        <p class="text-gray-600 mb-4">As a user of our website and services, you agree to:</p>
-                        <ul class="list-disc pl-5 mb-4 text-gray-600 space-y-1">
-                            <li>Provide accurate and complete information when required</li>
-                            <li>Maintain the confidentiality of your account credentials</li>
-                            <li>Not use our services for any illegal or unauthorized purpose</li>
-                            <li>Not interfere with or disrupt the service or servers</li>
-                            <li>Not attempt to gain unauthorized access to any part of the service</li>
-                            <li>Comply with all applicable laws and regulations</li>
-                        </ul>
-                    </section>
+                        <section>
+                            <h2 class="text-2xl font-bold mb-4 text-secondary flex items-center gap-2">
+                                <span class="text-primary">2.</span> Services Description
+                            </h2>
+                            <p class="mb-4">TechnoviaX Tech provides IT services including but not limited to:</p>
+                            <ul class="list-disc pl-6 space-y-2 mb-4 marker:text-primary">
+                                <li>Web development and design</li>
+                                <li>Mobile application development</li>
+                                <li>Cloud solutions and infrastructure</li>
+                                <li>Digital marketing services</li>
+                                <li>Cybersecurity solutions</li>
+                                <li>AI and ML solutions</li>
+                                <li>Consulting and advisory services</li>
+                            </ul>
+                            <p>All services are provided on a project basis with specific terms outlined in individual service agreements.</p>
+                        </section>
 
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">4. Intellectual Property Rights</h2>
-                        <p class="text-gray-600 mb-4">All content on this website, including but not limited to text, graphics, logos, images, and software, is the property of TechnoviaX Tech or its content suppliers and is protected by copyright and intellectual property laws.</p>
-                        <p class="text-gray-600 mb-4">For services provided:</p>
-                        <ul class="list-disc pl-5 mb-4 text-gray-600 space-y-1">
-                            <li><strong>Client Materials:</strong> Clients retain ownership of materials they provide</li>
-                            <li><strong>Developed Work:</strong> Upon full payment, clients receive ownership of developed work as specified in individual contracts</li>
-                            <li><strong>Third-Party Components:</strong> Some components may be subject to third-party licenses</li>
-                            <li><strong>Our Tools & Methods:</strong> We retain rights to our proprietary tools, methods, and frameworks</li>
-                        </ul>
-                    </section>
+                        <section>
+                            <h2 class="text-2xl font-bold mb-4 text-secondary flex items-center gap-2">
+                                <span class="text-primary">3.</span> User Obligations
+                            </h2>
+                            <p class="mb-4">As a user of our website and services, you agree to:</p>
+                            <ul class="list-disc pl-6 space-y-2 mb-4 marker:text-primary">
+                                <li>Provide accurate and complete information when required</li>
+                                <li>Maintain the confidentiality of your account credentials</li>
+                                <li>Not use our services for any illegal or unauthorized purpose</li>
+                                <li>Not interfere with or disrupt the service or servers</li>
+                                <li>Not attempt to gain unauthorized access to any part of the service</li>
+                                <li>Comply with all applicable laws and regulations</li>
+                            </ul>
+                        </section>
 
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">5. Payment Terms</h2>
-                        <p class="text-gray-600 mb-4">Payment terms for services are as follows:</p>
-                        <ul class="list-disc pl-5 mb-4 text-gray-600 space-y-1">
-                            <li><strong>Payment Schedule:</strong> Typically 50% advance and 50% upon completion</li>
-                            <li><strong>Accepted Methods:</strong> UPI, bank transfer, PayPal</li>
-                            <li><strong>Currency:</strong> All payments are in Indian Rupees (INR) unless otherwise specified</li>
-                            <li><strong>Late Payments:</strong> Late payments may incur additional charges</li>
-                            <li><strong>Taxes:</strong> All prices are exclusive of applicable taxes</li>
-                        </ul>
-                        <p class="text-gray-600">Detailed payment terms are specified in individual service agreements.</p>
-                    </section>
+                        <section>
+                            <h2 class="text-2xl font-bold mb-4 text-secondary flex items-center gap-2">
+                                <span class="text-primary">4.</span> Intellectual Property Rights
+                            </h2>
+                            <p class="mb-4">All content on this website, including but not limited to text, graphics, logos, images, and software, is the property of TechnoviaX Tech or its content suppliers and is protected by copyright and intellectual property laws.</p>
+                            <p class="mb-4 font-semibold">For services provided:</p>
+                            <ul class="list-disc pl-6 space-y-2 mb-4 marker:text-primary">
+                                <li><strong>Client Materials:</strong> Clients retain ownership of materials they provide</li>
+                                <li><strong>Developed Work:</strong> Upon full payment, clients receive ownership of developed work as specified in individual contracts</li>
+                                <li><strong>Third-Party Components:</strong> Some components may be subject to third-party licenses</li>
+                                <li><strong>Our Tools & Methods:</strong> We retain rights to our proprietary tools, methods, and frameworks</li>
+                            </ul>
+                        </section>
 
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">6. Project Terms</h2>
-                        <h3 class="text-xl font-semibold mb-2">6.1 Project Scope</h3>
-                        <p class="text-gray-600 mb-3">Each project will have a clearly defined scope outlined in a project agreement. Any changes to the scope may result in additional charges and timeline adjustments.</p>
-                        
-                        <h3 class="text-xl font-semibold mb-2">6.2 Timeline</h3>
-                        <p class="text-gray-600 mb-3">Project timelines are estimates based on provided requirements. Delays caused by client-side factors may extend the timeline.</p>
-                        
-                        <h3 class="text-xl font-semibold mb-2">6.3 Revisions</h3>
-                        <p class="text-gray-600 mb-3">We include a reasonable number of revisions in our quotes. Excessive revisions beyond the agreed number may incur additional charges.</p>
-                        
-                        <h3 class="text-xl font-semibold mb-2">6.4 Approval Process</h3>
-                        <p class="text-gray-600 mb-4">Clients are required to provide timely feedback and approvals. Delays in approvals may affect project timelines.</p>
-                    </section>
+                        <section>
+                            <h2 class="text-2xl font-bold mb-4 text-secondary flex items-center gap-2">
+                                <span class="text-primary">5.</span> Payment Terms
+                            </h2>
+                            <ul class="list-disc pl-6 space-y-2 mb-4 marker:text-primary">
+                                <li><strong>Payment Schedule:</strong> Typically 50% advance and 50% upon completion</li>
+                                <li><strong>Accepted Methods:</strong> UPI, bank transfer, PayPal</li>
+                                <li><strong>Currency:</strong> All payments are in Indian Rupees (INR) unless otherwise specified</li>
+                                <li><strong>Late Payments:</strong> Late payments may incur additional charges</li>
+                                <li><strong>Taxes:</strong> All prices are exclusive of applicable taxes</li>
+                            </ul>
+                            <p>Detailed payment terms are specified in individual service agreements.</p>
+                        </section>
 
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">7. Confidentiality</h2>
-                        <p class="text-gray-600 mb-4">We respect the confidentiality of your information:</p>
-                        <ul class="list-disc pl-5 mb-4 text-gray-600 space-y-1">
-                            <li>We will not disclose your confidential information to third parties</li>
-                            <li>We implement security measures to protect your data</li>
-                            <li>Employees and contractors sign confidentiality agreements</li>
-                            <li>We may disclose information if required by law</li>
-                        </ul>
-                    </section>
+                        <section>
+                            <h2 class="text-2xl font-bold mb-4 text-secondary flex items-center gap-2">
+                                <span class="text-primary">6.</span> Limitation of Liability
+                            </h2>
+                            <p class="mb-4">To the maximum extent permitted by law, TechnoviaX Tech shall not be liable for:</p>
+                            <ul class="list-disc pl-6 space-y-2 mb-4 marker:text-primary">
+                                <li>Any indirect, incidental, or consequential damages</li>
+                                <li>Loss of profits, data, or business opportunities</li>
+                                <li>Damages resulting from third-party actions</li>
+                                <li>Technical issues beyond our reasonable control</li>
+                            </ul>
+                            <p>Our total liability for any claim shall not exceed the amount paid by you for the specific service in question.</p>
+                        </section>
 
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">8. Limitation of Liability</h2>
-                        <p class="text-gray-600 mb-4">To the maximum extent permitted by law, TechnoviaX Tech shall not be liable for:</p>
-                        <ul class="list-disc pl-5 mb-4 text-gray-600 space-y-1">
-                            <li>Any indirect, incidental, or consequential damages</li>
-                            <li>Loss of profits, data, or business opportunities</li>
-                            <li>Damages resulting from third-party actions</li>
-                            <li>Issues arising from client-provided materials or requirements</li>
-                            <li>Technical issues beyond our reasonable control</li>
-                        </ul>
-                        <p class="text-gray-600">Our total liability for any claim shall not exceed the amount paid by you for the specific service in question.</p>
-                    </section>
+                        <section>
+                            <h2 class="text-2xl font-bold mb-4 text-secondary flex items-center gap-2">
+                                <span class="text-primary">7.</span> Governing Law
+                            </h2>
+                            <p class="mb-4">These Terms and Conditions shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions.</p>
+                            <p>Any disputes shall be subject to the exclusive jurisdiction of the courts located in Bareilly, Uttar Pradesh, India.</p>
+                        </section>
 
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">9. Warranties and Disclaimers</h2>
-                        <p class="text-gray-600 mb-4"><strong>Service Warranty:</strong> We warrant that services will be performed in a professional manner consistent with industry standards.</p>
-                        <p class="text-gray-600 mb-4"><strong>No Implied Warranties:</strong> Except as expressly stated, we make no other warranties, express or implied, regarding the services.</p>
-                        <p class="text-gray-600 mb-4"><strong>Third-Party Services:</strong> We are not responsible for third-party services, software, or components used in projects.</p>
-                        <p class="text-gray-600"><strong>Website Availability:</strong> We strive to maintain website availability but do not guarantee uninterrupted access.</p>
-                    </section>
-
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">10. Termination</h2>
-                        <p class="text-gray-600 mb-4">Either party may terminate a service agreement:</p>
-                        <ul class="list-disc pl-5 mb-4 text-gray-600 space-y-1">
-                            <li>With written notice for material breach</li>
-                            <li>If the other party becomes insolvent</li>
-                            <li>By mutual agreement</li>
-                        </ul>
-                        <p class="text-gray-600">Upon termination:</p>
-                        <ul class="list-disc pl-5 mb-4 text-gray-600 space-y-1">
-                            <li>Client pays for work completed up to termination</li>
-                            <li>We deliver completed work</li>
-                            <li>Confidentiality obligations continue</li>
-                        </ul>
-                    </section>
-
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">11. Governing Law</h2>
-                        <p class="text-gray-600 mb-4">These Terms and Conditions shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions.</p>
-                        <p class="text-gray-600">Any disputes shall be subject to the exclusive jurisdiction of the courts located in Bareilly, Uttar Pradesh, India.</p>
-                    </section>
-
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">12. Force Majeure</h2>
-                        <p class="text-gray-600">We shall not be liable for any failure or delay in performance due to circumstances beyond our reasonable control, including but not limited to acts of God, war, terrorism, riots, embargoes, acts of civil or military authorities, fire, floods, accidents, strikes, or shortages of transportation facilities, fuel, energy, labor, or materials.</p>
-                    </section>
-
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">13. Severability</h2>
-                        <p class="text-gray-600">If any provision of these Terms and Conditions is found to be invalid or unenforceable by a court of competent jurisdiction, the remaining provisions shall remain in full force and effect.</p>
-                    </section>
-
-                    <section class="mb-8">
-                        <h2 class="text-2xl font-bold mb-4">14. Entire Agreement</h2>
-                        <p class="text-gray-600">These Terms and Conditions, together with any service agreements, constitute the entire agreement between you and TechnoviaX Tech regarding the use of our services and supersede all prior agreements and understandings.</p>
-                    </section>
+                        <div class="mt-12 p-6 bg-blue-50 rounded-xl border border-blue-100 text-center">
+                            <p class="text-secondary font-medium mb-4">Have questions about our terms?</p>
+                            <a href="/contact.html" class="inline-flex items-center gap-2 text-primary font-bold hover:text-primary-dark transition-colors">
+                                Contact Our Legal Team <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-secondary text-white py-12 sm:py-16">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
-                <div>
-                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Technovia<span class="text-accent">X</span></div>
-                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">Innovative IT solutions and services to help businesses transform and thrive in the digital era.</p>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Quick Links</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Home</a></li>
-                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Services</a></li>
-                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
-                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
-                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                        <!-- Footer Login Link Added -->
-                        <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Services</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Web Development</a></li>
-                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">App Development</a></li>
-                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Cloud Solutions</a></li>
-                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Digital Marketing</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
-                <p class="text-gray-400 text-sm sm:text-base">&copy; 2023 TechnoviaX Tech. All Rights Reserved.</p>
-                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
-                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
-                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
-                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm font-bold">Terms & Conditions</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer Injection -->
+    <div id="footer-container"></div>
+    <script src="js/footer.js" defer></script>
 
-    <!-- Scripts -->
+    <!-- Firebase Auth Script -->
+    <script type="module" src="js/loginfirebase.js" defer></script>
+
+    <!-- Main Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('TechnoviaX Tech Website - Terms Page Loaded');
-            
-            // 1. Loading Screen Logic
+            // Loading screen logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
                 setTimeout(() => {
-                    loadingScreen.style.transition = 'opacity 0.5s ease';
                     loadingScreen.style.opacity = '0';
                     setTimeout(() => {
                         loadingScreen.style.display = 'none';
                         document.body.style.overflow = 'auto';
                     }, 500);
-                }, 800);
-            } else {
-                document.body.style.overflow = 'auto';
+                }, 500);
             }
 
-            // 2. Smooth Scrolling
+            // Smooth Scrolling
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
@@ -429,18 +269,46 @@
                         e.preventDefault();
                         const targetElement = document.querySelector(href);
                         if (targetElement) {
-                            const headerHeight = 80; // Approximate header height
+                            const header = document.querySelector('header');
+                            const headerHeight = header ? header.offsetHeight : 80;
                             const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                            window.scrollTo({ top: targetPosition - headerHeight - 10, behavior: 'smooth' });
+                            window.scrollTo({
+                                top: targetPosition - headerHeight - 20, 
+                                behavior: 'smooth'
+                            });
                         }
                     }
                 });
             });
+            
+            // Scroll Animation
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+                elements.forEach(element => {
+                    if (element.classList.contains('animated')) return;
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    if (elementTop < windowHeight * 0.85) {
+                        element.classList.add('animated');
+                    }
+                });
+            }
+            
+            // Initial check
+            animateOnScroll();
+            
+            // Debounced scroll listener
+            let isScrolling = false;
+            window.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        animateOnScroll();
+                        isScrolling = false;
+                    });
+                    isScrolling = true;
+                }
+            });
         });
     </script>
-
-    <!-- Global Navbar Auth Logic -->
-    <script src="js/loginfirebase.js" type="module"></script>
-
 </body>
 </html>

@@ -75,15 +75,8 @@
         
         .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
         
-        /* Fixed Animation Classes */
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
         
         #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
         .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
@@ -128,7 +121,7 @@
     <div id="loading" class="fixed inset-0 transition-opacity duration-500">
         <div class="loading-logo">Technovia<span>X</span></div>
         <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        <p class="text-white mt-4 font-medium">Securing Dashboard...</p>
+        <p class="text-white mt-4 font-medium">Securing Payment Gateway...</p>
     </div>
 
     <!-- Floating Buttons -->
@@ -142,20 +135,16 @@
 
     <!-- Navigation Injection -->
     <script src="js/navigation.js" defer></script>
-    
-    <!-- Hidden Containers for Navigation Script Compatibility -->
-    <div id="mobile-login-container" class="hidden"></div>
-    <div id="mobile-full-login-container" class="hidden"></div>
 
     <main id="main-content">
         <!-- Hero Section -->
         <section class="hero-gradient pt-12 pb-16">
-            <div class="container mx-auto px-4 text-center animate-fade-in-up">
+            <div class="container mx-auto px-4 text-center animate-on-scroll">
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary">
-                    My <span class="text-primary">Profile</span>
+                    Secure <span class="text-primary">Payment</span>
                 </h1>
                 <p class="text-lg sm:text-xl text-dark-light max-w-3xl mx-auto mb-8">
-                    Manage your account details and track your payment history securely.
+                    Fast, secure, and reliable payment options for your digital services.
                 </p>
                 <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
@@ -169,37 +158,22 @@
                     <i class="fas fa-lock text-4xl text-primary"></i>
                 </div>
                 <h2 class="text-3xl font-bold mb-3 text-secondary">Authentication Required</h2>
-                <p class="text-dark-light mb-8 max-w-md text-lg">To ensure security and view your profile, please log in.</p>
+                <p class="text-dark-light mb-8 max-w-md text-lg">To ensure security and track your payment history, please log in before proceeding.</p>
                 <a href="/login.html" class="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-primary-dark transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center gap-3">
-                    <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+                    <i class="fas fa-sign-in-alt"></i> Login to Pay
                 </a>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10" id="payment-content">
                 
-                <!-- Left Column: Profile & Payment (7/12) -->
-                <div class="lg:col-span-7 animate-fade-in-up">
-                    <!-- Profile Card -->
-                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100 flex items-center gap-6">
-                        <div class="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-md">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-2xl font-bold text-secondary" id="profile-name">Loading Name...</h2>
-                            <p class="text-dark-light" id="profile-email">Loading Email...</p>
-                            <span class="inline-block mt-2 px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full border border-green-200">
-                                <span class="w-2 h-2 bg-green-500 rounded-full inline-block mr-1"></span> Active Account
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Payment Form -->
-                    <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100">
+                <!-- Left Column: Payment Form (7/12) -->
+                <div class="lg:col-span-7 animate-on-scroll">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100 h-full">
                         <div class="mb-8 border-b border-gray-100 pb-6">
                             <h2 class="text-2xl font-bold mb-2 flex items-center gap-2">
-                                <i class="fas fa-wallet text-primary"></i> Make a Payment
+                                <i class="fas fa-credit-card text-primary"></i> Make a Payment
                             </h2>
-                            <p class="text-dark-light text-sm">Fill in the details below. A receipt will be sent to your email.</p>
+                            <p class="text-dark-light text-sm">Fill in the details below. A receipt will be sent to your registered email.</p>
                         </div>
 
                         <form id="payment-form" class="space-y-6">
@@ -312,7 +286,7 @@
                 </div>
 
                 <!-- Right Column: History (5/12) -->
-                <div class="lg:col-span-5 animate-fade-in-up" style="animation-delay: 0.1s;">
+                <div class="lg:col-span-5 animate-on-scroll" style="animation-delay: 0.1s;">
                     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 h-full flex flex-col">
                         <div class="p-6 border-b border-gray-100 bg-gray-50 rounded-t-2xl flex justify-between items-center">
                             <h2 class="text-xl font-bold text-secondary flex items-center gap-2">
@@ -343,7 +317,7 @@
                         </div>
                         
                         <div class="p-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl text-center">
-                            <p class="text-xs text-gray-500"><i class="fas fa-lock mr-1"></i> Data encrypted & secure.</p>
+                            <p class="text-xs text-gray-500"><i class="fas fa-lock mr-1"></i> Your financial data is encrypted and secure.</p>
                         </div>
                     </div>
                 </div>
@@ -351,52 +325,86 @@
             </div>
         </div>
 
-        <!-- Admin Components (Injected via admin.js if authorized) -->
-        <button id="admin-toggle-btn" style="display:none;"></button>
-        <div id="admin-panel" style="display:none;" class="fixed inset-0 bg-white z-[100] overflow-y-auto">
+        <!-- Admin View Button (Visible for Demo) -->
+        <div class="fixed bottom-4 right-4 z-50">
+            <button id="admin-toggle-btn" class="bg-gray-800 text-white text-xs px-3 py-1 rounded shadow-lg opacity-50 hover:opacity-100 transition-opacity">
+                Admin View (Demo)
+            </button>
+        </div>
+
+        <!-- Admin Panel (Initially Hidden) -->
+        <div id="admin-panel" class="fixed inset-0 bg-white z-[60] hidden overflow-y-auto">
             <div class="container mx-auto px-4 py-8">
-                <div class="flex justify-between mb-4">
-                    <h1 class="text-2xl font-bold">Admin Panel</h1>
-                    <button id="close-admin" class="px-4 py-2 bg-gray-200 rounded">Close</button>
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-3xl font-bold text-secondary">Admin Payment Dashboard</h1>
+                    <button id="close-admin" class="bg-red-100 text-red-600 px-4 py-2 rounded-lg font-bold hover:bg-red-200">
+                        Exit Admin View
+                    </button>
                 </div>
-                <div id="admin-list" class="space-y-3"></div>
+                
+                <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold">All Transactions</h2>
+                        <div class="text-sm text-gray-500">Real-time Feed</div>
+                    </div>
+                    
+                    <div id="admin-list" class="space-y-3">
+                        <!-- Admin items injected here -->
+                        <div class="text-center py-10">Loading admin data...</div>
+                    </div>
+                </div>
             </div>
         </div>
 
     </main>
 
+    <!-- Footer Injection -->
     <div id="footer-container"></div>
     <script src="js/footer.js" defer></script>
 
-    <!-- 1. Load Central Auth/DB Logic -->
+    <!-- Firebase Auth Script -->
     <script type="module" src="js/loginfirebase.js" defer></script>
 
-    <!-- 2. Load Secure Admin Logic (Will check auth internally) -->
-    <script type="module" src="js/admin.js" defer></script>
-
-    <!-- 3. User Payment Logic (Imports from centralized file) -->
+    <!-- Firebase Auth & Firestore Logic -->
     <script type="module">
-        // Import from your central file
-        import { auth, db, onAuthStateChanged } from "./js/loginfirebase.js";
-        import { collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
+        // Reuse config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBk33C9Xlw54hwJkgfC0mJWeFXBtZi7FPM",
+            authDomain: "technoviax-tech.firebaseapp.com",
+            projectId: "technoviax-tech",
+            storageBucket: "technoviax-tech.firebasestorage.app",
+            messagingSenderId: "238376394946",
+            appId: "1:238376394946:web:4fbb7be471316c0cea5b5b",
+            measurementId: "G-BYG4TMPMMV"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
         const lockScreen = document.getElementById('login-lock-screen');
         const paymentContent = document.getElementById('payment-content');
-        
-        // Profile Card Elements
-        const profileName = document.getElementById('profile-name');
-        const profileEmail = document.getElementById('profile-email');
-        
-        // Form Elements
+        const userNameInput = document.getElementById('user-name');
+        const userEmailInput = document.getElementById('user-email');
         const paymentForm = document.getElementById('payment-form');
-        const formNameInput = document.getElementById('user-name');
-        const formEmailInput = document.getElementById('user-email');
-        
         const historyList = document.getElementById('history-list');
         const historyLoading = document.getElementById('history-loading');
         const historyEmpty = document.getElementById('history-empty');
         const amountInput = document.getElementById('amount');
         const upiQr = document.getElementById('upi-qr');
+        
+        // Admin Elements
+        const adminToggle = document.getElementById('admin-toggle-btn');
+        const adminPanel = document.getElementById('admin-panel');
+        const closeAdmin = document.getElementById('close-admin');
+        const adminList = document.getElementById('admin-list');
+
+        // UPI ID
         const UPI_ID = "technoviaxtech@ybl";
 
         // Update QR
@@ -406,74 +414,60 @@
             upiQr.src = url;
         });
 
-        // Auth Listener
+        // Auth Monitor
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Unlock
                 lockScreen.classList.add('hidden');
                 paymentContent.classList.remove('opacity-30', 'pointer-events-none');
-                
-                // Get Display Name (fallback to email prefix if name is missing)
-                const displayName = user.displayName || user.email.split('@')[0];
-
-                // Update Profile Card
-                if(profileName) profileName.textContent = displayName;
-                if(profileEmail) profileEmail.textContent = user.email;
-
-                // Update Payment Form Read-only fields
-                if(formNameInput) formNameInput.value = displayName;
-                if(formEmailInput) formEmailInput.value = user.email;
-                
-                // Load User Specific History
-                loadHistory(user.uid);
+                userNameInput.value = user.displayName || 'Valued Client';
+                userEmailInput.value = user.email;
+                loadPaymentHistory(user.uid);
             } else {
-                // Lock
                 lockScreen.classList.remove('hidden');
                 paymentContent.classList.add('opacity-30', 'pointer-events-none');
-                historyList.innerHTML = '<div class="text-center py-10 text-gray-400">Please login to view history</div>';
+                historyList.innerHTML = '';
             }
         });
 
-        // History Loader
-        function loadHistory(uid) {
-            const q = query(collection(db, "payments"), where("userId", "==", uid), orderBy("createdAt", "desc"));
+        // Load User History
+        function loadPaymentHistory(userId) {
+            const q = query(collection(db, "payments"), where("userId", "==", userId), orderBy("createdAt", "desc"));
             onSnapshot(q, (snapshot) => {
-                if (historyLoading) historyLoading.classList.add('hidden');
-                
-                if(snapshot.empty) {
-                    if (historyEmpty) historyEmpty.classList.remove('hidden');
+                historyLoading.classList.add('hidden');
+                if (snapshot.empty) {
+                    historyEmpty.classList.remove('hidden');
                     historyList.innerHTML = '';
                     return;
                 }
-                
-                if (historyEmpty) historyEmpty.classList.add('hidden');
+                historyEmpty.classList.add('hidden');
                 historyList.innerHTML = '';
-                
-                snapshot.forEach(doc => {
+                snapshot.forEach((doc) => {
                     const data = doc.data();
-                    const date = data.createdAt ? data.createdAt.toDate().toLocaleDateString() : 'Processing...';
-                    let statusClass = data.status === 'Success' ? 'bg-green-100 text-success' : (data.status === 'Failed' ? 'bg-red-100 text-error' : 'bg-yellow-100 text-yellow-600');
-                    let icon = data.status === 'Success' ? 'fa-check' : (data.status === 'Failed' ? 'fa-times' : 'fa-clock');
-
+                    const date = data.createdAt ? data.createdAt.toDate().toLocaleDateString() : 'Just now';
+                    const statusClass = data.status === 'Success' ? 'status-success' : (data.status === 'Failed' ? 'status-failed' : 'status-pending');
+                    const icon = data.status === 'Success' ? 'fa-check-circle' : (data.status === 'Failed' ? 'fa-times-circle' : 'fa-clock');
+                    
                     historyList.innerHTML += `
-                        <div class="bg-white border p-4 rounded-xl flex justify-between items-center hover:shadow-md transition-shadow mb-3 animate-fade-in-up">
+                        <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex justify-between items-center">
                             <div>
-                                <div class="font-bold flex items-center gap-2">
-                                    ₹${data.amount} 
-                                    <span class="text-[10px] px-2 py-0.5 rounded-full uppercase ${statusClass}">${data.status}</span>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-bold text-secondary">₹${data.amount}</span>
+                                    <span class="status-badge ${statusClass}">${data.status}</span>
                                 </div>
-                                <div class="text-xs text-gray-500 mt-1">${date} • ${data.purpose}</div>
-                                <div class="text-xs text-gray-400 font-mono">Ref: ${data.transactionId}</div>
+                                <p class="text-xs text-gray-500">${date} | ${data.purpose}</p>
+                                <p class="text-xs text-gray-400 font-mono">Ref: ${data.transactionId}</p>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-600">
-                                <i class="fas ${icon}"></i>
+                            <div class="text-right">
+                                <div class="w-8 h-8 rounded-full ${data.status === 'Success' ? 'bg-green-100 text-success' : 'bg-yellow-100 text-yellow-600'} flex items-center justify-center">
+                                    <i class="fas ${icon}"></i>
+                                </div>
                             </div>
                         </div>`;
                 });
             });
         }
 
-        // Submit Logic
+        // Submit Payment
         paymentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = document.getElementById('submit-payment');
@@ -486,13 +480,13 @@
             try {
                 await addDoc(collection(db, "payments"), {
                     userId: auth.currentUser.uid,
-                    userName: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
                     userEmail: auth.currentUser.email,
+                    userName: auth.currentUser.displayName,
                     amount: document.getElementById('amount').value,
                     purpose: document.getElementById('purpose').value,
                     transactionId: document.getElementById('transaction-id').value,
                     method: document.querySelector('input[name="method"]:checked').value,
-                    status: "Pending Verification",
+                    status: "Pending Verification", // Stays pending until Admin approves
                     createdAt: serverTimestamp()
                 });
                 alert("Payment submitted! Please wait for Admin approval.");
@@ -506,23 +500,116 @@
             }
         });
 
-        // UI Toggles
+        // Toggle Payment Methods
         const methodRadios = document.querySelectorAll('input[name="method"]');
         const upiSection = document.getElementById('upi-section');
         const bankSection = document.getElementById('bank-section');
         const cardSection = document.getElementById('card-section');
-        
-        radios.forEach(r => r.addEventListener('change', (e) => {
-            upiSection.classList.add('hidden');
-            bankSection.classList.add('hidden');
-            cardSection.classList.add('hidden');
-            if(e.target.value === 'upi') upiSection.classList.remove('hidden');
-            if(e.target.value === 'bank') bankSection.classList.remove('hidden');
-            if(e.target.value === 'card') cardSection.classList.remove('hidden');
-        }));
+        methodRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                upiSection.classList.add('hidden');
+                bankSection.classList.add('hidden');
+                cardSection.classList.add('hidden');
+                if(e.target.value === 'upi') upiSection.classList.remove('hidden');
+                if(e.target.value === 'bank') bankSection.classList.remove('hidden');
+                if(e.target.value === 'card') cardSection.classList.remove('hidden');
+            });
+        });
 
-        // Initial Loader
-        setTimeout(() => document.getElementById('loading').style.display = 'none', 500);
+        // --- ADMIN PANEL LOGIC ---
+        adminToggle.addEventListener('click', () => {
+            adminPanel.classList.remove('hidden');
+            loadAdminData();
+        });
+        
+        closeAdmin.addEventListener('click', () => {
+            adminPanel.classList.add('hidden');
+        });
+
+        function loadAdminData() {
+            const q = query(collection(db, "payments"), orderBy("createdAt", "desc"));
+            onSnapshot(q, (snapshot) => {
+                if (snapshot.empty) {
+                    adminList.innerHTML = '<p class="text-center">No transactions found.</p>';
+                    return;
+                }
+                adminList.innerHTML = '';
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    const date = data.createdAt ? data.createdAt.toDate().toLocaleString() : '';
+                    
+                    // Action Buttons (Only show for Pending)
+                    let actions = '';
+                    if(data.status === 'Pending Verification') {
+                        actions = `
+                            <div class="flex gap-2 mt-2 justify-end">
+                                <button onclick="window.rejectPayment('${id}')" class="bg-red-100 text-red-600 px-3 py-1 rounded text-xs font-bold hover:bg-red-200">Reject</button>
+                                <button onclick="window.approvePayment('${id}')" class="bg-green-100 text-green-600 px-3 py-1 rounded text-xs font-bold hover:bg-green-200">Approve</button>
+                            </div>
+                        `;
+                    } else {
+                        actions = `<div class="mt-2 text-right text-xs font-bold text-gray-400">Action: ${data.status}</div>`;
+                    }
+
+                    adminList.innerHTML += `
+                        <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
+                            <div class="flex justify-between">
+                                <div>
+                                    <p class="font-bold text-lg">₹${data.amount} <span class="text-xs font-normal text-gray-500">by ${data.userName}</span></p>
+                                    <p class="text-sm text-gray-600">${data.purpose} (${data.method})</p>
+                                    <p class="text-xs text-gray-400 font-mono">ID: ${data.transactionId}</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="status-badge ${data.status === 'Success' ? 'status-success' : (data.status === 'Failed' ? 'status-failed' : 'status-pending')}">${data.status}</span>
+                                    <p class="text-xs text-gray-400 mt-1">${date}</p>
+                                </div>
+                            </div>
+                            ${actions}
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        // Global functions for Admin Actions
+        window.approvePayment = async (id) => {
+            if(confirm('Confirm Approval?')) {
+                await updateDoc(doc(db, "payments", id), { status: "Success" });
+            }
+        };
+        
+        window.rejectPayment = async (id) => {
+            if(confirm('Confirm Rejection?')) {
+                await updateDoc(doc(db, "payments", id), { status: "Failed" });
+            }
+        };
+
+    </script>
+
+    <!-- Main UI Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loading');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => loading.style.display = 'none', 500);
+                }, 800);
+            }
+            // Scroll Animation
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+                elements.forEach(element => {
+                    if (element.classList.contains('animated')) return;
+                    if (element.getBoundingClientRect().top < window.innerHeight * 0.85) {
+                        element.classList.add('animated');
+                    }
+                });
+            }
+            animateOnScroll();
+            window.addEventListener('scroll', () => window.requestAnimationFrame(animateOnScroll));
+        });
     </script>
 </body>
 </html>

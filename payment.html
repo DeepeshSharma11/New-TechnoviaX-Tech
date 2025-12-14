@@ -6,7 +6,7 @@
     <title>Secure Payment - TechnoviaX Tech</title>
     <meta name="description" content="Securely make payments for TechnoviaX services. Track your payment history and manage transactions.">
     
-    <!-- Dynamic Favicon -->
+    <!-- Dynamic Favicon Loader -->
     <script src="js/favicon-loader.js"></script>
     
     <!-- External Dependencies -->
@@ -203,6 +203,18 @@
                         </div>
 
                         <form id="payment-form" class="space-y-6">
+                            <!-- User Details (Read Only) -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                <div>
+                                    <label class="form-label text-xs uppercase tracking-wide text-gray-500">Payer Name</label>
+                                    <input type="text" id="user-name" class="bg-transparent border-none p-0 font-bold text-gray-800 w-full focus:ring-0" readonly value="Loading...">
+                                </div>
+                                <div>
+                                    <label class="form-label text-xs uppercase tracking-wide text-gray-500">Payer Email</label>
+                                    <input type="text" id="user-email" class="bg-transparent border-none p-0 font-bold text-gray-800 w-full focus:ring-0" readonly value="Loading...">
+                                </div>
+                            </div>
+
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="amount" class="form-label">Amount (₹) <span class="text-error">*</span></label>
@@ -243,6 +255,13 @@
                                             <div class="text-xs font-bold">Bank Transfer</div>
                                         </div>
                                     </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="method" value="card" class="peer sr-only">
+                                        <div class="rounded-xl border-2 border-gray-200 p-3 text-center transition-all peer-checked:border-primary peer-checked:bg-blue-50 hover:bg-gray-50">
+                                            <i class="fas fa-credit-card text-2xl mb-1 text-gray-600 peer-checked:text-primary"></i>
+                                            <div class="text-xs font-bold">Card</div>
+                                        </div>
+                                    </label>
                                 </div>
                             </div>
 
@@ -266,6 +285,15 @@
                                     <div class="flex justify-between border-b border-gray-200 pb-1"><span>Account Name:</span> <span class="font-semibold">TechnoviaX Tech Solutions</span></div>
                                     <div class="flex justify-between border-b border-gray-200 pb-1"><span>Account No:</span> <span class="font-mono font-semibold">50200012345678</span></div>
                                     <div class="flex justify-between border-b border-gray-200 pb-1"><span>IFSC Code:</span> <span class="font-mono font-semibold">HDFC0001234</span></div>
+                                </div>
+
+                                <!-- Card Details -->
+                                <div id="card-section" class="hidden text-center py-4">
+                                    <i class="fas fa-lock text-3xl text-gray-400 mb-2"></i>
+                                    <p class="text-sm text-gray-600 mb-4">Secure card payments are processed via Stripe/Razorpay.</p>
+                                    <a href="#" class="btn-primary px-6 py-2 rounded-full text-sm inline-flex items-center gap-2">
+                                        Request Payment Link <i class="fas fa-external-link-alt"></i>
+                                    </a>
                                 </div>
                             </div>
 
@@ -354,9 +382,16 @@
 
         const lockScreen = document.getElementById('login-lock-screen');
         const paymentContent = document.getElementById('payment-content');
+        
+        // Profile Card Elements
         const profileName = document.getElementById('profile-name');
         const profileEmail = document.getElementById('profile-email');
+        
+        // Form Elements
         const paymentForm = document.getElementById('payment-form');
+        const formNameInput = document.getElementById('user-name');
+        const formEmailInput = document.getElementById('user-email');
+        
         const historyList = document.getElementById('history-list');
         const historyLoading = document.getElementById('history-loading');
         const historyEmpty = document.getElementById('history-empty');
@@ -378,11 +413,18 @@
                 lockScreen.classList.add('hidden');
                 paymentContent.classList.remove('opacity-30', 'pointer-events-none');
                 
-                // Fill Details
-                if(profileName) profileName.textContent = user.displayName || 'Valued User';
+                // Get Display Name (fallback to email prefix if name is missing)
+                const displayName = user.displayName || user.email.split('@')[0];
+
+                // Update Profile Card
+                if(profileName) profileName.textContent = displayName;
                 if(profileEmail) profileEmail.textContent = user.email;
+
+                // Update Payment Form Read-only fields
+                if(formNameInput) formNameInput.value = displayName;
+                if(formEmailInput) formEmailInput.value = user.email;
                 
-                // Load History
+                // Load User Specific History
                 loadHistory(user.uid);
             } else {
                 // Lock
@@ -444,7 +486,7 @@
             try {
                 await addDoc(collection(db, "payments"), {
                     userId: auth.currentUser.uid,
-                    userName: auth.currentUser.displayName,
+                    userName: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
                     userEmail: auth.currentUser.email,
                     amount: document.getElementById('amount').value,
                     purpose: document.getElementById('purpose').value,
@@ -468,12 +510,15 @@
         const methodRadios = document.querySelectorAll('input[name="method"]');
         const upiSection = document.getElementById('upi-section');
         const bankSection = document.getElementById('bank-section');
+        const cardSection = document.getElementById('card-section');
         
         radios.forEach(r => r.addEventListener('change', (e) => {
             upiSection.classList.add('hidden');
             bankSection.classList.add('hidden');
+            cardSection.classList.add('hidden');
             if(e.target.value === 'upi') upiSection.classList.remove('hidden');
             if(e.target.value === 'bank') bankSection.classList.remove('hidden');
+            if(e.target.value === 'card') cardSection.classList.remove('hidden');
         }));
 
         // Initial Loader

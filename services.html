@@ -3,519 +3,352 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Services - TechnoviaX Tech</title>
-    <meta name="description" content="Comprehensive IT services including web development, app development, cloud solutions, digital marketing, and cybersecurity.">
+    <title>Our Services - TechnoviaX Tech | Web, App & Cloud Solutions</title>
+    <meta name="description" content="Explore our comprehensive IT services: Custom Web Development, Mobile App Creation, Cloud Infrastructure, and Digital Marketing strategies designed for growth.">
+    <meta name="keywords" content="web development services, mobile app development, cloud solutions, digital marketing agency, SEO, software development company">
+    <meta name="author" content="TechnoviaX Tech">
     
-    <!-- Dynamic Favicon -->
+    <!-- Dynamic Favicon Loader -->
     <script src="js/favicon-loader.js"></script>
     
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS & Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2563eb',
-                        'primary-dark': '#1d4ed8',
+                        primary: '#1e40af',
+                        'primary-dark': '#1e3a8a',
+                        'primary-light': '#3b82f6',
                         secondary: '#0f172a',
-                        accent: '#22d3ee',
-                        'accent-dark': '#06b6d4',
+                        accent: '#059669',
+                        'accent-dark': '#047857',
+                        'accent-light': '#10b981',
                         light: '#f8fafc',
-                        gray: '#64748b',
+                        dark: '#1e293b',
+                        'dark-light': '#334155',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#dc2626',
+                        info: '#3b82f6',
                         whatsapp: '#25D366',
                         'whatsapp-dark': '#128C7E',
-                        success: '#10b981',
-                        error: '#ef4444',
-                        'pastel-blue': '#a5d8ff',
-                        'pastel-green': '#b2f2bb',
-                        'pastel-purple': '#d0bfff',
-                        'pastel-pink': '#ffc9c9',
-                        'pastel-yellow': '#ffec99',
-                        'pastel-peach': '#ffd8a8',
+                        // Pastel hints for backgrounds
+                        'pastel-blue': '#eff6ff',
+                        'pastel-green': '#f0fdf4',
+                        'pastel-purple': '#f5f3ff',
+                        'pastel-pink': '#fdf2f8'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
                     }
                 }
             }
         }
     </script>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Custom Styles -->
     <style>
-        /* WhatsApp Float */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-        }
-
-        /* Sticky CTA button */
-        .sticky-cta {
-            position: fixed;
-            bottom: 40px;
-            left: 40px;
-            background: #2563eb;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            z-index: 99;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
+        /* Shared Styles from Index */
+        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
+        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
         
-        .sticky-cta:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-        }
-
-        /* Navigation Links Styling */
-        .nav-links li a {
-            position: relative;
-            padding: 8px 0;
-            white-space: nowrap;
-        }
+        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
+        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
         
-        .nav-links li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #2563eb;
-            transition: width 0.3s ease;
-        }
+        .service-card{transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);border:1px solid rgba(226, 232, 240, 0.8)}
+        .service-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,0.12);border-color:#1e40af}
         
-        .nav-links li a:hover::after,
-        .nav-links li a.active::after {
-            width: 100%;
-        }
-
-        /* Mobile Navigation Scroll Fix */
-        @media (max-width: 768px) {
-            .nav-links {
-                overflow-x: auto;
-                padding-bottom: 8px;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            /* REDUCED SIZE FOR MOBILE */
-            .nav-links li a {
-                font-size: 14px;
-                padding: 6px 0;
-            }
-
-            .nav-links::-webkit-scrollbar { height: 4px; }
-            .nav-links::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 2px; }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-
-            .sticky-cta {
-                bottom: 20px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-        }
-
-        /* Service Card Hover */
-        .service-card {
-            transition: all 0.3s ease;
-        }
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        /* Section Title Line */
-        .section-title {
-            position: relative;
-            display: inline-block;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: #2563eb;
-            border-radius: 2px;
-        }
-
-        /* Pastel Gradient */
-        .pastel-gradient {
-            background: linear-gradient(135deg, #f8fafc 0%, #a5d8ff 50%, #d0bfff 100%);
-        }
+        .section-title{position:relative;display:inline-block;padding-bottom:15px}
+        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#1e40af,#059669);border-radius:2px}
         
-        .gradient-bg {
-            background: linear-gradient(135deg, #2563eb 0%, #22d3ee 100%);
-            color: white;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-        }
-        .btn-primary {
-            background-color: #2563eb;
-            color: white;
-        }
-        .btn-primary:hover {
-            background-color: #1d4ed8;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
+        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
+        .cta-gradient{background:linear-gradient(135deg,#1e40af 0%,#059669 100%);color:white}
         
-        /* WhatsApp Specific Button Style */
-        .btn-whatsapp {
-            background-color: #25D366;
-            color: white;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .btn-whatsapp:hover {
-            background-color: #128C7E;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transform: translateY(-1px);
-        }
+        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
+        
+        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
+        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .loading-logo span{color:#059669}
+        
+        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
+        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
+        
+        .btn-whatsapp{background:linear-gradient(135deg,#25D366 0%,#128C7E 100%);color:white;transition:all 0.3s ease}
+        .btn-whatsapp:hover{background:linear-gradient(135deg,#22c55e 0%,#0f766e 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(37,211,102,0.3)}
 
-        /* Animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .animate-on-scroll.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        html{scroll-behavior:smooth;scroll-padding-top:100px}
+        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
     </style>
 </head>
-<body class="font-sans text-secondary bg-slate-50">
+<body class="font-sans text-secondary bg-light">
 
     <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
+        <div class="loading-logo">Technovia<span>X</span></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <p class="text-white mt-4 font-medium">Loading Services...</p>
     </div>
 
-    <!-- WhatsApp Float Button -->
+    <!-- Floating Buttons -->
     <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
     
-    <!-- Sticky Contact CTA Button -->
     <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
         <i class="fas fa-envelope"></i> Contact Us
     </a>
 
-    <!-- Dynamic Navigation Injection -->
-    <script src="js/navigation.js"></script>
+    <!-- Navigation Injection -->
+    <script src="js/navigation.js" defer></script>
 
-    <!-- Main Content -->
-    <main class="pt-32 pb-20">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16 animate-fade-in-up">
-                <h1 class="text-4xl font-bold mb-4 section-title relative inline-block">
-                    Our Services
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-gradient pt-32 pb-20">
+            <div class="container mx-auto px-4 text-center animate-on-scroll">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary">
+                    Our <span class="text-primary">Services</span>
                 </h1>
-                <p class="text-gray-600 text-lg max-w-3xl mx-auto mt-4">Comprehensive IT solutions to drive your business forward in the digital age.</p>
+                <p class="text-lg sm:text-xl text-dark-light max-w-3xl mx-auto mb-8">
+                    Comprehensive IT solutions tailored to drive your business forward in the digital age. From concept to deployment, we are your partners in innovation.
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
+        </section>
 
+        <!-- Main Services List -->
+        <div class="container mx-auto px-4 pb-20">
+            
             <!-- Web Development -->
             <section id="web-development" class="mb-20 scroll-mt-32 animate-on-scroll">
-                <div class="service-card flex flex-col lg:flex-row items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="lg:w-1/2">
-                        <div class="inline-flex items-center justify-center w-12 h-12 bg-pastel-blue text-primary rounded-lg mb-4">
-                            <i class="fas fa-laptop-code text-xl"></i>
+                <div class="service-card flex flex-col lg:flex-row items-center gap-12 bg-white rounded-2xl p-8 sm:p-12 shadow-lg">
+                    <div class="lg:w-1/2 order-2 lg:order-1">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-pastel-blue text-primary rounded-2xl mb-6 shadow-sm">
+                            <i class="fas fa-laptop-code text-3xl"></i>
                         </div>
-                        <h2 class="text-3xl font-bold mb-6">Web Development</h2>
-                        <p class="text-gray-600 mb-6">We create responsive, user-friendly websites that deliver exceptional user experiences and drive business growth.</p>
-                        <ul class="space-y-3 mb-8">
+                        <h2 class="text-3xl font-bold mb-4 text-secondary">Web Development</h2>
+                        <p class="text-dark-light mb-6 text-lg leading-relaxed">
+                            We create responsive, high-performance websites that deliver exceptional user experiences. Whether it's a corporate site or a complex web application, we ensure scalability and speed.
+                        </p>
+                        <ul class="space-y-4 mb-8">
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Custom website design and development</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">Custom full-stack development (MERN/MEAN)</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>E-commerce solutions</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">E-commerce solutions & Payment Integrations</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Content Management Systems (WordPress, etc.)</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">CMS Development (WordPress, Shopify)</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Web application development</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">Progressive Web Apps (PWA)</span>
                             </li>
                         </ul>
-                        <a href="/contact.html?service=Web%20Development" class="btn btn-primary">
-                            Get Quote <i class="fas fa-arrow-right ml-2"></i>
+                        <a href="/contact.html?service=Web%20Development" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-flex items-center gap-2">
+                            Get Quote <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
-                    <div class="lg:w-1/2">
-                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                             alt="Web Development" 
-                             class="rounded-xl shadow-lg w-full object-cover h-[350px]">
+                    <div class="lg:w-1/2 order-1 lg:order-2">
+                        <div class="relative group">
+                            <div class="absolute -inset-2 bg-gradient-to-r from-primary to-primary-light rounded-2xl opacity-20 group-hover:opacity-40 transition duration-500 blur-lg"></div>
+                            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Web Development" 
+                                 class="relative rounded-2xl shadow-2xl w-full object-cover h-[350px] sm:h-[450px] transform transition duration-500 group-hover:scale-[1.01]">
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- App Development -->
             <section id="app-development" class="mb-20 scroll-mt-32 animate-on-scroll">
-                <div class="flex flex-col lg:flex-row-reverse items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="lg:w-1/2">
-                        <div class="inline-flex items-center justify-center w-12 h-12 bg-pastel-green text-success rounded-lg mb-4">
-                            <i class="fas fa-mobile-alt text-xl"></i>
+                <div class="service-card flex flex-col lg:flex-row items-center gap-12 bg-white rounded-2xl p-8 sm:p-12 shadow-lg">
+                    <div class="lg:w-1/2 order-1">
+                        <div class="relative group">
+                            <div class="absolute -inset-2 bg-gradient-to-r from-accent to-accent-light rounded-2xl opacity-20 group-hover:opacity-40 transition duration-500 blur-lg"></div>
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="App Development" 
+                                 class="relative rounded-2xl shadow-2xl w-full object-cover h-[350px] sm:h-[450px] transform transition duration-500 group-hover:scale-[1.01]">
                         </div>
-                        <h2 class="text-3xl font-bold mb-6">App Development</h2>
-                        <p class="text-gray-600 mb-6">Native and cross-platform mobile applications for iOS and Android that engage users and drive growth.</p>
-                        <ul class="space-y-3 mb-8">
+                    </div>
+                    <div class="lg:w-1/2 order-2">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-pastel-green text-accent rounded-2xl mb-6 shadow-sm">
+                            <i class="fas fa-mobile-alt text-3xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-4 text-secondary">App Development</h2>
+                        <p class="text-dark-light mb-6 text-lg leading-relaxed">
+                            Engage your customers on the go with robust mobile applications. We build native and cross-platform apps that offer seamless performance and intuitive designs.
+                        </p>
+                        <ul class="space-y-4 mb-8">
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>iOS app development (Swift)</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">iOS App Development (Swift)</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Android app development (Kotlin/Java)</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">Android App Development (Kotlin)</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Cross-platform development (React Native, Flutter)</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">Cross-Platform (React Native, Flutter)</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>App maintenance and support</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">App UI/UX Design & Maintenance</span>
                             </li>
                         </ul>
-                        <a href="/contact.html?service=App%20Development" class="btn btn-primary">
-                            Get Quote <i class="fas fa-arrow-right ml-2"></i>
+                        <a href="/contact.html?service=App%20Development" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-flex items-center gap-2">
+                            Get Quote <i class="fas fa-arrow-right"></i>
                         </a>
-                    </div>
-                    <div class="lg:w-1/2">
-                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                             alt="App Development" 
-                             class="rounded-xl shadow-lg w-full object-cover h-[350px]">
                     </div>
                 </div>
             </section>
 
             <!-- Cloud Solutions -->
             <section id="cloud-solutions" class="mb-20 scroll-mt-32 animate-on-scroll">
-                <div class="flex flex-col lg:flex-row items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="lg:w-1/2">
-                        <div class="inline-flex items-center justify-center w-12 h-12 bg-pastel-purple text-primary-dark rounded-lg mb-4">
-                            <i class="fas fa-cloud text-xl"></i>
+                <div class="service-card flex flex-col lg:flex-row items-center gap-12 bg-white rounded-2xl p-8 sm:p-12 shadow-lg">
+                    <div class="lg:w-1/2 order-2 lg:order-1">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-pastel-purple text-info rounded-2xl mb-6 shadow-sm">
+                            <i class="fas fa-cloud text-3xl"></i>
                         </div>
-                        <h2 class="text-3xl font-bold mb-6">Cloud Solutions</h2>
-                        <p class="text-gray-600 mb-6">Secure and scalable cloud infrastructure solutions to optimize your business operations and reduce costs.</p>
-                        <ul class="space-y-3 mb-8">
+                        <h2 class="text-3xl font-bold mb-4 text-secondary">Cloud Solutions</h2>
+                        <p class="text-dark-light mb-6 text-lg leading-relaxed">
+                            Modernize your infrastructure with secure and scalable cloud services. We help you migrate, manage, and optimize your cloud resources for maximum efficiency.
+                        </p>
+                        <ul class="space-y-4 mb-8">
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Cloud migration services</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">Cloud Migration & Strategy</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>AWS, Azure, Google Cloud solutions</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">AWS, Azure & Google Cloud Architecture</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Cloud security implementation</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">Serverless Computing Implementation</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Serverless architecture</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">DevOps & CI/CD Pipelines</span>
                             </li>
                         </ul>
-                        <a href="/contact.html?service=Cloud%20Solutions" class="btn btn-primary">
-                            Get Quote <i class="fas fa-arrow-right ml-2"></i>
+                        <a href="/contact.html?service=Cloud%20Solutions" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-flex items-center gap-2">
+                            Get Quote <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
-                    <div class="lg:w-1/2">
-                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                             alt="Cloud Solutions" 
-                             class="rounded-xl shadow-lg w-full object-cover h-[350px]">
+                    <div class="lg:w-1/2 order-1 lg:order-2">
+                        <div class="relative group">
+                            <div class="absolute -inset-2 bg-gradient-to-r from-info to-blue-400 rounded-2xl opacity-20 group-hover:opacity-40 transition duration-500 blur-lg"></div>
+                            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Cloud Solutions" 
+                                 class="relative rounded-2xl shadow-2xl w-full object-cover h-[350px] sm:h-[450px] transform transition duration-500 group-hover:scale-[1.01]">
+                        </div>
                     </div>
                 </div>
             </section>
             
             <!-- Digital Marketing -->
             <section id="digital-marketing" class="mb-20 scroll-mt-32 animate-on-scroll">
-                <div class="flex flex-col lg:flex-row-reverse items-center gap-12 bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="lg:w-1/2">
-                        <div class="inline-flex items-center justify-center w-12 h-12 bg-pastel-pink text-pink-600 rounded-lg mb-4">
-                            <i class="fas fa-bullhorn text-xl"></i>
+                <div class="service-card flex flex-col lg:flex-row items-center gap-12 bg-white rounded-2xl p-8 sm:p-12 shadow-lg">
+                    <div class="lg:w-1/2 order-1">
+                        <div class="relative group">
+                            <div class="absolute -inset-2 bg-gradient-to-r from-pink-500 to-rose-400 rounded-2xl opacity-20 group-hover:opacity-40 transition duration-500 blur-lg"></div>
+                            <img src="https://images.unsplash.com/photo-1557838923-2985c318be48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Digital Marketing" 
+                                 class="relative rounded-2xl shadow-2xl w-full object-cover h-[350px] sm:h-[450px] transform transition duration-500 group-hover:scale-[1.01]">
                         </div>
-                        <h2 class="text-3xl font-bold mb-6">Digital Marketing</h2>
-                        <p class="text-gray-600 mb-6">SEO, Social Media, and Content strategies to boost your online presence.</p>
-                         <ul class="space-y-3 mb-8">
+                    </div>
+                    <div class="lg:w-1/2 order-2">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-pastel-pink text-pink-600 rounded-2xl mb-6 shadow-sm">
+                            <i class="fas fa-bullhorn text-3xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-4 text-secondary">Digital Marketing</h2>
+                        <p class="text-dark-light mb-6 text-lg leading-relaxed">
+                            Amplify your brand presence and reach your target audience. Our data-driven marketing strategies ensure high ROI and sustainable growth.
+                        </p>
+                        <ul class="space-y-4 mb-8">
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Search Engine Optimization (SEO)</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">Search Engine Optimization (SEO)</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Social Media Marketing</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">Social Media Marketing (SMM)</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Pay-Per-Click (PPC) Advertising</span>
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">Pay-Per-Click (PPC) Advertising</span>
                             </li>
-                             <li class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span>Content & Email Marketing</span>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-success mt-1 text-xl"></i>
+                                <span class="text-dark">Content & Email Marketing</span>
                             </li>
                         </ul>
-                        <a href="/contact.html?service=Digital%20Marketing" class="btn btn-primary">
-                            Get Quote <i class="fas fa-arrow-right ml-2"></i>
+                        <a href="/contact.html?service=Digital%20Marketing" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-flex items-center gap-2">
+                            Get Quote <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
-                    <div class="lg:w-1/2">
-                        <img src="https://images.unsplash.com/photo-1557838923-2985c318be48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                             alt="Digital Marketing" 
-                             class="rounded-xl shadow-lg w-full object-cover h-[350px]">
-                    </div>
                 </div>
             </section>
 
-            <!-- CTA Section -->
-            <section class="pastel-gradient rounded-2xl p-12 text-center shadow-lg animate-on-scroll">
-                <h2 class="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
-                <p class="text-gray-700 mb-8 max-w-2xl mx-auto">Contact us today for a free consultation and quote.</p>
+        </div>
+
+        <!-- CTA Section -->
+        <section class="cta-gradient py-20">
+            <div class="container mx-auto px-4 text-center animate-on-scroll">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-white">Ready to Start Your Project?</h2>
+                <p class="text-white/90 text-lg mb-10 max-w-2xl mx-auto">
+                    Let's collaborate to build something amazing. Contact us today for a free consultation and personalized quote.
+                </p>
                 <div class="flex flex-wrap gap-4 justify-center">
-                    <a href="/contact.html" class="btn btn-primary">Get Started</a>
-                    <a href="https://wa.me/918433125736" class="btn btn-whatsapp" target="_blank">
-                        <i class="fab fa-whatsapp text-lg"></i> Chat on WhatsApp
+                    <a href="/contact.html" class="bg-white text-primary px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center gap-2">
+                        Get Started <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="https://wa.me/918433125736" class="btn-whatsapp px-8 py-4 rounded-lg font-bold flex items-center gap-2" target="_blank">
+                        <i class="fab fa-whatsapp text-xl"></i> Chat on WhatsApp
                     </a>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-secondary text-white py-12 sm:py-16">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-12">
-                <div>
-                    <div class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Technovia<span class="text-accent">X</span></div>
-                    <p class="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">Innovative IT solutions and services to help businesses transform and thrive in the digital era.</p>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Quick Links</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Home</a></li>
-                        <li><a href="/services.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Services</a></li>
-                        <li><a href="/about.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">About</a></li>
-                        <li><a href="/portfolio.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Portfolio</a></li>
-                        <li><a href="/careers.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Careers</a></li>
-                        <!-- Footer Login Link Added (Controlled by JS) -->
-                        <li id="footer-login-item"><a href="/login.html" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Login</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Services</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li><a href="/services.html#web-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Web Development</a></li>
-                        <li><a href="/services.html#app-development" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">App Development</a></li>
-                        <li><a href="/services.html#cloud-solutions" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Cloud Solutions</a></li>
-                        <li><a href="/services.html#digital-marketing" class="text-gray-300 hover:text-accent transition-colors text-sm sm:text-base">Digital Marketing</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-5 pb-2 border-b border-gray-700">Contact Info</h3>
-                    <ul class="space-y-2 sm:space-y-3">
-                        <li class="text-gray-300 text-sm sm:text-base flex items-start"><i class="fas fa-map-marker-alt mr-2 text-accent mt-1" aria-hidden="true"></i>Tech Street, Bareilly, UP</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-phone mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fas fa-envelope mr-2 text-accent" aria-hidden="true"></i> info.technoviax@gmail.com</li>
-                        <li class="text-gray-300 text-sm sm:text-base flex items-center"><i class="fab fa-whatsapp mr-2 text-accent" aria-hidden="true"></i> +91 8433125736</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="text-center pt-6 sm:pt-8 border-t border-gray-700">
-                <p class="text-gray-400 text-sm sm:text-base">&copy; 2023 TechnoviaX Tech. All Rights Reserved.</p>
-                <div class="mt-4 flex flex-wrap justify-center gap-4 sm:gap-6">
-                    <a href="/privacy.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Privacy Policy</a>
-                    <a href="/disclaimer.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Disclaimer</a>
-                    <a href="/terms.html" class="text-gray-400 hover:text-accent transition-colors text-xs sm:text-sm">Terms & Conditions</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer Injection -->
+    <div id="footer-container"></div>
+    <script src="js/footer.js" defer></script>
 
-    <!-- Integrated Main.js Logic -->
+    <!-- Firebase Auth Script -->
+    <script type="module" src="js/loginfirebase.js" defer></script>
+
+    <!-- Main Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Update Copyright Year
-            const yearEl = document.getElementById('year');
-            if(yearEl) yearEl.textContent = new Date().getFullYear();
-
             // Loading screen logic
             const loadingScreen = document.getElementById('loading');
             if (loadingScreen) {
@@ -525,11 +358,9 @@
                         loadingScreen.style.display = 'none';
                         document.body.style.overflow = 'auto';
                     }, 500);
-                }, 300); 
-            } else {
-                document.body.style.overflow = 'auto';
+                }, 500);
             }
-            
+
             // Smooth Scrolling
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
@@ -539,9 +370,15 @@
                         e.preventDefault();
                         const targetElement = document.querySelector(href);
                         if (targetElement) {
-                            const headerHeight = document.querySelector('.shadow-md').offsetHeight || 80;
+                            const header = document.querySelector('header');
+                            const headerHeight = header ? header.offsetHeight : 80;
                             const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                            window.scrollTo({ top: targetPosition - headerHeight - 10, behavior: 'smooth' });
+                            window.scrollTo({
+                                top: targetPosition - headerHeight - 20, 
+                                behavior: 'smooth'
+                            });
+                            // Update URL hash without jumping
+                            history.pushState(null, null, href);
                         }
                     }
                 });
@@ -549,18 +386,21 @@
             
             // Scroll Animation
             function animateOnScroll() {
-                const animatedElements = document.querySelectorAll('.animate-on-scroll');
-                animatedElements.forEach(element => {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+                elements.forEach(element => {
                     if (element.classList.contains('animated')) return;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const screenPosition = window.innerHeight - (window.innerHeight / 4);
-                    if (elementPosition < screenPosition) {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    if (elementTop < windowHeight * 0.85) {
                         element.classList.add('animated');
                     }
                 });
             }
+            
+            // Initial check
             animateOnScroll();
             
+            // Debounced scroll listener
             let isScrolling = false;
             window.addEventListener('scroll', () => {
                 if (!isScrolling) {
@@ -571,15 +411,7 @@
                     isScrolling = true;
                 }
             });
-
-            // Handle active state for nav links (This logic is redundant with navigation.js but kept for fallback)
-            // Since navigation.js handles this, we can remove this block to avoid conflict, 
-            // but leaving it doesn't hurt as navigation.js runs last and overwrites.
         });
     </script>
-
-    <!-- Global Navbar Auth Logic -->
-    <script src="js/loginfirebase.js" type="module"></script>
-
 </body>
 </html>

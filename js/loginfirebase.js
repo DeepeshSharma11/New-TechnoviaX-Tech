@@ -195,7 +195,7 @@ function injectAuthUI() {
     checkAuthState();
 }
 
-// Add custom styles for auth UI
+// Add custom styles for auth UI and Toasts
 function addAuthStyles() {
     if (document.querySelector('#auth-styles')) return;
     
@@ -214,8 +214,34 @@ function addAuthStyles() {
         @media (min-width:640px) and (max-width:767px){.mobile-top-login-btn a span{font-size:0.875rem}.nav-login-btn a{font-size:0.875rem;padding:0.5rem 0.75rem}}
         @media (min-width:768px) and (max-width:1023px){.nav-login-btn a{font-size:0.875rem;padding:0.5rem 1rem}}
         @media (min-width:1024px){.mobile-top-login-btn,.mobile-full-login-btn{display:none!important}}
+
+        /* Toast Styles */
+        .auth-toast { position: fixed; bottom: 20px; right: 20px; background: #1f2937; color: white; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); z-index: 10000; opacity: 0; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); font-size: 14px; display: flex; align-items: center; gap: 10px; font-weight: 500; border-left: 4px solid #3b82f6; pointer-events: none; }
+        .auth-toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .auth-toast.success { border-left-color: #10b981; }
+        .auth-toast.error { border-left-color: #ef4444; }
+        .auth-toast i { font-size: 16px; }
     `;
     document.head.appendChild(style);
+}
+
+// Toast Notification Function
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `auth-toast ${type}`;
+    const iconClass = type === 'success' ? 'fa-check-circle text-green-400' : 'fa-exclamation-circle text-red-400';
+    toast.innerHTML = `<i class="fas ${iconClass}"></i> <span>${message}</span>`;
+    document.body.appendChild(toast);
+    
+    // Trigger reflow for animation
+    void toast.offsetHeight;
+    
+    requestAnimationFrame(() => toast.classList.add('show'));
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
 
 // Check current auth state
@@ -239,12 +265,19 @@ if (googleBtn) {
     googleBtn.addEventListener('click', () => {
         const errorMsg = document.getElementById('error-message');
         if (errorMsg) errorMsg.classList.add('hidden');
-        signInWithPopup(auth, provider).catch((error) => {
-            if (errorMsg) {
-                errorMsg.textContent = error.message;
-                errorMsg.classList.remove('hidden');
-            }
-        });
+        
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                const user = result.user;
+                showToast(`Welcome back, ${user.displayName.split(' ')[0]}!`, 'success');
+            })
+            .catch((error) => {
+                if (errorMsg) {
+                    errorMsg.textContent = error.message;
+                    errorMsg.classList.remove('hidden');
+                }
+                showToast(error.message, 'error');
+            });
     });
 }
 
@@ -263,11 +296,21 @@ if (emailForm) {
         if (errorMsg) errorMsg.classList.add('hidden');
 
         signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                showToast(`Welcome back, ${user.displayName ? user.displayName.split(' ')[0] : 'User'}!`, 'success');
+                // Button reset happens in UI update or redirect
+                setTimeout(() => {
+                     submitBtn.disabled = false;
+                     submitBtn.innerHTML = originalText;
+                }, 1000);
+            })
             .catch((error) => {
                 if (errorMsg) {
                     errorMsg.textContent = "Invalid email or password.";
                     errorMsg.classList.remove('hidden');
                 }
+                showToast("Invalid email or password", 'error');
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
             });
@@ -277,14 +320,17 @@ if (emailForm) {
 function handleLogout() {
     if(confirm("Are you sure you want to logout?")) {
         signOut(auth).then(() => {
+            showToast("Logged out successfully", 'success');
             if (window.location.pathname === '/login.html') {
                 window.location.reload();
             } else {
                 // Clear all login states
                 updateAuthUI(null);
-                // Redirect to home
-                window.location.href = '/';
+                // Redirect to home if needed, or just stay
+                // window.location.href = '/'; 
             }
+        }).catch((error) => {
+            showToast("Error logging out", 'error');
         });
     }
 }
@@ -366,7 +412,8 @@ function updateAuthUI(user) {
         // 4. Footer
         if (footerLoginItem) {
             const firstName = user.displayName ? user.displayName.split(' ')[0] : 'User';
-            footerLoginItem.innerHTML = `<span class="text-primary font-bold cursor-default">Hi, ${firstName}</span>`;
+            // Added explicit "Welcome" check here based on user query potential intent
+            footerLoginItem.innerHTML = `<span class="text-primary font-bold cursor-default">Welcome, ${firstName}</span>`;
         }
 
         // 5. Login Page

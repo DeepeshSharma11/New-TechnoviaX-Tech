@@ -111,8 +111,20 @@
         .status-success { background-color: #d1fae5; color: #059669; }
         .status-failed { background-color: #fee2e2; color: #dc2626; }
 
+        /* Navigation Links */
+        .nav-links li a { position: relative; padding: 8px 0; white-space: nowrap; }
+        .nav-links li a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: #1e40af; transition: width 0.3s ease; }
+        .nav-links li a:hover::after, .nav-links li a.active::after { width: 100%; }
+        
+        @media (max-width: 768px) {
+            .nav-links { overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+            .nav-links::-webkit-scrollbar { height: 4px; }
+            .nav-links::-webkit-scrollbar-thumb { background: #1e40af; border-radius: 2px; }
+            .whatsapp-float { width: 50px; height: 50px; bottom: 20px; right: 20px; font-size: 24px; }
+            .sticky-cta { bottom: 20px; left: 20px; padding: 10px 20px; font-size: 14px; }
+        }
+
         html{scroll-behavior:smooth;scroll-padding-top:100px}
-        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
     </style>
 </head>
 <body class="font-sans text-secondary bg-light">
@@ -133,12 +145,39 @@
         <i class="fas fa-envelope"></i> Contact Us
     </a>
 
-    <!-- Navigation Injection -->
-    <script src="js/navigation.js" defer></script>
+    <!-- Header (Hardcoded for Payment Page with extra ID) -->
+    <header class="bg-white shadow-md fixed w-full top-0 z-40">
+        <div class="container mx-auto px-4">
+            <nav class="flex flex-col md:flex-row justify-between items-center py-4">
+                <div class="logo flex items-center gap-2 mb-3 md:mb-0">
+                    <a href="/" class="logo-text text-2xl font-bold text-primary">Technovia<span class="text-accent">X</span></a>
+                </div>
+                
+                <div class="w-full md:w-auto">
+                    <ul class="nav-links flex flex-nowrap justify-start md:justify-center items-center list-none gap-4 md:gap-8 overflow-x-auto">
+                        <li><a href="/" class="text-secondary font-medium hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="/services.html" class="text-secondary font-medium hover:text-primary transition-colors">Services</a></li>
+                        <li><a href="/about.html" class="text-secondary font-medium hover:text-primary transition-colors">About</a></li>
+                        <li><a href="/portfolio.html" class="text-secondary font-medium hover:text-primary transition-colors">Portfolio</a></li>
+                        <li><a href="/payment.html" class="text-primary font-bold active">Payment</a></li>
+                        <li><a href="/careers.html" class="text-secondary font-medium hover:text-primary transition-colors">Careers</a></li>
+                        <li><a href="/contact.html" class="text-secondary font-medium hover:text-primary transition-colors">Contact</a></li>
+                        
+                        <!-- Login Button Container for Firebase Script -->
+                        <li id="nav-login-container" class="flex items-center ml-2"></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hidden Containers for Script Compatibility -->
+    <div id="mobile-login-container" class="hidden"></div>
+    <div id="mobile-full-login-container" class="hidden"></div>
 
     <main id="main-content">
         <!-- Hero Section -->
-        <section class="hero-gradient pt-12 pb-16">
+        <section class="hero-gradient pt-32 pb-16">
             <div class="container mx-auto px-4 text-center animate-on-scroll">
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary">
                     Secure <span class="text-primary">Payment</span>
@@ -606,6 +645,12 @@
             }
             animateOnScroll();
             window.addEventListener('scroll', () => window.requestAnimationFrame(animateOnScroll));
+            
+            // Navigation Injection Waiter
+            window.addEventListener('navigationInjected', () => {
+                // If loginfirebase.js hasn't injected the button yet, it will handle it.
+                // This listener ensures we don't have race conditions if nav loads later.
+            });
         });
     </script>
 </body>

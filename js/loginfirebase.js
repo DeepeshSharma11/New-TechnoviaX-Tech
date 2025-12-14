@@ -23,28 +23,78 @@ function injectAuthUI() {
     const navList = document.querySelector('.nav-links');
     
     if (navList && !document.getElementById('nav-login')) {
+        // Create a spacer before login button
+        const liSpacer = document.createElement('li');
+        liSpacer.className = 'ml-4 mr-2';
+        liSpacer.innerHTML = '<div class="w-px h-6 bg-gray-300 mx-2"></div>';
+        navList.appendChild(liSpacer);
+        
         // 1. Create Login Button
         const liLogin = document.createElement('li');
         liLogin.id = 'nav-login';
-        const btnClasses = "flex items-center gap-2 px-5 py-2 rounded-full font-bold text-white transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700";
-        liLogin.innerHTML = `<a href="/login.html" class="${btnClasses}"><i class="fas fa-user"></i> <span>Login</span></a>`;
+        liLogin.className = 'nav-login-item';
+        const btnClasses = "flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-white transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700";
+        liLogin.innerHTML = `<a href="/login.html" class="${btnClasses}"><i class="fas fa-user mr-1"></i> <span>Login</span></a>`;
         navList.appendChild(liLogin);
+        
+        // Create another spacer after login button
+        const liSpacer2 = document.createElement('li');
+        liSpacer2.className = 'mr-2';
+        liSpacer2.innerHTML = '<div class="w-px h-6 bg-gray-300 mx-2"></div>';
+        navList.appendChild(liSpacer2);
 
         // 2. Create Profile/Logout Section
         const liProfile = document.createElement('li');
         liProfile.id = 'nav-profile';
-        liProfile.className = 'hidden'; 
+        liProfile.className = 'hidden nav-profile-item'; 
         liProfile.innerHTML = `
-            <div class="flex items-center gap-2 cursor-pointer group bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-gray-200 hover:border-primary transition-all shadow-sm hover:shadow-md" id="injected-logout-btn">
+            <div class="flex items-center gap-2 cursor-pointer group bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-gray-200 hover:border-primary transition-all shadow-sm hover:shadow-md" id="injected-logout-btn">
                 <img id="nav-user-avatar" src="https://via.placeholder.com/150" alt="User" class="w-8 h-8 rounded-full border-2 border-white shadow-sm object-cover">
-                <span class="text-sm font-bold text-gray-700 group-hover:text-primary transition-colors">Logout</span>
-                <i class="fas fa-sign-out-alt text-gray-400 group-hover:text-red-500 ml-1 transition-colors"></i>
+                <span class="text-sm font-semibold text-gray-700 group-hover:text-primary transition-colors truncate max-w-[80px]">Profile</span>
+                <i class="fas fa-chevron-down text-gray-400 text-xs group-hover:text-primary ml-1 transition-colors"></i>
+            </div>
+            <div id="logout-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                <div class="p-4 border-b border-gray-100">
+                    <div class="flex items-center gap-3">
+                        <img id="dropdown-avatar" src="https://via.placeholder.com/150" alt="User" class="w-10 h-10 rounded-full border-2 border-primary object-cover">
+                        <div class="flex-1 min-w-0">
+                            <p id="dropdown-name" class="text-sm font-semibold text-gray-800 truncate"></p>
+                            <p id="dropdown-email" class="text-xs text-gray-500 truncate"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2">
+                    <button id="dropdown-logout-btn" class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
             </div>
         `;
         navList.appendChild(liProfile);
 
-        const logoutBtn = liProfile.querySelector('#injected-logout-btn');
-        if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+        // Add click event for profile dropdown
+        const profileBtn = liProfile.querySelector('#injected-logout-btn');
+        const dropdown = liProfile.querySelector('#logout-dropdown');
+        const dropdownLogoutBtn = liProfile.querySelector('#dropdown-logout-btn');
+        
+        if (profileBtn) {
+            profileBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdown.classList.toggle('hidden');
+            });
+        }
+        
+        if (dropdownLogoutBtn) {
+            dropdownLogoutBtn.addEventListener('click', handleLogout);
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            if (dropdown && !dropdown.classList.contains('hidden')) {
+                dropdown.classList.add('hidden');
+            }
+        });
     }
 }
 
@@ -99,7 +149,7 @@ if (emailForm) {
 }
 
 function handleLogout() {
-    if(confirm("Logout?")) {
+    if(confirm("Are you sure you want to logout?")) {
         signOut(auth).then(() => {
             if (window.location.pathname === '/login.html') window.location.reload();
             else window.location.href = '/';
@@ -117,7 +167,10 @@ onAuthStateChanged(auth, (user) => {
     // Navbar Elements
     const navLogin = document.getElementById('nav-login');
     const navProfile = document.getElementById('nav-profile');
-    const navAvatar = document.getElementById('nav-user-avatar') || document.getElementById('user-avatar');
+    const navAvatar = document.getElementById('nav-user-avatar');
+    const dropdownAvatar = document.getElementById('dropdown-avatar');
+    const dropdownName = document.getElementById('dropdown-name');
+    const dropdownEmail = document.getElementById('dropdown-email');
     
     // Footer Element
     const footerLoginItem = document.getElementById('footer-login-item');
@@ -136,6 +189,9 @@ onAuthStateChanged(auth, (user) => {
         if (navLogin) navLogin.classList.add('hidden');
         if (navProfile) navProfile.classList.remove('hidden');
         if (navAvatar) navAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${user.email}&background=random`;
+        if (dropdownAvatar) dropdownAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${user.email}&background=random`;
+        if (dropdownName) dropdownName.textContent = user.displayName || 'User';
+        if (dropdownEmail) dropdownEmail.textContent = user.email;
 
         // 2. Footer (Change Login Link to User Name)
         if (footerLoginItem) {
@@ -177,9 +233,12 @@ onAuthStateChanged(auth, (user) => {
 // --- Page Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     injectAuthUI();
+    
+    // Update copyright year if element exists
     const year = document.getElementById('year');
     if(year) year.textContent = new Date().getFullYear();
     
+    // Handle loading screen
     const loading = document.getElementById('loading');
     if(loading) {
         setTimeout(() => {
@@ -188,3 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     }
 });
+
+// Export for use in other files if needed
+export { auth, provider, signInWithPopup, signInWithEmailAndPassword, signOut };

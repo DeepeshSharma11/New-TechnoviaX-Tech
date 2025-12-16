@@ -340,6 +340,9 @@
                     <input type="hidden" name="access_key" value="27443247-267a-43b2-9dfc-0b2a5f55713e">
                     <input type="hidden" name="subject" value="Technical Support Request">
                     
+                    <!-- NEW: Hidden Ticket ID Field -->
+                    <input type="hidden" name="Ticket_ID" id="ticket-id-field">
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div class="form-group">
                             <label for="support-name" class="form-label">Full Name <span class="text-error">*</span></label>
@@ -486,6 +489,12 @@
                 modalContent.classList.add('scale-95');
                 setTimeout(() => {
                     modal.classList.add('hidden');
+                    // Reset form and status on close
+                    if(formStatus.classList.contains('success')) {
+                         form.reset();
+                         formStatus.classList.add('hidden');
+                         formStatus.classList.remove('success');
+                    }
                 }, 300);
                 document.body.style.overflow = 'auto';
             }
@@ -524,10 +533,26 @@
                     
                     if (!valid) return;
 
+                    // ---------------------------------------------------------
+                    // TICKET GENERATION LOGIC
+                    // ---------------------------------------------------------
+                    const date = new Date();
+                    const dateStr = date.getFullYear() + 
+                                    (date.getMonth() + 1).toString().padStart(2, '0') + 
+                                    date.getDate().toString().padStart(2, '0');
+                    // Generate a random 4 digit number
+                    const randomNum = Math.floor(1000 + Math.random() * 9000);
+                    // Combine to create ID (e.g., TICKET-20231027-4582)
+                    const ticketId = `TICKET-${dateStr}-${randomNum}`;
+                    
+                    // Set the hidden input value so it gets sent in the email
+                    document.getElementById('ticket-id-field').value = ticketId;
+                    // ---------------------------------------------------------
+
                     // Loading state
                     const originalText = submitBtn.innerHTML;
                     submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Generating Ticket...';
                     formStatus.classList.add('hidden');
 
                     try {
@@ -539,10 +564,23 @@
                         const result = await response.json();
 
                         if (result.success) {
-                            formStatus.innerHTML = '<div class="flex items-center gap-2"><i class="fas fa-check-circle"></i> Ticket created successfully! We will contact you soon.</div>';
-                            formStatus.className = 'form-status success mb-4 block text-sm font-medium';
-                            form.reset();
-                            setTimeout(closeModal, 3000);
+                            // Enhanced Success Message with Ticket ID
+                            formStatus.innerHTML = `
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex items-center gap-2 text-green-800 font-bold">
+                                        <i class="fas fa-check-circle"></i> Ticket Created Successfully!
+                                    </div>
+                                    <div class="bg-white p-4 rounded border border-green-200 text-sm shadow-sm mt-1">
+                                        <p class="text-gray-600 mb-1">Your Ticket ID is:</p>
+                                        <div class="font-mono text-xl font-bold text-primary select-all bg-gray-50 p-2 rounded text-center border border-gray-200">${ticketId}</div>
+                                        <p class="text-xs text-gray-500 mt-2">Please save this ID. We have also sent a confirmation to your email.</p>
+                                    </div>
+                                </div>
+                            `;
+                            formStatus.className = 'form-status success mb-4 block';
+                            
+                            // Don't close immediately so they can copy the ID
+                            // setTimeout(closeModal, 6000); 
                         } else {
                             throw new Error(result.message);
                         }

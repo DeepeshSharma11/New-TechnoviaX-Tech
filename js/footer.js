@@ -24,7 +24,7 @@
                         <a href="#" class="social-icon text-white hover:text-blue-600 transition-colors text-lg" aria-label="LinkedIn">
                             <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="https://www.instagram.com/ur_x_deepesh21/" class="social-icon text-white hover:text-pink-500 transition-colors text-lg" aria-label="Instagram">
+                        <a href="https://www.instagram.com/ur_x_deepesh21/" target="_blank" class="social-icon text-white hover:text-pink-500 transition-colors text-lg" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>

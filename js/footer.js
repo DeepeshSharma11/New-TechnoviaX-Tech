@@ -15,13 +15,13 @@
                         Leading IT solutions provider delivering innovative technology services for businesses worldwide.
                     </p>
                     <div class="flex gap-3">
-                        <a href="#" class="social-icon text-white hover:text-blue-500 transition-colors text-lg" aria-label="Facebook">
+                        <a href="#" target="_blank" class="social-icon text-white hover:text-blue-500 transition-colors text-lg" aria-label="Facebook">
                             <i class="fab fa-facebook"></i>
                         </a>
-                        <a href="#" class="social-icon text-white hover:text-blue-400 transition-colors text-lg" aria-label="Twitter">
+                        <a href="#" target="_blank" class="social-icon text-white hover:text-blue-400 transition-colors text-lg" aria-label="Twitter">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="social-icon text-white hover:text-blue-600 transition-colors text-lg" aria-label="LinkedIn">
+                        <a href="#" target="_blank" class="social-icon text-white hover:text-blue-600 transition-colors text-lg" aria-label="LinkedIn">
                             <i class="fab fa-linkedin"></i>
                         </a>
                         <a href="https://www.instagram.com/ur_x_deepesh21/" target="_blank" class="social-icon text-white hover:text-pink-500 transition-colors text-lg" aria-label="Instagram">

@@ -21,7 +21,7 @@
                         <a href="#" target="_blank" class="social-icon text-white hover:text-blue-400 transition-colors text-lg" aria-label="Twitter">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" target="_blank" class="social-icon text-white hover:text-blue-600 transition-colors text-lg" aria-label="LinkedIn">
+                        <a href="https://www.linkedin.com/in/deepesh24/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BnkqMVAVRQ4%2B6qExWapVZlw%3D%3D" target="_blank" class="social-icon text-white hover:text-blue-600 transition-colors text-lg" aria-label="LinkedIn">
                             <i class="fab fa-linkedin"></i>
                         </a>
                         <a href="https://www.instagram.com/ur_x_deepesh21/" target="_blank" class="social-icon text-white hover:text-pink-500 transition-colors text-lg" aria-label="Instagram">

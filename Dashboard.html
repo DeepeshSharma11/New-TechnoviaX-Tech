@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - TechnoviaX</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-active { background-color: rgba(255, 255, 255, 0.1); border-left: 4px solid #3b82f6; }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Auth Loading Screen -->
+    <div id="auth-loading" class="fixed inset-0 bg-white z-[9999] flex items-center justify-center">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p class="text-gray-500">Verifying Identity...</p>
+        </div>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-900 text-white hidden md:flex flex-col">
+            <div class="p-6 border-b border-slate-800">
+                <h1 class="text-2xl font-bold">Technovia<span class="text-blue-500">X</span></h1>
+                <p class="text-xs text-slate-400 mt-1">Client Portal</p>
+            </div>
+            
+            <nav class="flex-1 py-6 space-y-1">
+                <a href="#" class="sidebar-active flex items-center px-6 py-3 text-sm font-medium hover:bg-slate-800 transition-colors">
+                    <i class="fas fa-home w-6 text-center mr-2"></i> Dashboard
+                </a>
+                <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-colors">
+                    <i class="fas fa-ticket-alt w-6 text-center mr-2"></i> My Tickets
+                </a>
+                <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-colors">
+                    <i class="fas fa-file-invoice-dollar w-6 text-center mr-2"></i> Quotes
+                </a>
+                <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-colors">
+                    <i class="fas fa-user-cog w-6 text-center mr-2"></i> Profile
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-slate-800">
+                <button id="logout-btn" class="flex items-center w-full px-4 py-2 text-sm text-red-400 hover:bg-slate-800 rounded transition-colors">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-y-auto">
+            
+            <!-- Mobile Header -->
+            <header class="bg-white shadow-sm h-16 flex items-center justify-between px-4 md:hidden">
+                <span class="font-bold text-lg">TechnoviaX</span>
+                <button class="text-gray-600"><i class="fas fa-bars"></i></button>
+            </header>
+
+            <!-- Top Bar (Desktop) -->
+            <header class="hidden md:flex bg-white shadow-sm h-16 items-center justify-between px-8">
+                <h2 class="text-xl font-semibold text-gray-800">Overview</h2>
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <div id="user-name" class="text-sm font-bold text-gray-900">Loading...</div>
+                        <div id="user-email" class="text-xs text-gray-500">...</div>
+                    </div>
+                    <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold" id="user-avatar">
+                        U
+                    </div>
+                </div>
+            </header>
+
+            <main class="p-4 md:p-8">
+                
+                <!-- Stats Row -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">Total Tickets</p>
+                                <h3 class="text-2xl font-bold" id="stats-total">0</h3>
+                            </div>
+                            <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+                                <i class="fas fa-ticket-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">Pending</p>
+                                <h3 class="text-2xl font-bold text-orange-600" id="stats-pending">0</h3>
+                            </div>
+                            <div class="p-2 bg-orange-50 rounded-lg text-orange-600">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">Resolved</p>
+                                <h3 class="text-2xl font-bold text-green-600" id="stats-resolved">0</h3>
+                            </div>
+                            <div class="p-2 bg-green-50 rounded-lg text-green-600">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action & Filter Bar -->
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+                    <h3 class="text-lg font-bold text-gray-800">My Recent Tickets</h3>
+                    <button onclick="document.getElementById('new-ticket-modal').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm w-full sm:w-auto">
+                        <i class="fas fa-plus mr-2"></i> New Ticket
+                    </button>
+                </div>
+
+                <!-- Data Table -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-gray-50 text-gray-600 border-b border-gray-100">
+                                <tr>
+                                    <th class="px-6 py-4 font-semibold">Subject</th>
+                                    <th class="px-6 py-4 font-semibold">Ticket ID</th>
+                                    <th class="px-6 py-4 font-semibold">Date</th>
+                                    <th class="px-6 py-4 font-semibold">Status</th>
+                                    <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tickets-table-body" class="divide-y divide-gray-100">
+                                <!-- Data will be inserted here by JS -->
+                                <tr>
+                                    <td colspan="5" class="px-6 py-8 text-center text-gray-400">
+                                        <i class="fas fa-spinner fa-spin mr-2"></i> Loading your data...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Empty State (Hidden by default) -->
+                    <div id="empty-state" class="hidden p-8 text-center">
+                        <img src="https://illustrations.popsy.co/gray/question-mark.svg" alt="No data" class="w-32 h-32 mx-auto opacity-50 mb-4">
+                        <p class="text-gray-500 mb-2">You haven't created any tickets yet.</p>
+                        <button onclick="document.getElementById('new-ticket-modal').classList.remove('hidden')" class="text-blue-600 font-medium hover:underline">Create your first ticket</button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- New Ticket Modal -->
+    <div id="new-ticket-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                <h3 class="font-bold text-lg">Create New Ticket</h3>
+                <button onclick="document.getElementById('new-ticket-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <form id="create-ticket-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                        <input type="text" id="ticket-subject" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                        <select id="ticket-priority" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none bg-white">
+                            <option value="Low">Low</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea id="ticket-desc" rows="3" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2.5 rounded-lg hover:bg-blue-700 transition">
+                        Submit Ticket
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Logic -->
+    <script type="module">
+        // 1. Import Auth & Main App from your existing login-firebase.js
+        // This ensures we use the SAME initialized app instance
+        import { auth, db, signOut, onAuthStateChanged } from "./js/loginfirebase.js";
+
+        // 2. Import Firestore helpers (Collection, Query, etc.) from CDN
+        // Using version 12.6.0 to match your login-firebase.js
+        import { collection, query, where, onSnapshot, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+        const authLoading = document.getElementById('auth-loading');
+        const ticketsTableBody = document.getElementById('tickets-table-body');
+        const emptyState = document.getElementById('empty-state');
+        let currentUser = null;
+
+        // 3. Auth Guard & User Info
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                currentUser = user;
+                authLoading.style.display = 'none';
+                
+                // Update UI with User Info
+                document.getElementById('user-name').innerText = user.displayName || user.email.split('@')[0];
+                document.getElementById('user-email').innerText = user.email;
+                document.getElementById('user-avatar').innerText = (user.email[0] || 'U').toUpperCase();
+
+                // Load Data
+                loadUserTickets(user.uid);
+            } else {
+                // User is signed out -> Redirect to Login
+                window.location.href = 'login.html'; 
+            }
+        });
+
+        // 4. Logout Logic
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error("Logout Error", error);
+            }
+        });
+
+        // 5. Load User Tickets (THE CORE LOGIC)
+        function loadUserTickets(userId) {
+            // Note: We use 'onSnapshot' for real-time updates
+            // Query: Collection 'tickets' WHERE userId == currentUserId
+            const q = query(
+                collection(db, "tickets"),
+                where("userId", "==", userId)
+            );
+
+            onSnapshot(q, (snapshot) => {
+                const tickets = [];
+                snapshot.forEach((doc) => {
+                    tickets.push({ id: doc.id, ...doc.data() });
+                });
+
+                updateDashboardUI(tickets);
+            }, (error) => {
+                console.error("Error fetching tickets:", error);
+                ticketsTableBody.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-red-500">Error loading data. Check permissions or console.</td></tr>`;
+            });
+        }
+
+        // 6. Update UI
+        function updateDashboardUI(tickets) {
+            // Update Stats
+            document.getElementById('stats-total').innerText = tickets.length;
+            document.getElementById('stats-pending').innerText = tickets.filter(t => t.status === 'Pending').length;
+            document.getElementById('stats-resolved').innerText = tickets.filter(t => t.status === 'Resolved').length;
+
+            // Update Table
+            if (tickets.length === 0) {
+                ticketsTableBody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                ticketsTableBody.innerHTML = tickets.map(ticket => {
+                    // Formatting Date (Handle Firestore Timestamp or Date string)
+                    let dateStr = "Just now";
+                    if (ticket.createdAt && ticket.createdAt.toDate) {
+                        dateStr = ticket.createdAt.toDate().toLocaleDateString();
+                    } else if (ticket.date) {
+                        dateStr = ticket.date;
+                    }
+
+                    const statusColors = {
+                        'Pending': 'bg-yellow-100 text-yellow-800',
+                        'Active': 'bg-blue-100 text-blue-800',
+                        'Resolved': 'bg-green-100 text-green-800'
+                    };
+                    const statusClass = statusColors[ticket.status] || 'bg-gray-100 text-gray-800';
+
+                    return `
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-gray-900">${ticket.subject || 'No Subject'}</td>
+                            <td class="px-6 py-4 text-gray-500 font-mono text-xs">#${ticket.id.slice(0, 6)}</td>
+                            <td class="px-6 py-4 text-gray-500">${dateStr}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusClass}">
+                                    ${ticket.status || 'Pending'}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">View</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+        }
+
+        // 7. Create Ticket (To test data persistence)
+        document.getElementById('create-ticket-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const subject = document.getElementById('ticket-subject').value;
+            const priority = document.getElementById('ticket-priority').value;
+            const desc = document.getElementById('ticket-desc').value;
+            const btn = e.target.querySelector('button');
+
+            if (!currentUser) return;
+
+            btn.disabled = true;
+            btn.innerText = "Saving...";
+
+            try {
+                // Generate a readable Ticket ID (like TICKET-20231225-1234)
+                const date = new Date();
+                const dateStr = date.getFullYear() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
+                const randomNum = Math.floor(1000 + Math.random() * 9000);
+                const readableTicketId = `TICKET-${dateStr}-${randomNum}`;
+
+                await addDoc(collection(db, "tickets"), {
+                    userId: currentUser.uid, // CRITICAL: This links data to the user
+                    userEmail: currentUser.email,
+                    ticketDisplayId: readableTicketId,
+                    subject: subject,
+                    priority: priority,
+                    description: desc,
+                    status: "Pending",
+                    createdAt: serverTimestamp(),
+                    date: new Date().toLocaleDateString()
+                });
+                
+                // Close modal and reset
+                document.getElementById('new-ticket-modal').classList.add('hidden');
+                e.target.reset();
+            } catch (error) {
+                console.error("Error creating ticket:", error);
+                alert("Failed to create ticket: " + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Submit Ticket";
+            }
+        });
+
+    </script>
+</body>
+</html>

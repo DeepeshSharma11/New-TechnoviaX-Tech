@@ -10,6 +10,53 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        'primary-dark': '#1e3a8a',
+                        'primary-light': '#3b82f6',
+                        secondary: '#0f172a',
+                        accent: '#059669',
+                        'accent-dark': '#047857',
+                        'accent-light': '#10b981',
+                        light: '#f8fafc',
+                        dark: '#1e293b',
+                        'dark-light': '#334155',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#dc2626',
+                        info: '#3b82f6',
+                        whatsapp: '#25D366',
+                        'whatsapp-dark': '#128C7E',
+                        'pastel-blue': '#eff6ff',
+                        'pastel-green': '#f0fdf4',
+                        'pastel-purple': '#f5f3ff',
+                        'pastel-pink': '#fdf2f8'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,69 +66,74 @@
 
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .sidebar-active { background-color: rgba(255, 255, 255, 0.1); border-left: 4px solid #3b82f6; }
+        .sidebar-active { background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%); border-left: 4px solid #1e40af; color: #3b82f6; }
         .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        
+        #auth-loading {
+            background: linear-gradient(135deg, #1e40af 0%, #0f172a 100%);
+        }
+        .loading-logo { color: white; font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+        .loading-logo span { color: #059669; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-light text-secondary font-sans">
 
-    <!-- Auth Loading Screen -->
-    <div id="auth-loading" class="fixed inset-0 bg-white z-[9999] flex items-center justify-center">
-        <div class="text-center">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p class="text-gray-500">Verifying Identity...</p>
-        </div>
+    <!-- Auth Loading Screen (Matches Portfolio Style) -->
+    <div id="auth-loading" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="loading-logo">Technovia<span>X</span></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <p class="text-white mt-4 font-medium">Verifying Identity...</p>
     </div>
 
     <div class="flex h-screen overflow-hidden">
         
         <!-- Sidebar -->
-        <aside class="w-64 bg-slate-900 text-white hidden md:flex flex-col">
-            <div class="p-6 border-b border-slate-800">
-                <h1 class="text-2xl font-bold">Technovia<span class="text-blue-500">X</span></h1>
-                <p class="text-xs text-slate-400 mt-1">Client Portal</p>
+        <aside class="w-64 bg-secondary text-white hidden md:flex flex-col shadow-xl z-20">
+            <div class="p-6 border-b border-gray-800">
+                <h1 class="text-2xl font-bold">Technovia<span class="text-primary-light">X</span></h1>
+                <p class="text-xs text-gray-400 mt-1">Client Portal</p>
             </div>
             
             <nav class="flex-1 py-6 space-y-1">
-                <a href="#" class="sidebar-active flex items-center px-6 py-3 text-sm font-medium hover:bg-slate-800 transition-colors">
+                <a href="#" class="sidebar-active flex items-center px-6 py-3 text-sm font-medium transition-colors">
                     <i class="fas fa-home w-6 text-center mr-2"></i> Dashboard
                 </a>
-                <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-colors">
+                <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
                     <i class="fas fa-ticket-alt w-6 text-center mr-2"></i> My Tickets
                 </a>
-                <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-colors">
+                <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
                     <i class="fas fa-file-invoice-dollar w-6 text-center mr-2"></i> Quotes
                 </a>
-                <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-colors">
+                <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
                     <i class="fas fa-user-cog w-6 text-center mr-2"></i> Profile
                 </a>
             </nav>
 
-            <div class="p-4 border-t border-slate-800">
-                <button id="logout-btn" class="flex items-center w-full px-4 py-2 text-sm text-red-400 hover:bg-slate-800 rounded transition-colors">
+            <div class="p-4 border-t border-gray-800">
+                <button id="logout-btn" class="flex items-center w-full px-4 py-2 text-sm text-red-400 hover:bg-gray-800 hover:text-red-300 rounded transition-colors">
                     <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
                 </button>
             </div>
         </aside>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-y-auto">
+        <div class="flex-1 flex flex-col overflow-y-auto bg-light">
             
             <!-- Mobile Header -->
-            <header class="bg-white shadow-sm h-16 flex items-center justify-between px-4 md:hidden">
-                <span class="font-bold text-lg">TechnoviaX</span>
+            <header class="bg-white shadow-sm h-16 flex items-center justify-between px-4 md:hidden z-10">
+                <span class="font-bold text-lg text-secondary">Technovia<span class="text-primary">X</span></span>
                 <button class="text-gray-600"><i class="fas fa-bars"></i></button>
             </header>
 
             <!-- Top Bar (Desktop) -->
-            <header class="hidden md:flex bg-white shadow-sm h-16 items-center justify-between px-8">
-                <h2 class="text-xl font-semibold text-gray-800">Overview</h2>
+            <header class="hidden md:flex bg-white shadow-sm h-16 items-center justify-between px-8 z-10 sticky top-0">
+                <h2 class="text-xl font-bold text-secondary">Overview</h2>
                 <div class="flex items-center gap-4">
                     <div class="text-right">
-                        <div id="user-name" class="text-sm font-bold text-gray-900">Loading...</div>
-                        <div id="user-email" class="text-xs text-gray-500">...</div>
+                        <div id="user-name" class="text-sm font-bold text-secondary">Loading...</div>
+                        <div id="user-email" class="text-xs text-dark-light">...</div>
                     </div>
-                    <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold" id="user-avatar">
+                    <div class="h-10 w-10 rounded-full bg-pastel-blue border border-blue-100 flex items-center justify-center text-primary font-bold shadow-sm" id="user-avatar">
                         U
                     </div>
                 </div>
@@ -91,36 +143,36 @@
                 
                 <!-- Stats Row -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-sm text-gray-500 mb-1">Total Tickets</p>
-                                <h3 class="text-2xl font-bold" id="stats-total">0</h3>
+                                <p class="text-sm text-dark-light mb-1 font-medium">Total Tickets</p>
+                                <h3 class="text-3xl font-bold text-secondary" id="stats-total">0</h3>
                             </div>
-                            <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
-                                <i class="fas fa-ticket-alt"></i>
+                            <div class="p-3 bg-pastel-blue rounded-xl text-primary">
+                                <i class="fas fa-ticket-alt text-xl"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-sm text-gray-500 mb-1">Pending</p>
-                                <h3 class="text-2xl font-bold text-orange-600" id="stats-pending">0</h3>
+                                <p class="text-sm text-dark-light mb-1 font-medium">Pending</p>
+                                <h3 class="text-3xl font-bold text-warning" id="stats-pending">0</h3>
                             </div>
-                            <div class="p-2 bg-orange-50 rounded-lg text-orange-600">
-                                <i class="fas fa-clock"></i>
+                            <div class="p-3 bg-yellow-50 rounded-xl text-warning">
+                                <i class="fas fa-clock text-xl"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-sm text-gray-500 mb-1">Resolved</p>
-                                <h3 class="text-2xl font-bold text-green-600" id="stats-resolved">0</h3>
+                                <p class="text-sm text-dark-light mb-1 font-medium">Resolved</p>
+                                <h3 class="text-3xl font-bold text-success" id="stats-resolved">0</h3>
                             </div>
-                            <div class="p-2 bg-green-50 rounded-lg text-green-600">
-                                <i class="fas fa-check-circle"></i>
+                            <div class="p-3 bg-pastel-green rounded-xl text-success">
+                                <i class="fas fa-check-circle text-xl"></i>
                             </div>
                         </div>
                     </div>
@@ -128,9 +180,9 @@
 
                 <!-- Action & Filter Bar -->
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-                    <h3 class="text-lg font-bold text-gray-800">My Recent Tickets</h3>
-                    <button onclick="document.getElementById('new-ticket-modal').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm w-full sm:w-auto">
-                        <i class="fas fa-plus mr-2"></i> New Ticket
+                    <h3 class="text-xl font-bold text-secondary">My Recent Tickets</h3>
+                    <button onclick="document.getElementById('new-ticket-modal').classList.remove('hidden')" class="btn-primary px-6 py-2.5 rounded-lg text-sm font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 w-full sm:w-auto flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i> New Ticket
                     </button>
                 </div>
 
@@ -138,7 +190,7 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm">
-                            <thead class="bg-gray-50 text-gray-600 border-b border-gray-100">
+                            <thead class="bg-gray-50 text-dark-light border-b border-gray-100">
                                 <tr>
                                     <th class="px-6 py-4 font-semibold">Subject</th>
                                     <th class="px-6 py-4 font-semibold">Ticket ID</th>
@@ -150,65 +202,73 @@
                             <tbody id="tickets-table-body" class="divide-y divide-gray-100">
                                 <!-- Data will be inserted here by JS -->
                                 <tr>
-                                    <td colspan="5" class="px-6 py-8 text-center text-gray-400">
-                                        <i class="fas fa-spinner fa-spin mr-2"></i> Loading your data...
+                                    <td colspan="5" class="px-6 py-12 text-center text-gray-400">
+                                        <div class="flex flex-col items-center">
+                                            <i class="fas fa-circle-notch fa-spin text-2xl text-primary mb-2"></i>
+                                            <span>Loading your data...</span>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <!-- Empty State (Hidden by default) -->
-                    <div id="empty-state" class="hidden p-8 text-center">
-                        <img src="https://illustrations.popsy.co/gray/question-mark.svg" alt="No data" class="w-32 h-32 mx-auto opacity-50 mb-4">
-                        <p class="text-gray-500 mb-2">You haven't created any tickets yet.</p>
-                        <button onclick="document.getElementById('new-ticket-modal').classList.remove('hidden')" class="text-blue-600 font-medium hover:underline">Create your first ticket</button>
+                    <div id="empty-state" class="hidden p-12 text-center">
+                        <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300">
+                            <i class="fas fa-clipboard-list text-3xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-secondary mb-2">No Tickets Yet</h4>
+                        <p class="text-dark-light mb-6">You haven't created any support tickets yet.</p>
+                        <button onclick="document.getElementById('new-ticket-modal').classList.remove('hidden')" class="text-primary font-bold hover:underline">Create your first ticket</button>
                     </div>
                 </div>
 
             </main>
 
             <!-- Footer Injection -->
-            <div id="footer-container"></div>
+            <div id="footer-container" class="mt-auto"></div>
         </div>
     </div>
 
-    <!-- Navigation Injection -->
+    <!-- Navigation Injection (Hidden or used for logic only if sidebar exists) -->
+    <!-- Ideally, dashboard has its own sidebar, so standard nav might be suppressed via CSS or JS checks -->
     <script src="js/navigation.js" defer></script>
 
     <!-- Footer Script -->
     <script src="js/footer.js" defer></script>
 
-    
+    <!-- Auto Quote Popup Injection -->
+    <script src="quote-popup.js" defer></script>
 
     <!-- New Ticket Modal -->
-    <div id="new-ticket-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
-            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+    <div id="new-ticket-modal" class="hidden fixed inset-0 bg-secondary/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform scale-100 transition-transform">
+            <div class="bg-gradient-to-r from-primary to-primary-dark p-6 text-white flex justify-between items-center">
                 <h3 class="font-bold text-lg">Create New Ticket</h3>
-                <button onclick="document.getElementById('new-ticket-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
-                    <i class="fas fa-times"></i>
+                <button onclick="document.getElementById('new-ticket-modal').classList.add('hidden')" class="text-white/80 hover:text-white transition-colors">
+                    <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
             <div class="p-6">
                 <form id="create-ticket-form" class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                        <input type="text" id="ticket-subject" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
+                        <label class="block text-sm font-bold text-secondary mb-1">Subject</label>
+                        <input type="text" id="ticket-subject" required class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all bg-gray-50 focus:bg-white" placeholder="Brief summary of issue">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
-                        <select id="ticket-priority" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none bg-white">
-                            <option value="Low">Low</option>
-                            <option value="Medium" selected>Medium</option>
-                            <option value="High">High</option>
+                        <label class="block text-sm font-bold text-secondary mb-1">Priority</label>
+                        <select id="ticket-priority" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all bg-gray-50 focus:bg-white">
+                            <option value="Low">Low - General Question</option>
+                            <option value="Medium" selected>Medium - Feature Request/Minor Bug</option>
+                            <option value="High">High - Critical Issue</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                        <textarea id="ticket-desc" rows="3" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"></textarea>
+                        <label class="block text-sm font-bold text-secondary mb-1">Description</label>
+                        <textarea id="ticket-desc" rows="4" required class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all bg-gray-50 focus:bg-white" placeholder="Detailed explanation..."></textarea>
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2.5 rounded-lg hover:bg-blue-700 transition">
-                        Submit Ticket
+                    <button type="submit" class="w-full btn-primary py-3 rounded-lg font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                        <i class="fas fa-paper-plane"></i> Submit Ticket
                     </button>
                 </form>
             </div>
@@ -218,11 +278,9 @@
     <!-- Firebase Logic -->
     <script type="module">
         // 1. Import Auth & Main App from your existing login-firebase.js
-        // This ensures we use the SAME initialized app instance
         import { auth, db, signOut, onAuthStateChanged } from "./js/loginfirebase.js";
 
-        // 2. Import Firestore helpers (Collection, Query, etc.) from CDN
-        // Using version 12.6.0 to match your login-firebase.js
+        // 2. Import Firestore helpers
         import { collection, query, where, onSnapshot, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
         const authLoading = document.getElementById('auth-loading');
@@ -235,12 +293,21 @@
             if (user) {
                 // User is signed in
                 currentUser = user;
-                authLoading.style.display = 'none';
+                
+                // Fade out loading screen
+                authLoading.style.opacity = '0';
+                setTimeout(() => {
+                    authLoading.style.display = 'none';
+                }, 500);
                 
                 // Update UI with User Info
                 document.getElementById('user-name').innerText = user.displayName || user.email.split('@')[0];
                 document.getElementById('user-email').innerText = user.email;
-                document.getElementById('user-avatar').innerText = (user.email[0] || 'U').toUpperCase();
+                if(user.photoURL) {
+                    document.getElementById('user-avatar').innerHTML = `<img src="${user.photoURL}" class="w-full h-full rounded-full object-cover">`;
+                } else {
+                    document.getElementById('user-avatar').innerText = (user.email[0] || 'U').toUpperCase();
+                }
 
                 // Load Data
                 loadUserTickets(user.uid);
@@ -252,18 +319,18 @@
 
         // 4. Logout Logic
         document.getElementById('logout-btn').addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-                window.location.href = 'login.html';
-            } catch (error) {
-                console.error("Logout Error", error);
+            if(confirm('Are you sure you want to sign out?')) {
+                try {
+                    await signOut(auth);
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error("Logout Error", error);
+                }
             }
         });
 
         // 5. Load User Tickets (THE CORE LOGIC)
         function loadUserTickets(userId) {
-            // Note: We use 'onSnapshot' for real-time updates
-            // Query: Collection 'tickets' WHERE userId == currentUserId
             const q = query(
                 collection(db, "tickets"),
                 where("userId", "==", userId)
@@ -275,10 +342,17 @@
                     tickets.push({ id: doc.id, ...doc.data() });
                 });
 
+                // Sort client-side to avoid index requirement errors initially
+                tickets.sort((a, b) => {
+                    const dateA = a.createdAt ? a.createdAt.toDate() : new Date(0);
+                    const dateB = b.createdAt ? b.createdAt.toDate() : new Date(0);
+                    return dateB - dateA; // Descending
+                });
+
                 updateDashboardUI(tickets);
             }, (error) => {
                 console.error("Error fetching tickets:", error);
-                ticketsTableBody.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-red-500">Error loading data. Check permissions or console.</td></tr>`;
+                ticketsTableBody.innerHTML = `<tr><td colspan="5" class="text-center p-8 text-red-500 bg-red-50 rounded-lg">Error loading data. Please try refreshing.</td></tr>`;
             });
         }
 
@@ -287,42 +361,52 @@
             // Update Stats
             document.getElementById('stats-total').innerText = tickets.length;
             document.getElementById('stats-pending').innerText = tickets.filter(t => t.status === 'Pending').length;
-            document.getElementById('stats-resolved').innerText = tickets.filter(t => t.status === 'Resolved').length;
+            document.getElementById('stats-resolved').innerText = tickets.filter(t => t.status === 'Resolved' || t.status === 'Closed').length;
 
             // Update Table
             if (tickets.length === 0) {
                 ticketsTableBody.innerHTML = '';
                 emptyState.classList.remove('hidden');
+                ticketsTableBody.parentElement.classList.add('hidden'); // Hide table wrapper
             } else {
                 emptyState.classList.add('hidden');
+                ticketsTableBody.parentElement.classList.remove('hidden'); // Show table wrapper
                 ticketsTableBody.innerHTML = tickets.map(ticket => {
-                    // Formatting Date (Handle Firestore Timestamp or Date string)
                     let dateStr = "Just now";
                     if (ticket.createdAt && ticket.createdAt.toDate) {
-                        dateStr = ticket.createdAt.toDate().toLocaleDateString();
+                        dateStr = ticket.createdAt.toDate().toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
                     } else if (ticket.date) {
                         dateStr = ticket.date;
                     }
 
                     const statusColors = {
-                        'Pending': 'bg-yellow-100 text-yellow-800',
-                        'Active': 'bg-blue-100 text-blue-800',
-                        'Resolved': 'bg-green-100 text-green-800'
+                        'Pending': 'bg-yellow-100 text-yellow-800 border border-yellow-200',
+                        'Open': 'bg-blue-100 text-blue-800 border border-blue-200',
+                        'In Progress': 'bg-purple-100 text-purple-800 border border-purple-200',
+                        'Resolved': 'bg-green-100 text-green-800 border border-green-200',
+                        'Closed': 'bg-gray-100 text-gray-800 border border-gray-200'
                     };
                     const statusClass = statusColors[ticket.status] || 'bg-gray-100 text-gray-800';
 
                     return `
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 font-medium text-gray-900">${ticket.subject || 'No Subject'}</td>
-                            <td class="px-6 py-4 text-gray-500 font-mono text-xs">#${ticket.id.slice(0, 6)}</td>
-                            <td class="px-6 py-4 text-gray-500">${dateStr}</td>
+                        <tr class="hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-0">
                             <td class="px-6 py-4">
-                                <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusClass}">
+                                <div class="font-bold text-secondary">${ticket.subject || 'No Subject'}</div>
+                                <div class="text-xs text-gray-400 md:hidden mt-1">#${ticket.ticketDisplayId || ticket.id.slice(0, 6)}</div>
+                            </td>
+                            <td class="px-6 py-4 text-primary font-mono text-xs font-medium">
+                                #${ticket.ticketDisplayId || ticket.id.slice(0, 8)}
+                            </td>
+                            <td class="px-6 py-4 text-dark-light text-sm">${dateStr}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold ${statusClass}">
                                     ${ticket.status || 'Pending'}
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">View</button>
+                                <button class="text-primary hover:text-primary-dark text-sm font-bold bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded transition-colors">
+                                    Details
+                                </button>
                             </td>
                         </tr>
                     `;
@@ -330,7 +414,7 @@
             }
         }
 
-        // 7. Create Ticket (To test data persistence)
+        // 7. Create Ticket
         document.getElementById('create-ticket-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const subject = document.getElementById('ticket-subject').value;
@@ -340,19 +424,20 @@
 
             if (!currentUser) return;
 
+            const originalBtnText = btn.innerHTML;
             btn.disabled = true;
-            btn.innerText = "Saving...";
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
 
             try {
-                // Generate a readable Ticket ID (like TICKET-20231225-1234)
                 const date = new Date();
                 const dateStr = date.getFullYear() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
                 const randomNum = Math.floor(1000 + Math.random() * 9000);
-                const readableTicketId = `TICKET-${dateStr}-${randomNum}`;
+                const readableTicketId = `TKT-${dateStr}-${randomNum}`;
 
                 await addDoc(collection(db, "tickets"), {
-                    userId: currentUser.uid, // CRITICAL: This links data to the user
+                    userId: currentUser.uid, 
                     userEmail: currentUser.email,
+                    userName: currentUser.displayName || 'User',
                     ticketDisplayId: readableTicketId,
                     subject: subject,
                     priority: priority,
@@ -362,15 +447,17 @@
                     date: new Date().toLocaleDateString()
                 });
                 
-                // Close modal and reset
                 document.getElementById('new-ticket-modal').classList.add('hidden');
                 e.target.reset();
+                
+                // Show simple success alert (could be replaced with toast)
+                // alert("Ticket created successfully!");
             } catch (error) {
                 console.error("Error creating ticket:", error);
                 alert("Failed to create ticket: " + error.message);
             } finally {
                 btn.disabled = false;
-                btn.innerText = "Submit Ticket";
+                btn.innerHTML = originalBtnText;
             }
         });
 

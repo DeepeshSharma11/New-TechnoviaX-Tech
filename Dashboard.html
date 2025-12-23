@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Dashboard - TechnoviaX</title>
     
+    <!-- Dynamic Favicon Loader -->
+    <script src="js/favicon-loader.js"></script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -84,7 +87,7 @@
                 </div>
             </header>
 
-            <main class="p-4 md:p-8">
+            <main class="p-4 md:p-8 flex-1">
                 
                 <!-- Stats Row -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -163,8 +166,20 @@
                 </div>
 
             </main>
+
+            <!-- Footer Injection -->
+            <div id="footer-container"></div>
         </div>
     </div>
+
+    <!-- Navigation Injection -->
+    <script src="js/navigation.js" defer></script>
+
+    <!-- Footer Script -->
+    <script src="js/footer.js" defer></script>
+
+    <!-- Auto Quote Popup Injection -->
+    <script src="quote-popup.js" defer></script>
 
     <!-- New Ticket Modal -->
     <div id="new-ticket-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">

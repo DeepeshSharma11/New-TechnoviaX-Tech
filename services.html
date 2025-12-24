@@ -124,6 +124,9 @@
         .animate-on-scroll.animated { opacity: 1; transform: translateY(0); }
         #loading { transition: opacity 0.5s ease-out; }
         .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 100; }
+        
+        /* Smooth Scroll Fix */
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="antialiased font-sans selection:bg-emerald-500 selection:text-white">
@@ -448,6 +451,28 @@
             });
         });
         document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+        // Smooth Scroll Override for Internal Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    // Account for fixed header height (approx 80px)
+                    const headerOffset = 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>

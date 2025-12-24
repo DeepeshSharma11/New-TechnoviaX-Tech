@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - TechnoviaX Tech | Access Dashboard</title>
-    <meta name="description" content="Secure login for TechnoviaX Tech clients and staff. Access your dashboard, manage services, and get support.">
+    <title>Login - TechnoviaX Tech | Secure Google Login</title>
+    <meta name="description" content="Secure Google login for TechnoviaX Tech clients and staff. Access your dashboard with one click.">
     
     <!-- Dynamic Favicon -->
     <script src="js/favicon-loader.js"></script>
@@ -15,13 +15,24 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS & Config (Synced with Index/Services) -->
+    <!-- Three.js for 3D Effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Tailwind CSS & Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
+                screens: {
+                    'xs': '375px',
+                    'sm': '640px',
+                    'md': '768px',
+                    'lg': '1024px',
+                    'xl': '1280px',
+                    '2xl': '1536px',
+                },
                 extend: {
                     colors: {
                         primary: '#1e40af',
@@ -31,6 +42,10 @@
                         accent: '#059669',
                         'accent-dark': '#047857',
                         'accent-light': '#10b981',
+                        'google-blue': '#4285F4',
+                        'google-red': '#EA4335',
+                        'google-yellow': '#FBBC05',
+                        'google-green': '#34A853',
                         light: '#f8fafc',
                         dark: '#1e293b',
                         'dark-light': '#334155',
@@ -40,23 +55,76 @@
                         info: '#3b82f6',
                         whatsapp: '#25D366',
                         'whatsapp-dark': '#128C7E',
+                        'glass-white': 'rgba(255, 255, 255, 0.9)',
+                        'glass-dark': 'rgba(15, 23, 42, 0.8)'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
                     animation: {
-                        'float': 'float 4s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
                         'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                        'slide-in-right': 'slideInRight 0.6s ease-out',
+                        'spin-slow': 'spinSlow 20s linear infinite',
+                        'tilt': 'tilt 10s infinite linear',
+                        'bounce-slow': 'bounceSlow 3s infinite',
+                        'gradient-shift': 'gradientShift 3s ease infinite',
+                        'particle-float': 'particleFloat 4s ease-in-out infinite'
                     },
                     keyframes: {
                         float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
+                            '0%, 100%': { transform: 'translateY(0) translateX(0)' },
+                            '33%': { transform: 'translateY(-15px) translateX(8px)' },
+                            '66%': { transform: 'translateY(-8px) translateX(-8px)' },
                         },
                         fadeInUp: {
-                            'from': { opacity: '0', transform: 'translateY(20px)' },
+                            'from': { opacity: '0', transform: 'translateY(30px)' },
                             'to': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { 
+                                boxShadow: '0 0 25px rgba(66, 133, 244, 0.3), 0 0 45px rgba(66, 133, 244, 0.2)',
+                                opacity: '0.9'
+                            },
+                            '50%': { 
+                                boxShadow: '0 0 45px rgba(66, 133, 244, 0.5), 0 0 65px rgba(66, 133, 244, 0.3)',
+                                opacity: '1'
+                            }
+                        },
+                        slideInRight: {
+                            'from': { opacity: '0', transform: 'translateX(30px)' },
+                            'to': { opacity: '1', transform: 'translateX(0)' }
+                        },
+                        spinSlow: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' }
+                        },
+                        tilt: {
+                            '0%, 100%': { transform: 'perspective(1000px) rotateY(0deg) rotateX(0deg)' },
+                            '25%': { transform: 'perspective(1000px) rotateY(2deg) rotateX(1deg)' },
+                            '50%': { transform: 'perspective(1000px) rotateY(0deg) rotateX(2deg)' },
+                            '75%': { transform: 'perspective(1000px) rotateY(-2deg) rotateX(1deg)' },
+                        },
+                        bounceSlow: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        gradientShift: {
+                            '0%, 100%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' }
+                        },
+                        particleFloat: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-10px) rotate(180deg)' }
                         }
+                    },
+                    backdropBlur: {
+                        'glass': '20px',
+                        'super': '40px'
+                    },
+                    backgroundSize: {
+                        '200%': '200%'
                     }
                 }
             }
@@ -65,160 +133,485 @@
 
     <!-- Custom Styles -->
     <style>
-        /* Shared Styles */
-        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
-        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
-        
-        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
-        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
-
-        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
-        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
-        .loading-logo span{color:#059669}
-
-        /* Login Specific - Glassmorphism */
-        .glass-bg {
-            background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+        :root {
+            --google-blue: #4285F4;
+            --google-red: #EA4335;
+            --google-yellow: #FBBC05;
+            --google-green: #34A853;
         }
 
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding-top: var(--header-height, 64px);
+        }
+
+        /* 3D Background Canvas */
+        #canvas-container-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+        }
+
+        @media (min-width: 768px) {
+            .whatsapp-float {
+                width: 64px;
+                height: 64px;
+                font-size: 30px;
+                bottom: 30px;
+                right: 30px;
+            }
+        }
+
+        /* Glassmorphism Cards */
         .glass-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-            border-radius: 24px;
-        }
-
-        .glass-input {
             background: rgba(255, 255, 255, 0.9);
-            border: 1px solid #e2e8f0;
-            color: #1e293b;
-            transition: all 0.3s ease;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border-radius: 28px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .glass-input:focus {
-            background: #ffffff;
-            border-color: #1e40af;
-            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.35);
         }
-        
-        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
+
+        /* Google Button Styles */
+        .google-btn {
+            background: white;
+            border: 1px solid #dadce0;
+            color: #3c4043;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .google-btn:hover {
+            background: #f8f9fa;
+            border-color: #d2e3fc;
+            box-shadow: 0 6px 20px rgba(66, 133, 244, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .google-btn:active {
+            transform: translateY(0);
+        }
+
+        .google-gradient-bg {
+            background: linear-gradient(135deg, var(--google-blue), var(--google-red), var(--google-yellow), var(--google-green));
+            background-size: 400% 400%;
+            animation: gradientShift 6s ease infinite;
+        }
+
+        /* Loading Screen */
+        #loading {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #1e40af 0%, #0f172a 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-logo {
+            color: white;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .loading-logo span {
+            color: #059669;
+            text-shadow: 0 0 20px rgba(5, 150, 105, 0.5);
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--google-blue), var(--google-red), var(--google-yellow), var(--google-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--google-blue), var(--google-red));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #3367D6, #D93025);
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 640px) {
+            .glass-card {
+                border-radius: 24px;
+                margin: 0 16px;
+            }
+            
+            .loading-logo {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 359px) {
+            .glass-card {
+                border-radius: 20px;
+                margin: 0 12px;
+            }
+            
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        /* Landscape Mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding-top: 56px;
+            }
+            
+            .glass-card {
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Decorative Google-themed Elements */
+        .google-particle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .google-blue-glow {
+            background: var(--google-blue);
+        }
+
+        .google-red-glow {
+            background: var(--google-red);
+        }
+
+        .google-yellow-glow {
+            background: var(--google-yellow);
+        }
+
+        .google-green-glow {
+            background: var(--google-green);
+        }
+
+        /* Security Badge */
+        .security-badge {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Google Logo Animation */
+        .google-logo-container {
+            position: relative;
+            width: 48px;
+            height: 48px;
+        }
+
+        .google-logo-part {
+            position: absolute;
+            border-radius: 50%;
+            animation: particleFloat 4s ease-in-out infinite;
+        }
+
+        .google-blue-part {
+            background: var(--google-blue);
+            width: 20px;
+            height: 20px;
+            top: 0;
+            left: 0;
+            animation-delay: 0s;
+        }
+
+        .google-red-part {
+            background: var(--google-red);
+            width: 20px;
+            height: 20px;
+            top: 0;
+            right: 0;
+            animation-delay: 0.5s;
+        }
+
+        .google-yellow-part {
+            background: var(--google-yellow);
+            width: 20px;
+            height: 20px;
+            bottom: 0;
+            left: 0;
+            animation-delay: 1s;
+        }
+
+        .google-green-part {
+            background: var(--google-green);
+            width: 20px;
+            height: 20px;
+            bottom: 0;
+            right: 0;
+            animation-delay: 1.5s;
+        }
     </style>
 </head>
-<body class="font-sans text-secondary bg-light flex flex-col min-h-screen">
+<body class="antialiased">
 
     <!-- Loading Screen -->
     <div id="loading" class="fixed inset-0 transition-opacity duration-500">
-        <div class="loading-logo">Technovia<span>X</span></div>
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        <p class="text-white mt-4 font-medium">Securing Connection...</p>
+        <div class="loading-logo animate-pulse">Technovia<span>X</span></div>
+        <div class="relative">
+            <div class="w-24 h-24 rounded-full border-4 border-transparent border-t-google-blue border-r-google-red animate-spin"></div>
+            <div class="absolute inset-0 w-24 h-24 rounded-full border-4 border-transparent border-b-google-yellow border-l-google-green animate-spin" style="animation-direction: reverse; animation-duration: 3s;"></div>
+        </div>
+        <p class="text-white/80 mt-6 font-medium text-lg animate-pulse">Initializing Secure Login...</p>
     </div>
 
-    <!-- Floating Buttons -->
-    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+    <!-- 3D Background Canvas -->
+    <div id="canvas-container-3d"></div>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/918433125736" class="whatsapp-float animate-bounce-slow" target="_blank" aria-label="Contact us on WhatsApp">
         <i class="fab fa-whatsapp"></i>
-    </a>
-    
-    <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
-        <i class="fas fa-envelope"></i> Contact Us
     </a>
 
     <!-- Navigation Injection -->
     <script src="js/navigation.js" defer></script>
 
     <!-- Main Content -->
-    <main class="flex-grow pt-24 pb-12 flex items-center justify-center glass-bg relative">
-        <!-- Overlay for readability -->
-        <div class="absolute inset-0 bg-gradient-to-br from-white/60 to-blue-50/70 backdrop-blur-[2px]"></div>
+    <main class="min-h-[calc(100vh-64px)] flex items-center justify-center relative py-8 sm:py-12 px-4">
+        <!-- Google-themed Glow Elements -->
+        <div class="google-particle google-blue-glow w-96 h-96 top-1/4 -left-48 animate-float"></div>
+        <div class="google-particle google-red-glow w-80 h-80 bottom-1/4 -right-40 animate-float" style="animation-delay: 1s;"></div>
+        <div class="google-particle google-yellow-glow w-72 h-72 top-1/3 right-1/4 animate-float" style="animation-delay: 2s;"></div>
+        <div class="google-particle google-green-glow w-64 h-64 bottom-1/3 left-1/4 animate-float" style="animation-delay: 3s;"></div>
 
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="max-w-md mx-auto glass-card overflow-hidden animate-fade-in-up">
-                <div class="p-8">
-                    <!-- Header -->
-                    <div class="text-center mb-8">
-                        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 text-primary rounded-full mb-4 shadow-inner">
-                            <i class="fas fa-user-shield text-3xl"></i>
+        <div class="container mx-auto max-w-6xl relative z-10">
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <!-- Left Side: Branding & Info -->
+                <div class="text-center lg:text-left animate-fade-in-up">
+                    <div class="flex items-center gap-4 mb-6 lg:mb-8">
+                        <div class="google-logo-container">
+                            <div class="google-logo-part google-blue-part"></div>
+                            <div class="google-logo-part google-red-part"></div>
+                            <div class="google-logo-part google-yellow-part"></div>
+                            <div class="google-logo-part google-green-part"></div>
                         </div>
-                        <h1 class="text-3xl font-bold mb-2 text-secondary">Welcome Back</h1>
-                        <p class="text-dark-light">Sign in to access your dashboard</p>
+                        <div>
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-1">
+                                <span class="text-gradient">Google</span> Login
+                            </h1>
+                            <p class="text-white/60 text-sm">Powered by Google Secure Authentication</p>
+                        </div>
+                    </div>
+                    
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-4 lg:mb-6 leading-tight">
+                        One-Click <span class="text-gradient">Access</span>
+                    </h2>
+                    
+                    <p class="text-lg sm:text-xl lg:text-2xl text-white/80 mb-6 lg:mb-8 leading-relaxed">
+                        Securely access your TechnoviaX dashboard with your Google account. No passwords to remember, just one click and you're in.
+                    </p>
+                    
+                    <div class="hidden lg:block space-y-6">
+                        <div class="security-badge rounded-2xl p-6">
+                            <h3 class="text-xl font-bold text-white mb-4">Why Google Login?</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-google-blue/20 flex items-center justify-center text-google-blue flex-shrink-0">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-white">Enterprise-Grade Security</p>
+                                        <p class="text-white/70 text-sm">Google's advanced security protects your account</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-google-red/20 flex items-center justify-center text-google-red flex-shrink-0">
+                                        <i class="fas fa-bolt"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-white">Instant Access</p>
+                                        <p class="text-white/70 text-sm">No password typing, just click and go</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-google-green/20 flex items-center justify-center text-google-green flex-shrink-0">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-white">Auto Sync</p>
+                                        <p class="text-white/70 text-sm">Profile info automatically syncs with your Google account</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Login Card -->
+                <div class="animate-slide-in-right">
+                    <div class="glass-card p-6 sm:p-8 lg:p-10 animate-tilt">
+                        <!-- Card Header -->
+                        <div class="text-center mb-8">
+                            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-google-blue/10 to-google-green/10 rounded-2xl mb-4">
+                                <i class="fas fa-sign-in-alt text-3xl text-google-blue"></i>
+                            </div>
+                            <h2 class="text-2xl sm:text-3xl font-black text-secondary mb-2">Welcome to TechnoviaX</h2>
+                            <p class="text-dark-light text-sm sm:text-base">Sign in with your Google account</p>
+                        </div>
+
+                        <!-- Google Login Button -->
+                        <div class="space-y-6">
+                            <!-- Main Google Login Button -->
+                            <button id="google-login-btn" class="w-full google-btn py-4 px-6 rounded-2xl transition-all duration-300 group flex items-center justify-center gap-4 hover:shadow-lg">
+                                <div class="relative">
+                                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-6 h-6 group-hover:scale-110 transition-transform">
+                                </div>
+                                <span class="text-base sm:text-lg font-bold">Continue with Google</span>
+                            </button>
+
+                            <!-- Security Note -->
+                            <div class="text-center">
+                                <p class="text-sm text-dark-light mb-2">🔐 <span class="font-medium">Your privacy is protected</span></p>
+                                <p class="text-xs text-dark-light">We only access your name, email, and profile picture</p>
+                            </div>
+
+                            <!-- Alternative Option -->
+                            <div class="text-center pt-4 border-t border-gray-200/50">
+                                <p class="text-sm text-dark-light mb-3">Don't have a Google account?</p>
+                                <a href="/contact.html" class="inline-flex items-center gap-2 text-google-blue hover:text-google-red font-medium hover:underline transition-colors">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>Contact us for alternative access</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- User Info Area (Visible after login) -->
+                        <div id="user-container" class="hidden text-center py-8 animate-fade-in-up">
+                            <div class="relative inline-block mb-6">
+                                <img id="profile-pic" src="" alt="Profile" class="w-32 h-32 rounded-full border-4 border-white shadow-2xl object-cover">
+                                <div class="absolute bottom-2 right-2 w-8 h-8 bg-google-green border-2 border-white rounded-full animate-pulse-glow"></div>
+                            </div>
+                            <h3 id="user-name" class="text-2xl font-black text-secondary mb-2"></h3>
+                            <p id="user-email" class="text-dark-light mb-8 font-medium bg-white/60 inline-block px-4 py-2 rounded-full text-sm shadow-sm"></p>
+                            
+                            <div class="grid gap-3">
+                                <a href="/index.html" class="w-full google-gradient-bg text-white font-bold py-3.5 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 group transform hover:-translate-y-1">
+                                    <i class="fas fa-tachometer-alt group-hover:rotate-12 transition-transform"></i>
+                                    <span>Go to Dashboard</span>
+                                </a>
+                                <button id="sign-out-btn" class="w-full bg-white hover:bg-red-50 border border-gray-200 text-dark-light hover:text-google-red font-bold py-3.5 rounded-xl transition-all duration-300 shadow-sm flex items-center justify-center gap-2 group">
+                                    <i class="fas fa-sign-out-alt group-hover:rotate-180 transition-transform duration-500"></i>
+                                    <span>Sign Out</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Error Message -->
+                        <p id="error-message" class="mt-6 text-center text-sm text-google-red bg-red-50 p-4 rounded-xl border border-red-100 hidden flex items-center justify-center gap-3">
+                            <i class="fas fa-exclamation-triangle text-lg"></i>
+                            <span class="font-medium"></span>
+                        </p>
+
+                        <!-- Loading State -->
+                        <div id="loading-state" class="hidden text-center py-4">
+                            <div class="inline-flex items-center gap-3 text-google-blue">
+                                <div class="w-5 h-5 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div>
+                                <span class="font-medium">Signing you in...</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Login Area -->
-                    <div id="login-container">
-                        <!-- Google Login -->
-                        <button id="google-login-btn" class="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-secondary font-semibold py-3 px-4 rounded-xl transition-all shadow-sm border border-gray-200 group transform hover:-translate-y-0.5 mb-6">
-                            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-6 h-6 group-hover:scale-110 transition-transform">
-                            <span>Sign in with Google</span>
-                        </button>
-
-                        <div class="relative my-6">
-                            <div class="absolute inset-0 flex items-center">
-                                <div class="w-full border-t border-gray-300"></div>
-                            </div>
-                            <div class="relative flex justify-center text-sm">
-                                <span class="px-4 bg-white/50 text-gray-500 font-medium backdrop-blur-sm rounded">or continue with email</span>
-                            </div>
-                        </div>
-
-                        <!-- Email Form -->
-                        <form id="email-login-form" class="space-y-5">
-                            <div>
-                                <label for="email" class="block text-sm font-bold text-secondary mb-1 ml-1">Email Address</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <i class="fas fa-envelope text-gray-400"></i>
-                                    </div>
-                                    <input type="email" id="email" class="w-full pl-10 pr-4 py-3 rounded-xl glass-input focus:outline-none" placeholder="name@company.com" required>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="password" class="block text-sm font-bold text-secondary mb-1 ml-1">Password</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <i class="fas fa-lock text-gray-400"></i>
-                                    </div>
-                                    <input type="password" id="password" class="w-full pl-10 pr-4 py-3 rounded-xl glass-input focus:outline-none" placeholder="••••••••" required>
-                                </div>
-                            </div>
-                            <button type="submit" class="w-full bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary text-white font-bold py-3.5 rounded-xl transition-all shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-2 mt-4 transform hover:scale-[1.02]">
-                                <span>Sign In</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </form>
-                        
-                        <p id="error-message" class="mt-4 text-center text-sm text-red-600 bg-red-50 p-3 rounded-lg border border-red-100 hidden flex items-center justify-center gap-2">
-                            <i class="fas fa-exclamation-circle"></i>
-                            <span></span>
+                    <!-- Terms & Privacy -->
+                    <div class="text-center mt-6">
+                        <p class="text-xs text-white/60">
+                            By signing in, you agree to our 
+                            <a href="/terms.html" class="text-google-blue hover:underline">Terms</a> and 
+                            <a href="/privacy.html" class="text-google-blue hover:underline">Privacy Policy</a>
                         </p>
                     </div>
-
-                    <!-- User Info Area (Visible after login) -->
-                    <div id="user-container" class="hidden text-center py-6">
-                        <div class="relative inline-block mb-4">
-                            <img id="profile-pic" src="" alt="Profile" class="w-28 h-28 rounded-full border-4 border-white shadow-xl object-cover">
-                            <div class="absolute bottom-1 right-1 w-6 h-6 bg-success border-2 border-white rounded-full"></div>
-                        </div>
-                        <h3 id="user-name" class="text-2xl font-bold text-secondary mb-1"></h3>
-                        <p id="user-email" class="text-dark-light mb-8 font-medium bg-white/60 inline-block px-4 py-1 rounded-full text-sm shadow-sm"></p>
-                        
-                        <div class="grid gap-3">
-                            <a href="/index.html" class="w-full bg-gradient-to-r from-primary to-primary-light text-white font-bold py-3 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-                                <i class="fas fa-tachometer-alt"></i> Go to Dashboard
-                            </a>
-                            <button id="sign-out-btn" class="w-full bg-white hover:bg-red-50 border border-gray-200 text-dark-light hover:text-red-600 font-bold py-3 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 group">
-                                <i class="fas fa-sign-out-alt group-hover:rotate-180 transition-transform duration-300"></i> Sign Out
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- Card Footer -->
-                <div class="bg-white/40 backdrop-blur-md px-8 py-5 border-t border-white/40 text-center text-sm text-dark-light font-medium">
-                    Don't have an account? <a href="/contact.html" class="text-primary hover:text-primary-dark hover:underline transition-colors font-bold">Contact Sales</a>
                 </div>
             </div>
         </div>
@@ -231,15 +624,223 @@
     <!-- Firebase Logic -->
     <script type="module" src="js/loginfirebase.js" defer></script>
     
-    <!-- Init Script -->
+    <!-- 3D Animation Script -->
     <script>
+        // Initialize Three.js 3D Background with Google Colors
+        const initThreeJS = () => {
+            const container = document.getElementById('canvas-container-3d');
+            if (!container || !WebGLRenderingContext) return;
+
+            try {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ 
+                    alpha: true, 
+                    antialias: true,
+                    powerPreference: "high-performance"
+                });
+                
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                container.appendChild(renderer.domElement);
+
+                // Create Google-colored particles
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particlesCount = window.innerWidth < 768 ? 200 : 400;
+                const positions = new Float32Array(particlesCount * 3);
+                const colors = new Float32Array(particlesCount * 3);
+
+                const googleColors = [
+                    [0.2588, 0.5216, 0.9569], // Google Blue: #4285F4
+                    [0.9176, 0.2627, 0.2078], // Google Red: #EA4335
+                    [0.9843, 0.7373, 0.0196], // Google Yellow: #FBBC05
+                    [0.2039, 0.6588, 0.3255]  // Google Green: #34A853
+                ];
+
+                for(let i = 0; i < particlesCount; i++) {
+                    const i3 = i * 3;
+                    positions[i3] = (Math.random() - 0.5) * 30;
+                    positions[i3 + 1] = (Math.random() - 0.5) * 30;
+                    positions[i3 + 2] = (Math.random() - 0.5) * 30;
+                    
+                    const color = googleColors[Math.floor(Math.random() * googleColors.length)];
+                    colors[i3] = color[0];
+                    colors[i3 + 1] = color[1];
+                    colors[i3 + 2] = color[2];
+                }
+
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+                const particleMaterial = new THREE.PointsMaterial({
+                    size: 0.06,
+                    transparent: true,
+                    opacity: 0.7,
+                    vertexColors: true,
+                    sizeAttenuation: true
+                });
+
+                const particlesMesh = new THREE.Points(particlesGeometry, particleMaterial);
+                scene.add(particlesMesh);
+
+                // Add floating Google "G" logo (simplified with shapes)
+                if (window.innerWidth >= 768) {
+                    // Blue circle
+                    const blueGeometry = new THREE.CircleGeometry(1.5, 32);
+                    const blueMaterial = new THREE.MeshBasicMaterial({
+                        color: 0x4285F4,
+                        transparent: true,
+                        opacity: 0.15,
+                        side: THREE.DoubleSide
+                    });
+                    const blueCircle = new THREE.Mesh(blueGeometry, blueMaterial);
+                    blueCircle.position.set(-3, 2, -8);
+                    scene.add(blueCircle);
+
+                    // Red arc
+                    const redGeometry = new THREE.TorusGeometry(2, 0.3, 16, 100, Math.PI * 1.5);
+                    const redMaterial = new THREE.MeshBasicMaterial({
+                        color: 0xEA4335,
+                        transparent: true,
+                        opacity: 0.1,
+                        wireframe: true
+                    });
+                    const redArc = new THREE.Mesh(redGeometry, redMaterial);
+                    redArc.position.set(3, -1, -5);
+                    scene.add(redArc);
+                }
+
+                camera.position.z = 15;
+
+                // Mouse interaction
+                let mouseX = 0, mouseY = 0;
+                document.addEventListener('mousemove', (event) => {
+                    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+                });
+
+                let animationId = null;
+                const animate = () => {
+                    animationId = requestAnimationFrame(animate);
+
+                    // Animate particles
+                    particlesMesh.rotation.x += 0.001;
+                    particlesMesh.rotation.y += 0.002;
+                    particlesMesh.rotation.z += 0.0005;
+
+                    // Interactive movement with mouse
+                    particlesMesh.rotation.x += (mouseY * 0.003 - particlesMesh.rotation.x) * 0.1;
+                    particlesMesh.rotation.y += (mouseX * 0.003 - particlesMesh.rotation.y) * 0.1;
+
+                    // Move particles in wave pattern
+                    const positions = particlesMesh.geometry.attributes.position.array;
+                    const time = Date.now() * 0.001;
+                    
+                    for(let i = 0; i < positions.length; i += 3) {
+                        positions[i] += Math.sin(time + i) * 0.001;
+                        positions[i + 1] += Math.cos(time + i) * 0.001;
+                    }
+                    particlesMesh.geometry.attributes.position.needsUpdate = true;
+
+                    renderer.render(scene, camera);
+                };
+
+                animate();
+
+                // Responsive resize handler
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        camera.aspect = window.innerWidth / window.innerHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                    }, 250);
+                });
+
+                // Pause animation when page is not visible
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        cancelAnimationFrame(animationId);
+                        animationId = null;
+                    } else if (!animationId) {
+                        animate();
+                    }
+                });
+
+            } catch (error) {
+                console.error("Three.js initialization failed:", error);
+                // Fallback Google-themed gradient
+                container.innerHTML = '<div class="absolute inset-0 bg-gradient-to-br from-google-blue/20 via-google-red/10 via-google-yellow/10 to-google-green/20"></div>';
+            }
+        };
+
+        // Initialize on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(initThreeJS, 100);
+            });
+        } else {
+            setTimeout(initThreeJS, 100);
+        }
+
+        // Loading screen handler
         document.addEventListener('DOMContentLoaded', () => {
             const loading = document.getElementById('loading');
             if(loading) {
                 setTimeout(() => {
                     loading.style.opacity = '0';
-                    setTimeout(() => loading.style.display = 'none', 300);
-                }, 300);
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                        // Update body padding based on header
+                        const header = document.getElementById('main-header');
+                        if (header) {
+                            document.body.style.paddingTop = header.offsetHeight + 'px';
+                        }
+                    }, 300);
+                }, 1000);
+            }
+        });
+
+        // Update header spacing on resize
+        window.addEventListener('resize', () => {
+            const header = document.getElementById('main-header');
+            if (header) {
+                document.body.style.paddingTop = header.offsetHeight + 'px';
+            }
+        });
+
+        // Google login button click handler
+        document.getElementById('google-login-btn')?.addEventListener('click', function() {
+            const loadingState = document.getElementById('loading-state');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Show loading
+            if (loadingState) loadingState.classList.remove('hidden');
+            if (errorMessage) errorMessage.classList.add('hidden');
+            
+            // Simulate button press
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+            
+            // Firebase will handle the actual login
+            // The state is managed by loginfirebase.js
+        });
+
+        // Touch-friendly interactions
+        if ('ontouchstart' in window) {
+            document.querySelectorAll('button, a').forEach(el => {
+                el.style.minHeight = '44px';
+                el.style.minWidth = '44px';
+            });
+        }
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && document.activeElement.id === 'google-login-btn') {
+                document.activeElement.click();
             }
         });
     </script>

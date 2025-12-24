@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get a Quote - TechnoviaX Tech</title>
+    <meta name="description" content="Request a free quote for your web development, app development, or digital marketing project. Let's build something amazing together.">
+    
+    <!-- Dynamic Favicon Loader -->
+    <script src="js/favicon-loader.js"></script>
+    
+    <!-- External Dependencies -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS & Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        'primary-dark': '#1e3a8a',
+                        'primary-light': '#3b82f6',
+                        secondary: '#0f172a',
+                        accent: '#059669',
+                        'accent-dark': '#047857',
+                        'accent-light': '#10b981',
+                        light: '#f8fafc',
+                        dark: '#1e293b',
+                        'dark-light': '#334155',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#dc2626',
+                        info: '#3b82f6',
+                        whatsapp: '#25D366',
+                        'whatsapp-dark': '#128C7E',
+                        'pastel-blue': '#eff6ff',
+                        'pastel-green': '#f0fdf4',
+                        'pastel-purple': '#f5f3ff',
+                        'pastel-pink': '#fdf2f8'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Shared Styles */
+        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
+        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
+        
+        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
+        
+        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
+        
+        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
+        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .loading-logo span{color:#059669}
+        
+        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
+        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
+        
+        /* Form Specifics */
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #fff;
+            /* Font size set to 16px to prevent iOS auto-zoom on focus */
+            font-size: 1rem; 
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #1e40af;
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+        
+        html{scroll-behavior:smooth;scroll-padding-top:100px}
+        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}}
+    </style>
+</head>
+<body class="font-sans text-secondary bg-light">
+
+    <!-- Loading Screen -->
+    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
+        <div class="loading-logo">Technovia<span>X</span></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <p class="text-white mt-4 font-medium">Loading...</p>
+    </div>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Navigation Injection -->
+    <script src="js/navigation.js" defer></script>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-gradient pt-16 pb-20 md:pt-20 md:pb-24">
+            <div class="container mx-auto px-4 text-center animate-on-scroll">
+                <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary leading-tight">
+                    Request a <span class="text-primary">Free Quote</span>
+                </h1>
+                <p class="text-base sm:text-xl text-dark-light max-w-3xl mx-auto mb-8 leading-relaxed">
+                    Ready to start your next project? Tell us about your requirements, and our team will get back to you with a customized proposal within 24 hours.
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+            </div>
+        </section>
+
+        <!-- Quote Form Section -->
+        <div class="container mx-auto px-4 pb-20 -mt-8 relative z-10">
+            <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 animate-on-scroll flex flex-col md:flex-row">
+                <!-- Contact Info Sidebar -->
+                <div class="w-full md:w-1/3 bg-secondary text-white p-6 md:p-10 flex flex-col justify-between relative overflow-hidden">
+                    <!-- Decorative Circle -->
+                    <div class="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 rounded-full bg-primary opacity-20 blur-xl"></div>
+                    <div class="absolute bottom-0 left-0 -ml-10 -mb-10 w-40 h-40 rounded-full bg-accent opacity-20 blur-xl"></div>
+                    
+                    <div class="relative z-10">
+                        <h3 class="text-xl md:text-2xl font-bold mb-6">Contact Information</h3>
+                        <p class="text-gray-300 mb-8 text-sm leading-relaxed">
+                            Need immediate assistance? Feel free to reach out to us directly through any of these channels.
+                        </p>
+                        
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-phone text-accent"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold">Phone</p>
+                                    <p class="font-medium text-sm md:text-base">+91 8433125736</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-envelope text-accent"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold">Email</p>
+                                    <p class="font-medium text-sm md:text-base break-all">info.technoviax@gmail.com</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-map-marker-alt text-accent"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold">Location</p>
+                                    <p class="font-medium text-sm md:text-base">Bareilly, Uttar Pradesh, India</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- <div class="relative z-10 mt-10">
+                        <p class="text-sm text-gray-400 mb-3">Follow us on:</p>
+                        <div class="flex gap-4">
+                            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-primary transition-colors flex items-center justify-center text-white"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-blue-400 transition-colors flex items-center justify-center text-white"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/ur_x_deepesh21/" target="_blank" class="w-8 h-8 rounded-full bg-white/10 hover:bg-pink-600 transition-colors flex items-center justify-center text-white"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/in/deepesh24/" target="_blank" class="w-8 h-8 rounded-full bg-white/10 hover:bg-blue-600 transition-colors flex items-center justify-center text-white"><i class="fab fa-linkedin-in"></i></a>
+                        </div> -->
+                    </div>
+                </div>
+
+                <!-- The Form -->
+                <div class="w-full md:w-2/3 p-6 md:p-10">
+                    <form id="quote-form" class="space-y-6">
+                        <input type="hidden" name="access_key" value="27443247-267a-43b2-9dfc-0b2a5f55713e">
+                        <input type="hidden" name="subject" value="New Quote Request from Website">
+                        
+                        <!-- Success/Error Message Container -->
+                        <div id="form-status" class="hidden rounded-lg p-4 mb-4 text-sm font-medium"></div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="form-label">First Name <span class="text-red-500">*</span></label>
+                                <input type="text" name="first_name" required class="form-input" placeholder="John">
+                            </div>
+                            <div>
+                                <label class="form-label">Last Name</label>
+                                <input type="text" name="last_name" class="form-input" placeholder="Doe">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="form-label">Email Address <span class="text-red-500">*</span></label>
+                                <input type="email" name="email" required class="form-input" placeholder="john@company.com">
+                            </div>
+                            <div>
+                                <label class="form-label">Phone Number <span class="text-red-500">*</span></label>
+                                <input type="tel" name="phone" required class="form-input" placeholder="+91 98765 43210">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="form-label">Service Required <span class="text-red-500">*</span></label>
+                                <select name="service" required class="form-select text-gray-600">
+                                    <option value="" disabled selected>Select a Service</option>
+                                    <option value="Web Development">Web Development</option>
+                                    <option value="Mobile App Development">Mobile App Development</option>
+                                    <option value="UI/UX Design">UI/UX Design</option>
+                                    <option value="Digital Marketing">Digital Marketing</option>
+                                    <option value="Cloud Solutions">Cloud Solutions</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Estimated Budget</label>
+                                <select name="budget" class="form-select text-gray-600">
+                                    <option value="" disabled selected>Select Budget Range</option>
+                                    <option value="Under ₹10,000">Under ₹10,000</option>
+                                    <option value="₹10,000 - ₹50,000">₹10,000 - ₹50,000</option>
+                                    <option value="₹50,000 - ₹1 Lakh">₹50,000 - ₹1 Lakh</option>
+                                    <option value="₹1 Lakh - ₹5 Lakh">₹1 Lakh - ₹5 Lakh</option>
+                                    <option value="Above ₹5 Lakh">Above ₹5 Lakh</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Project Details <span class="text-red-500">*</span></label>
+                            <textarea name="message" rows="4" required class="form-textarea" placeholder="Tell us about your project goals, timeline, and any specific requirements..."></textarea>
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit" id="submit-btn" class="btn-primary w-full py-3.5 px-6 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                                <span>Send Request</span>
+                                <i class="fas fa-paper-plane text-sm"></i>
+                            </button>
+                        </div>
+                        
+                        <p class="text-center text-xs text-gray-400 mt-4">
+                            By submitting this form, you agree to our <a href="/terms.html" class="text-primary hover:underline">Terms</a> and <a href="/privacy.html" class="text-primary hover:underline">Privacy Policy</a>.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Injection -->
+    <div id="footer-container"></div>
+    <script src="js/footer.js" defer></script>
+
+    <!-- Firebase Auth Script (Optional: For Navbar Login State) -->
+    <script type="module" src="js/loginfirebase.js" defer></script>
+
+    <!-- Main Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Loading Screen Logic
+            const loadingScreen = document.getElementById('loading');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }, 500);
+                }, 600);
+            }
+
+            // Scroll Animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+            // Form Submission Logic
+            const form = document.getElementById('quote-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const statusDiv = document.getElementById('form-status');
+
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const btnOriginalText = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
+                    statusDiv.className = 'hidden';
+
+                    try {
+                        const formData = new FormData(form);
+                        
+                        // Add timestamp to message or hidden field logic if needed by backend
+                        // For Web3Forms, simple formData is enough
+
+                        const response = await fetch('https://api.web3forms.com/submit', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const result = await response.json();
+
+                        if (result.success) {
+                            statusDiv.innerHTML = `
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-check-circle text-lg"></i>
+                                    <span>Thank you! Your quote request has been received. We will contact you shortly.</span>
+                                </div>
+                            `;
+                            statusDiv.className = 'bg-green-50 text-green-700 border border-green-200 rounded-lg p-4 mb-6 block animate-fade-in';
+                            form.reset();
+                            
+                            // Optional: Scroll to success message
+                            statusDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        } else {
+                            throw new Error(result.message || 'Submission failed');
+                        }
+                    } catch (error) {
+                        statusDiv.innerHTML = `
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-exclamation-circle text-lg"></i>
+                                <span>Something went wrong. Please try again or contact us on WhatsApp.</span>
+                            </div>
+                        `;
+                        statusDiv.className = 'bg-red-50 text-red-700 border border-red-200 rounded-lg p-4 mb-6 block';
+                    } finally {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = btnOriginalText;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

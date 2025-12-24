@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - TechnoviaX Tech</title>
-    <meta name="description" content="Secure Google login for TechnoviaX Tech">
+    <title>Login - TechnoviaX Tech | Access Dashboard</title>
+    <meta name="description" content="Secure login for TechnoviaX Tech clients and staff. Access your dashboard, manage services, and get support.">
     
     <!-- Dynamic Favicon -->
-    <script src="js/favicon-loader.js" defer></script>
+    <script src="js/favicon-loader.js"></script>
 
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,562 +15,210 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS & Config (Synced with Index/Services) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        google: {
-                            blue: '#4285F4',
-                            red: '#EA4335',
-                            yellow: '#FBBC05',
-                            green: '#34A853'
-                        },
-                        dark: {
-                            DEFAULT: '#0f172a',
-                            light: '#1e293b'
-                        }
+                        primary: '#1e40af',
+                        'primary-dark': '#1e3a8a',
+                        'primary-light': '#3b82f6',
+                        secondary: '#0f172a',
+                        accent: '#059669',
+                        'accent-dark': '#047857',
+                        'accent-light': '#10b981',
+                        light: '#f8fafc',
+                        dark: '#1e293b',
+                        'dark-light': '#334155',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#dc2626',
+                        info: '#3b82f6',
+                        whatsapp: '#25D366',
+                        'whatsapp-dark': '#128C7E',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeInUp: {
+                            'from': { opacity: '0', transform: 'translateY(20px)' },
+                            'to': { opacity: '1', transform: 'translateY(0)' }
+                        }
                     }
                 }
             }
         }
     </script>
 
+    <!-- Custom Styles -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Shared Styles */
+        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
+        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
+        
+        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
+        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
+
+        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
+        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .loading-logo span{color:#059669}
+
+        /* Login Specific - Glassmorphism */
+        .glass-bg {
+            background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #ffffff;
-            min-height: 100vh;
-        }
-
-        /* Loading Screen */
-        #loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1e40af 0%, #0f172a 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: #4285F4;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* WhatsApp Float */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: #25D366;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-            z-index: 1000;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-        }
-
-        /* Glass Card */
         .glass-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(20px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            border-radius: 24px;
         }
 
-        /* Google Button */
-        .google-btn {
-            background: white;
-            border: 1px solid #dadce0;
-            color: #3c4043;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            min-height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .google-btn:hover {
-            background: #f8f9fa;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .google-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Gradient Text */
-        .gradient-text {
-            background: linear-gradient(135deg, #4285F4, #EA4335, #FBBC05, #34A853);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 300% 300%;
-            animation: gradientShift 3s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .glass-input {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
             transition: all 0.3s ease;
         }
 
-        .feature-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateX(5px);
+        .glass-input:focus {
+            background: #ffffff;
+            border-color: #1e40af;
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
         }
-
-        /* Mobile Responsive */
-        @media (max-width: 640px) {
-            .glass-card {
-                margin: 0 16px;
-                padding: 24px !important;
-            }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
-                bottom: 16px;
-                right: 16px;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .feature-item {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                padding: 1.25rem;
-            }
-            
-            .mobile-center {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            
-            .text-center-lg-left {
-                text-align: center;
-            }
-            
-            h1.text-3xl {
-                font-size: 1.75rem !important;
-            }
-            
-            h2.text-3xl, h2.text-4xl, h2.text-5xl {
-                font-size: 1.75rem !important;
-                line-height: 1.2 !important;
-            }
-        }
-
-        @media (min-width: 641px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .feature-item {
-                flex-direction: row;
-                text-align: left;
-            }
-            
-            .text-center-lg-left {
-                text-align: left;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .feature-item {
-                padding: 1.25rem;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .features-grid {
-                margin-top: 3rem;
-            }
-            
-            .feature-item:hover {
-                background: rgba(255, 255, 255, 0.05);
-                transform: translateX(5px);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .glass-card {
-                margin: 0 12px;
-                padding: 20px !important;
-                border-radius: 16px;
-            }
-            
-            .feature-item {
-                padding: 1rem;
-            }
-            
-            .whatsapp-float {
-                width: 45px;
-                height: 45px;
-                font-size: 22px;
-                bottom: 12px;
-                right: 12px;
-            }
-            
-            .google-btn {
-                min-height: 50px;
-                font-size: 0.875rem;
-            }
-        }
-
-        @media (max-width: 359px) {
-            .glass-card {
-                margin: 0 8px;
-                padding: 16px !important;
-                border-radius: 12px;
-            }
-            
-            .whatsapp-float {
-                width: 40px;
-                height: 40px;
-                font-size: 20px;
-                bottom: 10px;
-                right: 10px;
-            }
-            
-            .feature-item {
-                padding: 0.75rem;
-            }
-        }
-
-        /* Touch Friendly */
-        button, a.btn-like {
-            min-height: 44px;
-            min-width: 44px;
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            max-width: 350px;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .toast.success {
-            background: #10b981;
-        }
-
-        .toast.error {
-            background: #ef4444;
-        }
-
-        .toast.info {
-            background: #3b82f6;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-feature {
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #4285F4, #EA4335);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #3367D6, #D93025);
-        }
-
-        /* Landscape Mode */
-        @media (max-height: 500px) and (orientation: landscape) {
-            body {
-                padding-top: 60px;
-                padding-bottom: 60px;
-            }
-            
-            .glass-card {
-                max-height: 85vh;
-                overflow-y: auto;
-                margin: 0 10px;
-            }
-            
-            .features-grid {
-                margin-top: 1rem;
-            }
-            
-            .feature-item {
-                padding: 0.75rem;
-            }
-        }
-
-        /* Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
+        
+        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
     </style>
 </head>
-<body>
+<body class="font-sans text-secondary bg-light flex flex-col min-h-screen">
 
     <!-- Loading Screen -->
-    <div id="loading">
-        <div class="loading-spinner"></div>
-        <h1 class="text-3xl font-bold text-white mb-2">Technovia<span class="text-green-400">X</span></h1>
-        <p class="text-white/80">Loading Secure Login...</p>
+    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
+        <div class="loading-logo">Technovia<span>X</span></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <p class="text-white mt-4 font-medium">Securing Connection...</p>
     </div>
 
-    <!-- WhatsApp Float -->
-    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="WhatsApp" rel="noopener">
+    <!-- Floating Buttons -->
+    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
         <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
+        <i class="fas fa-envelope"></i> Contact Us
     </a>
 
     <!-- Navigation Injection -->
-    <div id="navigation-container"></div>
     <script src="js/navigation.js" defer></script>
 
     <!-- Main Content -->
-    <main class="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20">
-        <div class="container max-w-6xl mx-auto">
-            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                
-                <!-- Left Side - Branding -->
-                <div class="mobile-center lg:block">
-                    <div class="flex items-center justify-center lg:justify-start gap-4 mb-6">
-                        <div class="relative">
-                            <div class="w-12 h-12 rounded-full bg-google-blue/20 flex items-center justify-center">
-                                <i class="fab fa-google text-google-blue text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="text-center lg:text-left">
-                            <h1 class="text-3xl font-bold text-white">
-                                <span class="gradient-text">Google</span> Login
-                            </h1>
-                            <p class="text-white/60 text-sm">Secure Authentication</p>
-                        </div>
-                    </div>
-                    
-                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 text-center lg:text-left">
-                        One-Click <span class="gradient-text">Access</span>
-                    </h2>
-                    
-                    <p class="text-base sm:text-lg text-white/80 mb-6 lg:mb-8 leading-relaxed text-center lg:text-left">
-                        Securely access your TechnoviaX dashboard with your Google account. 
-                        No passwords to remember, just one click and you're in.
-                    </p>
-                    
-                    <!-- Features Grid -->
-                    <div class="features-grid">
-                        <div class="feature-item animate-feature" style="animation-delay: 0.1s;">
-                            <div class="w-10 h-10 rounded-full bg-google-blue/20 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-shield-alt text-google-blue text-lg"></i>
-                            </div>
-                            <div class="text-center-lg-left">
-                                <h3 class="font-bold text-white text-lg mb-1">Secure Login</h3>
-                                <p class="text-white/70 text-sm sm:text-base">Protected by Google's advanced security</p>
-                            </div>
-                        </div>
-                        
-                        <div class="feature-item animate-feature" style="animation-delay: 0.2s;">
-                            <div class="w-10 h-10 rounded-full bg-google-red/20 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-bolt text-google-red text-lg"></i>
-                            </div>
-                            <div class="text-center-lg-left">
-                                <h3 class="font-bold text-white text-lg mb-1">Instant Access</h3>
-                                <p class="text-white/70 text-sm sm:text-base">No password typing required</p>
-                            </div>
-                        </div>
-                        
-                        <div class="feature-item animate-feature" style="animation-delay: 0.3s;">
-                            <div class="w-10 h-10 rounded-full bg-google-green/20 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-sync-alt text-google-green text-lg"></i>
-                            </div>
-                            <div class="text-center-lg-left">
-                                <h3 class="font-bold text-white text-lg mb-1">Auto Sync</h3>
-                                <p class="text-white/70 text-sm sm:text-base">Profile info syncs automatically</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <main class="flex-grow pt-24 pb-12 flex items-center justify-center glass-bg relative">
+        <!-- Overlay for readability -->
+        <div class="absolute inset-0 bg-gradient-to-br from-white/60 to-blue-50/70 backdrop-blur-[2px]"></div>
 
-                <!-- Right Side - Login Card -->
-                <div>
-                    <div class="glass-card p-6 sm:p-8 lg:p-10">
-                        <div class="text-center mb-8">
-                            <div class="w-16 h-16 bg-gradient-to-br from-google-blue/20 to-google-green/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-sign-in-alt text-google-blue text-2xl"></i>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-md mx-auto glass-card overflow-hidden animate-fade-in-up">
+                <div class="p-8">
+                    <!-- Header -->
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 text-primary rounded-full mb-4 shadow-inner">
+                            <i class="fas fa-user-shield text-3xl"></i>
+                        </div>
+                        <h1 class="text-3xl font-bold mb-2 text-secondary">Welcome Back</h1>
+                        <p class="text-dark-light">Sign in to access your dashboard</p>
+                    </div>
+
+                    <!-- Login Area -->
+                    <div id="login-container">
+                        <!-- Google Login -->
+                        <button id="google-login-btn" class="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-secondary font-semibold py-3 px-4 rounded-xl transition-all shadow-sm border border-gray-200 group transform hover:-translate-y-0.5 mb-6">
+                            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-6 h-6 group-hover:scale-110 transition-transform">
+                            <span>Sign in with Google</span>
+                        </button>
+
+                        <div class="relative my-6">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-300"></div>
                             </div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Welcome to TechnoviaX</h2>
-                            <p class="text-gray-600">Sign in with your Google account</p>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-4 bg-white/50 text-gray-500 font-medium backdrop-blur-sm rounded">or continue with email</span>
+                            </div>
                         </div>
 
-                        <div class="space-y-6">
-                            <button id="google-login-btn" class="w-full google-btn py-3 px-6 rounded-xl hover:shadow-md transition-all">
-                                <img src="https://www.google.com/favicon.ico" alt="Google" class="w-5 h-5" width="20" height="20">
-                                <span class="font-medium">Continue with Google</span>
+                        <!-- Email Form -->
+                        <form id="email-login-form" class="space-y-5">
+                            <div>
+                                <label for="email" class="block text-sm font-bold text-secondary mb-1 ml-1">Email Address</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-envelope text-gray-400"></i>
+                                    </div>
+                                    <input type="email" id="email" class="w-full pl-10 pr-4 py-3 rounded-xl glass-input focus:outline-none" placeholder="name@company.com" required>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="password" class="block text-sm font-bold text-secondary mb-1 ml-1">Password</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-lock text-gray-400"></i>
+                                    </div>
+                                    <input type="password" id="password" class="w-full pl-10 pr-4 py-3 rounded-xl glass-input focus:outline-none" placeholder="••••••••" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary text-white font-bold py-3.5 rounded-xl transition-all shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-2 mt-4 transform hover:scale-[1.02]">
+                                <span>Sign In</span>
+                                <i class="fas fa-arrow-right"></i>
                             </button>
-
-                            <div class="text-center">
-                                <p class="text-sm text-gray-600 mb-1">
-                                    <i class="fas fa-lock text-google-blue mr-1"></i>
-                                    <span class="font-medium">Your privacy is protected</span>
-                                </p>
-                                <p class="text-xs text-gray-500">We only access name, email and profile picture</p>
-                            </div>
-
-                            <div class="text-center pt-6 border-t border-gray-200/50">
-                                <p class="text-sm text-gray-600 mb-3">Don't have a Google account?</p>
-                                <a href="/contact.html" class="inline-flex items-center gap-2 text-google-blue hover:text-google-red font-medium transition-colors text-sm">
-                                    <i class="fas fa-envelope"></i>
-                                    <span>Contact us for alternative access</span>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div id="user-container" class="hidden text-center py-6">
-                            <div class="relative inline-block mb-4">
-                                <img id="profile-pic" src="" alt="Profile" class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover">
-                            </div>
-                            <h3 id="user-name" class="text-xl font-bold text-gray-800 mb-2"></h3>
-                            <p id="user-email" class="text-gray-600 mb-6 text-sm"></p>
-                            
-                            <div class="grid gap-3">
-                                <a href="/index.html" class="w-full bg-gradient-to-r from-google-blue to-google-green text-white font-medium py-3 rounded-xl hover:opacity-90 transition">
-                                    Go to Dashboard
-                                </a>
-                                <button id="sign-out-btn" class="w-full bg-gray-100 text-gray-700 font-medium py-3 rounded-xl hover:bg-gray-200 transition">
-                                    Sign Out
-                                </button>
-                            </div>
-                        </div>
-
-                        <div id="error-message" class="hidden mt-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-                            <div class="flex items-center gap-2 text-red-600">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span class="font-medium">Login failed. Please try again.</span>
-                            </div>
-                        </div>
-
-                        <div id="loading-state" class="hidden text-center py-4">
-                            <div class="inline-flex items-center gap-3 text-google-blue">
-                                <div class="w-5 h-5 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div>
-                                <span class="font-medium">Signing you in...</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="text-center mt-6 px-4">
-                        <p class="text-xs text-white/60">
-                            By signing in, you agree to our 
-                            <a href="/terms.html" class="text-google-blue hover:underline">Terms</a> and 
-                            <a href="/privacy.html" class="text-google-blue hover:underline">Privacy Policy</a>
+                        </form>
+                        
+                        <p id="error-message" class="mt-4 text-center text-sm text-red-600 bg-red-50 p-3 rounded-lg border border-red-100 hidden flex items-center justify-center gap-2">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span></span>
                         </p>
                     </div>
+
+                    <!-- User Info Area (Visible after login) -->
+                    <div id="user-container" class="hidden text-center py-6">
+                        <div class="relative inline-block mb-4">
+                            <img id="profile-pic" src="" alt="Profile" class="w-28 h-28 rounded-full border-4 border-white shadow-xl object-cover">
+                            <div class="absolute bottom-1 right-1 w-6 h-6 bg-success border-2 border-white rounded-full"></div>
+                        </div>
+                        <h3 id="user-name" class="text-2xl font-bold text-secondary mb-1"></h3>
+                        <p id="user-email" class="text-dark-light mb-8 font-medium bg-white/60 inline-block px-4 py-1 rounded-full text-sm shadow-sm"></p>
+                        
+                        <div class="grid gap-3">
+                            <a href="/index.html" class="w-full bg-gradient-to-r from-primary to-primary-light text-white font-bold py-3 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                                <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+                            </a>
+                            <button id="sign-out-btn" class="w-full bg-white hover:bg-red-50 border border-gray-200 text-dark-light hover:text-red-600 font-bold py-3 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 group">
+                                <i class="fas fa-sign-out-alt group-hover:rotate-180 transition-transform duration-300"></i> Sign Out
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Card Footer -->
+                <div class="bg-white/40 backdrop-blur-md px-8 py-5 border-t border-white/40 text-center text-sm text-dark-light font-medium">
+                    Don't have an account? <a href="/contact.html" class="text-primary hover:text-primary-dark hover:underline transition-colors font-bold">Contact Sales</a>
                 </div>
             </div>
         </div>
@@ -580,162 +228,19 @@
     <div id="footer-container"></div>
     <script src="js/footer.js" defer></script>
 
-    <!-- Firebase Login Logic -->
+    <!-- Firebase Logic -->
     <script type="module" src="js/loginfirebase.js" defer></script>
     
-    <!-- Login Page Specific Script -->
+    <!-- Init Script -->
     <script>
-        // Page initialization
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hide loading screen
-            setTimeout(function() {
-                const loading = document.getElementById('loading');
-                if (loading) {
+        document.addEventListener('DOMContentLoaded', () => {
+            const loading = document.getElementById('loading');
+            if(loading) {
+                setTimeout(() => {
                     loading.style.opacity = '0';
-                    setTimeout(() => {
-                        loading.style.display = 'none';
-                    }, 500);
-                }
-            }, 1000);
-
-            // Toast function for login page
-            window.showLoginToast = function(message, type = 'success') {
-                // Remove existing toast
-                const existingToast = document.querySelector('.toast');
-                if (existingToast) existingToast.remove();
-
-                const toast = document.createElement('div');
-                toast.className = `toast ${type}`;
-                toast.innerHTML = `
-                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-                    <span>${message}</span>
-                `;
-                document.body.appendChild(toast);
-                
-                setTimeout(() => {
-                    toast.classList.add('show');
-                }, 10);
-
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                    setTimeout(() => {
-                        if (toast.parentNode) toast.remove();
-                    }, 300);
-                }, 3000);
-                
-                return toast;
-            };
-
-            // Update UI function for login page
-            window.updateLoginUI = function(user) {
-                const loadingState = document.getElementById('loading-state');
-                const errorMessage = document.getElementById('error-message');
-                const googleLoginBtn = document.getElementById('google-login-btn');
-                const userContainer = document.getElementById('user-container');
-                
-                if (loadingState) loadingState.classList.add('hidden');
-                if (errorMessage) errorMessage.classList.add('hidden');
-                
-                if (user) {
-                    // User logged in
-                    if (googleLoginBtn) googleLoginBtn.classList.add('hidden');
-                    if (userContainer) {
-                        document.getElementById('user-name').textContent = 
-                            user.displayName || user.email.split('@')[0];
-                        document.getElementById('user-email').textContent = user.email;
-                        document.getElementById('profile-pic').src = 
-                            user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}&background=random&color=fff`;
-                        
-                        userContainer.classList.remove('hidden');
-                        userContainer.style.animation = 'fadeInUp 0.5s ease-out';
-                        
-                        // Show success message
-                        window.showLoginToast("Login successful! Redirecting...", 'success');
-                        
-                        // Redirect to dashboard after 1.5 seconds
-                        setTimeout(() => {
-                            window.location.href = '/index.html';
-                        }, 1500);
-                    }
-                } else {
-                    // User logged out
-                    if (googleLoginBtn) googleLoginBtn.classList.remove('hidden');
-                    if (userContainer) userContainer.classList.add('hidden');
-                }
-            };
-
-            // Handle logout on login page
-            window.handleFirebaseLogout = function() {
-                // This will be called from the Firebase script
-                window.showLoginToast("Logged out successfully", 'success');
-                window.updateLoginUI(null);
-            };
-
-            // Setup logout button event
-            const signOutBtn = document.getElementById('sign-out-btn');
-            if (signOutBtn) {
-                signOutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (confirm("Are you sure you want to logout?")) {
-                        // Dispatch logout event for Firebase script
-                        document.dispatchEvent(new CustomEvent('userLogoutRequest'));
-                    }
-                });
+                    setTimeout(() => loading.style.display = 'none', 300);
+                }, 300);
             }
-
-            // Listen for login success from Firebase
-            document.addEventListener('loginSuccess', function(e) {
-                window.updateLoginUI(e.detail.user);
-            });
-
-            // Listen for login error from Firebase
-            document.addEventListener('loginError', function(e) {
-                const errorMessage = document.getElementById('error-message');
-                const loadingState = document.getElementById('loading-state');
-                
-                if (loadingState) loadingState.classList.add('hidden');
-                if (errorMessage) {
-                    errorMessage.querySelector('span').textContent = e.detail.error;
-                    errorMessage.classList.remove('hidden');
-                    window.showLoginToast(e.detail.error, 'error');
-                }
-            });
-
-            // Responsive features layout
-            function updateFeaturesLayout() {
-                const features = document.querySelectorAll('.feature-item');
-                const isMobile = window.innerWidth < 641;
-                
-                features.forEach(feature => {
-                    const textDiv = feature.querySelector('.text-center-lg-left');
-                    if (textDiv) {
-                        textDiv.style.textAlign = isMobile ? 'center' : 'left';
-                    }
-                    
-                    if (isMobile) {
-                        feature.style.flexDirection = 'column';
-                        feature.style.alignItems = 'center';
-                    } else {
-                        feature.style.flexDirection = 'row';
-                        feature.style.alignItems = 'flex-start';
-                    }
-                });
-            }
-
-            // Initialize and update on resize
-            updateFeaturesLayout();
-            window.addEventListener('resize', updateFeaturesLayout);
-
-            // Touch device optimizations
-            if ('ontouchstart' in window) {
-                document.querySelectorAll('button, a').forEach(el => {
-                    el.style.minHeight = '44px';
-                    el.style.minWidth = '44px';
-                });
-            }
-
-            // Check if user is already logged in (firebase will handle this)
-            // The firebase script will trigger the updateLoginUI function
         });
     </script>
 </body>

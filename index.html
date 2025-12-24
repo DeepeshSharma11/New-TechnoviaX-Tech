@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechnoviaX Tech - IT Solutions | Web Development | App Development</title>
     
-    <!-- Meta Tags (Preserved from Original) -->
+    <!-- Meta Tags -->
     <meta name="description" content="TechnoviaX Tech provides innovative IT solutions, web development, app development, cloud solutions, and digital marketing services for businesses in India and worldwide.">
     <meta name="keywords" content="IT solutions, web development, app development, cloud solutions, digital marketing, cybersecurity, Bareilly, India">
     <meta name="author" content="TechnoviaX Tech">
     
-    <!-- Favicons (Preserved from Original) -->
+    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/CompanySiteFav.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/CompanySiteFav.png">
@@ -22,19 +22,7 @@
     <script src="js/navigation.js" defer></script>
     <script src="js/footer.js" defer></script>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Three.js for 3D Models -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-     <!-- Tailwind CSS & Config -->
+    <!-- Tailwind CSS & Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -57,7 +45,6 @@
                         info: '#3b82f6',
                         whatsapp: '#25D366',
                         'whatsapp-dark': '#128C7E',
-                        // Pastel hints for backgrounds
                         'pastel-blue': '#eff6ff',
                         'pastel-green': '#f0fdf4',
                         'pastel-purple': '#f5f3ff',
@@ -79,183 +66,101 @@
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' },
                         }
+                    },
+                    backgroundImage: {
+                        'hero-glow': 'conic-gradient(from 90deg at 50% 50%, #00000000 50%, #1e40af 100%)',
                     }
                 }
             }
         }
     </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            background-color: #020617;
-            color: white;
-            overflow-x: hidden;
-        }
-
-        /* 3D Canvas Container */
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        /* Glassmorphism Cards */
+        body { background-color: #020617; color: white; overflow-x: hidden; }
+        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.6; pointer-events: none; }
         .glass-card {
             background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         .glass-card:hover {
             transform: translateY(-10px) scale(1.02);
             background: rgba(30, 41, 59, 0.6);
             border-color: rgba(59, 130, 246, 0.5);
             box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.2);
         }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #3b82f6;
-            border-radius: 4px;
-        }
-
-        /* Gradient Text */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
         .text-gradient {
             background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
-        /* Navigation Glass Style (Green Tint) - Kept if your common nav uses these classes */
-        .nav-glass {
-            background: rgba(6, 78, 59, 0.7); /* Emerald-900 tint for Green effect */
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(16, 185, 129, 0.1); /* Emerald border */
-        }
-
-        /* Floating Animation */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-        .float-anim {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        /* Loading Screen */
-        #loading {
-            transition: opacity 0.5s ease-out;
-        }
-        
-        /* Whatsapp Float */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 100;
-        }
+        .nav-glass { background: rgba(6, 78, 59, 0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(16, 185, 129, 0.1); }
+        .float-anim { animation: float 6s ease-in-out infinite; }
+        #loading { transition: opacity 0.5s ease-out; }
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 100; }
     </style>
 </head>
-<body class="antialiased selection:bg-emerald-500 selection:text-white">
+<body class="antialiased font-sans selection:bg-emerald-500 selection:text-white">
 
     <!-- Loading Screen -->
     <div id="loading" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-darker">
-        <div class="text-4xl font-bold mb-4 tracking-tighter">
-            Technovia<span class="text-emerald-500">X</span>
-        </div>
+        <div class="text-4xl font-bold mb-4 tracking-tighter">Technovia<span class="text-emerald-500">X</span></div>
         <div class="w-48 h-1 bg-gray-800 rounded-full overflow-hidden">
             <div class="w-full h-full bg-emerald-500 origin-left animate-[grow_1.5s_ease-in-out_infinite]"></div>
         </div>
-        <style>
-            @keyframes grow { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }
-        </style>
+        <style>@keyframes grow { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }</style>
     </div>
 
-    <!-- 3D Background Container -->
+    <!-- 3D Background -->
     <div id="canvas-container"></div>
 
-    <!-- PLACEHOLDER FOR JS INJECTION (navigation.js will target this) -->
+    <!-- Nav Placeholder -->
     <div id="nav-placeholder"></div>
 
-    <!-- Floating Actions (Whatsapp) -->
-    <a href="https://wa.me/918433125736" target="_blank" class="whatsapp-float w-14 h-14 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center text-2xl shadow-lg shadow-green-500/30 transition-all hover:scale-110 animate-bounce">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <!-- Sticky Contact -->
-    <a href="/contact.html" class="fixed bottom-8 left-8 z-40 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-full shadow-lg shadow-emerald-500/30 font-semibold transition-all hover:-translate-y-1 hidden md:flex items-center gap-2">
-        <i class="fas fa-envelope"></i> Contact Us
-    </a>
+    <!-- Floating/Sticky Elements -->
+    <a href="https://wa.me/918433125736" target="_blank" class="whatsapp-float w-14 h-14 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center text-2xl shadow-lg shadow-green-500/30 transition-all hover:scale-110 animate-bounce"><i class="fab fa-whatsapp"></i></a>
+    <a href="/contact.html" class="fixed bottom-8 left-8 z-40 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-full shadow-lg shadow-emerald-500/30 font-semibold transition-all hover:-translate-y-1 hidden md:flex items-center gap-2"><i class="fas fa-envelope"></i> Contact Us</a>
 
     <!-- Main Content -->
     <main id="main-content">
-        
         <!-- Hero Section -->
         <section id="home" class="relative min-h-screen flex items-center pt-20">
-            <!-- Decorative Glow (Greenish) -->
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/20 rounded-full blur-[120px] pointer-events-none"></div>
-
             <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
                 <div class="text-center md:text-left space-y-8">
                     <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium animate-pulse">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                        Innovating the Future
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>Innovating the Future
                     </div>
-                    
-                    <h1 class="text-5xl md:text-7xl font-bold leading-tight">
-                        Innovative IT Solutions for <br>
-                        <span class="text-gradient">Digital Success</span>
-                    </h1>
-                    
-                    <p class="text-xl text-gray-400 max-w-lg mx-auto md:mx-0 leading-relaxed">
-                        Transform your business with cutting-edge technology solutions. We deliver exceptional web development, mobile apps, and digital services.
-                    </p>
-                    
+                    <h1 class="text-5xl md:text-7xl font-bold leading-tight">Innovative IT Solutions for <br><span class="text-gradient">Digital Success</span></h1>
+                    <p class="text-xl text-gray-400 max-w-lg mx-auto md:mx-0 leading-relaxed">Transform your business with cutting-edge technology solutions. We deliver exceptional web development, mobile apps, and digital services.</p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                        <a href="services.html" class="px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white rounded-xl font-semibold shadow-lg shadow-emerald-500/40 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
-                            <i class="fas fa-rocket"></i> View all Services
-                        </a>
-                        <a href="/contact.html" class="px-8 py-4 glass-card hover:bg-emerald-500/20 text-white rounded-xl font-semibold transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
-                            <i class="fas fa-phone-alt"></i> Get in Touch
-                        </a>
+                        <a href="services.html" class="px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white rounded-xl font-semibold shadow-lg shadow-emerald-500/40 transition-all hover:-translate-y-1 flex items-center justify-center gap-2"><i class="fas fa-rocket"></i> View all Services</a>
+                        <a href="/contact.html" class="px-8 py-4 glass-card hover:bg-emerald-500/20 text-white rounded-xl font-semibold transition-all hover:-translate-y-1 flex items-center justify-center gap-2"><i class="fas fa-phone-alt"></i> Get in Touch</a>
                     </div>
-
-                    <!-- Trust Indicators -->
                     <div class="pt-8 border-t border-white/5 flex gap-8 justify-center md:justify-start text-gray-400 grayscale opacity-70">
-                        <i class="fab fa-react text-3xl"></i>
-                        <i class="fab fa-aws text-3xl"></i>
-                        <i class="fab fa-google text-3xl"></i>
-                        <i class="fab fa-node text-3xl"></i>
+                        <i class="fab fa-react text-3xl"></i><i class="fab fa-aws text-3xl"></i><i class="fab fa-google text-3xl"></i><i class="fab fa-node text-3xl"></i>
                     </div>
                 </div>
-
-                <!-- 3D Floating Element Placeholder (Visual Anchor for the 3D Scene) -->
+                <!-- 3D Placeholder -->
                 <div class="hidden md:block relative h-[500px] float-anim">
                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-br from-blue-500/10 to-emerald-500/10 rounded-full blur-3xl"></div>
-                    
-                    <!-- Stats Floating Card -->
                     <div class="absolute bottom-20 left-10 glass-card p-4 rounded-xl flex items-center gap-4 animate-[float_7s_ease-in-out_infinite_2s]">
-                        <div class="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold text-white">10+</div>
-                            <div class="text-xs text-gray-400">Projects Completed</div>
-                        </div>
+                        <div class="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400"><i class="fas fa-check-circle"></i></div>
+                        <div><div class="text-2xl font-bold text-white">10+</div><div class="text-xs text-gray-400">Projects Completed</div></div>
                     </div>
                 </div>
             </div>
@@ -268,54 +173,30 @@
                     <h2 class="text-4xl md:text-5xl font-bold">Our <span class="text-gradient">Core Services</span></h2>
                     <p class="text-gray-400 max-w-2xl mx-auto">Comprehensive IT solutions designed to accelerate your digital transformation journey.</p>
                 </div>
-
                 <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Web Development -->
+                    <!-- Web Dev -->
                     <div class="glass-card p-8 rounded-2xl group relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-[100px] transition-all group-hover:bg-blue-500/20"></div>
-                        
-                        <div class="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-400 text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
+                        <div class="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-400 text-3xl mb-6 group-hover:scale-110 transition-transform duration-300"><i class="fas fa-laptop-code"></i></div>
                         <h3 class="text-2xl font-bold mb-4">Web Development</h3>
-                        <p class="text-gray-400 mb-6 leading-relaxed">
-                            Custom websites and web applications built with modern technologies like React, Angular, and Node.js.
-                        </p>
-                        <a href="/services.html#web-development" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold group-hover:translate-x-2 transition-transform">
-                            Explore Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
-                        </a>
+                        <p class="text-gray-400 mb-6 leading-relaxed">Custom websites and web applications built with modern technologies like React, Angular, and Node.js.</p>
+                        <a href="/services.html#web-development" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold group-hover:translate-x-2 transition-transform">Explore Details <i class="fas fa-arrow-right ml-2 text-sm"></i></a>
                     </div>
-
-                    <!-- App Development -->
+                    <!-- App Dev -->
                     <div class="glass-card p-8 rounded-2xl group relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-bl-[100px] transition-all group-hover:bg-emerald-500/20"></div>
-                        
-                        <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-400 text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
+                        <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-400 text-3xl mb-6 group-hover:scale-110 transition-transform duration-300"><i class="fas fa-mobile-alt"></i></div>
                         <h3 class="text-2xl font-bold mb-4">App Development</h3>
-                        <p class="text-gray-400 mb-6 leading-relaxed">
-                            Native and cross-platform mobile applications for iOS and Android using Flutter and React Native.
-                        </p>
-                        <a href="/services.html#app-development" class="inline-flex items-center text-emerald-400 hover:text-emerald-300 font-semibold group-hover:translate-x-2 transition-transform">
-                            Explore Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
-                        </a>
+                        <p class="text-gray-400 mb-6 leading-relaxed">Native and cross-platform mobile applications for iOS and Android using Flutter and React Native.</p>
+                        <a href="/services.html#app-development" class="inline-flex items-center text-emerald-400 hover:text-emerald-300 font-semibold group-hover:translate-x-2 transition-transform">Explore Details <i class="fas fa-arrow-right ml-2 text-sm"></i></a>
                     </div>
-
-                    <!-- Cloud Solutions -->
+                    <!-- Cloud -->
                     <div class="glass-card p-8 rounded-2xl group relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-bl-[100px] transition-all group-hover:bg-purple-500/20"></div>
-                        
-                        <div class="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-400 text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-cloud"></i>
-                        </div>
+                        <div class="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-400 text-3xl mb-6 group-hover:scale-110 transition-transform duration-300"><i class="fas fa-cloud"></i></div>
                         <h3 class="text-2xl font-bold mb-4">Cloud Solutions</h3>
-                        <p class="text-gray-400 mb-6 leading-relaxed">
-                            Secure and scalable cloud infrastructure on AWS, Azure, and Google Cloud Platform.
-                        </p>
-                        <a href="/services.html#cloud-solutions" class="inline-flex items-center text-purple-400 hover:text-purple-300 font-semibold group-hover:translate-x-2 transition-transform">
-                            Explore Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
-                        </a>
+                        <p class="text-gray-400 mb-6 leading-relaxed">Secure and scalable cloud infrastructure on AWS, Azure, and Google Cloud Platform.</p>
+                        <a href="/services.html#cloud-solutions" class="inline-flex items-center text-purple-400 hover:text-purple-300 font-semibold group-hover:translate-x-2 transition-transform">Explore Details <i class="fas fa-arrow-right ml-2 text-sm"></i></a>
                     </div>
                 </div>
             </div>
@@ -325,22 +206,10 @@
         <section id="stats" class="py-20 border-y border-white/5 bg-black/20">
             <div class="container mx-auto px-6">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                    <div class="space-y-2">
-                        <div class="text-4xl md:text-5xl font-bold text-white counter" data-target="50">0</div>
-                        <div class="text-emerald-400 text-sm tracking-wider uppercase">Happy Clients</div>
-                    </div>
-                    <div class="space-y-2">
-                        <div class="text-4xl md:text-5xl font-bold text-white counter" data-target="10">0</div>
-                        <div class="text-blue-400 text-sm tracking-wider uppercase">Projects Completed</div>
-                    </div>
-                    <div class="space-y-2">
-                        <div class="text-4xl md:text-5xl font-bold text-white">24/7</div>
-                        <div class="text-purple-400 text-sm tracking-wider uppercase">Support</div>
-                    </div>
-                    <div class="space-y-2">
-                        <div class="text-4xl md:text-5xl font-bold text-white counter" data-target="3">0</div>
-                        <div class="text-orange-400 text-sm tracking-wider uppercase">Years Exp.</div>
-                    </div>
+                    <div class="space-y-2"><div class="text-4xl md:text-5xl font-bold text-white counter" data-target="50">0</div><div class="text-emerald-400 text-sm tracking-wider uppercase">Happy Clients</div></div>
+                    <div class="space-y-2"><div class="text-4xl md:text-5xl font-bold text-white counter" data-target="10">0</div><div class="text-blue-400 text-sm tracking-wider uppercase">Projects Completed</div></div>
+                    <div class="space-y-2"><div class="text-4xl md:text-5xl font-bold text-white">24/7</div><div class="text-purple-400 text-sm tracking-wider uppercase">Support</div></div>
+                    <div class="space-y-2"><div class="text-4xl md:text-5xl font-bold text-white counter" data-target="3">0</div><div class="text-orange-400 text-sm tracking-wider uppercase">Years Exp.</div></div>
                 </div>
             </div>
         </section>
@@ -351,162 +220,96 @@
             <div class="container mx-auto px-6 relative z-10 text-center">
                 <div class="glass-card max-w-4xl mx-auto p-12 rounded-3xl border-t border-emerald-500/30">
                     <h2 class="text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
-                    <p class="text-gray-300 mb-8 text-lg max-w-2xl mx-auto">
-                        Partner with us to create innovative digital solutions that drive growth and success.
-                    </p>
+                    <p class="text-gray-300 mb-8 text-lg max-w-2xl mx-auto">Partner with us to create innovative digital solutions that drive growth and success.</p>
                     <div class="flex flex-col sm:flex-row justify-center gap-4">
-                        <a href="/contact.html" class="px-8 py-4 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 transition-colors">
-                            <i class="fas fa-calendar-check mr-2"></i> Start Your Project
-                        </a>
-                        <a href="/payment.html" class="px-8 py-4 bg-success text-white rounded-xl font-bold hover:bg-green-700 transition-colors">
-                            <i class="fas fa-credit-card mr-2"></i> Make Payment
-                        </a>
+                        <a href="/contact.html" class="px-8 py-4 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 transition-colors"><i class="fas fa-calendar-check mr-2"></i> Start Your Project</a>
+                        <a href="/payment.html" class="px-8 py-4 bg-success text-white rounded-xl font-bold hover:bg-green-700 transition-colors"><i class="fas fa-credit-card mr-2"></i> Make Payment</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Footer Placeholder (Injected by script below) -->
+        <!-- Footer Placeholder -->
         <div id="footer-container"></div>
     </main>
 
-    <!-- Firebase Auth Script (From Original) -->
+    <!-- Firebase Auth -->
     <script type="module" src="js/loginfirebase.js" defer></script>
 
-    <!-- Main Scripts (Page Specific Animations) -->
+    <!-- Main Scripts -->
     <script>
-        // --- 1. Loading Screen Logic ---
         window.addEventListener('load', () => {
             const loader = document.getElementById('loading');
             loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 500);
-
-            // Login Reminder Check
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
             setTimeout(() => {
                 const isLoggedIn = localStorage.getItem('userLoggedIn') || false;
-                if (!isLoggedIn) {
-                    console.log("Reminder: Login to access all features");
-                }
+                if (!isLoggedIn) console.log("Reminder: Login to access all features");
             }, 20000);
         });
 
-        // --- 2. Three.js Background Animation ---
         const initThreeJS = () => {
             const container = document.getElementById('canvas-container');
-            
-            // Scene setup
             const scene = new THREE.Scene();
-            // Add some fog for depth
             scene.fog = new THREE.FogExp2(0x020617, 0.002);
-
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Performance optimization
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             container.appendChild(renderer.domElement);
 
-            // Particles Geometry
             const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 700; // Adjust for density
+            const particlesCount = 700;
             const posArray = new Float32Array(particlesCount * 3);
-
-            for(let i = 0; i < particlesCount * 3; i++) {
-                // Spread particles in a wide area
-                posArray[i] = (Math.random() - 0.5) * 15;
-            }
-
+            for(let i = 0; i < particlesCount * 3; i++) { posArray[i] = (Math.random() - 0.5) * 15; }
             particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-            // Material
-            const material = new THREE.PointsMaterial({
-                size: 0.02,
-                color: 0x10b981, // Emerald Green for particles
-                transparent: true,
-                opacity: 0.8,
-            });
-
-            // Mesh (Points)
+            const material = new THREE.PointsMaterial({ size: 0.02, color: 0x10b981, transparent: true, opacity: 0.8 });
             const particlesMesh = new THREE.Points(particlesGeometry, material);
             scene.add(particlesMesh);
 
-            // Connecting Lines (Plexus Effect)
             const geometry = new THREE.IcosahedronGeometry(1.5, 1);
             const wireframe = new THREE.WireframeGeometry(geometry);
-            const lineMaterial = new THREE.LineBasicMaterial({ 
-                color: 0x34d399, // Emerald Light
-                transparent: true, 
-                opacity: 0.15 
-            });
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x34d399, transparent: true, opacity: 0.15 });
             const sphereLines = new THREE.LineSegments(wireframe, lineMaterial);
             scene.add(sphereLines);
             
-            // Second geometric shape
             const geometry2 = new THREE.TorusGeometry(3, 0.05, 16, 100); 
             const material2 = new THREE.MeshBasicMaterial( { color: 0x10b981, wireframe: true, transparent: true, opacity: 0.1 } ); 
             const torus = new THREE.Mesh( geometry2, material2 ); 
             scene.add( torus );
 
             camera.position.z = 5;
-
-            // Mouse Interaction
-            let mouseX = 0;
-            let mouseY = 0;
-            
+            let mouseX = 0, mouseY = 0;
             document.addEventListener('mousemove', (event) => {
                 mouseX = event.clientX / window.innerWidth - 0.5;
                 mouseY = event.clientY / window.innerHeight - 0.5;
             });
 
-            // Animation Loop
             const animate = () => {
                 requestAnimationFrame(animate);
-
-                // Rotate entire particle system slowly
-                particlesMesh.rotation.y += 0.001;
-                particlesMesh.rotation.x += 0.0005;
-
-                // Rotate geometric shapes
-                sphereLines.rotation.x += 0.002;
-                sphereLines.rotation.y += 0.002;
-                
-                torus.rotation.x -= 0.001;
-                torus.rotation.y -= 0.001;
-
-                // Interactive movement based on mouse
+                particlesMesh.rotation.y += 0.001; particlesMesh.rotation.x += 0.0005;
+                sphereLines.rotation.x += 0.002; sphereLines.rotation.y += 0.002;
+                torus.rotation.x -= 0.001; torus.rotation.y -= 0.001;
                 particlesMesh.rotation.y += 0.05 * (mouseX - particlesMesh.rotation.y * 0.1);
                 particlesMesh.rotation.x += 0.05 * (mouseY - particlesMesh.rotation.x * 0.1);
-
                 renderer.render(scene, camera);
             };
-
             animate();
-
-            // Resize Handler
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
         };
-
-        // Initialize Three.js
         initThreeJS();
 
-        // --- 3. Counter Animation for Stats ---
         const counters = document.querySelectorAll('.counter');
-        const observerOptions = { threshold: 0.5 };
-        
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
                     const counter = entry.target;
                     const target = +counter.getAttribute('data-target');
-                    const duration = 2000; // ms
-                    const increment = target / (duration / 16); // 60fps
-                    
+                    const increment = target / 125; // approx duration
                     let current = 0;
                     const updateCounter = () => {
                         current += increment;
@@ -521,10 +324,8 @@
                     observer.unobserve(counter);
                 }
             });
-        }, observerOptions);
-
+        }, { threshold: 0.5 });
         counters.forEach(counter => observer.observe(counter));
-
     </script>
 </body>
 </html>

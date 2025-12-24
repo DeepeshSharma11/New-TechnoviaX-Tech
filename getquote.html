@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,9 @@
     <meta name="description" content="Request a free quote for your web development, app development, or digital marketing project. Let's build something amazing together.">
     
     <!-- Dynamic Favicon Loader -->
-    <script src="js/favicon-loader.js"></script>
+    <script src="js/favicon.js" defer></script>
+    <script src="js/navigation.js" defer></script>
+    <script src="js/footer.js" defer></script>
     
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,33 +19,33 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
     <!-- Tailwind CSS & Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1e40af',
+                        primary: '#3b82f6',
                         'primary-dark': '#1e3a8a',
-                        'primary-light': '#3b82f6',
+                        'primary-light': '#60a5fa',
                         secondary: '#0f172a',
                         accent: '#059669',
                         'accent-dark': '#047857',
                         'accent-light': '#10b981',
-                        light: '#f8fafc',
                         dark: '#1e293b',
-                        'dark-light': '#334155',
+                        darker: '#020617',
+                        surface: 'rgba(255, 255, 255, 0.05)',
                         success: '#10b981',
                         warning: '#f59e0b',
                         error: '#dc2626',
                         info: '#3b82f6',
                         whatsapp: '#25D366',
-                        'whatsapp-dark': '#128C7E',
-                        'pastel-blue': '#eff6ff',
-                        'pastel-green': '#f0fdf4',
-                        'pastel-purple': '#f5f3ff',
-                        'pastel-pink': '#fdf2f8'
+                        'whatsapp-dark': '#128C7E'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -61,6 +63,9 @@
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' },
                         }
+                    },
+                    backgroundImage: {
+                        'hero-glow': 'conic-gradient(from 90deg at 50% 50%, #00000000 50%, #1e40af 100%)',
                     }
                 }
             }
@@ -68,75 +73,104 @@
     </script>
 
     <style>
-        /* Shared Styles */
-        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
-        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
+        body { 
+            background-color: #020617; 
+            color: white; 
+            overflow-x: hidden; 
+        }
         
-        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
-        
-        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
-        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
-        
-        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
-        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
-        .loading-logo span{color:#059669}
-        
-        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
-        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
-        
-        /* Form Specifics */
+        /* 3D Canvas Container */
+        #canvas-container { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+            opacity: 0.6; 
+            pointer-events: none; 
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Form Inputs in Dark Mode */
         .form-input, .form-select, .form-textarea {
             width: 100%;
             padding: 0.875rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 0.5rem;
             outline: none;
             transition: all 0.3s ease;
-            background-color: #fff;
-            /* Font size set to 16px to prevent iOS auto-zoom on focus */
-            font-size: 1rem; 
-        }
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            border-color: #1e40af;
-            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
-        }
-        .form-label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #1e293b;
-            font-size: 0.95rem;
+            background-color: rgba(15, 23, 42, 0.6); /* Dark semi-transparent */
+            color: white;
+            font-size: 1rem;
         }
         
-        html{scroll-behavior:smooth;scroll-padding-top:100px}
-        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}}
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            background-color: rgba(15, 23, 42, 0.8);
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0; /* Light text */
+            font-size: 0.95rem;
+        }
+
+        /* Loading Screen */
+        #loading { transition: opacity 0.5s ease-out; }
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 100; }
+        
+        /* Select option fix for dark mode */
+        option { background-color: #0f172a; color: white; }
     </style>
 </head>
-<body class="font-sans text-secondary bg-light">
+<body class="antialiased font-sans selection:bg-emerald-500 selection:text-white">
 
     <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
-        <div class="loading-logo">Technovia<span>X</span></div>
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        <p class="text-white mt-4 font-medium">Loading...</p>
+    <div id="loading" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-darker">
+        <div class="text-4xl font-bold mb-4 tracking-tighter">Technovia<span class="text-emerald-500">X</span></div>
+        <div class="w-48 h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div class="w-full h-full bg-emerald-500 origin-left animate-[grow_1.5s_ease-in-out_infinite]"></div>
+        </div>
+        <style>@keyframes grow { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }</style>
     </div>
 
+    <!-- 3D Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Nav Placeholder -->
+    <div id="nav-placeholder"></div>
+
     <!-- Floating WhatsApp -->
-    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+    <a href="https://wa.me/918433125736" class="whatsapp-float w-14 h-14 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center text-2xl shadow-lg shadow-green-500/30 transition-all hover:scale-110 animate-bounce">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Navigation Injection -->
-    <script src="js/navigation.js" defer></script>
-
     <main id="main-content">
         <!-- Hero Section -->
-        <section class="hero-gradient pt-16 pb-20 md:pt-20 md:pb-24">
-            <div class="container mx-auto px-4 text-center animate-on-scroll">
-                <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary leading-tight">
-                    Request a <span class="text-primary">Free Quote</span>
+        <section class="relative pt-24 pb-12 md:pt-32 md:pb-16">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+            
+            <div class="container mx-auto px-4 text-center animate-on-scroll relative z-10">
+                <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 text-white leading-tight">
+                    Request a <span class="text-gradient">Free Quote</span>
                 </h1>
-                <p class="text-base sm:text-xl text-dark-light max-w-3xl mx-auto mb-8 leading-relaxed">
+                <p class="text-base sm:text-xl text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
                     Ready to start your next project? Tell us about your requirements, and our team will get back to you with a customized proposal within 24 hours.
                 </p>
                 <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
@@ -144,65 +178,57 @@
         </section>
 
         <!-- Quote Form Section -->
-        <div class="container mx-auto px-4 pb-20 -mt-8 relative z-10">
-            <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 animate-on-scroll flex flex-col md:flex-row">
+        <div class="container mx-auto px-4 pb-20 relative z-10">
+            <div class="max-w-5xl mx-auto glass-card rounded-2xl shadow-2xl overflow-hidden animate-on-scroll flex flex-col md:flex-row">
+                
                 <!-- Contact Info Sidebar -->
-                <div class="w-full md:w-1/3 bg-secondary text-white p-6 md:p-10 flex flex-col justify-between relative overflow-hidden">
+                <div class="w-full md:w-1/3 bg-slate-900/80 p-6 md:p-10 flex flex-col justify-between relative overflow-hidden">
                     <!-- Decorative Circle -->
                     <div class="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 rounded-full bg-primary opacity-20 blur-xl"></div>
                     <div class="absolute bottom-0 left-0 -ml-10 -mb-10 w-40 h-40 rounded-full bg-accent opacity-20 blur-xl"></div>
                     
                     <div class="relative z-10">
-                        <h3 class="text-xl md:text-2xl font-bold mb-6">Contact Information</h3>
-                        <p class="text-gray-300 mb-8 text-sm leading-relaxed">
+                        <h3 class="text-xl md:text-2xl font-bold mb-6 text-white">Contact Information</h3>
+                        <p class="text-gray-400 mb-8 text-sm leading-relaxed">
                             Need immediate assistance? Feel free to reach out to us directly through any of these channels.
                         </p>
                         
                         <ul class="space-y-6">
                             <li class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-phone text-accent"></i>
+                                <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent">
+                                    <i class="fas fa-phone"></i>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold">Phone</p>
-                                    <p class="font-medium text-sm md:text-base">+91 8433125736</p>
+                                    <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Phone</p>
+                                    <p class="font-medium text-sm md:text-base text-gray-200">+91 8433125736</p>
                                 </div>
                             </li>
                             <li class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-envelope text-accent"></i>
+                                <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent">
+                                    <i class="fas fa-envelope"></i>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold">Email</p>
-                                    <p class="font-medium text-sm md:text-base break-all">info.technoviax@gmail.com</p>
+                                    <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Email</p>
+                                    <p class="font-medium text-sm md:text-base break-all text-gray-200">info.technoviax@gmail.com</p>
                                 </div>
                             </li>
                             <li class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-map-marker-alt text-accent"></i>
+                                <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent">
+                                    <i class="fas fa-map-marker-alt"></i>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold">Location</p>
-                                    <p class="font-medium text-sm md:text-base">Bareilly, Uttar Pradesh, India</p>
+                                    <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Location</p>
+                                    <p class="font-medium text-sm md:text-base text-gray-200">Bareilly, Uttar Pradesh, India</p>
                                 </div>
                             </li>
                         </ul>
-                    </div>
-
-                    <!-- <div class="relative z-10 mt-10">
-                        <p class="text-sm text-gray-400 mb-3">Follow us on:</p>
-                        <div class="flex gap-4">
-                            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-primary transition-colors flex items-center justify-center text-white"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-blue-400 transition-colors flex items-center justify-center text-white"><i class="fab fa-twitter"></i></a>
-                            <a href="https://www.instagram.com/ur_x_deepesh21/" target="_blank" class="w-8 h-8 rounded-full bg-white/10 hover:bg-pink-600 transition-colors flex items-center justify-center text-white"><i class="fab fa-instagram"></i></a>
-                            <a href="https://www.linkedin.com/in/deepesh24/" target="_blank" class="w-8 h-8 rounded-full bg-white/10 hover:bg-blue-600 transition-colors flex items-center justify-center text-white"><i class="fab fa-linkedin-in"></i></a>
-                        </div> -->
                     </div>
                 </div>
 
                 <!-- The Form -->
                 <div class="w-full md:w-2/3 p-6 md:p-10">
                     <form id="quote-form" class="space-y-6">
+                        <!-- Replace with your actual Access Key -->
                         <input type="hidden" name="access_key" value="27443247-267a-43b2-9dfc-0b2a5f55713e">
                         <input type="hidden" name="subject" value="New Quote Request from Website">
                         
@@ -211,7 +237,7 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="form-label">First Name <span class="text-red-500">*</span></label>
+                                <label class="form-label">First Name <span class="text-red-400">*</span></label>
                                 <input type="text" name="first_name" required class="form-input" placeholder="John">
                             </div>
                             <div>
@@ -222,19 +248,19 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="form-label">Email Address <span class="text-red-500">*</span></label>
+                                <label class="form-label">Email Address <span class="text-red-400">*</span></label>
                                 <input type="email" name="email" required class="form-input" placeholder="john@company.com">
                             </div>
                             <div>
-                                <label class="form-label">Phone Number <span class="text-red-500">*</span></label>
+                                <label class="form-label">Phone Number <span class="text-red-400">*</span></label>
                                 <input type="tel" name="phone" required class="form-input" placeholder="+91 98765 43210">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="form-label">Service Required <span class="text-red-500">*</span></label>
-                                <select name="service" required class="form-select text-gray-600">
+                                <label class="form-label">Service Required <span class="text-red-400">*</span></label>
+                                <select name="service" required class="form-select">
                                     <option value="" disabled selected>Select a Service</option>
                                     <option value="Web Development">Web Development</option>
                                     <option value="Mobile App Development">Mobile App Development</option>
@@ -246,7 +272,7 @@
                             </div>
                             <div>
                                 <label class="form-label">Estimated Budget</label>
-                                <select name="budget" class="form-select text-gray-600">
+                                <select name="budget" class="form-select">
                                     <option value="" disabled selected>Select Budget Range</option>
                                     <option value="Under ₹10,000">Under ₹10,000</option>
                                     <option value="₹10,000 - ₹50,000">₹10,000 - ₹50,000</option>
@@ -258,19 +284,19 @@
                         </div>
 
                         <div>
-                            <label class="form-label">Project Details <span class="text-red-500">*</span></label>
+                            <label class="form-label">Project Details <span class="text-red-400">*</span></label>
                             <textarea name="message" rows="4" required class="form-textarea" placeholder="Tell us about your project goals, timeline, and any specific requirements..."></textarea>
                         </div>
 
                         <div class="pt-2">
-                            <button type="submit" id="submit-btn" class="btn-primary w-full py-3.5 px-6 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                            <button type="submit" id="submit-btn" class="w-full py-3.5 px-6 rounded-lg font-bold text-lg text-white bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary shadow-lg hover:shadow-blue-500/30 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
                                 <span>Send Request</span>
                                 <i class="fas fa-paper-plane text-sm"></i>
                             </button>
                         </div>
                         
-                        <p class="text-center text-xs text-gray-400 mt-4">
-                            By submitting this form, you agree to our <a href="/terms.html" class="text-primary hover:underline">Terms</a> and <a href="/privacy.html" class="text-primary hover:underline">Privacy Policy</a>.
+                        <p class="text-center text-xs text-gray-500 mt-4">
+                            By submitting this form, you agree to our <a href="/terms.html" class="text-primary-light hover:underline">Terms</a> and <a href="/privacy.html" class="text-primary-light hover:underline">Privacy Policy</a>.
                         </p>
                     </form>
                 </div>
@@ -278,95 +304,140 @@
         </div>
     </main>
 
-    <!-- Footer Injection -->
+    <!-- Footer Placeholder -->
     <div id="footer-container"></div>
-    <script src="js/footer.js" defer></script>
 
-    <!-- Firebase Auth Script (Optional: For Navbar Login State) -->
+    <!-- Firebase Auth Script -->
     <script type="module" src="js/loginfirebase.js" defer></script>
 
-    <!-- Main Logic -->
+    <!-- Main Logic & 3D Animation -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Loading Screen Logic
-            const loadingScreen = document.getElementById('loading');
-            if (loadingScreen) {
-                setTimeout(() => {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    }, 500);
-                }, 600);
+        // Loading Screen & Auth Check
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loading');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.display = 'none'; }, 500);
             }
-
-            // Scroll Animation
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animated');
-                    }
-                });
-            });
-            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-
-            // Form Submission Logic
-            const form = document.getElementById('quote-form');
-            const submitBtn = document.getElementById('submit-btn');
-            const statusDiv = document.getElementById('form-status');
-
-            if (form) {
-                form.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    
-                    const btnOriginalText = submitBtn.innerHTML;
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
-                    statusDiv.className = 'hidden';
-
-                    try {
-                        const formData = new FormData(form);
-                        
-                        // Add timestamp to message or hidden field logic if needed by backend
-                        // For Web3Forms, simple formData is enough
-
-                        const response = await fetch('https://api.web3forms.com/submit', {
-                            method: 'POST',
-                            body: formData
-                        });
-                        
-                        const result = await response.json();
-
-                        if (result.success) {
-                            statusDiv.innerHTML = `
-                                <div class="flex items-center gap-2">
-                                    <i class="fas fa-check-circle text-lg"></i>
-                                    <span>Thank you! Your quote request has been received. We will contact you shortly.</span>
-                                </div>
-                            `;
-                            statusDiv.className = 'bg-green-50 text-green-700 border border-green-200 rounded-lg p-4 mb-6 block animate-fade-in';
-                            form.reset();
-                            
-                            // Optional: Scroll to success message
-                            statusDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        } else {
-                            throw new Error(result.message || 'Submission failed');
-                        }
-                    } catch (error) {
-                        statusDiv.innerHTML = `
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-exclamation-circle text-lg"></i>
-                                <span>Something went wrong. Please try again or contact us on WhatsApp.</span>
-                            </div>
-                        `;
-                        statusDiv.className = 'bg-red-50 text-red-700 border border-red-200 rounded-lg p-4 mb-6 block';
-                    } finally {
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = btnOriginalText;
-                    }
-                });
-            }
+            
+            setTimeout(() => {
+                const isLoggedIn = localStorage.getItem('userLoggedIn') || false;
+                if (!isLoggedIn) console.log("Reminder: Login to access all features");
+            }, 5000);
         });
+
+        // 3D Background Logic (Matching index.html)
+        const initThreeJS = () => {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x020617, 0.002);
+            
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 500; // Slightly fewer for form performance
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 15;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const material = new THREE.PointsMaterial({ size: 0.02, color: 0x10b981, transparent: true, opacity: 0.6 });
+            const particlesMesh = new THREE.Points(particlesGeometry, material);
+            scene.add(particlesMesh);
+
+            // Geometric Shapes
+            const geometry = new THREE.IcosahedronGeometry(1.5, 1);
+            const wireframe = new THREE.WireframeGeometry(geometry);
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x34d399, transparent: true, opacity: 0.1 });
+            const sphereLines = new THREE.LineSegments(wireframe, lineMaterial);
+            scene.add(sphereLines);
+            
+            camera.position.z = 5;
+            let mouseX = 0, mouseY = 0;
+            
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+                particlesMesh.rotation.y += 0.001;
+                sphereLines.rotation.x += 0.002; 
+                sphereLines.rotation.y += 0.002;
+                
+                // Interactive movement
+                particlesMesh.rotation.y += 0.05 * (mouseX - particlesMesh.rotation.y * 0.1);
+                particlesMesh.rotation.x += 0.05 * (mouseY - particlesMesh.rotation.x * 0.1);
+                
+                renderer.render(scene, camera);
+            };
+            animate();
+            
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+        initThreeJS();
+
+        // Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+        // Form Submission Logic
+        const form = document.getElementById('quote-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const statusDiv = document.getElementById('form-status');
+
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const btnOriginalText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
+                statusDiv.className = 'hidden';
+
+                try {
+                    const formData = new FormData(form);
+                    const response = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        statusDiv.innerHTML = `<div class="flex items-center gap-2"><i class="fas fa-check-circle text-lg"></i><span>Thank you! Your quote request has been received.</span></div>`;
+                        statusDiv.className = 'bg-green-900/50 border border-green-500 text-green-200 rounded-lg p-4 mb-6 block';
+                        form.reset();
+                    } else {
+                        throw new Error(result.message || 'Submission failed');
+                    }
+                } catch (error) {
+                    statusDiv.innerHTML = `<div class="flex items-center gap-2"><i class="fas fa-exclamation-circle text-lg"></i><span>Something went wrong. Please try again.</span></div>`;
+                    statusDiv.className = 'bg-red-900/50 border border-red-500 text-red-200 rounded-lg p-4 mb-6 block';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = btnOriginalText;
+                }
+            });
+        }
     </script>
 </body>
 </html>

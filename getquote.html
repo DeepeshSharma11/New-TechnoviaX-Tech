@@ -28,6 +28,14 @@
         tailwind.config = {
             darkMode: 'class',
             theme: {
+                screens: {
+                    'xs': '375px',
+                    'sm': '640px',
+                    'md': '768px',
+                    'lg': '1024px',
+                    'xl': '1280px',
+                    '2xl': '1536px',
+                },
                 extend: {
                     colors: {
                         primary: '#3b82f6',
@@ -53,6 +61,8 @@
                     animation: {
                         'float': 'float 4s ease-in-out infinite',
                         'fade-in': 'fadeIn 0.5s ease-in',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'slide-down': 'slideDown 0.6s ease-out',
                     },
                     keyframes: {
                         float: {
@@ -62,6 +72,14 @@
                         fadeIn: {
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideDown: {
+                            '0%': { transform: 'translateY(-20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
                         }
                     },
                     backgroundImage: {
@@ -73,10 +91,15 @@
     </script>
 
     <style>
+        :root {
+            --header-height: 64px;
+        }
+        
         body { 
             background-color: #020617; 
             color: white; 
             overflow-x: hidden; 
+            padding-top: var(--header-height);
         }
         
         /* 3D Canvas Container */
@@ -103,18 +126,22 @@
         /* Form Inputs in Dark Mode */
         .form-input, .form-select, .form-textarea {
             width: 100%;
-            padding: 0.875rem;
+            padding: 0.75rem 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 0.5rem;
             outline: none;
             transition: all 0.3s ease;
-            background-color: rgba(15, 23, 42, 0.6); /* Dark semi-transparent */
+            background-color: rgba(15, 23, 42, 0.6);
             color: white;
             font-size: 1rem;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
         
         .form-input::placeholder, .form-textarea::placeholder {
             color: #94a3b8;
+            opacity: 0.7;
         }
 
         .form-input:focus, .form-select:focus, .form-textarea:focus {
@@ -127,24 +154,170 @@
             display: block;
             font-weight: 500;
             margin-bottom: 0.5rem;
-            color: #e2e8f0; /* Light text */
+            color: #e2e8f0;
             font-size: 0.95rem;
         }
 
         /* Loading Screen */
-        #loading { transition: opacity 0.5s ease-out; }
-        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 100; }
+        #loading { 
+            transition: opacity 0.5s ease-out; 
+            background: #020617;
+        }
         
-        /* Select option fix for dark mode */
-        option { background-color: #0f172a; color: white; }
+        /* WhatsApp Float Button - Responsive */
+        .whatsapp-float { 
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            z-index: 100; 
+            width: 56px;
+            height: 56px;
+        }
+        
+        @media (min-width: 768px) {
+            .whatsapp-float {
+                width: 60px;
+                height: 60px;
+                bottom: 30px;
+                right: 30px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .whatsapp-float {
+                width: 64px;
+                height: 64px;
+            }
+        }
+        
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+        
+        /* Select dropdown arrow */
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+        
+        /* Mobile Optimization */
+        @media (max-width: 640px) {
+            .form-input, .form-select, .form-textarea {
+                font-size: 16px; /* Prevents iOS zoom on focus */
+            }
+            
+            .form-label {
+                font-size: 14px;
+            }
+            
+            /* Ensure tap targets are at least 44px for accessibility */
+            button, a, input[type="submit"], input[type="button"] {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        
+        /* Landscape Mode Optimization */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .glass-card {
+                max-height: 85vh;
+                overflow-y: auto;
+            }
+            
+            .form-section {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+        }
+        
+        /* Very small screens */
+        @media (max-width: 359px) {
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            
+            .form-input, .form-select, .form-textarea {
+                padding: 0.625rem 0.75rem;
+                font-size: 15px;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .whatsapp-float,
+            #loading,
+            #canvas-container {
+                display: none !important;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+                padding-top: 0 !important;
+            }
+            
+            .glass-card {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
+            }
+        }
+        
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            .form-input,
+            .form-select,
+            .form-textarea {
+                border: 2px solid currentColor;
+            }
+        }
     </style>
 </head>
 <body class="antialiased font-sans selection:bg-emerald-500 selection:text-white">
 
     <!-- Loading Screen -->
     <div id="loading" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-darker">
-        <div class="text-4xl font-bold mb-4 tracking-tighter">Technovia<span class="text-emerald-500">X</span></div>
-        <div class="w-48 h-1 bg-gray-800 rounded-full overflow-hidden">
+        <div class="text-3xl sm:text-4xl font-bold mb-4 tracking-tighter">Technovia<span class="text-emerald-500">X</span></div>
+        <div class="w-40 sm:w-48 h-1 bg-gray-800 rounded-full overflow-hidden">
             <div class="w-full h-full bg-emerald-500 origin-left animate-[grow_1.5s_ease-in-out_infinite]"></div>
         </div>
         <style>@keyframes grow { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }</style>
@@ -157,68 +330,68 @@
     <div id="nav-placeholder"></div>
 
     <!-- Floating WhatsApp -->
-    <a href="https://wa.me/918433125736" class="whatsapp-float w-14 h-14 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center text-2xl shadow-lg shadow-green-500/30 transition-all hover:scale-110 animate-bounce">
+    <a href="https://wa.me/918433125736" class="whatsapp-float bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center text-2xl shadow-lg shadow-green-500/30 transition-all hover:scale-110 animate-bounce">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <main id="main-content">
+    <main id="main-content" class="min-h-screen">
         <!-- Hero Section -->
-        <section class="relative pt-24 pb-12 md:pt-32 md:pb-16">
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <section class="relative pt-20 pb-10 sm:pt-24 sm:pb-12 md:pt-32 md:pb-16">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] md:w-[600px] md:h-[600px] bg-emerald-500/10 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] pointer-events-none"></div>
             
-            <div class="container mx-auto px-4 text-center animate-on-scroll relative z-10">
-                <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 text-white leading-tight">
+            <div class="container mx-auto px-4 sm:px-6 text-center animate-on-scroll relative z-10">
+                <h1 class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-white leading-tight">
                     Request a <span class="text-gradient">Free Quote</span>
                 </h1>
-                <p class="text-base sm:text-xl text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
+                <p class="text-sm xs:text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed">
                     Ready to start your next project? Tell us about your requirements, and our team will get back to you with a customized proposal within 24 hours.
                 </p>
-                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+                <div class="w-20 xs:w-24 sm:w-28 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
         </section>
 
         <!-- Quote Form Section -->
-        <div class="container mx-auto px-4 pb-20 relative z-10">
-            <div class="max-w-5xl mx-auto glass-card rounded-2xl shadow-2xl overflow-hidden animate-on-scroll flex flex-col md:flex-row">
+        <div class="container mx-auto px-4 sm:px-6 pb-12 sm:pb-16 md:pb-20 relative z-10">
+            <div class="max-w-5xl mx-auto glass-card rounded-xl sm:rounded-2xl shadow-lg sm:shadow-2xl overflow-hidden animate-on-scroll flex flex-col lg:flex-row">
                 
                 <!-- Contact Info Sidebar -->
-                <div class="w-full md:w-1/3 bg-slate-900/80 p-6 md:p-10 flex flex-col justify-between relative overflow-hidden">
-                    <!-- Decorative Circle -->
-                    <div class="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 rounded-full bg-primary opacity-20 blur-xl"></div>
-                    <div class="absolute bottom-0 left-0 -ml-10 -mb-10 w-40 h-40 rounded-full bg-accent opacity-20 blur-xl"></div>
+                <div class="w-full lg:w-1/3 bg-slate-900/80 p-5 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden">
+                    <!-- Decorative Circles -->
+                    <div class="absolute top-0 right-0 -mr-6 -mt-6 w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-full bg-primary opacity-20 blur-xl"></div>
+                    <div class="absolute bottom-0 left-0 -ml-6 -mb-6 w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-full bg-accent opacity-20 blur-xl"></div>
                     
                     <div class="relative z-10">
-                        <h3 class="text-xl md:text-2xl font-bold mb-6 text-white">Contact Information</h3>
-                        <p class="text-gray-400 mb-8 text-sm leading-relaxed">
+                        <h3 class="text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 text-white">Contact Information</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 mb-6 sm:mb-8 leading-relaxed">
                             Need immediate assistance? Feel free to reach out to us directly through any of these channels.
                         </p>
                         
-                        <ul class="space-y-6">
-                            <li class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent">
+                        <ul class="space-y-4 sm:space-y-6">
+                            <li class="flex items-start gap-3 sm:gap-4">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent text-sm sm:text-base">
                                     <i class="fas fa-phone"></i>
                                 </div>
                                 <div>
                                     <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Phone</p>
-                                    <p class="font-medium text-sm md:text-base text-gray-200">+91 8433125736</p>
+                                    <p class="font-medium text-sm sm:text-base text-gray-200">+91 8433125736</p>
                                 </div>
                             </li>
-                            <li class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent">
+                            <li class="flex items-start gap-3 sm:gap-4">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent text-sm sm:text-base">
                                     <i class="fas fa-envelope"></i>
                                 </div>
                                 <div>
                                     <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Email</p>
-                                    <p class="font-medium text-sm md:text-base break-all text-gray-200">info.technoviax@gmail.com</p>
+                                    <p class="font-medium text-xs sm:text-sm md:text-base break-all text-gray-200">info.technoviax@gmail.com</p>
                                 </div>
                             </li>
-                            <li class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent">
+                            <li class="flex items-start gap-3 sm:gap-4">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent text-sm sm:text-base">
                                     <i class="fas fa-map-marker-alt"></i>
                                 </div>
                                 <div>
                                     <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Location</p>
-                                    <p class="font-medium text-sm md:text-base text-gray-200">Bareilly, Uttar Pradesh, India</p>
+                                    <p class="font-medium text-sm sm:text-base text-gray-200">Bareilly, Uttar Pradesh, India</p>
                                 </div>
                             </li>
                         </ul>
@@ -226,16 +399,16 @@
                 </div>
 
                 <!-- The Form -->
-                <div class="w-full md:w-2/3 p-6 md:p-10">
-                    <form id="quote-form" class="space-y-6">
+                <div class="w-full lg:w-2/3 p-5 sm:p-6 md:p-8 lg:p-10">
+                    <form id="quote-form" class="space-y-4 sm:space-y-6">
                         <!-- Replace with your actual Access Key -->
                         <input type="hidden" name="access_key" value="27443247-267a-43b2-9dfc-0b2a5f55713e">
                         <input type="hidden" name="subject" value="New Quote Request from Website">
                         
                         <!-- Success/Error Message Container -->
-                        <div id="form-status" class="hidden rounded-lg p-4 mb-4 text-sm font-medium"></div>
+                        <div id="form-status" class="hidden rounded-lg p-3 sm:p-4 mb-3 sm:mb-4 text-sm font-medium"></div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                             <div>
                                 <label class="form-label">First Name <span class="text-red-400">*</span></label>
                                 <input type="text" name="first_name" required class="form-input" placeholder="John">
@@ -246,7 +419,7 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                             <div>
                                 <label class="form-label">Email Address <span class="text-red-400">*</span></label>
                                 <input type="email" name="email" required class="form-input" placeholder="john@company.com">
@@ -257,7 +430,7 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                             <div>
                                 <label class="form-label">Service Required <span class="text-red-400">*</span></label>
                                 <select name="service" required class="form-select">
@@ -289,13 +462,13 @@
                         </div>
 
                         <div class="pt-2">
-                            <button type="submit" id="submit-btn" class="w-full py-3.5 px-6 rounded-lg font-bold text-lg text-white bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary shadow-lg hover:shadow-blue-500/30 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
+                            <button type="submit" id="submit-btn" class="w-full py-3 sm:py-3.5 px-4 sm:px-6 rounded-lg font-bold text-base sm:text-lg text-white bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary shadow-lg hover:shadow-blue-500/30 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1 active:scale-95 min-h-[44px]">
                                 <span>Send Request</span>
-                                <i class="fas fa-paper-plane text-sm"></i>
+                                <i class="fas fa-paper-plane text-xs sm:text-sm"></i>
                             </button>
                         </div>
                         
-                        <p class="text-center text-xs text-gray-500 mt-4">
+                        <p class="text-center text-xs text-gray-500 mt-3 sm:mt-4 px-2">
                             By submitting this form, you agree to our <a href="/terms.html" class="text-primary-light hover:underline">Terms</a> and <a href="/privacy.html" class="text-primary-light hover:underline">Privacy Policy</a>.
                         </p>
                     </form>
@@ -317,7 +490,11 @@
             const loader = document.getElementById('loading');
             if (loader) {
                 loader.style.opacity = '0';
-                setTimeout(() => { loader.style.display = 'none'; }, 500);
+                setTimeout(() => { 
+                    loader.style.display = 'none'; 
+                    document.body.style.paddingTop = document.getElementById('main-header') ? 
+                        document.getElementById('main-header').offsetHeight + 'px' : '64px';
+                }, 500);
             }
             
             setTimeout(() => {
@@ -326,69 +503,124 @@
             }, 5000);
         });
 
-        // 3D Background Logic (Matching index.html)
+        // 3D Background Logic (Optimized for mobile)
         const initThreeJS = () => {
             const container = document.getElementById('canvas-container');
-            const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x020617, 0.002);
-            
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            container.appendChild(renderer.domElement);
-
-            // Particles
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 500; // Slightly fewer for form performance
-            const posArray = new Float32Array(particlesCount * 3);
-
-            for(let i = 0; i < particlesCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 15;
+            if (!container || !WebGLRenderingContext) {
+                console.log("WebGL not supported, skipping 3D background");
+                return;
             }
 
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            const material = new THREE.PointsMaterial({ size: 0.02, color: 0x10b981, transparent: true, opacity: 0.6 });
-            const particlesMesh = new THREE.Points(particlesGeometry, material);
-            scene.add(particlesMesh);
-
-            // Geometric Shapes
-            const geometry = new THREE.IcosahedronGeometry(1.5, 1);
-            const wireframe = new THREE.WireframeGeometry(geometry);
-            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x34d399, transparent: true, opacity: 0.1 });
-            const sphereLines = new THREE.LineSegments(wireframe, lineMaterial);
-            scene.add(sphereLines);
-            
-            camera.position.z = 5;
-            let mouseX = 0, mouseY = 0;
-            
-            document.addEventListener('mousemove', (event) => {
-                mouseX = event.clientX / window.innerWidth - 0.5;
-                mouseY = event.clientY / window.innerHeight - 0.5;
-            });
-
-            const animate = () => {
-                requestAnimationFrame(animate);
-                particlesMesh.rotation.y += 0.001;
-                sphereLines.rotation.x += 0.002; 
-                sphereLines.rotation.y += 0.002;
+            try {
+                const scene = new THREE.Scene();
+                scene.fog = new THREE.FogExp2(0x020617, 0.002);
                 
-                // Interactive movement
-                particlesMesh.rotation.y += 0.05 * (mouseX - particlesMesh.rotation.y * 0.1);
-                particlesMesh.rotation.x += 0.05 * (mouseY - particlesMesh.rotation.x * 0.1);
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ 
+                    alpha: true, 
+                    antialias: true,
+                    powerPreference: "high-performance"
+                });
                 
-                renderer.render(scene, camera);
-            };
-            animate();
-            
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
-            });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                container.appendChild(renderer.domElement);
+
+                // Reduce particles on mobile for better performance
+                const particlesCount = window.innerWidth < 768 ? 200 : 400;
+                const particlesGeometry = new THREE.BufferGeometry();
+                const posArray = new Float32Array(particlesCount * 3);
+
+                for(let i = 0; i < particlesCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 15;
+                }
+
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                const material = new THREE.PointsMaterial({ 
+                    size: 0.02, 
+                    color: 0x10b981, 
+                    transparent: true, 
+                    opacity: 0.6,
+                    sizeAttenuation: true
+                });
+                const particlesMesh = new THREE.Points(particlesGeometry, material);
+                scene.add(particlesMesh);
+
+                // Add geometric shapes only on larger screens
+                if (window.innerWidth >= 768) {
+                    const geometry = new THREE.IcosahedronGeometry(1.5, 1);
+                    const wireframe = new THREE.WireframeGeometry(geometry);
+                    const lineMaterial = new THREE.LineBasicMaterial({ 
+                        color: 0x34d399, 
+                        transparent: true, 
+                        opacity: 0.1 
+                    });
+                    const sphereLines = new THREE.LineSegments(wireframe, lineMaterial);
+                    scene.add(sphereLines);
+                }
+                
+                camera.position.z = 5;
+                let mouseX = 0, mouseY = 0;
+                
+                // Throttle mouse move events for performance
+                let lastMoveTime = 0;
+                document.addEventListener('mousemove', (event) => {
+                    const now = Date.now();
+                    if (now - lastMoveTime > 16) { // ~60fps
+                        mouseX = event.clientX / window.innerWidth - 0.5;
+                        mouseY = event.clientY / window.innerHeight - 0.5;
+                        lastMoveTime = now;
+                    }
+                });
+
+                let animationId = null;
+                const animate = () => {
+                    animationId = requestAnimationFrame(animate);
+                    particlesMesh.rotation.y += 0.001;
+                    
+                    // Interactive movement with smooth lerp
+                    particlesMesh.rotation.y += (mouseX - particlesMesh.rotation.y) * 0.05;
+                    particlesMesh.rotation.x += (mouseY - particlesMesh.rotation.x) * 0.05;
+                    
+                    renderer.render(scene, camera);
+                };
+                
+                // Start animation
+                animate();
+                
+                // Handle resize with debouncing
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        camera.aspect = window.innerWidth / window.innerHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                    }, 250);
+                });
+
+                // Stop animation when page is not visible
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden && animationId) {
+                        cancelAnimationFrame(animationId);
+                        animationId = null;
+                    } else if (!document.hidden && !animationId) {
+                        animate();
+                    }
+                });
+
+            } catch (error) {
+                console.error("Three.js initialization failed:", error);
+                container.innerHTML = '<div class="absolute inset-0 bg-gradient-to-br from-gray-900 to-emerald-900/20"></div>';
+            }
         };
-        initThreeJS();
+        
+        // Initialize Three.js after page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initThreeJS);
+        } else {
+            initThreeJS();
+        }
 
         // Scroll Animation
         const observer = new IntersectionObserver((entries) => {
@@ -397,7 +629,11 @@
                     entry.target.classList.add('animated');
                 }
             });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         });
+        
         document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
         // Form Submission Logic
@@ -424,20 +660,79 @@
 
                     if (result.success) {
                         statusDiv.innerHTML = `<div class="flex items-center gap-2"><i class="fas fa-check-circle text-lg"></i><span>Thank you! Your quote request has been received.</span></div>`;
-                        statusDiv.className = 'bg-green-900/50 border border-green-500 text-green-200 rounded-lg p-4 mb-6 block';
+                        statusDiv.className = 'bg-green-900/50 border border-green-500 text-green-200 rounded-lg p-3 sm:p-4 mb-3 sm:mb-6 block';
                         form.reset();
+                        
+                        // Scroll to success message
+                        statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     } else {
                         throw new Error(result.message || 'Submission failed');
                     }
                 } catch (error) {
                     statusDiv.innerHTML = `<div class="flex items-center gap-2"><i class="fas fa-exclamation-circle text-lg"></i><span>Something went wrong. Please try again.</span></div>`;
-                    statusDiv.className = 'bg-red-900/50 border border-red-500 text-red-200 rounded-lg p-4 mb-6 block';
+                    statusDiv.className = 'bg-red-900/50 border border-red-500 text-red-200 rounded-lg p-3 sm:p-4 mb-3 sm:mb-6 block';
+                    
+                    // Scroll to error message
+                    statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } finally {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = btnOriginalText;
                 }
             });
         }
+
+        // Update header spacing on resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const header = document.getElementById('main-header');
+                if (header) {
+                    document.body.style.paddingTop = header.offsetHeight + 'px';
+                }
+            }, 250);
+        });
+
+        // Touch-friendly select on mobile
+        if ('ontouchstart' in window) {
+            document.querySelectorAll('.form-select').forEach(select => {
+                select.addEventListener('touchstart', function() {
+                    this.style.fontSize = '16px'; // Prevent iOS zoom
+                });
+            });
+        }
+
+        // Keyboard navigation improvements
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                // Close any open dropdowns if needed
+                const focusedElement = document.activeElement;
+                if (focusedElement && focusedElement.classList.contains('form-select')) {
+                    focusedElement.blur();
+                }
+            }
+            
+            // Tab key navigation
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        // Remove keyboard-navigation class on mouse interaction
+        document.addEventListener('mousedown', () => {
+            document.body.classList.remove('keyboard-navigation');
+        });
+
+        // Form validation on blur
+        document.querySelectorAll('.form-input[required], .form-textarea[required]').forEach(input => {
+            input.addEventListener('blur', function() {
+                if (!this.value.trim()) {
+                    this.style.borderColor = '#dc2626';
+                } else {
+                    this.style.borderColor = '';
+                }
+            });
+        });
     </script>
 </body>
 </html>

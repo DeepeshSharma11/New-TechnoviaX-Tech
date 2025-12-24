@@ -6,7 +6,10 @@
     <title>Login - TechnoviaX Tech</title>
     <meta name="description" content="Secure Google login for TechnoviaX Tech">
     
-    <!-- Font Awesome -->
+    <!-- Dynamic Favicon -->
+    <script src="js/favicon-loader.js" defer></script>
+
+    <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
@@ -125,11 +128,21 @@
             color: #3c4043;
             transition: all 0.3s ease;
             font-weight: 500;
+            min-height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
 
         .google-btn:hover {
             background: #f8f9fa;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .google-btn:active {
+            transform: translateY(0);
         }
 
         /* Gradient Text */
@@ -138,9 +151,16 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
         }
 
-        /* Features Grid - Fixed for Mobile */
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Features Grid */
         .features-grid {
             display: grid;
             gap: 1.5rem;
@@ -151,10 +171,15 @@
             display: flex;
             align-items: flex-start;
             gap: 1rem;
-            background: rgba(255, 255, 255, 0.05);
             padding: 1rem;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
         }
 
         /* Mobile Responsive */
@@ -180,6 +205,7 @@
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
+                padding: 1.25rem;
             }
             
             .mobile-center {
@@ -191,6 +217,15 @@
             
             .text-center-lg-left {
                 text-align: center;
+            }
+            
+            h1.text-3xl {
+                font-size: 1.75rem !important;
+            }
+            
+            h2.text-3xl, h2.text-4xl, h2.text-5xl {
+                font-size: 1.75rem !important;
+                line-height: 1.2 !important;
             }
         }
 
@@ -209,6 +244,23 @@
             }
         }
 
+        @media (min-width: 768px) {
+            .feature-item {
+                padding: 1.25rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .features-grid {
+                margin-top: 3rem;
+            }
+            
+            .feature-item:hover {
+                background: rgba(255, 255, 255, 0.05);
+                transform: translateX(5px);
+            }
+        }
+
         @media (max-width: 480px) {
             .glass-card {
                 margin: 0 12px;
@@ -217,7 +269,7 @@
             }
             
             .feature-item {
-                padding: 0.875rem;
+                padding: 1rem;
             }
             
             .whatsapp-float {
@@ -227,10 +279,35 @@
                 bottom: 12px;
                 right: 12px;
             }
+            
+            .google-btn {
+                min-height: 50px;
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (max-width: 359px) {
+            .glass-card {
+                margin: 0 8px;
+                padding: 16px !important;
+                border-radius: 12px;
+            }
+            
+            .whatsapp-float {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .feature-item {
+                padding: 0.75rem;
+            }
         }
 
         /* Touch Friendly */
-        button, a {
+        button, a.btn-like {
             min-height: 44px;
             min-width: 44px;
         }
@@ -251,6 +328,7 @@
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.3s ease;
+            max-width: 350px;
         }
 
         .toast.show {
@@ -264,6 +342,10 @@
 
         .toast.error {
             background: #ef4444;
+        }
+
+        .toast.info {
+            background: #3b82f6;
         }
 
         /* Animations */
@@ -281,6 +363,57 @@
         .animate-feature {
             animation: fadeInUp 0.6s ease-out forwards;
         }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #4285F4, #EA4335);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #3367D6, #D93025);
+        }
+
+        /* Landscape Mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding-top: 60px;
+                padding-bottom: 60px;
+            }
+            
+            .glass-card {
+                max-height: 85vh;
+                overflow-y: auto;
+                margin: 0 10px;
+            }
+            
+            .features-grid {
+                margin-top: 1rem;
+            }
+            
+            .feature-item {
+                padding: 0.75rem;
+            }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -293,12 +426,16 @@
     </div>
 
     <!-- WhatsApp Float -->
-    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="WhatsApp" rel="noopener">
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <!-- Navigation Injection -->
+    <div id="navigation-container"></div>
+    <script src="js/navigation.js" defer></script>
+
     <!-- Main Content -->
-    <main class="min-h-screen flex items-center justify-center p-4 sm:p-6">
+    <main class="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20">
         <div class="container max-w-6xl mx-auto">
             <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                 
@@ -373,8 +510,8 @@
                         </div>
 
                         <div class="space-y-6">
-                            <button id="google-login-btn" class="w-full google-btn py-3 px-6 rounded-xl flex items-center justify-center gap-3 hover:shadow-md transition-shadow">
-                                <img src="https://www.google.com/favicon.ico" alt="Google" class="w-5 h-5">
+                            <button id="google-login-btn" class="w-full google-btn py-3 px-6 rounded-xl hover:shadow-md transition-all">
+                                <img src="https://www.google.com/favicon.ico" alt="Google" class="w-5 h-5" width="20" height="20">
                                 <span class="font-medium">Continue with Google</span>
                             </button>
 
@@ -383,24 +520,24 @@
                                     <i class="fas fa-lock text-google-blue mr-1"></i>
                                     <span class="font-medium">Your privacy is protected</span>
                                 </p>
-                                <p class="text-xs text-gray-500">We only access basic profile information</p>
+                                <p class="text-xs text-gray-500">We only access name, email and profile picture</p>
                             </div>
 
-                            <div class="text-center pt-6 border-t border-gray-200">
+                            <div class="text-center pt-6 border-t border-gray-200/50">
                                 <p class="text-sm text-gray-600 mb-3">Don't have a Google account?</p>
-                                <a href="/contact.html" class="inline-flex items-center gap-2 text-google-blue hover:text-google-red font-medium transition-colors">
+                                <a href="/contact.html" class="inline-flex items-center gap-2 text-google-blue hover:text-google-red font-medium transition-colors text-sm">
                                     <i class="fas fa-envelope"></i>
-                                    <span>Contact us for help</span>
+                                    <span>Contact us for alternative access</span>
                                 </a>
                             </div>
                         </div>
 
                         <div id="user-container" class="hidden text-center py-6">
                             <div class="relative inline-block mb-4">
-                                <img id="profile-pic" src="" alt="Profile" class="w-24 h-24 rounded-full border-4 border-white shadow-lg">
+                                <img id="profile-pic" src="" alt="Profile" class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover">
                             </div>
                             <h3 id="user-name" class="text-xl font-bold text-gray-800 mb-2"></h3>
-                            <p id="user-email" class="text-gray-600 mb-6"></p>
+                            <p id="user-email" class="text-gray-600 mb-6 text-sm"></p>
                             
                             <div class="grid gap-3">
                                 <a href="/index.html" class="w-full bg-gradient-to-r from-google-blue to-google-green text-white font-medium py-3 rounded-xl hover:opacity-90 transition">
@@ -422,12 +559,12 @@
                         <div id="loading-state" class="hidden text-center py-4">
                             <div class="inline-flex items-center gap-3 text-google-blue">
                                 <div class="w-5 h-5 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div>
-                                <span>Signing you in...</span>
+                                <span class="font-medium">Signing you in...</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="text-center mt-6">
+                    <div class="text-center mt-6 px-4">
                         <p class="text-xs text-white/60">
                             By signing in, you agree to our 
                             <a href="/terms.html" class="text-google-blue hover:underline">Terms</a> and 
@@ -439,23 +576,29 @@
         </div>
     </main>
 
-    <!-- External JavaScript Files -->
+    <!-- Footer Injection -->
+    <div id="footer-container"></div>
+    <script src="js/footer.js" defer></script>
+
+    <!-- Firebase Login Logic -->
     <script type="module" src="js/loginfirebase.js" defer></script>
     
-    <!-- Login-specific JavaScript -->
+    <!-- Login Page Specific Script -->
     <script>
         // Page initialization
         document.addEventListener('DOMContentLoaded', function() {
             // Hide loading screen
             setTimeout(function() {
                 const loading = document.getElementById('loading');
-                loading.style.opacity = '0';
-                setTimeout(() => {
-                    loading.style.display = 'none';
-                }, 500);
+                if (loading) {
+                    loading.style.opacity = '0';
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                    }, 500);
+                }
             }, 1000);
 
-            // Toast function (to be used by Firebase script)
+            // Toast function for login page
             window.showLoginToast = function(message, type = 'success') {
                 // Remove existing toast
                 const existingToast = document.querySelector('.toast');
@@ -479,9 +622,11 @@
                         if (toast.parentNode) toast.remove();
                     }, 300);
                 }, 3000);
+                
+                return toast;
             };
 
-            // Update UI function (to be called by Firebase script)
+            // Update UI function for login page
             window.updateLoginUI = function(user) {
                 const loadingState = document.getElementById('loading-state');
                 const errorMessage = document.getElementById('error-message');
@@ -504,6 +649,9 @@
                         userContainer.classList.remove('hidden');
                         userContainer.style.animation = 'fadeInUp 0.5s ease-out';
                         
+                        // Show success message
+                        window.showLoginToast("Login successful! Redirecting...", 'success');
+                        
                         // Redirect to dashboard after 1.5 seconds
                         setTimeout(() => {
                             window.location.href = '/index.html';
@@ -516,18 +664,42 @@
                 }
             };
 
-            // Setup logout button
+            // Handle logout on login page
+            window.handleFirebaseLogout = function() {
+                // This will be called from the Firebase script
+                window.showLoginToast("Logged out successfully", 'success');
+                window.updateLoginUI(null);
+            };
+
+            // Setup logout button event
             const signOutBtn = document.getElementById('sign-out-btn');
             if (signOutBtn) {
-                signOutBtn.addEventListener('click', function() {
+                signOutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
                     if (confirm("Are you sure you want to logout?")) {
-                        // Call logout from Firebase script
-                        if (window.handleFirebaseLogout) {
-                            window.handleFirebaseLogout();
-                        }
+                        // Dispatch logout event for Firebase script
+                        document.dispatchEvent(new CustomEvent('userLogoutRequest'));
                     }
                 });
             }
+
+            // Listen for login success from Firebase
+            document.addEventListener('loginSuccess', function(e) {
+                window.updateLoginUI(e.detail.user);
+            });
+
+            // Listen for login error from Firebase
+            document.addEventListener('loginError', function(e) {
+                const errorMessage = document.getElementById('error-message');
+                const loadingState = document.getElementById('loading-state');
+                
+                if (loadingState) loadingState.classList.add('hidden');
+                if (errorMessage) {
+                    errorMessage.querySelector('span').textContent = e.detail.error;
+                    errorMessage.classList.remove('hidden');
+                    window.showLoginToast(e.detail.error, 'error');
+                }
+            });
 
             // Responsive features layout
             function updateFeaturesLayout() {
@@ -535,20 +707,35 @@
                 const isMobile = window.innerWidth < 641;
                 
                 features.forEach(feature => {
+                    const textDiv = feature.querySelector('.text-center-lg-left');
+                    if (textDiv) {
+                        textDiv.style.textAlign = isMobile ? 'center' : 'left';
+                    }
+                    
                     if (isMobile) {
                         feature.style.flexDirection = 'column';
                         feature.style.alignItems = 'center';
-                        feature.style.textAlign = 'center';
                     } else {
                         feature.style.flexDirection = 'row';
                         feature.style.alignItems = 'flex-start';
-                        feature.style.textAlign = 'left';
                     }
                 });
             }
 
+            // Initialize and update on resize
             updateFeaturesLayout();
             window.addEventListener('resize', updateFeaturesLayout);
+
+            // Touch device optimizations
+            if ('ontouchstart' in window) {
+                document.querySelectorAll('button, a').forEach(el => {
+                    el.style.minHeight = '44px';
+                    el.style.minWidth = '44px';
+                });
+            }
+
+            // Check if user is already logged in (firebase will handle this)
+            // The firebase script will trigger the updateLoginUI function
         });
     </script>
 </body>

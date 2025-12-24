@@ -1,22 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechnoviaX Tech - IT Solutions | Web Development | App Development</title>
+    
+    <!-- Meta Tags (Preserved from Original) -->
     <meta name="description" content="TechnoviaX Tech provides innovative IT solutions, web development, app development, cloud solutions, and digital marketing services for businesses in India and worldwide.">
     <meta name="keywords" content="IT solutions, web development, app development, cloud solutions, digital marketing, cybersecurity, Bareilly, India">
     <meta name="author" content="TechnoviaX Tech">
     
-    <!-- Favicon - Multiple formats for cross-browser support -->
+    <!-- Favicons (Preserved from Original) -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/CompanySiteFav.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/CompanySiteFav.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/CompanySiteFav.png">
     <link rel="shortcut icon" href="/images/CompanySiteFav.png">
     
+    <!-- External Scripts -->
+    <script src="js/favicon.js" defer></script>
+    <script src="js/navigation.js" defer></script>
+    <script src="js/footer.js" defer></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Three.js for 3D Models -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+     <!-- Tailwind CSS & Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -38,7 +56,12 @@
                         error: '#dc2626',
                         info: '#3b82f6',
                         whatsapp: '#25D366',
-                        'whatsapp-dark': '#128C7E'
+                        'whatsapp-dark': '#128C7E',
+                        // Pastel hints for backgrounds
+                        'pastel-blue': '#eff6ff',
+                        'pastel-green': '#f0fdf4',
+                        'pastel-purple': '#f5f3ff',
+                        'pastel-pink': '#fdf2f8'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -61,280 +84,306 @@
             }
         }
     </script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <style>
-        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
-        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
-        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
-        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
-        .service-card{transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);border:2px solid transparent}
-        .service-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,0.12);border-color:#1e40af}
-        .section-title{position:relative;display:inline-block;padding-bottom:15px}
-        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#1e40af,#059669);border-radius:2px}
-        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
-        .cta-gradient{background:linear-gradient(135deg,#1e40af 0%,#059669 100%);color:white}
-        .footer-gradient{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%)}
-        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
-        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
-        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center}
-        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
-        .loading-logo span{color:#059669}
-        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
-        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
-        .btn-accent{background:linear-gradient(135deg,#059669 0%,#10b981 100%);color:white;transition:all 0.3s ease}
-        .btn-accent:hover{background:linear-gradient(135deg,#047857 0%,#0da271 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(5,150,105,0.3)}
-        .btn-whatsapp{background:linear-gradient(135deg,#25D366 0%,#128C7E 100%);color:white;transition:all 0.3s ease}
-        .btn-whatsapp:hover{background:linear-gradient(135deg,#22c55e 0%,#0f766e 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(37,211,102,0.3)}
-        .social-icon{transition:all 0.3s ease}
-        .social-icon:hover{transform:translateY(-3px) scale(1.1)}
-        html{scroll-behavior:smooth;scroll-padding-top:var(--header-height,80px)}
-        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
-        @media (max-width:640px){.hero-section h1{font-size:2rem!important;line-height:1.2}.hero-section p{font-size:1rem!important}}
+        body {
+            background-color: #020617;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* 3D Canvas Container */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Navigation Glass Style (Green Tint) - Kept if your common nav uses these classes */
+        .nav-glass {
+            background: rgba(6, 78, 59, 0.7); /* Emerald-900 tint for Green effect */
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.1); /* Emerald border */
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Loading Screen */
+        #loading {
+            transition: opacity 0.5s ease-out;
+        }
+        
+        /* Whatsapp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
     </style>
 </head>
-<body class="font-sans text-secondary bg-light">
+<body class="antialiased selection:bg-emerald-500 selection:text-white">
 
-    <div id="loading" class="fixed inset-0 z-50 flex flex-col items-center justify-center">
-        <div class="loading-logo">Technovia<span>X</span></div>
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        <p class="text-white mt-4">Loading...</p>
+    <!-- Loading Screen -->
+    <div id="loading" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-darker">
+        <div class="text-4xl font-bold mb-4 tracking-tighter">
+            Technovia<span class="text-emerald-500">X</span>
+        </div>
+        <div class="w-48 h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div class="w-full h-full bg-emerald-500 origin-left animate-[grow_1.5s_ease-in-out_infinite]"></div>
+        </div>
+        <style>
+            @keyframes grow { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }
+        </style>
     </div>
 
-    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+    <!-- 3D Background Container -->
+    <div id="canvas-container"></div>
+
+    <!-- PLACEHOLDER FOR JS INJECTION (navigation.js will target this) -->
+    <div id="nav-placeholder"></div>
+
+    <!-- Floating Actions (Whatsapp) -->
+    <a href="https://wa.me/918433125736" target="_blank" class="whatsapp-float w-14 h-14 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center text-2xl shadow-lg shadow-green-500/30 transition-all hover:scale-110 animate-bounce">
         <i class="fab fa-whatsapp"></i>
     </a>
-    
-    <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
+
+    <!-- Sticky Contact -->
+    <a href="/contact.html" class="fixed bottom-8 left-8 z-40 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-full shadow-lg shadow-emerald-500/30 font-semibold transition-all hover:-translate-y-1 hidden md:flex items-center gap-2">
         <i class="fas fa-envelope"></i> Contact Us
     </a>
 
-    <!-- Navigation will be injected here -->
-    <script src="js/navigation.js" defer></script>
-
+    <!-- Main Content -->
     <main id="main-content">
+        
         <!-- Hero Section -->
-        <section class="hero-gradient pt-10 pb-20 hero-section">
-            <div class="container mx-auto px-4">
-                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                    <div class="flex-1 text-center md:text-left animate-fade-in">
-                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                            Innovative IT Solutions for <span class="text-primary">Digital Success</span>
-                        </h1>
-                        <p class="text-lg sm:text-xl text-dark mb-8 max-w-2xl">
-                            Transform your business with cutting-edge technology solutions. We deliver exceptional web development, mobile apps, and digital services.
-                        </p>
-                        <div class="flex flex-wrap gap-3 sm:gap-4 justify-center md:justify-start">
-                            <a href="/services.html" class="btn-primary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold">
-                                <i class="fas fa-rocket mr-2"></i>Our Services
-                            </a>
-                            <a href="/contact.html" class="btn-accent px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold">
-                                <i class="fas fa-phone-alt mr-2"></i>Get in Touch
-                            </a>
-                            <a href="https://wa.me/918433125736" class="btn-whatsapp px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold" target="_blank">
-                                <i class="fab fa-whatsapp mr-2"></i>WhatsApp
-                            </a>
-                        </div>
-                        <div class="mt-8 flex flex-wrap gap-4 sm:gap-6 text-dark text-sm sm:text-base">
-                            <div class="flex items-center">
-                                <i class="fas fa-check-circle text-accent mr-2"></i>
-                                <span>10+ Projects</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check-circle text-accent mr-2"></i>
-                                <span>24/6 Support</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check-circle text-accent mr-2"></i>
-                                <span>Expert Team</span>
-                            </div>
-                        </div>
+        <section id="home" class="relative min-h-screen flex items-center pt-20">
+            <!-- Decorative Glow (Greenish) -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
+                <div class="text-center md:text-left space-y-8">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium animate-pulse">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        Innovating the Future
                     </div>
-                    <div class="flex-1 mt-8 md:mt-0 animate-fade-in" style="animation-delay:0.2s">
-                        <div class="relative">
-                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                                 alt="TechnoviaX Tech Solutions" 
-                                 class="rounded-xl shadow-2xl w-full animate-float">
-                            <div class="absolute -bottom-3 -right-3 bg-white p-3 rounded-lg shadow-lg hidden md:block">
-                                <div class="text-primary text-xl font-bold">3+ Years</div>
-                                <div class="text-dark text-sm">Experience</div>
-                            </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-bold leading-tight">
+                        Innovative IT Solutions for <br>
+                        <span class="text-gradient">Digital Success</span>
+                    </h1>
+                    
+                    <p class="text-xl text-gray-400 max-w-lg mx-auto md:mx-0 leading-relaxed">
+                        Transform your business with cutting-edge technology solutions. We deliver exceptional web development, mobile apps, and digital services.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="services.html" class="px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white rounded-xl font-semibold shadow-lg shadow-emerald-500/40 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                            <i class="fas fa-rocket"></i> View all Services
+                        </a>
+                        <a href="/contact.html" class="px-8 py-4 glass-card hover:bg-emerald-500/20 text-white rounded-xl font-semibold transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                            <i class="fas fa-phone-alt"></i> Get in Touch
+                        </a>
+                    </div>
+
+                    <!-- Trust Indicators -->
+                    <div class="pt-8 border-t border-white/5 flex gap-8 justify-center md:justify-start text-gray-400 grayscale opacity-70">
+                        <i class="fab fa-react text-3xl"></i>
+                        <i class="fab fa-aws text-3xl"></i>
+                        <i class="fab fa-google text-3xl"></i>
+                        <i class="fab fa-node text-3xl"></i>
+                    </div>
+                </div>
+
+                <!-- 3D Floating Element Placeholder (Visual Anchor for the 3D Scene) -->
+                <div class="hidden md:block relative h-[500px] float-anim">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-br from-blue-500/10 to-emerald-500/10 rounded-full blur-3xl"></div>
+                    
+                    <!-- Stats Floating Card -->
+                    <div class="absolute bottom-20 left-10 glass-card p-4 rounded-xl flex items-center gap-4 animate-[float_7s_ease-in-out_infinite_2s]">
+                        <div class="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white">10+</div>
+                            <div class="text-xs text-gray-400">Projects Completed</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Services Preview -->
-        <section class="py-16 sm:py-20 bg-white">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12 sm:mb-16 animate-on-scroll">
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 section-title">Our Core Services</h2>
-                    <p class="text-dark-light text-base sm:text-lg max-w-2xl mx-auto">
-                        Comprehensive IT solutions designed to accelerate your digital transformation journey
-                    </p>
+        <!-- Services Section -->
+        <section id="services" class="py-24 relative">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 space-y-4">
+                    <h2 class="text-4xl md:text-5xl font-bold">Our <span class="text-gradient">Core Services</span></h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto">Comprehensive IT solutions designed to accelerate your digital transformation journey.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll">
-                        <div class="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                            <i class="fas fa-laptop-code text-primary text-3xl"></i>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Web Development -->
+                    <div class="glass-card p-8 rounded-2xl group relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-[100px] transition-all group-hover:bg-blue-500/20"></div>
+                        
+                        <div class="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-400 text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-laptop-code"></i>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-primary">Web Development</h3>
-                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
+                        <h3 class="text-2xl font-bold mb-4">Web Development</h3>
+                        <p class="text-gray-400 mb-6 leading-relaxed">
                             Custom websites and web applications built with modern technologies like React, Angular, and Node.js.
                         </p>
-                        <a href="/services.html#web-development" class="text-primary font-semibold flex items-center gap-2 text-sm sm:text-base group">
-                            Explore Details 
-                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                        <a href="/services.html#web-development" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold group-hover:translate-x-2 transition-transform">
+                            Explore Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
                         </a>
                     </div>
-                    
-                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll" style="animation-delay:0.1s">
-                        <div class="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                            <i class="fas fa-mobile-alt text-accent text-3xl"></i>
+
+                    <!-- App Development -->
+                    <div class="glass-card p-8 rounded-2xl group relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-bl-[100px] transition-all group-hover:bg-emerald-500/20"></div>
+                        
+                        <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-400 text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-mobile-alt"></i>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent">App Development</h3>
-                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
+                        <h3 class="text-2xl font-bold mb-4">App Development</h3>
+                        <p class="text-gray-400 mb-6 leading-relaxed">
                             Native and cross-platform mobile applications for iOS and Android using Flutter and React Native.
                         </p>
-                        <a href="/services.html#app-development" class="text-accent font-semibold flex items-center gap-2 text-sm sm:text-base group">
-                            Explore Details
-                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                        <a href="/services.html#app-development" class="inline-flex items-center text-emerald-400 hover:text-emerald-300 font-semibold group-hover:translate-x-2 transition-transform">
+                            Explore Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
                         </a>
                     </div>
-                    
-                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll" style="animation-delay:0.2s">
-                        <div class="bg-info/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                            <i class="fas fa-cloud text-info text-3xl"></i>
+
+                    <!-- Cloud Solutions -->
+                    <div class="glass-card p-8 rounded-2xl group relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-bl-[100px] transition-all group-hover:bg-purple-500/20"></div>
+                        
+                        <div class="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-400 text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-cloud"></i>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-info">Cloud Solutions</h3>
-                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
+                        <h3 class="text-2xl font-bold mb-4">Cloud Solutions</h3>
+                        <p class="text-gray-400 mb-6 leading-relaxed">
                             Secure and scalable cloud infrastructure on AWS, Azure, and Google Cloud Platform.
                         </p>
-                        <a href="/services.html#cloud-solutions" class="text-info font-semibold flex items-center gap-2 text-sm sm:text-base group">
-                            Explore Details
-                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                        <a href="/services.html#cloud-solutions" class="inline-flex items-center text-purple-400 hover:text-purple-300 font-semibold group-hover:translate-x-2 transition-transform">
+                            Explore Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
                         </a>
                     </div>
-                </div>
-                <div class="text-center mt-10 animate-on-scroll">
-                    <a href="/services.html" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-flex items-center gap-2">
-                        View All Services <i class="fas fa-arrow-right"></i>
-                    </a>
                 </div>
             </div>
         </section>
 
         <!-- Stats Section -->
-        <section class="py-16 bg-dark text-white">
-            <div class="container mx-auto px-4">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-                    <div class="text-center animate-on-scroll">
-                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-accent mb-2">50+</div>
-                        <div class="text-light text-sm sm:text-base">Happy Clients</div>
+        <section id="stats" class="py-20 border-y border-white/5 bg-black/20">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="space-y-2">
+                        <div class="text-4xl md:text-5xl font-bold text-white counter" data-target="50">0</div>
+                        <div class="text-emerald-400 text-sm tracking-wider uppercase">Happy Clients</div>
                     </div>
-                    <div class="text-center animate-on-scroll" style="animation-delay:0.1s">
-                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-2">10+</div>
-                        <div class="text-light text-sm sm:text-base">Projects Completed</div>
+                    <div class="space-y-2">
+                        <div class="text-4xl md:text-5xl font-bold text-white counter" data-target="10">0</div>
+                        <div class="text-blue-400 text-sm tracking-wider uppercase">Projects Completed</div>
                     </div>
-                    <div class="text-center animate-on-scroll" style="animation-delay:0.2s">
-                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-success mb-2">24/7</div>
-                        <div class="text-light text-sm sm:text-base">Support</div>
+                    <div class="space-y-2">
+                        <div class="text-4xl md:text-5xl font-bold text-white">24/7</div>
+                        <div class="text-purple-400 text-sm tracking-wider uppercase">Support</div>
                     </div>
-                    <div class="text-center animate-on-scroll" style="animation-delay:0.3s">
-                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-warning mb-2">3+</div>
-                        <div class="text-light text-sm sm:text-base">Years Experience</div>
+                    <div class="space-y-2">
+                        <div class="text-4xl md:text-5xl font-bold text-white counter" data-target="3">0</div>
+                        <div class="text-orange-400 text-sm tracking-wider uppercase">Years Exp.</div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- CTA Section -->
-        <section class="py-16 sm:py-20 cta-gradient">
-            <div class="container mx-auto px-4 text-center animate-on-scroll">
-                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
-                <p class="text-white/90 text-base sm:text-lg mb-8 max-w-2xl mx-auto">
-                    Partner with us to create innovative digital solutions that drive growth and success.
-                </p>
-                <div class="flex flex-wrap gap-3 sm:gap-4 justify-center">
-                    <a href="/contact.html" class="bg-white text-primary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                        <i class="fas fa-calendar-check mr-2"></i>Start Your Project
-                    </a>
-                    <a href="/payment.html" class="bg-success text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-green-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                        <i class="fas fa-credit-card mr-2"></i>Make Payment
-                    </a>
+        <section id="contact" class="py-24 relative overflow-hidden">
+            <div class="absolute inset-0 bg-emerald-600/5"></div>
+            <div class="container mx-auto px-6 relative z-10 text-center">
+                <div class="glass-card max-w-4xl mx-auto p-12 rounded-3xl border-t border-emerald-500/30">
+                    <h2 class="text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
+                    <p class="text-gray-300 mb-8 text-lg max-w-2xl mx-auto">
+                        Partner with us to create innovative digital solutions that drive growth and success.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="/contact.html" class="px-8 py-4 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 transition-colors">
+                            <i class="fas fa-calendar-check mr-2"></i> Start Your Project
+                        </a>
+                        <a href="/payment.html" class="px-8 py-4 bg-success text-white rounded-xl font-bold hover:bg-green-700 transition-colors">
+                            <i class="fas fa-credit-card mr-2"></i> Make Payment
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- Footer Placeholder (Injected by script below) -->
+        <div id="footer-container"></div>
     </main>
 
-    <!-- Footer will be injected by footer.js -->
-    <div id="footer-container"></div>
-
-    <!-- Footer Loader Script -->
-    <script src="js/footer.js" defer></script>
-
-    <!-- Firebase Auth Script -->
+    <!-- Firebase Auth Script (From Original) -->
     <script type="module" src="js/loginfirebase.js" defer></script>
 
+    <!-- Main Scripts (Page Specific Animations) -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Loading screen logic
-            const loadingScreen = document.getElementById('loading');
-            if (loadingScreen) {
-                setTimeout(() => {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => loadingScreen.style.display = 'none', 300);
-                }, 500);
-            }
+        // --- 1. Loading Screen Logic ---
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loading');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
 
-            // Smooth Scrolling
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href === '#' || href === '#!') return;
-                    if (href.startsWith('#')) {
-                        e.preventDefault();
-                        const targetElement = document.querySelector(href);
-                        if (targetElement) {
-                            const header = document.querySelector('header');
-                            const headerHeight = header ? header.offsetHeight : 80;
-                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                            const finalPosition = targetPosition - headerHeight - 20;
-                            window.scrollTo({top:finalPosition,behavior:'smooth'});
-                            history.pushState(null, null, href);
-                        }
-                    }
-                });
-            });
-            
-            // Scroll Animation
-            function animateOnScroll() {
-                document.querySelectorAll('.animate-on-scroll').forEach(element => {
-                    if (element.classList.contains('animated')) return;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const elementHeight = element.offsetHeight;
-                    const screenPosition = window.innerHeight - elementHeight / 3;
-                    if (elementPosition < screenPosition) element.classList.add('animated');
-                });
-            }
-            
-            animateOnScroll();
-            let isScrolling = false;
-            window.addEventListener('scroll', () => {
-                if (!isScrolling) {
-                    window.requestAnimationFrame(() => {
-                        animateOnScroll();
-                        isScrolling = false;
-                    });
-                    isScrolling = true;
-                }
-            });
-
-            // Check if login reminder should be shown
+            // Login Reminder Check
             setTimeout(() => {
                 const isLoggedIn = localStorage.getItem('userLoggedIn') || false;
                 if (!isLoggedIn) {
@@ -343,13 +392,139 @@
             }, 20000);
         });
 
-        // Global error handling
-        window.addEventListener('error', function(e) {
-            if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK') {
-                console.warn('Failed to load:', e.target.src || e.target.href);
-            }
-        }, true);
-    </script>
+        // --- 2. Three.js Background Animation ---
+        const initThreeJS = () => {
+            const container = document.getElementById('canvas-container');
+            
+            // Scene setup
+            const scene = new THREE.Scene();
+            // Add some fog for depth
+            scene.fog = new THREE.FogExp2(0x020617, 0.002);
 
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Performance optimization
+            container.appendChild(renderer.domElement);
+
+            // Particles Geometry
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 700; // Adjust for density
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                // Spread particles in a wide area
+                posArray[i] = (Math.random() - 0.5) * 15;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            // Material
+            const material = new THREE.PointsMaterial({
+                size: 0.02,
+                color: 0x10b981, // Emerald Green for particles
+                transparent: true,
+                opacity: 0.8,
+            });
+
+            // Mesh (Points)
+            const particlesMesh = new THREE.Points(particlesGeometry, material);
+            scene.add(particlesMesh);
+
+            // Connecting Lines (Plexus Effect)
+            const geometry = new THREE.IcosahedronGeometry(1.5, 1);
+            const wireframe = new THREE.WireframeGeometry(geometry);
+            const lineMaterial = new THREE.LineBasicMaterial({ 
+                color: 0x34d399, // Emerald Light
+                transparent: true, 
+                opacity: 0.15 
+            });
+            const sphereLines = new THREE.LineSegments(wireframe, lineMaterial);
+            scene.add(sphereLines);
+            
+            // Second geometric shape
+            const geometry2 = new THREE.TorusGeometry(3, 0.05, 16, 100); 
+            const material2 = new THREE.MeshBasicMaterial( { color: 0x10b981, wireframe: true, transparent: true, opacity: 0.1 } ); 
+            const torus = new THREE.Mesh( geometry2, material2 ); 
+            scene.add( torus );
+
+            camera.position.z = 5;
+
+            // Mouse Interaction
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+
+            // Animation Loop
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                // Rotate entire particle system slowly
+                particlesMesh.rotation.y += 0.001;
+                particlesMesh.rotation.x += 0.0005;
+
+                // Rotate geometric shapes
+                sphereLines.rotation.x += 0.002;
+                sphereLines.rotation.y += 0.002;
+                
+                torus.rotation.x -= 0.001;
+                torus.rotation.y -= 0.001;
+
+                // Interactive movement based on mouse
+                particlesMesh.rotation.y += 0.05 * (mouseX - particlesMesh.rotation.y * 0.1);
+                particlesMesh.rotation.x += 0.05 * (mouseY - particlesMesh.rotation.x * 0.1);
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            // Resize Handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        // Initialize Three.js
+        initThreeJS();
+
+        // --- 3. Counter Animation for Stats ---
+        const counters = document.querySelectorAll('.counter');
+        const observerOptions = { threshold: 0.5 };
+        
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = +counter.getAttribute('data-target');
+                    const duration = 2000; // ms
+                    const increment = target / (duration / 16); // 60fps
+                    
+                    let current = 0;
+                    const updateCounter = () => {
+                        current += increment;
+                        if(current < target) {
+                            counter.innerText = Math.ceil(current) + "+";
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.innerText = target + "+";
+                        }
+                    };
+                    updateCounter();
+                    observer.unobserve(counter);
+                }
+            });
+        }, observerOptions);
+
+        counters.forEach(counter => observer.observe(counter));
+
+    </script>
 </body>
 </html>

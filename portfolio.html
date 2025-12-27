@@ -29,6 +29,14 @@
         tailwind.config = {
             darkMode: 'class',
             theme: {
+                screens: {
+                    'xs': '375px',
+                    'sm': '640px',
+                    'md': '768px',
+                    'lg': '1024px',
+                    'xl': '1280px',
+                    '2xl': '1536px',
+                },
                 extend: {
                     colors: {
                         primary: '#3b82f6',
@@ -74,10 +82,13 @@
     </script>
 
     <style>
+        :root { --header-height: 64px; }
+        
         body { 
             background-color: #020617; 
             color: white; 
             overflow-x: hidden; 
+            padding-top: var(--header-height);
         }
         
         /* 3D Canvas Container */
@@ -92,9 +103,9 @@
             pointer-events: none; 
         }
 
-        /* Glassmorphism Cards */
+        /* Glassmorphism Cards (Matching getquote.html) */
         .glass-card {
-            background: rgba(30, 41, 59, 0.4);
+            background: rgba(30, 41, 59, 0.6);
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -102,24 +113,25 @@
         }
 
         .glass-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            background: rgba(30, 41, 59, 0.6);
+            transform: translateY(-5px);
+            background: rgba(30, 41, 59, 0.8);
             border-color: rgba(59, 130, 246, 0.5);
             box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.2);
         }
 
         /* Filter Buttons */
         .filter-btn {
+            background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
             color: #94a3b8;
+            white-space: nowrap;
         }
         
         .filter-btn:hover, .filter-btn.active {
             background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
             color: white;
             border-color: transparent;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
 
         /* Gradient Text */
@@ -130,34 +142,37 @@
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
 
         .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .animate-on-scroll.animated { opacity: 1; transform: translateY(0); }
-        #loading { transition: opacity 0.5s ease-out; }
-        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 100; }
+        #loading { transition: opacity 0.5s ease-out; background: #020617; }
         
-        /* Tag Colors Helper */
-        .tag-blue { @apply bg-blue-500/20 text-blue-300 border-blue-500/30; }
-        .tag-green { @apply bg-emerald-500/20 text-emerald-300 border-emerald-500/30; }
-        .tag-yellow { @apply bg-yellow-500/20 text-yellow-300 border-yellow-500/30; }
-        .tag-purple { @apply bg-purple-500/20 text-purple-300 border-purple-500/30; }
-        .tag-cyan { @apply bg-cyan-500/20 text-cyan-300 border-cyan-500/30; }
-        .tag-red { @apply bg-red-500/20 text-red-300 border-red-500/30; }
-        .tag-gray { @apply bg-gray-500/20 text-gray-300 border-gray-500/30; }
-        .tag-indigo { @apply bg-indigo-500/20 text-indigo-300 border-indigo-500/30; }
-        .tag-orange { @apply bg-orange-500/20 text-orange-300 border-orange-500/30; }
-        .tag-pink { @apply bg-pink-500/20 text-pink-300 border-pink-500/30; }
+        /* WhatsApp Float (Responsive) */
+        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; z-index: 100; width: 56px; height: 56px; }
+        @media (min-width: 768px) { .whatsapp-float { width: 60px; height: 60px; bottom: 30px; right: 30px; } }
+        
+        /* Tag Colors */
+        .tag-blue { @apply bg-blue-500/20 text-blue-300 border border-blue-500/30; }
+        .tag-green { @apply bg-emerald-500/20 text-emerald-300 border border-emerald-500/30; }
+        .tag-yellow { @apply bg-yellow-500/20 text-yellow-300 border border-yellow-500/30; }
+        .tag-purple { @apply bg-purple-500/20 text-purple-300 border border-purple-500/30; }
+        .tag-cyan { @apply bg-cyan-500/20 text-cyan-300 border border-cyan-500/30; }
+        .tag-pink { @apply bg-pink-500/20 text-pink-300 border border-pink-500/30; }
+        .tag-indigo { @apply bg-indigo-500/20 text-indigo-300 border border-indigo-500/30; }
+        .tag-gray { @apply bg-gray-500/20 text-gray-300 border border-gray-500/30; }
+        .tag-orange { @apply bg-orange-500/20 text-orange-300 border border-orange-500/30; }
     </style>
 </head>
 <body class="antialiased font-sans selection:bg-emerald-500 selection:text-white">
 
     <!-- Loading Screen -->
     <div id="loading" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-darker">
-        <div class="text-4xl font-bold mb-4 tracking-tighter">Technovia<span class="text-emerald-500">X</span></div>
-        <div class="w-48 h-1 bg-gray-800 rounded-full overflow-hidden">
+        <div class="text-3xl sm:text-4xl font-bold mb-4 tracking-tighter">Technovia<span class="text-emerald-500">X</span></div>
+        <div class="w-40 sm:w-48 h-1 bg-gray-800 rounded-full overflow-hidden">
             <div class="w-full h-full bg-emerald-500 origin-left animate-[grow_1.5s_ease-in-out_infinite]"></div>
         </div>
         <style>@keyframes grow { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }</style>
@@ -170,54 +185,56 @@
     <div id="nav-placeholder"></div>
 
     <!-- Floating Actions -->
-    <a href="https://wa.me/918433125736" target="_blank" class="whatsapp-float w-14 h-14 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center text-2xl shadow-lg shadow-green-500/30 transition-all hover:scale-110 animate-bounce">
+    <a href="https://wa.me/918433125736" target="_blank" class="whatsapp-float bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center text-2xl shadow-lg shadow-green-500/30 transition-all hover:scale-110 animate-bounce">
         <i class="fab fa-whatsapp"></i>
     </a>
     
     <!-- Auto Quote Popup Injection -->
     <script src="js/quote-popup.js" defer></script>
 
-    <main id="main-content">
+    <main id="main-content" class="min-h-screen">
         <!-- Hero Section -->
-        <section class="relative pt-24 pb-16 md:pt-32">
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <section class="relative pt-12 pb-12 sm:pt-20 sm:pb-16 md:pt-24 md:pb-20">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-emerald-500/10 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none"></div>
             
-            <div class="container mx-auto px-4 text-center animate-on-scroll relative z-10">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-white leading-tight">
+            <div class="container mx-auto px-4 sm:px-6 text-center animate-on-scroll relative z-10">
+                <h1 class="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 text-white leading-tight">
                     Our <span class="text-gradient">Portfolio</span>
                 </h1>
-                <p class="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
+                <p class="text-sm xs:text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed">
                     Explore our successful projects and see how we’ve helped businesses achieve their digital transformation goals using cutting-edge tech and AI integration.
                 </p>
-                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+                <div class="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
         </section>
 
-        <div class="container mx-auto px-4 pb-12 relative z-10">
+        <div class="container mx-auto px-4 sm:px-6 pb-16 relative z-10">
             <!-- Portfolio Filter -->
-            <div class="mb-12 animate-on-scroll flex justify-center">
-                <div class="inline-flex flex-wrap justify-center gap-2 p-1.5 bg-white/5 backdrop-blur-md rounded-full border border-white/10">
-                    <button class="filter-btn active px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300" data-filter="all">All</button>
-                    <button class="filter-btn px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300" data-filter="web">Web Dev</button>
-                    <button class="filter-btn px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300" data-filter="app">App Dev</button>
-                    <button class="filter-btn px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300" data-filter="ecommerce">E-commerce</button>
+            <div class="mb-8 md:mb-12 animate-on-scroll">
+                <div class="flex overflow-x-auto pb-4 md:pb-0 justify-start md:justify-center scrollbar-hide">
+                    <div class="inline-flex gap-2 p-1.5 bg-slate-900/60 backdrop-blur-md rounded-full border border-white/10">
+                        <button class="filter-btn active px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300" data-filter="all">All Projects</button>
+                        <button class="filter-btn px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300" data-filter="web">Web Dev</button>
+                        <button class="filter-btn px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300" data-filter="app">App Dev</button>
+                        <button class="filter-btn px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300" data-filter="ecommerce">E-commerce</button>
+                    </div>
                 </div>
             </div>
 
             <!-- Portfolio Grid -->
-            <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
                 <!-- Content injected by JS -->
             </div>
 
             <!-- CTA Section -->
-            <section class="relative py-20 overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-3xl"></div>
-                <div class="glass-card rounded-3xl p-12 text-center relative z-10 border-t border-emerald-500/30">
-                    <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-white">Have a Project in Mind?</h2>
-                    <p class="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
+            <section class="relative py-12 sm:py-16 md:py-20 overflow-hidden mt-8">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl sm:rounded-3xl mx-2 md:mx-0"></div>
+                <div class="glass-card rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-12 text-center relative z-10 border-t border-emerald-500/30 mx-2 md:mx-0">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-white">Have a Project in Mind?</h2>
+                    <p class="text-gray-300 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 md:mb-10 max-w-2xl mx-auto">
                         Let's discuss how we can bring your ideas to life with our technical expertise and innovative solutions.
                     </p>
-                    <a href="/contact.html" class="inline-flex items-center justify-center px-8 py-4 bg-white text-emerald-900 rounded-lg font-bold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 gap-2">
+                    <a href="/contact.html" class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-white text-emerald-900 rounded-lg font-bold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 gap-2 text-sm sm:text-base">
                         Start Your Project <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
@@ -235,7 +252,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // ==========================================
-            // 1. DATA ARRAY (Updated with FociStore)
+            // 1. DATA ARRAY (Projects)
             // ==========================================
             const portfolioData = [
                 {
@@ -243,7 +260,7 @@
                     category: "web",
                     image: "https://images.unsplash.com/photo-1607799275518-d6e690c7b059?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                     link: "https://focistore.site",
-                    description: "An attractive and modern store website for premium free software (not responsible). Features a sleek UI and easy navigation.",
+                    description: "An attractive and modern store website for premium free software. Features a sleek UI, fast performance, and easy navigation.",
                     label: "New Release",
                     tech: [
                         { name: "Modern UI", color: "purple" },
@@ -252,11 +269,11 @@
                     ]
                 },
                 {
-                    title: "MedShri Sai Medical Store",
+                    title: "MedShri Sai Medical",
                     category: "web ecommerce",
-                    image: "images/shrisaikripamedicalhall.png", // Ensure this path is correct or use placeholder
+                    image: "images/shrisaikripamedicalhall.png", 
                     link: "https://medshrisai.shop",
-                    description: "A complete e-commerce website for a medical store with product catalog and online ordering capabilities.",
+                    description: "A complete e-commerce website for a medical store with product catalog, cart functionality, and online ordering capabilities.",
                     tech: [
                         { name: "HTML5", color: "blue" },
                         { name: "CSS3", color: "green" },
@@ -268,7 +285,7 @@
                     category: "web",
                     image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                     link: "https://focifinance.site",
-                    description: "A comprehensive financial resource hub offering calculators, market insights, and educational content.",
+                    description: "A comprehensive financial resource hub offering calculators, market insights, and educational content for investors.",
                     tech: [
                         { name: "Bootstrap", color: "purple" },
                         { name: "Web Design", color: "gray" }
@@ -292,7 +309,7 @@
                     category: "web",
                     image: "images/shrisaikripamedicalhall.png",
                     link: "https://shrisaimedical.netlify.app",
-                    description: "Alternative domain for a medical store featuring enhanced accessibility and improved performance.",
+                    description: "Alternative domain for a medical store featuring enhanced accessibility, improved performance, and mobile responsiveness.",
                     tech: [
                         { name: "HTML5", color: "blue" },
                         { name: "Netlify", color: "gray" }
@@ -301,7 +318,7 @@
             ];
 
             // ==========================================
-            // 2. RENDER FUNCTION (Dark Theme Adapted)
+            // 2. RENDER FUNCTION (Responsive Cards)
             // ==========================================
             const grid = document.getElementById('portfolio-grid');
 
@@ -309,10 +326,19 @@
                 grid.innerHTML = projects.map(project => {
                     // Badge/Link Logic
                     let overlayContent = '';
+                    let mobileLink = '';
+                    
                     if (project.link) {
+                        // Desktop Hover Overlay
                         overlayContent = `
                             <a href="${project.link}" target="_blank" class="bg-white text-emerald-900 font-bold py-2.5 px-6 rounded-full mb-3 hover:bg-emerald-50 transition-colors shadow-lg transform hover:-translate-y-1 flex items-center gap-2">
                                 <i class="fas fa-external-link-alt"></i> View Live Site
+                            </a>
+                        `;
+                        // Mobile Direct Icon
+                        mobileLink = `
+                            <a href="${project.link}" target="_blank" class="lg:hidden text-emerald-400 p-2 bg-emerald-500/10 rounded-full hover:bg-emerald-500/20 transition-colors ml-auto" aria-label="Visit Site">
+                                <i class="fas fa-external-link-alt text-sm"></i>
                             </a>
                         `;
                     } else if (project.label) {
@@ -321,31 +347,33 @@
                     
                     // Tags HTML
                     const tagsHtml = project.tech.map(t => 
-                        `<span class="px-3 py-1 text-xs font-semibold rounded-full border tag-${t.color}">${t.name}</span>`
+                        `<span class="px-2.5 py-1 text-[10px] sm:text-xs font-medium rounded-full border tag-${t.color}">${t.name}</span>`
                     ).join('');
 
-                    // Placeholder fallback for local images
+                    // Placeholder fallback
                     const imgSrc = project.image.startsWith('http') ? project.image : (project.image.includes('placeholder') ? 'https://via.placeholder.com/600x400?text=Project' : project.image);
 
                     return `
-                        <div class="portfolio-item group animate-on-scroll" data-category="${project.category}">
-                            <div class="glass-card h-full flex flex-col rounded-2xl overflow-hidden hover:border-emerald-500/40">
-                                <div class="relative overflow-hidden h-56">
+                        <div class="portfolio-item group animate-on-scroll h-full" data-category="${project.category}">
+                            <div class="glass-card h-full flex flex-col rounded-xl sm:rounded-2xl overflow-hidden hover:border-emerald-500/40 border border-white/5 transition-all duration-300">
+                                <div class="relative overflow-hidden h-48 sm:h-52 md:h-56">
                                     <img src="${imgSrc}" 
                                          alt="${project.title}" 
                                          loading="lazy" 
                                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                          onerror="this.src='https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80'">
-                                    <div class="absolute inset-0 bg-slate-900/80 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 backdrop-blur-sm">
+                                    <!-- Overlay only on Desktop Hover -->
+                                    <div class="absolute inset-0 bg-slate-900/80 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 backdrop-blur-sm hidden lg:flex">
                                         ${overlayContent}
                                     </div>
+                                    ${project.label === 'New Release' ? '<div class="absolute top-3 left-3 px-2 py-1 bg-emerald-500 text-white text-[10px] uppercase font-bold rounded shadow-lg">New</div>' : ''}
                                 </div>
-                                <div class="p-6 flex-grow flex flex-col">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <h3 class="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">${project.title}</h3>
-                                        ${project.label === 'New Release' ? '<span class="px-2 py-0.5 bg-emerald-500 text-white text-[10px] uppercase font-bold rounded">New</span>' : ''}
+                                <div class="p-5 sm:p-6 flex-grow flex flex-col">
+                                    <div class="flex justify-between items-start mb-2 sm:mb-3 gap-2">
+                                        <h3 class="text-lg sm:text-xl font-bold text-white group-hover:text-emerald-400 transition-colors line-clamp-1">${project.title}</h3>
+                                        ${mobileLink}
                                     </div>
-                                    <p class="text-gray-400 text-sm mb-4 leading-relaxed">${project.description}</p>
+                                    <p class="text-gray-400 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-3">${project.description}</p>
                                     <div class="flex flex-wrap gap-2 mt-auto">
                                         ${tagsHtml}
                                     </div>
@@ -367,7 +395,11 @@
                 const loader = document.getElementById('loading');
                 if(loader) {
                     loader.style.opacity = '0';
-                    setTimeout(() => loader.style.display = 'none', 500);
+                    setTimeout(() => { 
+                        loader.style.display = 'none'; 
+                        document.body.style.paddingTop = document.getElementById('main-header') ? 
+                            document.getElementById('main-header').offsetHeight + 'px' : '64px';
+                    }, 500);
                 }
             });
 
@@ -413,55 +445,77 @@
         });
 
         // ==========================================
-        // 4. THREE.JS ANIMATION
+        // 4. THREE.JS ANIMATION (Optimized)
         // ==========================================
         const initThreeJS = () => {
             const container = document.getElementById('canvas-container');
-            const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x020617, 0.002);
-            
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            container.appendChild(renderer.domElement);
+            if (!container || !WebGLRenderingContext) return;
 
-            // Particles
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 700;
-            const posArray = new Float32Array(particlesCount * 3);
-            for(let i = 0; i < particlesCount * 3; i++) { posArray[i] = (Math.random() - 0.5) * 15; }
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            const material = new THREE.PointsMaterial({ size: 0.02, color: 0x10b981, transparent: true, opacity: 0.8 });
-            const particlesMesh = new THREE.Points(particlesGeometry, material);
-            scene.add(particlesMesh);
-
-            camera.position.z = 5;
-            let mouseX = 0, mouseY = 0;
-            
-            document.addEventListener('mousemove', (event) => {
-                mouseX = event.clientX / window.innerWidth - 0.5;
-                mouseY = event.clientY / window.innerHeight - 0.5;
-            });
-
-            const animate = () => {
-                requestAnimationFrame(animate);
-                particlesMesh.rotation.y += 0.001;
-                particlesMesh.rotation.y += 0.05 * (mouseX - particlesMesh.rotation.y * 0.1);
-                particlesMesh.rotation.x += 0.05 * (mouseY - particlesMesh.rotation.x * 0.1);
-                renderer.render(scene, camera);
-            };
-            animate();
-            
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
+            try {
+                const scene = new THREE.Scene();
+                scene.fog = new THREE.FogExp2(0x020617, 0.002);
+                
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+                
                 renderer.setSize(window.innerWidth, window.innerHeight);
-            });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                container.appendChild(renderer.domElement);
+
+                // Particles - Reduced count on mobile
+                const particlesCount = window.innerWidth < 768 ? 300 : 700;
+                const particlesGeometry = new THREE.BufferGeometry();
+                const posArray = new Float32Array(particlesCount * 3);
+                for(let i = 0; i < particlesCount * 3; i++) { posArray[i] = (Math.random() - 0.5) * 15; }
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                const material = new THREE.PointsMaterial({ size: 0.02, color: 0x10b981, transparent: true, opacity: 0.6 });
+                const particlesMesh = new THREE.Points(particlesGeometry, material);
+                scene.add(particlesMesh);
+
+                camera.position.z = 5;
+                let mouseX = 0, mouseY = 0;
+                
+                // Throttle mousemove
+                let lastMove = 0;
+                document.addEventListener('mousemove', (event) => {
+                    const now = Date.now();
+                    if(now - lastMove > 16) {
+                        mouseX = event.clientX / window.innerWidth - 0.5;
+                        mouseY = event.clientY / window.innerHeight - 0.5;
+                        lastMove = now;
+                    }
+                });
+
+                const animate = () => {
+                    requestAnimationFrame(animate);
+                    particlesMesh.rotation.y += 0.001;
+                    particlesMesh.rotation.y += 0.05 * (mouseX - particlesMesh.rotation.y * 0.1);
+                    particlesMesh.rotation.x += 0.05 * (mouseY - particlesMesh.rotation.x * 0.1);
+                    renderer.render(scene, camera);
+                };
+                animate();
+                
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        camera.aspect = window.innerWidth / window.innerHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                    }, 250);
+                });
+            } catch(e) {
+                console.log("Three.js failed to init", e);
+            }
         };
-        initThreeJS();
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initThreeJS);
+        } else {
+            initThreeJS();
+        }
     </script>
 </body>
 </html>
+
 

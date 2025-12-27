@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechnoviaX Tech - IT Solutions | Web Development | App Development</title>
+    <meta name="description" content="TechnoviaX Tech provides innovative IT solutions, web development, app development, cloud solutions, and digital marketing services for businesses in India and worldwide.">
+    <meta name="keywords" content="IT solutions, web development, app development, cloud solutions, digital marketing, cybersecurity, Bareilly, India">
+    <meta name="author" content="TechnoviaX Tech">
+    
+    <!-- Favicon - Multiple formats for cross-browser support -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/CompanySiteFav.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/CompanySiteFav.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/CompanySiteFav.png">
+    <link rel="shortcut icon" href="/images/CompanySiteFav.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        'primary-dark': '#1e3a8a',
+                        'primary-light': '#3b82f6',
+                        secondary: '#0f172a',
+                        accent: '#059669',
+                        'accent-dark': '#047857',
+                        'accent-light': '#10b981',
+                        light: '#f8fafc',
+                        dark: '#1e293b',
+                        'dark-light': '#334155',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#dc2626',
+                        info: '#3b82f6',
+                        whatsapp: '#25D366',
+                        'whatsapp-dark': '#128C7E'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
+        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
+        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
+        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
+        .service-card{transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);border:2px solid transparent}
+        .service-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,0.12);border-color:#1e40af}
+        .section-title{position:relative;display:inline-block;padding-bottom:15px}
+        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#1e40af,#059669);border-radius:2px}
+        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
+        .cta-gradient{background:linear-gradient(135deg,#1e40af 0%,#059669 100%);color:white}
+        .footer-gradient{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%)}
+        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
+        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center}
+        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .loading-logo span{color:#059669}
+        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
+        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
+        .btn-accent{background:linear-gradient(135deg,#059669 0%,#10b981 100%);color:white;transition:all 0.3s ease}
+        .btn-accent:hover{background:linear-gradient(135deg,#047857 0%,#0da271 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(5,150,105,0.3)}
+        .btn-whatsapp{background:linear-gradient(135deg,#25D366 0%,#128C7E 100%);color:white;transition:all 0.3s ease}
+        .btn-whatsapp:hover{background:linear-gradient(135deg,#22c55e 0%,#0f766e 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(37,211,102,0.3)}
+        .social-icon{transition:all 0.3s ease}
+        .social-icon:hover{transform:translateY(-3px) scale(1.1)}
+        html{scroll-behavior:smooth;scroll-padding-top:var(--header-height,80px)}
+        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
+        @media (max-width:640px){.hero-section h1{font-size:2rem!important;line-height:1.2}.hero-section p{font-size:1rem!important}}
+    </style>
+</head>
+<body class="font-sans text-secondary bg-light">
+
+    <div id="loading" class="fixed inset-0 z-50 flex flex-col items-center justify-center">
+        <div class="loading-logo">Technovia<span>X</span></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        <p class="text-white mt-4">Loading...</p>
+    </div>
+
+    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <!-- <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
+        <i class="fas fa-envelope"></i> Contact Us
+    </a> -->
+
+    <!-- Navigation will be injected here -->
+    <script src="js/navigation.js" defer></script>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-gradient pt-10 pb-20 hero-section">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                    <div class="flex-1 text-center md:text-left animate-fade-in">
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                            Innovative IT Solutions for <span class="text-primary">Digital Success</span>
+                        </h1>
+                        <p class="text-lg sm:text-xl text-dark mb-8 max-w-2xl">
+                            Transform your business with cutting-edge technology solutions. We deliver exceptional web development, mobile apps, and digital services.
+                        </p>
+                        <div class="flex flex-wrap gap-3 sm:gap-4 justify-center md:justify-start">
+                            <a href="/services.html" class="btn-primary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold">
+                                <i class="fas fa-rocket mr-2"></i>Our Services
+                            </a>
+                            <a href="/contact.html" class="btn-accent px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold">
+                                <i class="fas fa-phone-alt mr-2"></i>Get in Touch
+                            </a>
+                            <a href="https://wa.me/918433125736" class="btn-whatsapp px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold" target="_blank">
+                                <i class="fab fa-whatsapp mr-2"></i>WhatsApp
+                            </a>
+                        </div>
+                        <div class="mt-8 flex flex-wrap gap-4 sm:gap-6 text-dark text-sm sm:text-base">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>10+ Projects</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>24/7 Support</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>Expert Team</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 mt-8 md:mt-0 animate-fade-in" style="animation-delay:0.2s">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="TechnoviaX Tech Solutions" 
+                                 class="rounded-xl shadow-2xl w-full animate-float">
+                            <div class="absolute -bottom-3 -right-3 bg-white p-3 rounded-lg shadow-lg hidden md:block">
+                                <div class="text-primary text-xl font-bold">3+ Years</div>
+                                <div class="text-dark text-sm">Experience</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Preview -->
+        <section class="py-16 sm:py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12 sm:mb-16 animate-on-scroll">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 section-title">Our Core Services</h2>
+                    <p class="text-dark-light text-base sm:text-lg max-w-2xl mx-auto">
+                        Comprehensive IT solutions designed to accelerate your digital transformation journey
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll">
+                        <div class="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-laptop-code text-primary text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-primary">Web Development</h3>
+                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
+                            Custom websites and web applications built with modern technologies like React, Angular, and Node.js.
+                        </p>
+                        <a href="/services.html#web-development" class="text-primary font-semibold flex items-center gap-2 text-sm sm:text-base group">
+                            Explore Details 
+                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll" style="animation-delay:0.1s">
+                        <div class="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-mobile-alt text-accent text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent">App Development</h3>
+                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
+                            Native and cross-platform mobile applications for iOS and Android using Flutter and React Native.
+                        </p>
+                        <a href="/services.html#app-development" class="text-accent font-semibold flex items-center gap-2 text-sm sm:text-base group">
+                            Explore Details
+                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll" style="animation-delay:0.2s">
+                        <div class="bg-info/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-cloud text-info text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-info">Cloud Solutions</h3>
+                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
+                            Secure and scalable cloud infrastructure on AWS, Azure, and Google Cloud Platform.
+                        </p>
+                        <a href="/services.html#cloud-solutions" class="text-info font-semibold flex items-center gap-2 text-sm sm:text-base group">
+                            Explore Details
+                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center mt-10 animate-on-scroll">
+                    <a href="/services.html" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-flex items-center gap-2">
+                        View All Services <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="py-16 bg-dark text-white">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+                    <div class="text-center animate-on-scroll">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-accent mb-2">50+</div>
+                        <div class="text-light text-sm sm:text-base">Happy Clients</div>
+                    </div>
+                    <div class="text-center animate-on-scroll" style="animation-delay:0.1s">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-2">10+</div>
+                        <div class="text-light text-sm sm:text-base">Projects Completed</div>
+                    </div>
+                    <div class="text-center animate-on-scroll" style="animation-delay:0.2s">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-success mb-2">24/7</div>
+                        <div class="text-light text-sm sm:text-base">Support</div>
+                    </div>
+                    <div class="text-center animate-on-scroll" style="animation-delay:0.3s">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-warning mb-2">3+</div>
+                        <div class="text-light text-sm sm:text-base">Years Experience</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-16 sm:py-20 cta-gradient">
+            <div class="container mx-auto px-4 text-center animate-on-scroll">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
+                <p class="text-white/90 text-base sm:text-lg mb-8 max-w-2xl mx-auto">
+                    Partner with us to create innovative digital solutions that drive growth and success.
+                </p>
+                <div class="flex flex-wrap gap-3 sm:gap-4 justify-center">
+                    <a href="/contact.html" class="bg-white text-primary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <i class="fas fa-calendar-check mr-2"></i>Start Your Project
+                    </a>
+                    <a href="/payment.html" class="bg-success text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-green-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <i class="fas fa-credit-card mr-2"></i>Make Payment
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be injected by footer.js -->
+    <div id="footer-container"></div>
+
+    <!-- Footer Loader Script -->
+    <script src="js/footer.js" defer></script>
+
+    <!-- Firebase Auth Script -->
+    <script type="module" src="js/loginfirebase.js" defer></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Loading screen logic
+            const loadingScreen = document.getElementById('loading');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => loadingScreen.style.display = 'none', 300);
+                }, 500);
+            }
+
+            // Smooth Scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#' || href === '#!') return;
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            const header = document.querySelector('header');
+                            const headerHeight = header ? header.offsetHeight : 80;
+                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                            const finalPosition = targetPosition - headerHeight - 20;
+                            window.scrollTo({top:finalPosition,behavior:'smooth'});
+                            history.pushState(null, null, href);
+                        }
+                    }
+                });
+            });
+            
+            // Scroll Animation
+            function animateOnScroll() {
+                document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                    if (element.classList.contains('animated')) return;
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const elementHeight = element.offsetHeight;
+                    const screenPosition = window.innerHeight - elementHeight / 3;
+                    if (elementPosition < screenPosition) element.classList.add('animated');
+                });
+            }
+            
+            animateOnScroll();
+            let isScrolling = false;
+            window.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        animateOnScroll();
+                        isScrolling = false;
+                    });
+                    isScrolling = true;
+                }
+            });
+
+            // Check if login reminder should be shown
+            setTimeout(() => {
+                const isLoggedIn = localStorage.getItem('userLoggedIn') || false;
+                if (!isLoggedIn) {
+                    console.log("Reminder: Login to access all features");
+                }
+            }, 20000);
+        });
+
+        // Global error handling
+        window.addEventListener('error', function(e) {
+            if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK') {
+                console.warn('Failed to load:', e.target.src || e.target.href);
+            }
+        }, true);
+    </script>
+
+</body>
+</html>

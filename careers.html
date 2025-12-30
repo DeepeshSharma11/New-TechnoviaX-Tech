@@ -157,9 +157,7 @@
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         .text-gradient {
             background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .animate-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         .animate-on-scroll.animated { opacity: 1; transform: translateY(0); }
@@ -232,7 +230,7 @@
             <div class="grid gap-6 animate-on-scroll" id="job-listings">
                 
                 <!-- Job 1 -->
-                <div class="glass-card rounded-2xl p-6 md:p-8 hover:border-blue-500/40" data-category="dev" data-title="Frontend Developer">
+                <div class="glass-card job-card rounded-2xl p-6 md:p-8 hover:border-blue-500/40" data-category="dev" data-title="Frontend Developer">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div class="flex-1">
                             <div class="flex flex-wrap items-center gap-3 mb-3">
@@ -245,9 +243,14 @@
                                 <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-emerald-500"></i> Competitive</span>
                             </div>
                             <p class="text-gray-300 mb-6 leading-relaxed max-w-2xl text-sm md:text-base">We're looking for a skilled Frontend Developer to build responsive, performant web applications using React and Tailwind CSS.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">React.js</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Tailwind</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">TypeScript</span>
+                            </div>
                         </div>
-                        <div class="w-full md:w-auto">
-                            <button class="apply-btn w-full md:w-auto px-6 py-3 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 transition-colors text-sm shadow-lg" data-position="Frontend Developer">
+                        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
+                            <button class="btn-primary apply-btn w-full sm:w-auto px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-blue-500/20 transition-all text-sm" data-position="Frontend Developer">
                                 Apply Now
                             </button>
                         </div>
@@ -255,7 +258,7 @@
                 </div>
 
                 <!-- Job 2 -->
-                <div class="glass-card rounded-2xl p-6 md:p-8 hover:border-emerald-500/40" data-category="dev" data-title="Backend Developer">
+                <div class="glass-card job-card rounded-2xl p-6 md:p-8 hover:border-emerald-500/40" data-category="dev" data-title="Backend Developer">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div class="flex-1">
                             <div class="flex flex-wrap items-center gap-3 mb-3">
@@ -268,9 +271,14 @@
                                 <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-emerald-500"></i> Competitive</span>
                             </div>
                             <p class="text-gray-300 mb-6 leading-relaxed max-w-2xl text-sm md:text-base">Join our backend team to design and build scalable APIs, manage databases, and optimize server performance.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Node.js</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Python</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">MongoDB</span>
+                            </div>
                         </div>
-                        <div class="w-full md:w-auto">
-                            <button class="apply-btn w-full md:w-auto px-6 py-3 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 transition-colors text-sm shadow-lg" data-position="Backend Developer">
+                        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
+                            <button class="btn-primary apply-btn w-full sm:w-auto px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-blue-500/20 transition-all text-sm" data-position="Backend Developer">
                                 Apply Now
                             </button>
                         </div>
@@ -278,7 +286,7 @@
                 </div>
 
                 <!-- Job 3 -->
-                <div class="glass-card rounded-2xl p-6 md:p-8 hover:border-purple-500/40" data-category="design" data-title="UI/UX Designer">
+                <div class="glass-card job-card rounded-2xl p-6 md:p-8 hover:border-purple-500/40" data-category="design" data-title="UI/UX Designer">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div class="flex-1">
                             <div class="flex flex-wrap items-center gap-3 mb-3">
@@ -291,9 +299,13 @@
                                 <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-emerald-500"></i> Competitive</span>
                             </div>
                             <p class="text-gray-300 mb-6 leading-relaxed max-w-2xl text-sm md:text-base">Create intuitive and beautiful user interfaces. You will work closely with developers to bring designs to life.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Figma</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Prototyping</span>
+                            </div>
                         </div>
-                        <div class="w-full md:w-auto">
-                            <button class="apply-btn w-full md:w-auto px-6 py-3 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 transition-colors text-sm shadow-lg" data-position="UI/UX Designer">
+                        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
+                            <button class="btn-primary apply-btn w-full sm:w-auto px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-blue-500/20 transition-all text-sm" data-position="UI/UX Designer">
                                 Apply Now
                             </button>
                         </div>
@@ -301,7 +313,7 @@
                 </div>
 
                 <!-- Job 4 -->
-                <div class="glass-card rounded-2xl p-6 md:p-8 hover:border-pink-500/40" data-category="marketing" data-title="Digital Marketing Specialist">
+                <div class="glass-card job-card rounded-2xl p-6 md:p-8 hover:border-pink-500/40" data-category="marketing" data-title="Digital Marketing Specialist">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div class="flex-1">
                             <div class="flex flex-wrap items-center gap-3 mb-3">
@@ -314,9 +326,13 @@
                                 <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-emerald-500"></i> Competitive</span>
                             </div>
                             <p class="text-gray-300 mb-6 leading-relaxed max-w-2xl text-sm md:text-base">Drive our digital marketing strategies, manage campaigns, and help clients grow their online presence.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">SEO</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Google Ads</span>
+                            </div>
                         </div>
-                        <div class="w-full md:w-auto">
-                            <button class="apply-btn w-full md:w-auto px-6 py-3 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 transition-colors text-sm shadow-lg" data-position="Digital Marketing Specialist">
+                        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
+                            <button class="btn-primary apply-btn w-full sm:w-auto px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-blue-500/20 transition-all text-sm" data-position="Digital Marketing Specialist">
                                 Apply Now
                             </button>
                         </div>

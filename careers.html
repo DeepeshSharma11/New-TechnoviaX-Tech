@@ -9,8 +9,12 @@
     
     <!-- Dynamic Favicon Loader -->
     <script src="js/favicon.js" defer></script>
+    
+    <!-- External Scripts -->
     <script src="js/navigation.js" defer></script>
     <script src="js/footer.js" defer></script>
+    <!-- Firebase Auth Global Script -->
+    <script type="module" src="js/loginfirebase.js" defer></script>
     
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -20,7 +24,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Three.js -->
+    <!-- Three.js (Optimized) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <!-- Tailwind CSS & Config -->
@@ -40,12 +44,8 @@
                 extend: {
                     colors: {
                         primary: '#3b82f6',
-                        'primary-dark': '#1e3a8a',
-                        'primary-light': '#60a5fa',
                         secondary: '#0f172a',
                         accent: '#059669',
-                        'accent-dark': '#047857',
-                        'accent-light': '#10b981',
                         dark: '#1e293b',
                         darker: '#020617',
                         surface: 'rgba(255, 255, 255, 0.05)',
@@ -53,28 +53,23 @@
                         warning: '#f59e0b',
                         error: '#dc2626',
                         info: '#3b82f6',
-                        whatsapp: '#25D366',
-                        'whatsapp-dark': '#128C7E'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
                     animation: {
-                        'float': 'float 4s ease-in-out infinite',
                         'fade-in': 'fadeIn 0.5s ease-in',
+                        'slide-up': 'slideUp 0.6s ease-out',
                     },
                     keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        },
                         fadeIn: {
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
                         }
-                    },
-                    backgroundImage: {
-                        'hero-glow': 'conic-gradient(from 90deg at 50% 50%, #00000000 50%, #1e40af 100%)',
                     }
                 }
             }
@@ -94,10 +89,8 @@
         /* 3D Canvas Container */
         #canvas-container { 
             position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
             z-index: -1; 
             opacity: 0.6; 
             pointer-events: none; 
@@ -105,45 +98,43 @@
 
         /* Glassmorphism Cards */
         .glass-card {
-            background: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(30, 41, 59, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
+        }
+
+        /* Blur only on larger screens for performance */
+        @media (min-width: 768px) {
+            .glass-card {
+                backdrop-filter: blur(12px); 
+                -webkit-backdrop-filter: blur(12px);
+            }
         }
 
         .glass-card:hover {
             transform: translateY(-5px);
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.9);
             border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3);
         }
 
-        /* Form Inputs (Dark Mode) */
+        /* Form Inputs */
         .form-input, .form-select, .form-textarea {
             width: 100%;
             padding: 0.75rem 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 0.5rem;
             outline: none;
-            transition: all 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
             background-color: rgba(15, 23, 42, 0.6);
             color: white;
             font-size: 1rem;
         }
         
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
+        .form-input:focus {
             border-color: #3b82f6;
-            background-color: rgba(15, 23, 42, 0.8);
+            background-color: rgba(15, 23, 42, 0.9);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #e2e8f0;
-            font-size: 0.95rem;
         }
 
         /* Filter Buttons */
@@ -161,24 +152,17 @@
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
-        
+        /* Utilities */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         .text-gradient {
             background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        
-        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .animate-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         .animate-on-scroll.animated { opacity: 1; transform: translateY(0); }
         #loading { transition: opacity 0.5s ease-out; background: #020617; }
-        
         .whatsapp-float { position: fixed; bottom: 20px; right: 20px; z-index: 100; width: 56px; height: 56px; }
-        @media (min-width: 768px) { .whatsapp-float { bottom: 30px; right: 30px; width: 60px; height: 60px; } }
     </style>
 </head>
 <body class="antialiased font-sans selection:bg-emerald-500 selection:text-white">
@@ -187,7 +171,7 @@
     <div id="loading" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-darker">
         <div class="text-3xl sm:text-4xl font-bold mb-4 tracking-tighter">Technovia<span class="text-emerald-500">X</span></div>
         <div class="w-40 sm:w-48 h-1 bg-gray-800 rounded-full overflow-hidden">
-            <div class="w-full h-full bg-emerald-500 origin-left animate-[grow_1.5s_ease-in-out_infinite]"></div>
+            <div class="w-full h-full bg-emerald-500 origin-left animate-[grow_1s_ease-in-out_infinite]"></div>
         </div>
         <style>@keyframes grow { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }</style>
     </div>
@@ -205,8 +189,9 @@
 
     <main id="main-content" class="min-h-screen">
         <!-- Hero Section -->
-        <section class="relative pt-12 pb-12 sm:pt-20 sm:pb-16 md:pt-24 md:pb-20">
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-emerald-500/10 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none"></div>
+        <section class="relative pt-12 pb-12 sm:pt-20 sm:pb-16 md:pt-24 md:pb-20 overflow-hidden">
+            <!-- Static Glows for extra depth -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-emerald-500/10 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none"></div>
             
             <div class="container mx-auto px-4 sm:px-6 text-center animate-on-scroll relative z-10">
                 <h1 class="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 text-white leading-tight">
@@ -222,15 +207,15 @@
         <div class="container mx-auto px-4 sm:px-6 pb-12">
             
             <!-- Search & Filter Section -->
-            <div class="mb-12 max-w-4xl mx-auto animate-on-scroll">
+            <div class="mb-8 md:mb-12 max-w-4xl mx-auto animate-on-scroll">
                 <div class="glass-card p-4 rounded-xl flex flex-col md:flex-row gap-4 items-center">
                     <div class="relative w-full md:w-auto md:flex-grow">
                         <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        <input type="text" id="job-search" placeholder="Search positions (e.g. Developer)" class="w-full pl-12 pr-4 py-3 bg-slate-900/50 border border-white/10 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary text-white placeholder-gray-500">
+                        <input type="text" id="job-search" placeholder="Search positions (e.g. Developer)" class="w-full pl-12 pr-4 py-3 bg-slate-900/50 border border-white/10 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary text-white placeholder-gray-500 transition-colors">
                     </div>
                     <!-- Horizontal Scrollable Filters for Mobile -->
                     <div class="w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
-                        <div class="flex gap-2 min-w-max">
+                        <div class="flex gap-2 min-w-max px-1">
                             <button class="filter-btn active px-5 py-2.5 rounded-lg text-sm font-medium transition-all" data-filter="all">All Jobs</button>
                             <button class="filter-btn px-5 py-2.5 rounded-lg text-sm font-medium transition-all" data-filter="dev">Development</button>
                             <button class="filter-btn px-5 py-2.5 rounded-lg text-sm font-medium transition-all" data-filter="design">Design</button>
@@ -254,19 +239,13 @@
                             </div>
                             <h3 class="text-xl md:text-2xl font-bold text-white mb-3">Frontend Developer</h3>
                             <div class="flex flex-wrap gap-4 text-sm text-gray-400 mb-4">
-                                <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-accent"></i> Remote/Hybrid</span>
-                                <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-accent"></i> Competitive</span>
-                                <span class="flex items-center gap-1"><i class="fas fa-briefcase text-accent"></i> 2+ Years Exp</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-emerald-500"></i> Remote</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-emerald-500"></i> Competitive</span>
                             </div>
                             <p class="text-gray-300 mb-6 leading-relaxed max-w-2xl text-sm md:text-base">We're looking for a skilled Frontend Developer to build responsive, performant web applications using React and Tailwind CSS.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">React.js</span>
-                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Tailwind</span>
-                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">TypeScript</span>
-                            </div>
                         </div>
-                        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
-                            <button class="btn-primary apply-btn w-full sm:w-auto px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-blue-500/20 transition-all text-sm" data-position="Frontend Developer">
+                        <div class="w-full md:w-auto">
+                            <button class="apply-btn w-full md:w-auto px-6 py-3 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 transition-colors text-sm shadow-lg" data-position="Frontend Developer">
                                 Apply Now
                             </button>
                         </div>
@@ -283,19 +262,13 @@
                             </div>
                             <h3 class="text-xl md:text-2xl font-bold text-white mb-3">Backend Developer</h3>
                             <div class="flex flex-wrap gap-4 text-sm text-gray-400 mb-4">
-                                <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-accent"></i> Remote</span>
-                                <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-accent"></i> Competitive</span>
-                                <span class="flex items-center gap-1"><i class="fas fa-briefcase text-accent"></i> 3+ Years Exp</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-emerald-500"></i> Remote</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-emerald-500"></i> Competitive</span>
                             </div>
                             <p class="text-gray-300 mb-6 leading-relaxed max-w-2xl text-sm md:text-base">Join our backend team to design and build scalable APIs, manage databases, and optimize server performance.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Node.js</span>
-                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Python</span>
-                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">MongoDB</span>
-                            </div>
                         </div>
-                        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
-                            <button class="btn-primary apply-btn w-full sm:w-auto px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-blue-500/20 transition-all text-sm" data-position="Backend Developer">
+                        <div class="w-full md:w-auto">
+                            <button class="apply-btn w-full md:w-auto px-6 py-3 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 transition-colors text-sm shadow-lg" data-position="Backend Developer">
                                 Apply Now
                             </button>
                         </div>
@@ -312,18 +285,13 @@
                             </div>
                             <h3 class="text-xl md:text-2xl font-bold text-white mb-3">UI/UX Designer</h3>
                             <div class="flex flex-wrap gap-4 text-sm text-gray-400 mb-4">
-                                <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-accent"></i> Hybrid</span>
-                                <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-accent"></i> Competitive</span>
-                                <span class="flex items-center gap-1"><i class="fas fa-briefcase text-accent"></i> 2+ Years Exp</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-emerald-500"></i> Hybrid</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-emerald-500"></i> Competitive</span>
                             </div>
                             <p class="text-gray-300 mb-6 leading-relaxed max-w-2xl text-sm md:text-base">Create intuitive and beautiful user interfaces. You will work closely with developers to bring designs to life.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Figma</span>
-                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Prototyping</span>
-                            </div>
                         </div>
-                        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
-                            <button class="btn-primary apply-btn w-full sm:w-auto px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-blue-500/20 transition-all text-sm" data-position="UI/UX Designer">
+                        <div class="w-full md:w-auto">
+                            <button class="apply-btn w-full md:w-auto px-6 py-3 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 transition-colors text-sm shadow-lg" data-position="UI/UX Designer">
                                 Apply Now
                             </button>
                         </div>
@@ -340,25 +308,20 @@
                             </div>
                             <h3 class="text-xl md:text-2xl font-bold text-white mb-3">Digital Marketing Specialist</h3>
                             <div class="flex flex-wrap gap-4 text-sm text-gray-400 mb-4">
-                                <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-accent"></i> Remote</span>
-                                <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-accent"></i> Competitive</span>
-                                <span class="flex items-center gap-1"><i class="fas fa-briefcase text-accent"></i> 1+ Years Exp</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-emerald-500"></i> Remote</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-dollar-sign text-emerald-500"></i> Competitive</span>
                             </div>
                             <p class="text-gray-300 mb-6 leading-relaxed max-w-2xl text-sm md:text-base">Drive our digital marketing strategies, manage campaigns, and help clients grow their online presence.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">SEO</span>
-                                <span class="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs rounded-lg">Google Ads</span>
-                            </div>
                         </div>
-                        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
-                            <button class="btn-primary apply-btn w-full sm:w-auto px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-blue-500/20 transition-all text-sm" data-position="Digital Marketing Specialist">
+                        <div class="w-full md:w-auto">
+                            <button class="apply-btn w-full md:w-auto px-6 py-3 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 transition-colors text-sm shadow-lg" data-position="Digital Marketing Specialist">
                                 Apply Now
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- No Results State -->
+                <!-- No Results -->
                 <div id="no-jobs-found" class="hidden text-center py-12">
                     <div class="inline-flex items-center justify-center w-16 h-16 bg-white/5 rounded-full mb-4 text-gray-500 text-3xl">
                         <i class="fas fa-search"></i>
@@ -384,7 +347,6 @@
 
                 <form id="application-form" class="space-y-6">
                     <input type="hidden" name="position" id="form-position-field">
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="form-label text-white">Full Name <span class="text-red-400">*</span></label>
@@ -395,7 +357,6 @@
                             <input type="email" name="email" class="form-input" required placeholder="john@example.com">
                         </div>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="form-label text-white">Phone Number <span class="text-red-400">*</span></label>
@@ -406,7 +367,6 @@
                             <input type="text" name="location" class="form-input" required placeholder="City, Country">
                         </div>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="form-label text-white">Portfolio URL</label>
@@ -417,14 +377,13 @@
                             <input type="url" name="linkedin" class="form-input" placeholder="https://linkedin.com/in/johndoe">
                         </div>
                     </div>
-
                     <div>
                         <label class="form-label text-white">Resume/CV (PDF, DOCX) <span class="text-red-400">*</span></label>
                         <div class="border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-emerald-400 transition-colors cursor-pointer relative bg-white/5 group">
                             <input type="file" id="applicant-resume" name="resume" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".pdf,.doc,.docx" required>
                             <div id="file-upload-content">
                                 <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 group-hover:text-emerald-400 mb-2 transition-colors"></i>
-                                <p class="text-gray-400 text-sm"><span class="font-bold text-emerald-400">Click to upload</span> or drag and drop</p>
+                                <p class="text-gray-400 text-sm"><span class="font-bold text-emerald-400">Click to upload</span></p>
                                 <p class="text-xs text-gray-500 mt-1">Max file size: 5MB</p>
                             </div>
                             <div id="file-upload-success" class="hidden flex flex-col items-center">
@@ -434,9 +393,7 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-status hidden p-4 rounded-lg text-sm"></div>
-
                     <div class="flex gap-4 justify-end pt-2">
                         <button type="button" id="cancel-btn" class="px-6 py-3 rounded-lg font-semibold text-gray-400 hover:bg-white/10 transition-colors">Cancel</button>
                         <button type="submit" id="submit-btn" class="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:shadow-emerald-500/30 transition-all flex items-center gap-2">
@@ -451,33 +408,70 @@
     <!-- Footer Placeholder -->
     <div id="footer-container"></div>
     
-    <!-- UI Logic Script (Standard) -->
+    <!-- UI Logic Script -->
     <script>
-        // --- 1. Loading Screen Logic ---
         window.addEventListener('load', () => {
             const loader = document.getElementById('loading');
             loader.style.opacity = '0';
-            setTimeout(() => { 
-                loader.style.display = 'none'; 
-                // Adjust body padding based on header height
-                const header = document.getElementById('main-header');
-                if (header) document.body.style.paddingTop = header.offsetHeight + 'px';
-            }, 500);
-
-            // Deferred Login Check
-            setTimeout(() => {
-                const isLoggedIn = localStorage.getItem('userLoggedIn') || false;
-                if (!isLoggedIn) console.log("Reminder: Login to access all features");
-            }, 3000);
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
+            
+            // Fix header overlap
+            const header = document.getElementById('main-header');
+            if (header) document.body.style.paddingTop = header.offsetHeight + 'px';
         });
 
-        // --- 2. Optimized Three.js Animation ---
-        const initThreeJS = () => {
-            if (typeof THREE === 'undefined') {
-                console.log("Three.js failed to load");
-                return;
-            }
+        // Filter Logic
+        const searchInput = document.getElementById('job-search');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const jobCards = document.querySelectorAll('.job-card');
+        const jobCount = document.getElementById('job-count');
+        const noJobs = document.getElementById('no-jobs-found');
+
+        function filterJobs() {
+            const term = searchInput.value.toLowerCase();
+            const activeBtn = document.querySelector('.filter-btn.active');
+            const filter = activeBtn ? activeBtn.dataset.filter : 'all';
+            let count = 0;
+
+            jobCards.forEach(card => {
+                const title = card.dataset.title.toLowerCase();
+                const category = card.dataset.category;
+                const matchesSearch = title.includes(term);
+                const matchesFilter = filter === 'all' || category === filter;
+
+                if (matchesSearch && matchesFilter) {
+                    card.style.display = 'block';
+                    // Animation
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(10px)';
+                    requestAnimationFrame(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    });
+                    count++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
             
+            jobCount.innerText = `Showing ${count} position${count !== 1 ? 's' : ''}`;
+            if(count === 0) noJobs.classList.remove('hidden');
+            else noJobs.classList.add('hidden');
+        }
+
+        searchInput.addEventListener('input', filterJobs);
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                filterJobs();
+            });
+        });
+
+        // Optimized Three.js Animation
+        const initThreeJS = () => {
+            if (typeof THREE === 'undefined') return;
             const container = document.getElementById('canvas-container');
             if (!container || !window.WebGLRenderingContext) return;
 
@@ -486,44 +480,60 @@
                 scene.fog = new THREE.FogExp2(0x020617, 0.002);
                 
                 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false }); // Antialias off for speed
                 
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
                 container.appendChild(renderer.domElement);
 
+                // Reduced particle count for responsiveness
+                const count = window.innerWidth < 768 ? 200 : 500;
                 const particlesGeometry = new THREE.BufferGeometry();
-                const particlesCount = window.innerWidth < 768 ? 300 : 700;
-                const posArray = new Float32Array(particlesCount * 3);
+                const posArray = new Float32Array(count * 3);
 
-                for(let i = 0; i < particlesCount * 3; i++) {
+                for(let i = 0; i < count * 3; i++) {
                     posArray[i] = (Math.random() - 0.5) * 15;
                 }
 
                 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-                const material = new THREE.PointsMaterial({ size: 0.02, color: 0x10b981, transparent: true, opacity: 0.8 });
+                const material = new THREE.PointsMaterial({ size: 0.02, color: 0x10b981, transparent: true, opacity: 0.6 });
                 const particlesMesh = new THREE.Points(particlesGeometry, material);
                 scene.add(particlesMesh);
 
                 camera.position.z = 5;
                 let mouseX = 0, mouseY = 0;
                 
+                // Throttle mousemove
+                let lastMove = 0;
                 document.addEventListener('mousemove', (event) => {
                     const now = Date.now();
-                    mouseX = event.clientX / window.innerWidth - 0.5;
-                    mouseY = event.clientY / window.innerHeight - 0.5;
+                    if(now - lastMove > 16) {
+                        mouseX = event.clientX / window.innerWidth - 0.5;
+                        mouseY = event.clientY / window.innerHeight - 0.5;
+                        lastMove = now;
+                    }
                 });
 
                 let animationId = null;
                 const animate = () => {
                     animationId = requestAnimationFrame(animate);
                     particlesMesh.rotation.y += 0.001;
-                    scene.rotation.x += (mouseY * 0.1 - scene.rotation.x) * 0.05;
-                    scene.rotation.y += (mouseX * 0.1 - scene.rotation.y) * 0.05;
+                    particlesMesh.rotation.y += 0.05 * (mouseX - particlesMesh.rotation.y * 0.1);
+                    particlesMesh.rotation.x += 0.05 * (mouseY - particlesMesh.rotation.x * 0.1);
                     renderer.render(scene, camera);
                 };
                 animate();
                 
+                // Optimize: Stop on blur
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden && animationId) {
+                        cancelAnimationFrame(animationId);
+                        animationId = null;
+                    } else if (!document.hidden && !animationId) {
+                        animate();
+                    }
+                });
+
                 window.addEventListener('resize', () => {
                     camera.aspect = window.innerWidth / window.innerHeight;
                     camera.updateProjectionMatrix();
@@ -535,14 +545,13 @@
             }
         };
         
-        // Init 3D only after basic load
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initThreeJS);
         } else {
             initThreeJS();
         }
 
-        // --- 3. Scroll & Filter Logic ---
+        // Animation on Scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -552,55 +561,13 @@
                 }
             });
         }, { threshold: 0.1 });
-        document.querySelectorAll('.animate-on-scroll, .animate-fade-in').forEach(el => observer.observe(el));
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
-        // Filter Logic
-        const searchInput = document.getElementById('job-search');
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const jobCards = document.querySelectorAll('.job-card');
-        const jobCount = document.getElementById('job-count');
-        const noJobs = document.getElementById('no-jobs-found');
-
-        function filterJobs() {
-            const term = searchInput.value.toLowerCase();
-            const filter = document.querySelector('.filter-btn.active').dataset.filter;
-            let count = 0;
-
-            jobCards.forEach(card => {
-                const title = card.dataset.title.toLowerCase();
-                const category = card.dataset.category;
-                const matchesSearch = title.includes(term);
-                const matchesFilter = filter === 'all' || category === filter;
-
-                if (matchesSearch && matchesFilter) {
-                    card.style.display = 'block';
-                    count++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            jobCount.innerText = `Showing ${count} positions`;
-            if(count === 0) noJobs.classList.remove('hidden');
-            else noJobs.classList.add('hidden');
-        }
-
-        searchInput.addEventListener('input', filterJobs);
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active', 'bg-gradient-to-r', 'from-emerald-600', 'to-emerald-500', 'text-white'));
-                btn.classList.add('active', 'bg-gradient-to-r', 'from-emerald-600', 'to-emerald-500', 'text-white');
-                filterJobs();
-            });
-        });
-
-        // --- 4. Modal & UI Logic ---
+        // Modal Logic
         const modal = document.getElementById('application-modal');
         const modalContent = modal.querySelector('.glass-card');
-        const openBtns = document.querySelectorAll('.apply-btn');
-        const closeBtns = document.querySelectorAll('#close-modal, #cancel-btn');
         
-        function openModal(title) {
+        window.openModal = (title) => {
             document.getElementById('position-title').innerText = title;
             document.getElementById('form-position-field').value = title;
             modal.classList.remove('hidden');
@@ -610,9 +577,9 @@
                 modalContent.classList.add('scale-100');
             }, 10);
             document.body.style.overflow = 'hidden';
-        }
+        };
 
-        function closeModal() {
+        window.closeModal = () => {
             modal.classList.add('opacity-0');
             modalContent.classList.remove('scale-100');
             modalContent.classList.add('scale-95');
@@ -620,43 +587,38 @@
                 modal.classList.add('hidden');
                 document.body.style.overflow = 'auto';
             }, 300);
-        }
+        };
 
-        openBtns.forEach(btn => btn.addEventListener('click', () => openModal(btn.dataset.position)));
-        closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
-        
-        // File Upload Logic
-        const fileInput = document.getElementById('applicant-resume');
-        const fileSuccess = document.getElementById('file-upload-success');
-        const fileContent = document.getElementById('file-upload-content');
-        const fileName = document.getElementById('file-name-display');
-        const removeFile = document.getElementById('remove-file');
-        
-        fileInput.addEventListener('change', function() {
+        document.querySelectorAll('.apply-btn').forEach(btn => 
+            btn.addEventListener('click', () => window.openModal(btn.dataset.position))
+        );
+        document.getElementById('close-modal').addEventListener('click', window.closeModal);
+        document.getElementById('cancel-btn').addEventListener('click', window.closeModal);
+
+        // File Upload UI
+        const fileIn = document.getElementById('applicant-resume');
+        fileIn.addEventListener('change', function() {
             if(this.files[0]) {
-                fileName.innerText = this.files[0].name;
-                fileContent.classList.add('hidden');
-                fileSuccess.classList.remove('hidden');
+                document.getElementById('file-name-display').innerText = this.files[0].name;
+                document.getElementById('file-upload-content').classList.add('hidden');
+                document.getElementById('file-upload-success').classList.remove('hidden');
             }
         });
-        
-        removeFile.addEventListener('click', (e) => {
-            e.stopPropagation();
-            fileInput.value = '';
-            fileContent.classList.remove('hidden');
-            fileSuccess.classList.add('hidden');
+        document.getElementById('remove-file').addEventListener('click', (e) => {
+            e.preventDefault();
+            fileIn.value = '';
+            document.getElementById('file-upload-content').classList.remove('hidden');
+            document.getElementById('file-upload-success').classList.add('hidden');
         });
     </script>
 
-    <!-- Firebase Script (Module) -->
+    <!-- Firebase Logic (Module) -->
     <script type="module">
-        // Import Firebase Functions Directly
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
         import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
         import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js';
 
-        // Initialize Firebase
         const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -664,7 +626,6 @@
         const storage = getStorage(app);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-        // --- FIREBASE SUBMISSION LOGIC ---
         document.getElementById('application-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submit-btn');
@@ -675,30 +636,21 @@
             status.className = 'form-status hidden';
 
             try {
-                // 1. Sign in anonymously first
-                const userCred = await signInAnonymously(auth);
-                const user = userCred.user;
-
-                // 2. Upload Resume to Storage
+                await signInAnonymously(auth);
+                
                 const fileInput = document.getElementById('applicant-resume');
                 const file = fileInput.files[0];
-                if (!file) throw new Error("Please upload a resume");
-
-                // Check file size (< 5MB) inside logic too
+                if (!file) throw new Error("Resume is required");
                 if (file.size > 5 * 1024 * 1024) throw new Error("File too large (Max 5MB)");
 
-                const timestamp = Date.now();
-                const storagePath = `resumes/${timestamp}_${file.name}`;
-                const storageRef = ref(storage, storagePath);
-                
+                const storageRef = ref(storage, `resumes/${Date.now()}_${file.name}`);
                 await uploadBytes(storageRef, file);
-                const downloadURL = await getDownloadURL(storageRef);
+                const resumeUrl = await getDownloadURL(storageRef);
 
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving Application...';
 
-                // 3. Save Data to Firestore
                 const formData = new FormData(e.target);
-                const applicationData = {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'job_applications'), {
                     name: formData.get('name'),
                     email: formData.get('email'),
                     phone: formData.get('phone'),
@@ -706,37 +658,29 @@
                     portfolio: formData.get('portfolio'),
                     linkedin: formData.get('linkedin'),
                     position: formData.get('position'),
-                    resumeUrl: downloadURL,
+                    resumeUrl: resumeUrl,
                     submittedAt: serverTimestamp(),
                     status: 'new'
-                };
+                });
 
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'job_applications'), applicationData);
-
-                // Success
-                status.classList.remove('hidden', 'bg-red-500/20', 'text-red-300');
-                status.classList.add('bg-emerald-500/20', 'text-emerald-300', 'block');
-                status.innerHTML = '<i class="fas fa-check-circle"></i> Application submitted successfully!';
-                
+                status.className = 'form-status bg-emerald-500/20 text-emerald-300 block';
+                status.innerHTML = '<i class="fas fa-check-circle"></i> Application Submitted!';
                 e.target.reset();
+                
+                // Reset File UI
                 document.getElementById('file-upload-content').classList.remove('hidden');
                 document.getElementById('file-upload-success').classList.add('hidden');
                 
-                // Use global function from other script to close modal
-                // Or manually re-trigger close logic if needed, but since it's same DOM, standard close button click will work
-                // Here we just wait a bit and clear status
-                
                 setTimeout(() => {
-                    // Trigger close button programmatically
-                     document.getElementById('close-modal').click();
+                     const closeBtn = document.getElementById('close-modal');
+                     if(closeBtn) closeBtn.click();
                      status.classList.add('hidden');
                 }, 2000);
 
             } catch (err) {
-                console.error("Submission Error:", err);
-                status.classList.remove('hidden', 'bg-emerald-500/20', 'text-emerald-300');
-                status.classList.add('bg-red-500/20', 'text-red-300', 'block');
-                status.innerText = err.message || 'Something went wrong. Please check your connection.';
+                console.error(err);
+                status.className = 'form-status bg-red-500/20 text-red-300 block';
+                status.innerText = err.message || "Error submitting application.";
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';

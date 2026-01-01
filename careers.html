@@ -157,7 +157,9 @@
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         .text-gradient {
             background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .animate-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         .animate-on-scroll.animated { opacity: 1; transform: translateY(0); }

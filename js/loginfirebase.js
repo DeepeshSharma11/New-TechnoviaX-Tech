@@ -5,7 +5,7 @@ import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.
 
 // Firebase Configuration
 const firebaseConfig = {
-    apiKey: "FIREBASE_API_KEY",
+    apiKey: "FIREBASE_API_KEY_HERE",
     authDomain: "technoviax-tech.firebaseapp.com",
     projectId: "technoviax-tech",
     storageBucket: "technoviax-tech.firebasestorage.app",

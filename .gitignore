@@ -1,3 +1,23 @@
 venv/
 navigationold.js
 indexold.html
+
+Environment Variables
+
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+Node modules (agar aap use kar rahe hain)
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+System files
+
+.DS_Store
+Thumbs.db

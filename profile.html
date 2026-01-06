@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Dynamic Favicon Loader -->
-    <script src="js/favicon-loader.js"></script>
+    <script src="js/favicon.js" defer></script>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -43,9 +43,22 @@
 
     <style>
         /* Loading Screen */
-        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
-        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
-        .loading-logo span{color:#059669}
+        #loading {
+            background: linear-gradient(135deg, #1e40af 0%, #0f172a 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loading-logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .loading-logo span { color: #059669; }
 
         /* Form Styles */
         .form-input, .form-select, .form-textarea {
@@ -179,8 +192,8 @@
                                     <i class="fas fa-camera"></i>
                                 </button>
                             </div>
-                            <h2 id="profile-name" class="text-2xl font-bold mt-4 text-secondary">Loading...</h2>
-                            <p id="profile-email" class="text-gray-500 text-sm">Loading...</p>
+                            <h2 id="profile-name" class="text-2xl font-bold mt-4 text-secondary">Guest User</h2>
+                            <p id="profile-email" class="text-gray-500 text-sm">Not Logged In</p>
                             <div class="mt-2">
                                 <span class="status-badge status-active">Active Account</span>
                             </div>
@@ -483,17 +496,16 @@
         import { 
             auth, 
             db, 
-            signOut 
+            signOut,
+            onAuthStateChanged, 
+            signInAnonymously
         } from "./js/loginfirebase.js";
         
         import { 
-            onAuthStateChanged, 
             updateProfile,
             updateEmail,
-            updatePassword,
-            reauthenticateWithCredential,
-            EmailAuthProvider
-        } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+            updatePassword
+        } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
         
         import { 
             doc, 
@@ -508,667 +520,209 @@
             limit,
             serverTimestamp,
             increment
-        } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
         // DOM Elements
         const loadingScreen = document.getElementById('loading');
         const mainContent = document.getElementById('main-content');
-        const logoutBtn = document.getElementById('logout-btn');
+        
+        // Failsafe Loading Timeout
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (loadingScreen && loadingScreen.style.opacity !== '0') {
+                    console.log("Forcing load completion");
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        mainContent.style.opacity = '1';
+                    }, 500);
+                }
+            }, 1500); // 1.5s timeout fallback
+        });
+
+        // Initialize Firebase Listeners
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // User is signed in
+                await loadUserProfile(user);
+            } else {
+                // User is not signed in - Redirect to login
+                console.log("No user found, redirecting to login...");
+                window.location.href = '/login.html';
+            }
+        });
+
+        // Elements
         const editProfileBtn = document.getElementById('edit-profile-btn');
         const changePasswordBtn = document.getElementById('change-password-btn');
         const exportDataBtn = document.getElementById('export-data-btn');
         const changeAvatarBtn = document.getElementById('change-avatar-btn');
+        const logoutBtn = document.getElementById('logout-btn');
 
-        // Profile Elements
+        // Profile Display Elements
         const profileAvatar = document.getElementById('profile-avatar');
         const profileName = document.getElementById('profile-name');
         const profileEmail = document.getElementById('profile-email');
-        const totalPayments = document.getElementById('total-payments');
-        const memberSince = document.getElementById('member-since');
-
-        // Display Elements
         const displayName = document.getElementById('display-name');
         const displayEmail = document.getElementById('display-email');
-        const emailVerifiedBadge = document.getElementById('email-verified-badge');
         const displayPhone = document.getElementById('display-phone');
         const displayAltEmail = document.getElementById('display-alt-email');
         const displayAddress = document.getElementById('display-address');
-        const displayContactMethod = document.getElementById('display-contact-method');
-        const accountType = document.getElementById('account-type');
         const userId = document.getElementById('user-id');
+        const totalPayments = document.getElementById('total-payments');
+        const memberSince = document.getElementById('member-since');
 
         // Edit Inputs
         const editName = document.getElementById('edit-name');
         const editPhone = document.getElementById('edit-phone');
         const editAltEmail = document.getElementById('edit-alt-email');
         const editAddress = document.getElementById('edit-address');
-        const editContactMethod = document.getElementById('edit-contact-method');
 
-        // Buttons
-        const editPersonalBtn = document.getElementById('edit-personal-btn');
-        const savePersonalBtn = document.getElementById('save-personal-btn');
-        const cancelPersonalBtn = document.getElementById('cancel-personal-btn');
-        const editContactBtn = document.getElementById('edit-contact-btn');
-        const saveContactBtn = document.getElementById('save-contact-btn');
-        const cancelContactBtn = document.getElementById('cancel-contact-btn');
-        const savePreferencesBtn = document.getElementById('save-preferences-btn');
-
-        // Activity Elements
-        const activityList = document.getElementById('activity-list');
-        const totalLogins = document.getElementById('total-logins');
-        const lastLogin = document.getElementById('last-login');
-
-        // Current User Data
+        // Logic Variables
         let currentUser = null;
         let userProfileData = {};
 
-        // Toast Notification
-        function showToast(message, type = 'success') {
+        // Helper: Date Format
+        function formatDate(date) {
+            if (!date) return '-';
+            // Handle Firestore Timestamp
+            const d = date.toDate ? date.toDate() : new Date(date);
+            return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        // Helper: Toast
+        function showToast(msg, type = 'success') {
             const toast = document.createElement('div');
-            toast.className = `profile-toast ${type}`;
-            toast.innerHTML = `
-                <div class="flex items-start gap-3">
-                    <i class="fas ${type === 'success' ? 'fa-check-circle text-success' : 'fa-exclamation-circle text-error'} text-lg mt-1"></i>
-                    <div>
-                        <p class="font-medium">${message}</p>
-                        <p class="text-sm text-gray-500 mt-1">Just now</p>
-                    </div>
-                </div>
-            `;
+            toast.className = `profile-toast ${type} show`;
+            toast.innerHTML = `<i class="fas ${type==='success'?'fa-check':'fa-exclamation'}"></i> ${msg}`;
             document.body.appendChild(toast);
-            
-            setTimeout(() => toast.classList.add('show'), 10);
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            setTimeout(() => { toast.remove() }, 3000);
         }
 
-        // Format Date
-        function formatDate(dateString) {
-            if (!dateString) return 'N/A';
-            const date = typeof dateString === 'string' ? new Date(dateString) : dateString.toDate();
-            return date.toLocaleDateString('en-IN', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric'
-            });
-        }
-
-        // Format DateTime
-        function formatDateTime(dateString) {
-            if (!dateString) return 'N/A';
-            const date = typeof dateString === 'string' ? new Date(dateString) : dateString.toDate();
-            return date.toLocaleString('en-IN', {
-                day: 'numeric',
-                month: 'short',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-
-        // Toggle Edit Mode
-        function toggleEditMode(section, isEditing) {
-            const displayElements = document.querySelectorAll(`#${section}-tab .text-lg, #${section}-tab .text-gray-800`);
-            const inputElements = document.querySelectorAll(`#${section}-tab .form-input, #${section}-tab .form-select, #${section}-tab .form-textarea`);
-            const actionsDiv = document.getElementById(`${section}-actions`);
-            
-            if (isEditing) {
-                displayElements.forEach(el => el.classList.add('hidden'));
-                inputElements.forEach(el => el.classList.remove('hidden'));
-                actionsDiv.classList.remove('hidden');
-            } else {
-                displayElements.forEach(el => el.classList.remove('hidden'));
-                inputElements.forEach(el => el.classList.add('hidden'));
-                actionsDiv.classList.add('hidden');
-            }
-        }
-
-        // Load User Profile Data from Firestore
+        // Load Profile
         async function loadUserProfile(user) {
+            currentUser = user;
             try {
-                // Get user profile from Firestore
                 const userRef = doc(db, "users", user.uid);
-                const userSnap = await getDoc(userRef);
-                
-                if (userSnap.exists()) {
-                    userProfileData = userSnap.data();
-                    console.log("Loaded user profile:", userProfileData);
-                    
-                    // Load payment count
-                    const paymentsQuery = query(
-                        collection(db, "payments"),
-                        where("userId", "==", user.uid)
-                    );
-                    const paymentsSnap = await getDocs(paymentsQuery);
-                    const paymentCount = paymentsSnap.size;
-                    
-                    // Update UI with loaded data
-                    updateProfileUI(user, userProfileData, paymentCount);
-                    
-                    // Load activity
-                    loadUserActivity(user.uid);
-                    
-                    // Update login activity
-                    await updateLoginActivity(user);
-                    
+                const docSnap = await getDoc(userRef);
+
+                if (docSnap.exists()) {
+                    userProfileData = docSnap.data();
                 } else {
-                    // Create new profile if doesn't exist
-                    await createUserProfile(user);
+                    // Create basic profile if missing
+                    userProfileData = {
+                        name: user.displayName || 'User',
+                        email: user.email,
+                        createdAt: serverTimestamp(),
+                        lastLogin: serverTimestamp()
+                    };
+                    await setDoc(userRef, userProfileData);
                 }
                 
+                updateUI(userProfileData);
+                
+                // Hide loader immediately on data load
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    mainContent.style.opacity = '1';
+                }, 300);
+
             } catch (error) {
                 console.error("Error loading profile:", error);
-                showToast("Error loading profile data", "error");
-                
-                // Fallback: Create basic profile from Firebase auth
-                createBasicProfile(user);
-            }
-        }
-
-        // Create basic profile from Firebase auth (fallback)
-        function createBasicProfile(user) {
-            const profileData = {
-                name: user.displayName || user.email.split('@')[0],
-                email: user.email,
-                phone: '',
-                altEmail: '',
-                address: '',
-                contactMethod: 'email',
-                createdAt: new Date(),
-                lastLogin: new Date(),
-                totalLogins: 1,
-                preferences: {
-                    emailPayments: true,
-                    emailUpdates: true,
-                    emailPromotional: false,
-                    privacyProfile: true,
-                    privacyActivity: false
-                }
-            };
-            
-            updateProfileUI(user, profileData, 0);
-        }
-
-        // Create new user profile in Firestore
-        async function createUserProfile(user) {
-            try {
-                const profileData = {
-                    uid: user.uid,
-                    name: user.displayName || user.email.split('@')[0],
-                    email: user.email,
-                    photoURL: user.photoURL || '',
-                    phone: '',
-                    altEmail: '',
-                    address: '',
-                    contactMethod: 'email',
-                    createdAt: serverTimestamp(),
-                    lastLogin: serverTimestamp(),
-                    totalLogins: 1,
-                    preferences: {
-                        emailPayments: true,
-                        emailUpdates: true,
-                        emailPromotional: false,
-                        privacyProfile: true,
-                        privacyActivity: false
-                    },
-                    accountType: 'regular',
-                    isActive: true,
-                    emailVerified: user.emailVerified || false
-                };
-                
-                const userRef = doc(db, "users", user.uid);
-                await setDoc(userRef, profileData);
-                
-                userProfileData = profileData;
-                updateProfileUI(user, userProfileData, 0);
-                showToast("Profile created successfully");
-                
-            } catch (error) {
-                console.error("Error creating profile:", error);
-                createBasicProfile(user);
-            }
-        }
-
-        // Update login activity
-        async function updateLoginActivity(user) {
-            try {
-                const userRef = doc(db, "users", user.uid);
-                await updateDoc(userRef, {
-                    lastLogin: serverTimestamp(),
-                    totalLogins: increment(1)
-                });
-                
-                // Add activity log
-                const activityRef = doc(collection(db, "activities"));
-                await setDoc(activityRef, {
-                    userId: user.uid,
-                    type: 'login',
-                    timestamp: serverTimestamp(),
-                    title: 'Login',
-                    description: 'Logged into account',
-                    status: 'success',
-                    metadata: {
-                        device: navigator.userAgent,
-                        platform: navigator.platform
-                    }
-                });
-                
-            } catch (error) {
-                console.error("Error updating login activity:", error);
-            }
-        }
-
-        // Update Profile UI
-        function updateProfileUI(user, profileData, paymentCount) {
-            // Profile header
-            profileAvatar.src = user.photoURL || profileData.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.name)}&background=random&color=fff`;
-            profileName.textContent = profileData.name || user.displayName || user.email.split('@')[0];
-            profileEmail.textContent = user.email;
-            
-            // Show email verified badge if email is verified
-            if (user.emailVerified || profileData.emailVerified) {
-                emailVerifiedBadge.classList.remove('hidden');
-            } else {
-                emailVerifiedBadge.classList.add('hidden');
-            }
-            
-            // Stats
-            totalPayments.textContent = paymentCount;
-            memberSince.textContent = profileData.createdAt ? formatDate(profileData.createdAt) : formatDate(user.metadata.creationTime);
-            
-            // Personal Info
-            displayName.textContent = profileData.name || user.displayName || user.email.split('@')[0];
-            displayEmail.textContent = user.email;
-            accountType.textContent = profileData.accountType ? profileData.accountType.charAt(0).toUpperCase() + profileData.accountType.slice(1) : 'Regular User';
-            userId.textContent = user.uid.substring(0, 8) + '...' + user.uid.substring(user.uid.length - 4);
-            
-            // Contact Details
-            displayPhone.textContent = profileData.phone || 'Not set';
-            displayAltEmail.textContent = profileData.altEmail || 'Not set';
-            displayAddress.textContent = profileData.address || 'Not set';
-            displayContactMethod.textContent = profileData.contactMethod ? profileData.contactMethod.charAt(0).toUpperCase() + profileData.contactMethod.slice(1) : 'Email';
-            
-            // Set edit inputs
-            editName.value = profileData.name || user.displayName || user.email.split('@')[0];
-            editPhone.value = profileData.phone || '';
-            editAltEmail.value = profileData.altEmail || '';
-            editAddress.value = profileData.address || '';
-            editContactMethod.value = profileData.contactMethod || 'email';
-            
-            // Set preferences
-            if (profileData.preferences) {
-                document.getElementById('email-payments').checked = profileData.preferences.emailPayments !== false;
-                document.getElementById('email-updates').checked = profileData.preferences.emailUpdates !== false;
-                document.getElementById('email-promotional').checked = profileData.preferences.emailPromotional || false;
-                document.getElementById('privacy-profile').checked = profileData.preferences.privacyProfile !== false;
-                document.getElementById('privacy-activity').checked = profileData.preferences.privacyActivity || false;
-            }
-            
-            // Update activity stats
-            if (profileData.lastLogin) {
-                lastLogin.textContent = formatDate(profileData.lastLogin);
-            }
-            if (profileData.totalLogins) {
-                totalLogins.textContent = profileData.totalLogins;
-            }
-            
-            // Hide loading screen
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
+                // Even on error, show the page
                 loadingScreen.style.display = 'none';
                 mainContent.style.opacity = '1';
-            }, 500);
-        }
-
-        // Load User Activity from Firestore
-        async function loadUserActivity(userId) {
-            try {
-                const activitiesQuery = query(
-                    collection(db, "activities"),
-                    where("userId", "==", userId),
-                    orderBy("timestamp", "desc"),
-                    limit(10)
-                );
-                
-                const activitiesSnap = await getDocs(activitiesQuery);
-                
-                if (activitiesSnap.empty) {
-                    activityList.innerHTML = `
-                        <div class="text-center py-8 text-gray-500">
-                            <i class="fas fa-inbox text-4xl mb-3 opacity-30"></i>
-                            <p>No activity yet</p>
-                            <p class="text-sm mt-2">Your activity will appear here</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                let activityHTML = '';
-                activitiesSnap.forEach(doc => {
-                    const activity = doc.data();
-                    activityHTML += `
-                        <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                            <div class="w-10 h-10 rounded-full ${activity.status === 'success' ? 'bg-green-100 text-success' : activity.status === 'failed' ? 'bg-red-100 text-error' : 'bg-yellow-100 text-warning'} flex items-center justify-center flex-shrink-0">
-                                <i class="fas ${activity.type === 'login' ? 'fa-sign-in-alt' : activity.type === 'payment' ? 'fa-credit-card' : activity.type === 'profile_update' ? 'fa-user-edit' : 'fa-history'}"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="font-semibold">${activity.title || 'Activity'}</p>
-                                        <p class="text-sm text-gray-600">${activity.description || 'No description'}</p>
-                                    </div>
-                                    <span class="text-sm text-gray-500">${formatDateTime(activity.timestamp)}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                activityList.innerHTML = activityHTML;
-                
-            } catch (error) {
-                console.error("Error loading activity:", error);
-                activityList.innerHTML = `
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-exclamation-triangle text-4xl mb-3 opacity-30"></i>
-                        <p>Could not load activity</p>
-                        <p class="text-sm mt-2">Please try again later</p>
-                    </div>
-                `;
             }
         }
 
-        // Save Personal Info to Firestore
-        async function savePersonalInfo() {
+        function updateUI(data) {
+            const name = data.name || currentUser.email.split('@')[0];
+            const email = data.email || currentUser.email;
+            
+            profileName.textContent = name;
+            profileEmail.textContent = email;
+            displayName.textContent = name;
+            displayEmail.textContent = email;
+            userId.textContent = currentUser.uid;
+            
+            // Fill Inputs
+            editName.value = name;
+            editPhone.value = data.phone || '';
+            editAltEmail.value = data.altEmail || '';
+            editAddress.value = data.address || '';
+            
+            // Display Fields
+            displayPhone.textContent = data.phone || 'Not set';
+            displayAltEmail.textContent = data.altEmail || 'Not set';
+            displayAddress.textContent = data.address || 'Not set';
+            
+            memberSince.textContent = formatDate(data.createdAt || currentUser.metadata.creationTime);
+        }
+
+        // Toggle Edit
+        window.toggleEditMode = (section, enable) => {
+            const displayEls = document.querySelectorAll(`#${section}-tab [id^="display-"]`);
+            const inputEls = document.querySelectorAll(`#${section}-tab input, #${section}-tab textarea, #${section}-tab select`);
+            const actions = document.getElementById(`${section}-actions`);
+            
+            displayEls.forEach(el => el.classList.toggle('hidden', enable));
+            inputEls.forEach(el => el.classList.toggle('hidden', !enable));
+            if(actions) actions.classList.toggle('hidden', !enable);
+        };
+
+        // Event Listeners for Edit Buttons
+        document.getElementById('edit-personal-btn').onclick = () => toggleEditMode('personal', true);
+        document.getElementById('cancel-personal-btn').onclick = () => toggleEditMode('personal', false);
+        
+        document.getElementById('edit-contact-btn').onclick = () => toggleEditMode('contact', true);
+        document.getElementById('cancel-contact-btn').onclick = () => toggleEditMode('contact', false);
+
+        // Save Logic
+        document.getElementById('save-personal-btn').onclick = async () => {
             try {
-                const newName = editName.value.trim();
-                
-                if (!newName) {
-                    showToast("Please enter a valid name", "error");
-                    return;
-                }
-                
-                // Update Firebase Auth profile
-                await updateProfile(currentUser, {
-                    displayName: newName
-                });
-                
-                // Update Firestore
-                const userRef = doc(db, "users", currentUser.uid);
-                await updateDoc(userRef, {
-                    name: newName,
-                    updatedAt: serverTimestamp()
-                });
-                
-                // Add activity log
-                const activityRef = doc(collection(db, "activities"));
-                await setDoc(activityRef, {
-                    userId: currentUser.uid,
-                    type: 'profile_update',
-                    timestamp: serverTimestamp(),
-                    title: 'Profile Updated',
-                    description: 'Updated personal information',
-                    status: 'success'
-                });
-                
-                // Update UI
+                const newName = editName.value;
+                await updateDoc(doc(db, "users", currentUser.uid), { name: newName });
                 userProfileData.name = newName;
-                updateProfileUI(currentUser, userProfileData, parseInt(totalPayments.textContent));
+                updateUI(userProfileData);
                 toggleEditMode('personal', false);
-                showToast("Profile updated successfully");
-                
-            } catch (error) {
-                console.error("Error saving personal info:", error);
-                showToast("Error saving changes", "error");
-            }
-        }
+                showToast("Profile Updated!");
+            } catch(e) { showToast("Error updating profile", "error"); }
+        };
 
-        // Save Contact Info to Firestore
-        async function saveContactInfo() {
+        document.getElementById('save-contact-btn').onclick = async () => {
             try {
-                const contactData = {
-                    phone: editPhone.value.trim(),
-                    altEmail: editAltEmail.value.trim(),
-                    address: editAddress.value.trim(),
-                    contactMethod: editContactMethod.value
+                const updateData = {
+                    phone: editPhone.value,
+                    altEmail: editAltEmail.value,
+                    address: editAddress.value
                 };
-                
-                const userRef = doc(db, "users", currentUser.uid);
-                await updateDoc(userRef, {
-                    ...contactData,
-                    updatedAt: serverTimestamp()
-                });
-                
-                // Add activity log
-                const activityRef = doc(collection(db, "activities"));
-                await setDoc(activityRef, {
-                    userId: currentUser.uid,
-                    type: 'contact_update',
-                    timestamp: serverTimestamp(),
-                    title: 'Contact Details Updated',
-                    description: 'Updated contact information',
-                    status: 'success'
-                });
-                
-                // Update local data and UI
-                Object.assign(userProfileData, contactData);
-                updateProfileUI(currentUser, userProfileData, parseInt(totalPayments.textContent));
+                await updateDoc(doc(db, "users", currentUser.uid), updateData);
+                Object.assign(userProfileData, updateData);
+                updateUI(userProfileData);
                 toggleEditMode('contact', false);
-                showToast("Contact details updated");
-                
-            } catch (error) {
-                console.error("Error saving contact info:", error);
-                showToast("Error saving changes", "error");
-            }
-        }
+                showToast("Contact Info Updated!");
+            } catch(e) { showToast("Error updating contact info", "error"); }
+        };
 
-        // Save Preferences to Firestore
-        async function savePreferences() {
-            try {
-                const preferences = {
-                    emailPayments: document.getElementById('email-payments').checked,
-                    emailUpdates: document.getElementById('email-updates').checked,
-                    emailPromotional: document.getElementById('email-promotional').checked,
-                    privacyProfile: document.getElementById('privacy-profile').checked,
-                    privacyActivity: document.getElementById('privacy-activity').checked
-                };
+        // Tab Switching
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
                 
-                const userRef = doc(db, "users", currentUser.uid);
-                await updateDoc(userRef, {
-                    preferences: preferences,
-                    updatedAt: serverTimestamp()
-                });
-                
-                userProfileData.preferences = preferences;
-                showToast("Preferences saved");
-                
-            } catch (error) {
-                console.error("Error saving preferences:", error);
-                showToast("Error saving preferences", "error");
-            }
-        }
-
-        // Change Password
-        async function changePassword() {
-            const newPassword = prompt("Enter new password (min 6 characters):");
-            if (!newPassword || newPassword.length < 6) {
-                showToast("Password must be at least 6 characters", "error");
-                return;
-            }
-            
-            const confirmPassword = prompt("Confirm new password:");
-            if (newPassword !== confirmPassword) {
-                showToast("Passwords do not match", "error");
-                return;
-            }
-            
-            try {
-                await updatePassword(currentUser, newPassword);
-                showToast("Password updated successfully");
-                
-                // Add activity log
-                const activityRef = doc(collection(db, "activities"));
-                await setDoc(activityRef, {
-                    userId: currentUser.uid,
-                    type: 'password_change',
-                    timestamp: serverTimestamp(),
-                    title: 'Password Changed',
-                    description: 'Changed account password',
-                    status: 'success'
-                });
-                
-            } catch (error) {
-                console.error("Error changing password:", error);
-                
-                if (error.code === 'auth/requires-recent-login') {
-                    showToast("Please re-login to change password", "error");
-                    setTimeout(() => {
-                        window.location.href = "/login.html";
-                    }, 2000);
-                } else {
-                    showToast("Error changing password", "error");
-                }
-            }
-        }
-
-        // Export User Data
-        async function exportUserData() {
-            try {
-                showToast("Preparing data export...");
-                
-                // Get all user data
-                const userData = {
-                    profile: userProfileData,
-                    auth: {
-                        uid: currentUser.uid,
-                        email: currentUser.email,
-                        emailVerified: currentUser.emailVerified,
-                        creationTime: currentUser.metadata.creationTime,
-                        lastSignInTime: currentUser.metadata.lastSignInTime
-                    }
-                };
-                
-                // Create downloadable JSON file
-                const dataStr = JSON.stringify(userData, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `technoviax-profile-${currentUser.uid}-${Date.now()}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                showToast("Data exported successfully");
-                
-            } catch (error) {
-                console.error("Error exporting data:", error);
-                showToast("Error exporting data", "error");
-            }
-        }
-
-        // Initialize Auth State
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                loadUserProfile(user);
-            } else {
-                // Redirect to login if not authenticated
-                window.location.href = "/login.html";
-            }
+                btn.classList.add('active');
+                document.getElementById(`${btn.dataset.tab}-tab`).classList.remove('hidden');
+            });
         });
 
-        // Initialize Event Listeners
-        function initEventListeners() {
-            // Tab switching
-            document.querySelectorAll('[data-tab]').forEach(button => {
-                button.addEventListener('click', () => {
-                    // Remove active class from all buttons
-                    document.querySelectorAll('[data-tab]').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked button
-                    button.classList.add('active');
-                    
-                    // Hide all tab contents
-                    document.querySelectorAll('.tab-content').forEach(content => {
-                        content.classList.add('hidden');
-                    });
-                    
-                    // Show selected tab content
-                    const tabId = button.getAttribute('data-tab');
-                    document.getElementById(`${tabId}-tab`).classList.remove('hidden');
-                });
-            });
-            
-            // Personal info edit
-            editPersonalBtn.addEventListener('click', () => toggleEditMode('personal', true));
-            cancelPersonalBtn.addEventListener('click', () => toggleEditMode('personal', false));
-            savePersonalBtn.addEventListener('click', savePersonalInfo);
-            
-            // Contact info edit
-            editContactBtn.addEventListener('click', () => toggleEditMode('contact', true));
-            cancelContactBtn.addEventListener('click', () => toggleEditMode('contact', false));
-            saveContactBtn.addEventListener('click', saveContactInfo);
-            
-            // Preferences
-            savePreferencesBtn.addEventListener('click', savePreferences);
-            
-            // Quick actions
-            editProfileBtn.addEventListener('click', () => {
-                document.querySelector('[data-tab="personal"]').click();
-                setTimeout(() => toggleEditMode('personal', true), 100);
-            });
-            
-            changePasswordBtn.addEventListener('click', changePassword);
-            
-            exportDataBtn.addEventListener('click', exportUserData);
-            
-            changeAvatarBtn.addEventListener('click', () => {
-                showToast("Avatar change feature coming soon");
-            });
-            
-            // Logout
-            logoutBtn.addEventListener('click', async () => {
-                if (confirm("Are you sure you want to logout?")) {
-                    try {
-                        await signOut(auth);
-                        window.location.href = "/login.html";
-                    } catch (error) {
-                        console.error("Error logging out:", error);
-                        showToast("Error logging out", "error");
-                    }
-                }
-            });
-            
-            // Enter key support for save buttons
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    if (!document.getElementById('personal-actions').classList.contains('hidden')) {
-                        savePersonalBtn.click();
-                    }
-                    if (!document.getElementById('contact-actions').classList.contains('hidden')) {
-                        saveContactBtn.click();
-                    }
-                }
-                if (e.key === 'Escape') {
-                    if (!document.getElementById('personal-actions').classList.contains('hidden')) {
-                        cancelPersonalBtn.click();
-                    }
-                    if (!document.getElementById('contact-actions').classList.contains('hidden')) {
-                        cancelContactBtn.click();
-                    }
-                }
-            });
-        }
-
-        // Initialize on DOM ready
-        document.addEventListener('DOMContentLoaded', initEventListeners);
+        // Logout
+        logoutBtn.onclick = async () => {
+            if(confirm("Logout?")) {
+                await signOut(auth);
+                window.location.href = '/login.html';
+            }
+        };
 
     </script>
 </body>

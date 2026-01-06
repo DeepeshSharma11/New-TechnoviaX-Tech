@@ -1,12 +1,8 @@
-/**
- * TechnoviaX - Firebase Authentication
- * Integrated with Navigation.js
- */
-
-// Import functions from Firebase SDKs
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+// Import functions from Firebase SDKs (Using stable version 10.13.1)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -19,199 +15,139 @@ const firebaseConfig = {
     measurementId: "G-BYG4TMPMMV"
 };
 
+// Global App ID
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'technoviax-prod';
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
+const storage = getStorage(app);
 
-// Global logout function
+// Global Logout Function (Attached to window so navigation.js can access it)
 window.firebaseLogout = async function() {
+    // Show standard confirm dialog
     if (confirm("Are you sure you want to logout?")) {
         try {
             await signOut(auth);
-            showToast("Logged out successfully", 'success');
+            // Toast functionality relies on navigation.js or index.html scripts
+            // We console log as fallback
+            console.log("Logged out successfully");
+            if (window.location.pathname.includes('profile.html') || window.location.pathname.includes('payment.html')) {
+                window.location.href = 'login.html';
+            }
         } catch (error) {
             console.error("Logout error:", error);
-            showToast("Error logging out", 'error');
         }
     }
 };
 
-// Wait for navigation to be ready
-function waitForNavigation() {
-    return new Promise((resolve) => {
-        if (window.Navigation && document.getElementById('nav-login-container')) {
-            resolve();
-        } else {
-            const checkInterval = setInterval(() => {
-                if (window.Navigation && document.getElementById('nav-login-container')) {
-                    clearInterval(checkInterval);
-                    resolve();
-                }
-            }, 100);
-            
-            // Timeout after 5 seconds
-            setTimeout(() => {
-                clearInterval(checkInterval);
-                console.warn("Navigation not found, injecting UI directly");
-                injectDirectUI();
-                resolve();
-            }, 5000);
-        }
-    });
-}
-
-// Fallback UI injection
-function injectDirectUI() {
-    const desktopContainer = document.getElementById('nav-login-container');
-    const mobileContainer = document.getElementById('mobile-login-container');
-    const mobileFullContainer = document.getElementById('mobile-full-login-container');
-    
-    if (!desktopContainer) return;
-    
-    // Show login buttons by default
-    desktopContainer.innerHTML = `<a href="login.html" class="firebase-login-btn"><i class="fas fa-user mr-1"></i> Login</a>`;
-    if (mobileContainer) mobileContainer.innerHTML = `<a href="login.html" class="firebase-login-btn text-sm px-3 py-1.5"><i class="fas fa-user"></i></a>`;
-    if (mobileFullContainer) mobileFullContainer.innerHTML = `<a href="login.html" class="firebase-login-btn w-full flex items-center justify-center py-2.5"><i class="fas fa-user mr-2"></i> Login</a>`;
-}
-
-// Initialize Firebase Auth
-async function initFirebaseAuth() {
-    await waitForNavigation();
-    
-    // Listen for auth state changes
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            // User is signed in
-            await createUserProfile(user);
-            updateAuthUI(user);
-        } else {
-            // User is signed out
-            updateAuthUI(null);
-        }
-    });
-}
-
-// Update UI based on auth state
-function updateAuthUI(user) {
+// --- Auth State Listener ---
+onAuthStateChanged(auth, async (user) => {
+    // 1. Update UI using the function from navigation.js
     if (window.updateFirebaseAuthUI) {
         window.updateFirebaseAuthUI(!!user, user);
     } else {
-        // Fallback to direct update
-        const desktopContainer = document.getElementById('nav-login-container');
-        if (!desktopContainer) return;
-        
-        if (user) {
-            const userName = user.displayName || user.email.split('@')[0];
-            const userAvatar = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=667eea&color=fff`;
-            
-            desktopContainer.innerHTML = `
-                <div class="flex items-center gap-2">
-                    <div class="firebase-profile-btn">
-                        <img src="${userAvatar}" alt="${userName}" class="w-6 h-6 rounded-full">
-                        <span class="hidden xl:inline text-sm">${userName}</span>
-                    </div>
-                    <button onclick="window.firebaseLogout()" class="firebase-logout-btn text-sm">
-                        <i class="fas fa-sign-out-alt mr-1"></i>
-                        <span class="hidden xl:inline">Logout</span>
-                    </button>
-                </div>
-            `;
-        } else {
-            desktopContainer.innerHTML = `<a href="login.html" class="firebase-login-btn"><i class="fas fa-user mr-1"></i> Login</a>`;
-        }
+        // Fallback: If navigation.js hasn't loaded yet, retry shortly
+        const checkNav = setInterval(() => {
+            if (window.updateFirebaseAuthUI) {
+                window.updateFirebaseAuthUI(!!user, user);
+                clearInterval(checkNav);
+            }
+        }, 100);
     }
-}
 
-// Toast Helper
-function showToast(message, type = 'success') {
-    const toast = document.createElement('div');
-    toast.className = `fixed bottom-5 right-5 px-6 py-3 rounded-lg shadow-lg text-white font-medium transform transition-all duration-300 translate-y-10 opacity-0 z-50 ${type === 'success' ? 'bg-green-600' : 'bg-red-600'}`;
-    toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation-circle'} mr-2"></i> ${message}`;
-    document.body.appendChild(toast);
-    
-    requestAnimationFrame(() => {
-        toast.classList.remove('translate-y-10', 'opacity-0');
-    });
+    // 2. Handle User Data
+    if (user) {
+        // Ensure user profile exists in Firestore
+        await createUserProfile(user);
+        
+        // Save simple session flag
+        localStorage.setItem('userLoggedIn', 'true');
+    } else {
+        localStorage.removeItem('userLoggedIn');
+        checkFirstTimeVisitor();
+    }
+});
 
-    setTimeout(() => {
-        toast.classList.add('translate-y-10', 'opacity-0');
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
-}
-
-// User Profile Creation in Firestore
+// Helper: Create/Update User Profile in Firestore
 async function createUserProfile(user) {
     try {
+        // Don't create profile for anonymous users
+        if (user.isAnonymous) return;
+
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
         
+        const userData = {
+            uid: user.uid,
+            email: user.email,
+            lastLogin: serverTimestamp(),
+            isActive: true
+        };
+
+        if (user.displayName) userData.name = user.displayName;
+        if (user.photoURL) userData.photoURL = user.photoURL;
+
         if (!userSnap.exists()) {
-            await setDoc(userRef, {
-                name: user.displayName || user.email.split('@')[0],
-                email: user.email,
-                photoURL: user.photoURL || '',
-                createdAt: serverTimestamp(),
-                lastLogin: serverTimestamp(),
-                totalLogins: 1,
-                isActive: true
-            });
+            userData.createdAt = serverTimestamp();
+            userData.name = user.displayName || user.email.split('@')[0]; // Fallback name
+            await setDoc(userRef, userData);
         } else {
-            // Update last login
-            await setDoc(userRef, {
-                lastLogin: serverTimestamp()
-            }, { merge: true });
+             await setDoc(userRef, { lastLogin: serverTimestamp() }, { merge: true });
         }
     } catch (e) {
         console.error("Profile Sync Error", e);
     }
 }
 
-// Login Page Specific Logic
-function setupLoginPage() {
-    // Google Login
-    const googleBtn = document.getElementById('google-login-btn');
-    if (googleBtn) {
-        googleBtn.addEventListener('click', async () => {
-            try {
-                await signInWithPopup(auth, provider);
-                window.location.href = '/index.html';
-            } catch (error) {
-                showToast(error.message, 'error');
-            }
-        });
-    }
+// Helper: First Time Visitor Logic
+function checkFirstTimeVisitor() {
+    // Only redirect if not already on login page
+    if (window.location.pathname.includes('login.html')) return;
 
-    // Email/Password Login
-    const emailForm = document.getElementById('email-login-form');
-    if (emailForm) {
-        emailForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                window.location.href = '/index.html';
-            } catch (error) {
-                showToast("Login failed: " + error.message, 'error');
-            }
-        });
+    const hasVisited = localStorage.getItem('hasVisitedTechnoviaX');
+    if (!hasVisited) {
+        localStorage.setItem('hasVisitedTechnoviaX', 'true');
+        // Optional: Redirect to login on first visit
+        // window.location.href = 'login.html'; 
     }
 }
 
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    initFirebaseAuth();
-    setupLoginPage();
-});
-
-// Start initialization immediately if DOM is already loaded
-if (document.readyState === 'interactive' || document.readyState === 'complete') {
-    initFirebaseAuth();
-    setupLoginPage();
+// --- Login Page Logic (Attaches only if elements exist) ---
+const googleBtn = document.getElementById('google-login-btn');
+if (googleBtn) {
+    googleBtn.addEventListener('click', async () => {
+        try {
+            await signInWithPopup(auth, provider);
+            window.location.href = 'index.html';
+        } catch (e) {
+            alert("Google Login Failed: " + e.message);
+        }
+    });
 }
 
-// Export for other modules
-export { app, auth, db, provider, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged };
+const emailForm = document.getElementById('email-login-form');
+if (emailForm) {
+    emailForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            window.location.href = 'index.html';
+        } catch (e) {
+            alert("Login Failed: " + e.message);
+        }
+    });
+}
+
+// Export functions for use in other modules (like careers.html)
+export { 
+    app, auth, db, storage, provider,
+    signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInAnonymously,
+    collection, addDoc, doc, setDoc, getDoc, serverTimestamp, 
+    ref, uploadBytes, getDownloadURL 
+};

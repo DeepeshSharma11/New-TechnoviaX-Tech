@@ -133,10 +133,11 @@
     </div>
 
     <!-- Navigation Injection -->
+    <div id="nav-placeholder"></div>
     <script src="js/navigation.js" defer></script>
 
     <!-- Main Content -->
-    <main id="main-content" class="min-h-screen">
+    <main id="main-content" class="min-h-screen opacity-0 transition-opacity duration-500">
         <!-- Profile Header -->
         <section class="bg-gradient-to-r from-primary to-primary-light pt-20 pb-16">
             <div class="container mx-auto px-4">
@@ -150,7 +151,7 @@
                             <a href="/" class="text-white hover:text-primary-light transition-colors">
                                 <i class="fas fa-home mr-2"></i> Home
                             </a>
-                            <a href="/index.html" class="text-white hover:text-primary-light transition-colors">
+                            <a href="/dashboard.html" class="text-white hover:text-primary-light transition-colors">
                                 <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
                             </a>
                         </div>
@@ -208,7 +209,7 @@
                                         <i class="fas fa-calendar-check"></i>
                                     </div>
                                     <div>
-                                        <p class="text-sm text-gray-500">Current Date</p>
+                                        <p class="text-sm text-gray-500">Member Since</p>
                                         <p id="member-since" class="font-bold">-</p>
                                     </div>
                                 </div>
@@ -288,14 +289,14 @@
                                     <label class="form-label">Email Address</label>
                                     <div class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg flex items-center justify-between">
                                         <span id="display-email">Loading...</span>
-                                        <span class="status-badge status-active text-xs">Verified</span>
+                                        <span id="email-verified-badge" class="status-badge status-active text-xs hidden">Verified</span>
                                     </div>
                                 </div>
                                 
                                 <div>
                                     <label class="form-label">Account Type</label>
                                     <div class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                        <span id="account-type">Regular User</span>
+                                        <span id="account-type">Loading...</span>
                                     </div>
                                 </div>
                                 
@@ -477,13 +478,37 @@
     <div id="footer-container"></div>
     <script src="js/footer.js" defer></script>
 
-    <!-- Import Firebase Config -->
-    <script type="module" src="js/loginfirebase.js" defer></script>
-
-    <!-- Profile Logic -->
+    <!-- Firebase and Profile Logic -->
     <script type="module">
-        import { auth } from "./js/loginfirebase.js";
-        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { 
+            auth, 
+            db, 
+            signOut 
+        } from "./js/loginfirebase.js";
+        
+        import { 
+            onAuthStateChanged, 
+            updateProfile,
+            updateEmail,
+            updatePassword,
+            reauthenticateWithCredential,
+            EmailAuthProvider
+        } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        
+        import { 
+            doc, 
+            getDoc, 
+            setDoc, 
+            updateDoc,
+            collection,
+            query,
+            where,
+            getDocs,
+            orderBy,
+            limit,
+            serverTimestamp,
+            increment
+        } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
         // DOM Elements
         const loadingScreen = document.getElementById('loading');
@@ -504,6 +529,7 @@
         // Display Elements
         const displayName = document.getElementById('display-name');
         const displayEmail = document.getElementById('display-email');
+        const emailVerifiedBadge = document.getElementById('email-verified-badge');
         const displayPhone = document.getElementById('display-phone');
         const displayAltEmail = document.getElementById('display-alt-email');
         const displayAddress = document.getElementById('display-address');
@@ -536,9 +562,6 @@
         let currentUser = null;
         let userProfileData = {};
 
-        // API Base URL for Python Backend
-        //const API_BASE_URL = 'http://localhost:5000'; // Change this to your Python server URL
-        const API_BASE_URL = 'http://technoviaxtech.site';
         // Toast Notification
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
@@ -565,7 +588,7 @@
         // Format Date
         function formatDate(dateString) {
             if (!dateString) return 'N/A';
-            const date = new Date(dateString);
+            const date = typeof dateString === 'string' ? new Date(dateString) : dateString.toDate();
             return date.toLocaleDateString('en-IN', {
                 day: 'numeric',
                 month: 'short',
@@ -576,11 +599,10 @@
         // Format DateTime
         function formatDateTime(dateString) {
             if (!dateString) return 'N/A';
-            const date = new Date(dateString);
+            const date = typeof dateString === 'string' ? new Date(dateString) : dateString.toDate();
             return date.toLocaleString('en-IN', {
                 day: 'numeric',
                 month: 'short',
-                year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
             });
@@ -603,32 +625,24 @@
             }
         }
 
-        // Load User Profile Data from Python Backend
+        // Load User Profile Data from Firestore
         async function loadUserProfile(user) {
             try {
-                // Get user profile from Python backend
-                const response = await fetch(`${API_BASE_URL}/api/profile/${user.uid}`, {
-                    headers: {
-                        'Authorization': `Bearer ${await user.getIdToken()}`
-                    }
-                });
+                // Get user profile from Firestore
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
                 
-                if (response.ok) {
-                    const data = await response.json();
-                    userProfileData = data.profile || {};
+                if (userSnap.exists()) {
+                    userProfileData = userSnap.data();
+                    console.log("Loaded user profile:", userProfileData);
                     
                     // Load payment count
-                    const paymentsResponse = await fetch(`${API_BASE_URL}/api/payments/${user.uid}`, {
-                        headers: {
-                            'Authorization': `Bearer ${await user.getIdToken()}`
-                        }
-                    });
-                    
-                    let paymentCount = 0;
-                    if (paymentsResponse.ok) {
-                        const paymentsData = await paymentsResponse.json();
-                        paymentCount = paymentsData.count || 0;
-                    }
+                    const paymentsQuery = query(
+                        collection(db, "payments"),
+                        where("userId", "==", user.uid)
+                    );
+                    const paymentsSnap = await getDocs(paymentsQuery);
+                    const paymentCount = paymentsSnap.size;
                     
                     // Update UI with loaded data
                     updateProfileUI(user, userProfileData, paymentCount);
@@ -636,13 +650,15 @@
                     // Load activity
                     loadUserActivity(user.uid);
                     
+                    // Update login activity
+                    await updateLoginActivity(user);
+                    
                 } else {
                     // Create new profile if doesn't exist
                     await createUserProfile(user);
                 }
                 
             } catch (error) {
-                
                 console.error("Error loading profile:", error);
                 showToast("Error loading profile data", "error");
                 
@@ -660,8 +676,8 @@
                 altEmail: '',
                 address: '',
                 contactMethod: 'email',
-                createdAt: new Date().toISOString(),
-                lastLogin: new Date().toISOString(),
+                createdAt: new Date(),
+                lastLogin: new Date(),
                 totalLogins: 1,
                 preferences: {
                     emailPayments: true,
@@ -675,7 +691,7 @@
             updateProfileUI(user, profileData, 0);
         }
 
-        // Create new user profile in Python backend
+        // Create new user profile in Firestore
         async function createUserProfile(user) {
             try {
                 const profileData = {
@@ -687,30 +703,27 @@
                     altEmail: '',
                     address: '',
                     contactMethod: 'email',
+                    createdAt: serverTimestamp(),
+                    lastLogin: serverTimestamp(),
+                    totalLogins: 1,
                     preferences: {
                         emailPayments: true,
                         emailUpdates: true,
                         emailPromotional: false,
                         privacyProfile: true,
                         privacyActivity: false
-                    }
+                    },
+                    accountType: 'regular',
+                    isActive: true,
+                    emailVerified: user.emailVerified || false
                 };
                 
-                const response = await fetch(`${API_BASE_URL}/api/profile`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${await user.getIdToken()}`
-                    },
-                    body: JSON.stringify(profileData)
-                });
+                const userRef = doc(db, "users", user.uid);
+                await setDoc(userRef, profileData);
                 
-                if (response.ok) {
-                    const data = await response.json();
-                    userProfileData = data.profile;
-                    updateProfileUI(user, userProfileData, 0);
-                    showToast("Profile created successfully");
-                }
+                userProfileData = profileData;
+                updateProfileUI(user, userProfileData, 0);
+                showToast("Profile created successfully");
                 
             } catch (error) {
                 console.error("Error creating profile:", error);
@@ -718,30 +731,67 @@
             }
         }
 
+        // Update login activity
+        async function updateLoginActivity(user) {
+            try {
+                const userRef = doc(db, "users", user.uid);
+                await updateDoc(userRef, {
+                    lastLogin: serverTimestamp(),
+                    totalLogins: increment(1)
+                });
+                
+                // Add activity log
+                const activityRef = doc(collection(db, "activities"));
+                await setDoc(activityRef, {
+                    userId: user.uid,
+                    type: 'login',
+                    timestamp: serverTimestamp(),
+                    title: 'Login',
+                    description: 'Logged into account',
+                    status: 'success',
+                    metadata: {
+                        device: navigator.userAgent,
+                        platform: navigator.platform
+                    }
+                });
+                
+            } catch (error) {
+                console.error("Error updating login activity:", error);
+            }
+        }
+
         // Update Profile UI
         function updateProfileUI(user, profileData, paymentCount) {
             // Profile header
-            profileAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.name)}&background=random&color=fff`;
-            profileName.textContent = profileData.name;
+            profileAvatar.src = user.photoURL || profileData.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.name)}&background=random&color=fff`;
+            profileName.textContent = profileData.name || user.displayName || user.email.split('@')[0];
             profileEmail.textContent = user.email;
+            
+            // Show email verified badge if email is verified
+            if (user.emailVerified || profileData.emailVerified) {
+                emailVerifiedBadge.classList.remove('hidden');
+            } else {
+                emailVerifiedBadge.classList.add('hidden');
+            }
             
             // Stats
             totalPayments.textContent = paymentCount;
             memberSince.textContent = profileData.createdAt ? formatDate(profileData.createdAt) : formatDate(user.metadata.creationTime);
             
             // Personal Info
-            displayName.textContent = profileData.name;
+            displayName.textContent = profileData.name || user.displayName || user.email.split('@')[0];
             displayEmail.textContent = user.email;
-            userId.textContent = user.uid.substring(0, 8) + '...';
+            accountType.textContent = profileData.accountType ? profileData.accountType.charAt(0).toUpperCase() + profileData.accountType.slice(1) : 'Regular User';
+            userId.textContent = user.uid.substring(0, 8) + '...' + user.uid.substring(user.uid.length - 4);
             
             // Contact Details
             displayPhone.textContent = profileData.phone || 'Not set';
             displayAltEmail.textContent = profileData.altEmail || 'Not set';
             displayAddress.textContent = profileData.address || 'Not set';
-            displayContactMethod.textContent = profileData.contactMethod?.charAt(0).toUpperCase() + profileData.contactMethod?.slice(1) || 'Email';
+            displayContactMethod.textContent = profileData.contactMethod ? profileData.contactMethod.charAt(0).toUpperCase() + profileData.contactMethod.slice(1) : 'Email';
             
             // Set edit inputs
-            editName.value = profileData.name;
+            editName.value = profileData.name || user.displayName || user.email.split('@')[0];
             editPhone.value = profileData.phone || '';
             editAltEmail.value = profileData.altEmail || '';
             editAddress.value = profileData.address || '';
@@ -772,44 +822,42 @@
             }, 500);
         }
 
-        // Load User Activity from Python Backend
+        // Load User Activity from Firestore
         async function loadUserActivity(userId) {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/activity/${userId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${await currentUser.getIdToken()}`
-                    }
-                });
+                const activitiesQuery = query(
+                    collection(db, "activities"),
+                    where("userId", "==", userId),
+                    orderBy("timestamp", "desc"),
+                    limit(10)
+                );
                 
-                if (!response.ok) {
-                    throw new Error('Failed to load activity');
-                }
+                const activitiesSnap = await getDocs(activitiesQuery);
                 
-                const data = await response.json();
-                
-                if (!data.activities || data.activities.length === 0) {
+                if (activitiesSnap.empty) {
                     activityList.innerHTML = `
                         <div class="text-center py-8 text-gray-500">
                             <i class="fas fa-inbox text-4xl mb-3 opacity-30"></i>
                             <p>No activity yet</p>
-                            <p class="text-sm mt-2">Make your first payment to see activity here</p>
+                            <p class="text-sm mt-2">Your activity will appear here</p>
                         </div>
                     `;
                     return;
                 }
                 
                 let activityHTML = '';
-                data.activities.forEach(activity => {
+                activitiesSnap.forEach(doc => {
+                    const activity = doc.data();
                     activityHTML += `
                         <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                            <div class="w-10 h-10 rounded-full ${activity.status === 'Success' ? 'bg-green-100 text-success' : activity.status === 'Failed' ? 'bg-red-100 text-error' : 'bg-yellow-100 text-warning'} flex items-center justify-center flex-shrink-0">
-                                <i class="fas ${activity.status === 'Success' ? 'fa-check-circle' : activity.status === 'Failed' ? 'fa-times-circle' : 'fa-clock'}"></i>
+                            <div class="w-10 h-10 rounded-full ${activity.status === 'success' ? 'bg-green-100 text-success' : activity.status === 'failed' ? 'bg-red-100 text-error' : 'bg-yellow-100 text-warning'} flex items-center justify-center flex-shrink-0">
+                                <i class="fas ${activity.type === 'login' ? 'fa-sign-in-alt' : activity.type === 'payment' ? 'fa-credit-card' : activity.type === 'profile_update' ? 'fa-user-edit' : 'fa-history'}"></i>
                             </div>
                             <div class="flex-1">
                                 <div class="flex justify-between items-start">
                                     <div>
-                                        <p class="font-semibold">${activity.title}</p>
-                                        <p class="text-sm text-gray-600">${activity.description}</p>
+                                        <p class="font-semibold">${activity.title || 'Activity'}</p>
+                                        <p class="text-sm text-gray-600">${activity.description || 'No description'}</p>
                                     </div>
                                     <span class="text-sm text-gray-500">${formatDateTime(activity.timestamp)}</span>
                                 </div>
@@ -824,15 +872,15 @@
                 console.error("Error loading activity:", error);
                 activityList.innerHTML = `
                     <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-inbox text-4xl mb-3 opacity-30"></i>
-                        <p>No activity yet</p>
-                        <p class="text-sm mt-2">Activity tracking will be available soon</p>
+                        <i class="fas fa-exclamation-triangle text-4xl mb-3 opacity-30"></i>
+                        <p>Could not load activity</p>
+                        <p class="text-sm mt-2">Please try again later</p>
                     </div>
                 `;
             }
         }
 
-        // Save Personal Info to Python Backend
+        // Save Personal Info to Firestore
         async function savePersonalInfo() {
             try {
                 const newName = editName.value.trim();
@@ -842,25 +890,34 @@
                     return;
                 }
                 
-                const response = await fetch(`${API_BASE_URL}/api/profile/${currentUser.uid}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${await currentUser.getIdToken()}`
-                    },
-                    body: JSON.stringify({
-                        name: newName
-                    })
+                // Update Firebase Auth profile
+                await updateProfile(currentUser, {
+                    displayName: newName
                 });
                 
-                if (response.ok) {
-                    userProfileData.name = newName;
-                    updateProfileUI(currentUser, userProfileData, parseInt(totalPayments.textContent));
-                    toggleEditMode('personal', false);
-                    showToast("Profile updated successfully");
-                } else {
-                    throw new Error('Failed to update profile');
-                }
+                // Update Firestore
+                const userRef = doc(db, "users", currentUser.uid);
+                await updateDoc(userRef, {
+                    name: newName,
+                    updatedAt: serverTimestamp()
+                });
+                
+                // Add activity log
+                const activityRef = doc(collection(db, "activities"));
+                await setDoc(activityRef, {
+                    userId: currentUser.uid,
+                    type: 'profile_update',
+                    timestamp: serverTimestamp(),
+                    title: 'Profile Updated',
+                    description: 'Updated personal information',
+                    status: 'success'
+                });
+                
+                // Update UI
+                userProfileData.name = newName;
+                updateProfileUI(currentUser, userProfileData, parseInt(totalPayments.textContent));
+                toggleEditMode('personal', false);
+                showToast("Profile updated successfully");
                 
             } catch (error) {
                 console.error("Error saving personal info:", error);
@@ -868,7 +925,7 @@
             }
         }
 
-        // Save Contact Info to Python Backend
+        // Save Contact Info to Firestore
         async function saveContactInfo() {
             try {
                 const contactData = {
@@ -878,27 +935,28 @@
                     contactMethod: editContactMethod.value
                 };
                 
-                const response = await fetch(`${API_BASE_URL}/api/profile/${currentUser.uid}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${await currentUser.getIdToken()}`
-                    },
-                    body: JSON.stringify(contactData)
+                const userRef = doc(db, "users", currentUser.uid);
+                await updateDoc(userRef, {
+                    ...contactData,
+                    updatedAt: serverTimestamp()
                 });
                 
-                if (response.ok) {
-                    userProfileData.phone = contactData.phone;
-                    userProfileData.altEmail = contactData.altEmail;
-                    userProfileData.address = contactData.address;
-                    userProfileData.contactMethod = contactData.contactMethod;
-                    
-                    updateProfileUI(currentUser, userProfileData, parseInt(totalPayments.textContent));
-                    toggleEditMode('contact', false);
-                    showToast("Contact details updated");
-                } else {
-                    throw new Error('Failed to update contact details');
-                }
+                // Add activity log
+                const activityRef = doc(collection(db, "activities"));
+                await setDoc(activityRef, {
+                    userId: currentUser.uid,
+                    type: 'contact_update',
+                    timestamp: serverTimestamp(),
+                    title: 'Contact Details Updated',
+                    description: 'Updated contact information',
+                    status: 'success'
+                });
+                
+                // Update local data and UI
+                Object.assign(userProfileData, contactData);
+                updateProfileUI(currentUser, userProfileData, parseInt(totalPayments.textContent));
+                toggleEditMode('contact', false);
+                showToast("Contact details updated");
                 
             } catch (error) {
                 console.error("Error saving contact info:", error);
@@ -906,7 +964,7 @@
             }
         }
 
-        // Save Preferences to Python Backend
+        // Save Preferences to Firestore
         async function savePreferences() {
             try {
                 const preferences = {
@@ -917,21 +975,14 @@
                     privacyActivity: document.getElementById('privacy-activity').checked
                 };
                 
-                const response = await fetch(`${API_BASE_URL}/api/profile/${currentUser.uid}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${await currentUser.getIdToken()}`
-                    },
-                    body: JSON.stringify({ preferences })
+                const userRef = doc(db, "users", currentUser.uid);
+                await updateDoc(userRef, {
+                    preferences: preferences,
+                    updatedAt: serverTimestamp()
                 });
                 
-                if (response.ok) {
-                    userProfileData.preferences = preferences;
-                    showToast("Preferences saved");
-                } else {
-                    throw new Error('Failed to save preferences');
-                }
+                userProfileData.preferences = preferences;
+                showToast("Preferences saved");
                 
             } catch (error) {
                 console.error("Error saving preferences:", error);
@@ -939,11 +990,81 @@
             }
         }
 
+        // Change Password
+        async function changePassword() {
+            const newPassword = prompt("Enter new password (min 6 characters):");
+            if (!newPassword || newPassword.length < 6) {
+                showToast("Password must be at least 6 characters", "error");
+                return;
+            }
+            
+            const confirmPassword = prompt("Confirm new password:");
+            if (newPassword !== confirmPassword) {
+                showToast("Passwords do not match", "error");
+                return;
+            }
+            
+            try {
+                await updatePassword(currentUser, newPassword);
+                showToast("Password updated successfully");
+                
+                // Add activity log
+                const activityRef = doc(collection(db, "activities"));
+                await setDoc(activityRef, {
+                    userId: currentUser.uid,
+                    type: 'password_change',
+                    timestamp: serverTimestamp(),
+                    title: 'Password Changed',
+                    description: 'Changed account password',
+                    status: 'success'
+                });
+                
+            } catch (error) {
+                console.error("Error changing password:", error);
+                
+                if (error.code === 'auth/requires-recent-login') {
+                    showToast("Please re-login to change password", "error");
+                    setTimeout(() => {
+                        window.location.href = "/login.html";
+                    }, 2000);
+                } else {
+                    showToast("Error changing password", "error");
+                }
+            }
+        }
+
         // Export User Data
         async function exportUserData() {
             try {
-                showToast("Export feature coming soon");
-                // This would call your Python backend to export data
+                showToast("Preparing data export...");
+                
+                // Get all user data
+                const userData = {
+                    profile: userProfileData,
+                    auth: {
+                        uid: currentUser.uid,
+                        email: currentUser.email,
+                        emailVerified: currentUser.emailVerified,
+                        creationTime: currentUser.metadata.creationTime,
+                        lastSignInTime: currentUser.metadata.lastSignInTime
+                    }
+                };
+                
+                // Create downloadable JSON file
+                const dataStr = JSON.stringify(userData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `technoviax-profile-${currentUser.uid}-${Date.now()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast("Data exported successfully");
+                
             } catch (error) {
                 console.error("Error exporting data:", error);
                 showToast("Error exporting data", "error");
@@ -961,8 +1082,8 @@
             }
         });
 
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', () => {
+        // Initialize Event Listeners
+        function initEventListeners() {
             // Tab switching
             document.querySelectorAll('[data-tab]').forEach(button => {
                 button.addEventListener('click', () => {
@@ -1004,9 +1125,7 @@
                 setTimeout(() => toggleEditMode('personal', true), 100);
             });
             
-            changePasswordBtn.addEventListener('click', () => {
-                showToast("Password change feature coming soon");
-            });
+            changePasswordBtn.addEventListener('click', changePassword);
             
             exportDataBtn.addEventListener('click', exportUserData);
             
@@ -1026,7 +1145,30 @@
                     }
                 }
             });
-        });
+            
+            // Enter key support for save buttons
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    if (!document.getElementById('personal-actions').classList.contains('hidden')) {
+                        savePersonalBtn.click();
+                    }
+                    if (!document.getElementById('contact-actions').classList.contains('hidden')) {
+                        saveContactBtn.click();
+                    }
+                }
+                if (e.key === 'Escape') {
+                    if (!document.getElementById('personal-actions').classList.contains('hidden')) {
+                        cancelPersonalBtn.click();
+                    }
+                    if (!document.getElementById('contact-actions').classList.contains('hidden')) {
+                        cancelContactBtn.click();
+                    }
+                }
+            });
+        }
+
+        // Initialize on DOM ready
+        document.addEventListener('DOMContentLoaded', initEventListeners);
 
     </script>
 </body>

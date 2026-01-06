@@ -40,7 +40,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
 
 // --- FIREBASE CONFIGURATION ---
-// Note: Google Cloud Console mein "HTTP Referrer" restriction zaroor lagayein apne domain ke liye.
+// Note: Ensure "HTTP Referrer" restriction is set in Google Cloud Console for security.
 const firebaseConfig = {
     apiKey: "AIzaSyBk33C9Xlw54hwJkgfC0mJWeFXBtZi7FPM", // Real API Key
     authDomain: "technoviax-tech.firebaseapp.com",
@@ -60,20 +60,9 @@ const storage = getStorage(app);
 const appId = 'technoviax-prod'; // Fixed App ID
 
 // --- UI INJECTION LOGIC ---
-let navigationInjected = false;
 let authUIInjected = false;
 
-// Listen for navigation ready event
-window.addEventListener('navigationInjected', () => {
-    navigationInjected = true;
-    injectAuthUI();
-});
-
-// Also try to inject if navigation is already there (fallback)
-if (document.getElementById('nav-login-container')) {
-    injectAuthUI();
-}
-
+// Function to inject Auth UI (Login buttons / Profile dropdown)
 function injectAuthUI() {
     if (authUIInjected) return;
     
@@ -81,7 +70,7 @@ function injectAuthUI() {
     const mobileContainer = document.getElementById('mobile-login-container');
     const mobileFullContainer = document.getElementById('mobile-full-login-container');
     
-    // Retry if containers aren't ready yet
+    // Retry if containers aren't ready yet (Navigation might be loading)
     if (!desktopContainer) {
         setTimeout(injectAuthUI, 500);
         return;
@@ -192,6 +181,10 @@ function injectAuthUI() {
                 </div>
             </div>
             <div class="space-y-1">
+                <a href="/dashboard.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-emerald-400 rounded-lg transition-colors">
+                    <i class="fas fa-tachometer-alt w-5"></i>
+                    <span>Dashboard</span>
+                </a>
                 <a href="/profile.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-emerald-400 rounded-lg transition-colors">
                     <i class="fas fa-user-cog w-5"></i>
                     <span>My Profile</span>
@@ -207,7 +200,7 @@ function injectAuthUI() {
 
     authUIInjected = true;
     
-    // Trigger auth check to update UI immediately
+    // Trigger auth check to update UI immediately if user already loaded
     if (auth.currentUser) {
         updateAuthUI(auth.currentUser);
     }
@@ -219,7 +212,6 @@ window.firebaseLogout = async function() {
         try {
             await signOut(auth);
             console.log("Logged out successfully");
-            // Redirect if on a protected page
             if (window.location.pathname.includes('profile.html') || window.location.pathname.includes('payment.html')) {
                 window.location.href = 'login.html';
             }
@@ -249,7 +241,7 @@ onAuthStateChanged(auth, async (user) => {
         localStorage.setItem('userLoggedIn', 'true');
     } else {
         localStorage.removeItem('userLoggedIn');
-        checkFirstTimeVisitor();
+        // Optional: Redirect logic if needed
     }
 });
 
@@ -339,13 +331,12 @@ async function createUserProfile(user) {
     }
 }
 
-// Helper: First Time Visitor Logic
-function checkFirstTimeVisitor() {
-    if (window.location.pathname.includes('login.html')) return;
-    // You can add logic here to redirect new users to login if needed
-}
+// Event Listeners for Navigation Ready
+window.addEventListener('navigationInjected', () => {
+    if (!authUIInjected) injectAuthUI();
+});
 
-// --- Login Page Logic (Attaches only if elements exist) ---
+// Helper for Login Page Specifics
 const googleBtn = document.getElementById('google-login-btn');
 if (googleBtn) {
     googleBtn.addEventListener('click', async () => {
@@ -374,7 +365,7 @@ if (emailForm) {
     });
 }
 
-// Initial Injection Attempt
+// Force inject if event missed
 setTimeout(() => { if (!authUIInjected) injectAuthUI(); }, 1000);
 
 // Export functions for use in other modules

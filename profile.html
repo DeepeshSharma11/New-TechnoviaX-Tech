@@ -3,808 +3,397 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - TechnoviaX Tech</title>
+    <title>My Profile - TechnoviaX</title>
     
-    <!-- External Dependencies -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Dynamic Favicon Loader -->
-    <script src="js/favicon.js" defer></script>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1e40af',
-                        'primary-dark': '#1e3a8a',
-                        'primary-light': '#3b82f6',
-                        secondary: '#0f172a',
-                        accent: '#059669',
-                        'accent-dark': '#047857',
-                        'accent-light': '#10b981',
-                        light: '#f8fafc',
-                        dark: '#1e293b',
-                        'dark-light': '#334155',
-                        success: '#10b981',
-                        warning: '#f59e0b',
-                        error: '#dc2626',
-                        info: '#3b82f6'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
+    
     <style>
-        /* Loading Screen */
-        #loading {
-            background: linear-gradient(135deg, #1e40af 0%, #0f172a 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            min-height: 100vh;
         }
-        .loading-logo {
-            color: white;
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-        .loading-logo span { color: #059669; }
-
-        /* Form Styles */
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            outline: none;
-            transition: all 0.3s ease;
-            background-color: #f8fafc;
-        }
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            border-color: #1e40af;
-            background-color: #fff;
-            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
-        }
-        .form-label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #1e293b;
-            font-size: 0.9rem;
-        }
-
-        /* Status Badges */
-        .status-badge { padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
-        .status-active { background-color: #d1fae5; color: #059669; }
-        .status-inactive { background-color: #fef3c7; color: #d97706; }
-
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        /* Toast Notification */
-        .profile-toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+        
+        .profile-card {
             background: white;
-            color: #1e293b;
-            padding: 16px 24px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .info-card {
+            background: #f8fafc;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            z-index: 10000;
-            opacity: 0;
-            transform: translateX(100%);
+            padding: 20px;
             transition: all 0.3s ease;
-            border-left: 4px solid #1e40af;
-            max-width: 350px;
         }
-        .profile-toast.show {
-            opacity: 1;
-            transform: translateX(0);
+        
+        .info-card:hover {
+            background: #f1f5f9;
+            transform: translateY(-2px);
         }
-        .profile-toast.success { border-left-color: #10b981; }
-        .profile-toast.error { border-left-color: #dc2626; }
-
-        /* Tab Styles */
-        .tab-button {
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            color: #64748b;
+        
+        .google-color {
+            color: #4285F4;
         }
-        .tab-button.active {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        
+        .verified-badge {
+            background: #10b981;
             color: white;
-            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
         }
     </style>
 </head>
-<body class="font-sans text-secondary bg-light">
-
+<body class="p-4 md:p-6">
+    
     <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
-        <div class="loading-logo">Technovia<span>X</span></div>
+    <div id="loading" class="fixed inset-0 bg-gradient-to-r from-indigo-600 to-purple-700 flex flex-col items-center justify-center z-50">
         <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        <p class="text-white mt-4 font-medium">Loading Profile...</p>
+        <p class="text-white font-medium mt-4">Loading your profile...</p>
     </div>
 
-    <!-- Navigation Injection -->
-    <div id="nav-placeholder"></div>
-    <script src="js/navigation.js" defer></script>
-
     <!-- Main Content -->
-    <main id="main-content" class="min-h-screen opacity-0 transition-opacity duration-500">
-        <!-- Profile Header -->
-        <section class="bg-gradient-to-r from-primary to-primary-light pt-20 pb-16">
-            <div class="container mx-auto px-4">
-                <div class="flex flex-col md:flex-row items-center justify-between">
-                    <div class="text-center md:text-left">
-                        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">My Profile</h1>
-                        <p class="text-primary-dark">Manage your account details and preferences</p>
+    <main id="main-content" class="opacity-0 transition-opacity duration-500 max-w-4xl mx-auto">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">My Profile</h1>
+            <p class="text-white/80">Your Google Account Information</p>
+        </div>
+        
+        <!-- Profile Card -->
+        <div class="profile-card p-6 md:p-8">
+            
+            <!-- Profile Header -->
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8">
+                <!-- Avatar -->
+                <div class="relative">
+                    <img id="profile-avatar" 
+                         src="https://via.placeholder.com/150" 
+                         alt="Profile" 
+                         class="profile-avatar rounded-full">
+                    <div class="absolute bottom-0 right-0 w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center">
+                        <i class="fab fa-google"></i>
                     </div>
-                    <div class="mt-6 md:mt-0">
-                        <div class="flex items-center gap-4">
-                            <a href="/" class="text-white hover:text-primary-light transition-colors">
-                                <i class="fas fa-home mr-2"></i> Home
-                            </a>
-                            <a href="/dashboard.html" class="text-white hover:text-primary-light transition-colors">
-                                <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
-                            </a>
+                </div>
+                
+                <!-- Basic Info -->
+                <div class="flex-1 text-center md:text-left">
+                    <h2 id="user-name" class="text-2xl font-bold text-gray-800">Guest User</h2>
+                    <p id="user-email" class="text-gray-600 mb-3">Not logged in</p>
+                    
+                    <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                        <span class="verified-badge px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-check mr-1"></i> Google Account
+                        </span>
+                        <span id="status-badge" class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                            Active
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Logout Button -->
+                <button id="logout-btn" 
+                        class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+            
+            <!-- Profile Details -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Personal Info -->
+                <div class="info-card">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-user google-color"></i>
+                        Personal Information
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Full Name</p>
+                            <p id="display-name" class="text-lg font-semibold text-gray-800">-</p>
+                        </div>
+                        
+                        <div>
+                            <p class="text-sm text-gray-500">Email Address</p>
+                            <p id="display-email" class="text-lg font-semibold text-gray-800">-</p>
+                        </div>
+                        
+                        <div>
+                            <p class="text-sm text-gray-500">Email Verification</p>
+                            <p id="email-verified" class="text-lg font-semibold text-red-600">Not Verified</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Account Info -->
+                <div class="info-card">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-info-circle google-color"></i>
+                        Account Information
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-gray-500">User ID</p>
+                            <p id="user-id" class="text-sm font-mono text-gray-700 break-all">-</p>
+                        </div>
+                        
+                        <div>
+                            <p class="text-sm text-gray-500">Account Created</p>
+                            <p id="account-created" class="text-lg font-semibold text-gray-800">-</p>
+                        </div>
+                        
+                        <div>
+                            <p class="text-sm text-gray-500">Last Login</p>
+                            <p id="last-login" class="text-lg font-semibold text-gray-800">-</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Google Info -->
+                <div class="info-card md:col-span-2">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fab fa-google google-color"></i>
+                        Google Account Details
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <p class="text-sm text-gray-500">Provider</p>
+                            <p id="provider-info" class="text-lg font-semibold text-gray-800">-</p>
+                        </div>
+                        
+                        <div>
+                            <p class="text-sm text-gray-500">Phone Number</p>
+                            <p id="phone-number" class="text-lg font-semibold text-gray-800">-</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Profile Content -->
-        <div class="container mx-auto px-4 py-8 -mt-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
-                <!-- Left Sidebar (Profile Overview) -->
-                <div class="lg:col-span-4">
-                    <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 sticky top-8">
-                        <!-- Profile Avatar -->
-                        <div class="text-center mb-6">
-                            <div class="relative inline-block">
-                                <img id="profile-avatar" 
-                                     src="https://via.placeholder.com/150" 
-                                     alt="Profile" 
-                                     class="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover">
-                                <button id="change-avatar-btn" 
-                                        class="absolute bottom-2 right-2 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary-dark transition">
-                                    <i class="fas fa-camera"></i>
-                                </button>
-                            </div>
-                            <h2 id="profile-name" class="text-2xl font-bold mt-4 text-secondary">Guest User</h2>
-                            <p id="profile-email" class="text-gray-500 text-sm">Not Logged In</p>
-                            <div class="mt-2">
-                                <span class="status-badge status-active">Active Account</span>
-                            </div>
-                        </div>
-
-                        <!-- Account Stats -->
-                        <div class="space-y-4 mb-6">
-                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-blue-100 text-primary rounded-lg flex items-center justify-center">
-                                        <i class="fas fa-credit-card"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-500">Total Payments</p>
-                                        <p id="total-payments" class="font-bold text-lg">0</p>
-                                    </div>
-                                </div>
-                                <a href="/payment.html" class="text-primary hover:text-primary-dark">
-                                    <i class="fas fa-arrow-right"></i>
-                                </a>
-                            </div>
-
-                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-green-100 text-success rounded-lg flex items-center justify-center">
-                                        <i class="fas fa-calendar-check"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-500">Member Since</p>
-                                        <p id="member-since" class="font-bold">-</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Quick Actions -->
-                        <div class="border-t border-gray-100 pt-6">
-                            <h3 class="font-bold text-gray-800 mb-4">Quick Actions</h3>
-                            <div class="space-y-2">
-                                <button id="edit-profile-btn" 
-                                        class="w-full flex items-center gap-3 p-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                                    <i class="fas fa-edit text-primary w-5"></i>
-                                    <span>Edit Profile</span>
-                                </button>
-                                <button id="change-password-btn" 
-                                        class="w-full flex items-center gap-3 p-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                                    <i class="fas fa-lock text-warning w-5"></i>
-                                    <span>Change Password</span>
-                                </button>
-                                <button id="export-data-btn" 
-                                        class="w-full flex items-center gap-3 p-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                                    <i class="fas fa-download text-accent w-5"></i>
-                                    <span>Export My Data</span>
-                                </button>
-                                <button id="logout-btn" 
-                                        class="w-full flex items-center gap-3 p-3 text-left text-red-600 hover:bg-red-50 rounded-lg transition-colors mt-2">
-                                    <i class="fas fa-sign-out-alt w-5"></i>
-                                    <span>Logout</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Content (Details & Tabs) -->
-                <div class="lg:col-span-8">
-                    <!-- Tabs Navigation -->
-                    <div class="flex flex-wrap gap-2 mb-6 bg-white rounded-2xl p-2 shadow-sm border border-gray-100">
-                        <button data-tab="personal" class="tab-button active">
-                            <i class="fas fa-user mr-2"></i> Personal Info
-                        </button>
-                        <button data-tab="contact" class="tab-button">
-                            <i class="fas fa-address-book mr-2"></i> Contact Details
-                        </button>
-                        <button data-tab="preferences" class="tab-button">
-                            <i class="fas fa-cog mr-2"></i> Preferences
-                        </button>
-                        <button data-tab="activity" class="tab-button">
-                            <i class="fas fa-history mr-2"></i> Activity
-                        </button>
-                    </div>
-
-                    <!-- Tab Content -->
-                    <div class="space-y-8">
-                        
-                        <!-- Personal Info Tab -->
-                        <div id="personal-tab" class="tab-content bg-white rounded-2xl shadow-lg p-6 border border-gray-100 animate-fadeIn">
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-xl font-bold text-secondary">Personal Information</h3>
-                                <button id="edit-personal-btn" 
-                                        class="text-primary hover:text-primary-dark font-medium flex items-center gap-2">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                            </div>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="form-label">Full Name</label>
-                                    <div id="display-name" class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                        Loading...
-                                    </div>
-                                    <input type="text" id="edit-name" class="form-input hidden" placeholder="Enter your full name">
-                                </div>
-                                
-                                <div>
-                                    <label class="form-label">Email Address</label>
-                                    <div class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg flex items-center justify-between">
-                                        <span id="display-email">Loading...</span>
-                                        <span id="email-verified-badge" class="status-badge status-active text-xs hidden">Verified</span>
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <label class="form-label">Account Type</label>
-                                    <div class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                        <span id="account-type">Loading...</span>
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <label class="form-label">User ID</label>
-                                    <div class="text-sm font-mono text-gray-600 p-2 bg-gray-50 rounded-lg break-all">
-                                        <span id="user-id">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Save/Cancel Buttons (Initially Hidden) -->
-                            <div id="personal-actions" class="hidden mt-6 flex justify-end gap-3">
-                                <button id="cancel-personal-btn" 
-                                        class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
-                                    Cancel
-                                </button>
-                                <button id="save-personal-btn" 
-                                        class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition">
-                                    Save Changes
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Contact Details Tab -->
-                        <div id="contact-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-xl font-bold text-secondary">Contact Details</h3>
-                                <button id="edit-contact-btn" 
-                                        class="text-primary hover:text-primary-dark font-medium flex items-center gap-2">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                            </div>
-                            
-                            <div class="space-y-6">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="form-label">Phone Number</label>
-                                        <div id="display-phone" class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                            Not set
-                                        </div>
-                                        <input type="tel" id="edit-phone" class="form-input hidden" placeholder="+91 1234567890">
-                                    </div>
-                                    
-                                    <div>
-                                        <label class="form-label">Alternate Email</label>
-                                        <div id="display-alt-email" class="text-lg font-semibold text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                            Not set
-                                        </div>
-                                        <input type="email" id="edit-alt-email" class="form-input hidden" placeholder="alternate@email.com">
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <label class="form-label">Address</label>
-                                    <div id="display-address" class="text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                        Not set
-                                    </div>
-                                    <textarea id="edit-address" class="form-textarea hidden" rows="3" placeholder="Enter your complete address"></textarea>
-                                </div>
-                                
-                                <div>
-                                    <label class="form-label">Preferred Contact Method</label>
-                                    <div id="display-contact-method" class="text-gray-800 p-2 bg-gray-50 rounded-lg">
-                                        Email
-                                    </div>
-                                    <select id="edit-contact-method" class="form-select hidden">
-                                        <option value="email">Email</option>
-                                        <option value="whatsapp">WhatsApp</option>
-                                        <option value="phone">Phone Call</option>
-                                        <option value="sms">SMS</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <!-- Save/Cancel Buttons (Initially Hidden) -->
-                            <div id="contact-actions" class="hidden mt-6 flex justify-end gap-3">
-                                <button id="cancel-contact-btn" 
-                                        class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
-                                    Cancel
-                                </button>
-                                <button id="save-contact-btn" 
-                                        class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition">
-                                    Save Changes
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Preferences Tab -->
-                        <div id="preferences-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                            <h3 class="text-xl font-bold text-secondary mb-6">Account Preferences</h3>
-                            
-                            <div class="space-y-6">
-                                <!-- Email Notifications -->
-                                <div>
-                                    <h4 class="font-bold text-gray-800 mb-4">Email Notifications</h4>
-                                    <div class="space-y-3">
-                                        <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
-                                            <input type="checkbox" id="email-payments" class="rounded text-primary" checked>
-                                            <span class="flex-1">Payment confirmations and receipts</span>
-                                        </label>
-                                        <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
-                                            <input type="checkbox" id="email-updates" class="rounded text-primary" checked>
-                                            <span class="flex-1">Service updates and announcements</span>
-                                        </label>
-                                        <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
-                                            <input type="checkbox" id="email-promotional" class="rounded text-primary">
-                                            <span class="flex-1">Promotional offers</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                
-                                <!-- Privacy Settings -->
-                                <div class="border-t border-gray-100 pt-6">
-                                    <h4 class="font-bold text-gray-800 mb-4">Privacy Settings</h4>
-                                    <div class="space-y-3">
-                                        <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
-                                            <input type="checkbox" id="privacy-profile" class="rounded text-primary" checked>
-                                            <span class="flex-1">Show my profile to other users</span>
-                                        </label>
-                                        <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg cursor-pointer">
-                                            <input type="checkbox" id="privacy-activity" class="rounded text-primary">
-                                            <span class="flex-1">Show my activity status</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                
-                                <!-- Save Preferences Button -->
-                                <div class="pt-4 border-t border-gray-100">
-                                    <button id="save-preferences-btn" 
-                                            class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition">
-                                        Save Preferences
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Activity Tab -->
-                        <div id="activity-tab" class="tab-content hidden bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                            <h3 class="text-xl font-bold text-secondary mb-6">Recent Activity</h3>
-                            
-                            <div class="space-y-4">
-                                <!-- Activity items will be loaded here -->
-                                <div id="activity-list">
-                                    <div class="text-center py-8 text-gray-500">
-                                        <i class="fas fa-history text-4xl mb-3 opacity-30"></i>
-                                        <p>Loading activity...</p>
-                                    </div>
-                                </div>
-                                
-                                <!-- Activity Stats -->
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-gray-100">
-                                    <div class="text-center p-4 bg-blue-50 rounded-xl">
-                                        <p class="text-2xl font-bold text-primary" id="total-logins">0</p>
-                                        <p class="text-sm text-gray-600">Total Logins</p>
-                                    </div>
-                                    <div class="text-center p-4 bg-green-50 rounded-xl">
-                                        <p class="text-2xl font-bold text-success" id="last-login">-</p>
-                                        <p class="text-sm text-gray-600">Last Login</p>
-                                    </div>
-                                    <div class="text-center p-4 bg-yellow-50 rounded-xl">
-                                        <p class="text-2xl font-bold text-warning" id="sessions">1</p>
-                                        <p class="text-sm text-gray-600">Active Sessions</p>
-                                    </div>
-                                    <div class="text-center p-4 bg-purple-50 rounded-xl">
-                                        <p class="text-2xl font-bold text-purple-600" id="devices">1</p>
-                                        <p class="text-sm text-gray-600">Devices</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            
+            <!-- Quick Actions -->
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="flex flex-wrap gap-4">
+                    <a href="index.html" 
+                       class="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium">
+                        <i class="fas fa-home"></i>
+                        Back to Home
+                    </a>
+                    
+                    <a href="https://myaccount.google.com" 
+                       target="_blank"
+                       class="flex items-center gap-2 text-green-600 hover:text-green-800 font-medium">
+                        <i class="fab fa-google"></i>
+                        Google Account Settings
+                    </a>
+                    
+                    <button id="refresh-btn" 
+                            class="flex items-center gap-2 text-purple-600 hover:text-purple-800 font-medium">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh Profile
+                    </button>
                 </div>
             </div>
         </div>
+        
+        <!-- Footer Note -->
+        <div class="text-center mt-6 text-white/80 text-sm">
+            <p>This information is fetched directly from your Google Account</p>
+        </div>
     </main>
 
-    <!-- Footer Injection -->
-    <div id="footer-container"></div>
-    <script src="js/footer.js" defer></script>
-
+    <!-- Firebase Script -->
     <script type="module">
-    import { 
-        auth, 
-        db, 
-        signOut,
-        onAuthStateChanged
-    } from "./js/loginfirebase.js";
-    
-    import { 
-        doc, 
-        getDoc, 
-        setDoc, 
-        updateDoc,
-        serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
-
-    const appId = 'technoviax-prod';
-
-    // DOM Elements
-    const loadingScreen = document.getElementById('loading');
-    const mainContent = document.getElementById('main-content');
-    
-    // FIXED: Use window load event properly
-    window.addEventListener('load', () => {
+        import { 
+            auth, 
+            signOut, 
+            onAuthStateChanged 
+        } from "./js/loginfirebase.js";
+        
+        const loadingScreen = document.getElementById('loading');
+        const mainContent = document.getElementById('main-content');
+        
+        // Format date function
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        // Format time ago
+        function timeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 60) return `${minutes} minutes ago`;
+            if (hours < 24) return `${hours} hours ago`;
+            if (days < 7) return `${days} days ago`;
+            return formatDate(dateString);
+        }
+        
+        // Display user profile
+        function displayUserProfile(user) {
+            console.log("User Profile Data:", user);
+            
+            // Basic Info
+            const avatar = document.getElementById('profile-avatar');
+            const userName = document.getElementById('user-name');
+            const userEmail = document.getElementById('user-email');
+            
+            avatar.src = user.photoURL || 
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}&background=6366f1&color=fff&size=150`;
+            
+            userName.textContent = user.displayName || user.email.split('@')[0];
+            userEmail.textContent = user.email;
+            
+            // Personal Info
+            document.getElementById('display-name').textContent = user.displayName || 'Not set in Google';
+            document.getElementById('display-email').textContent = user.email;
+            
+            // Email Verification
+            const emailVerified = document.getElementById('email-verified');
+            if (user.emailVerified) {
+                emailVerified.textContent = 'Verified ✓';
+                emailVerified.className = 'text-lg font-semibold text-green-600';
+            } else {
+                emailVerified.textContent = 'Not Verified';
+                emailVerified.className = 'text-lg font-semibold text-red-600';
+            }
+            
+            // Account Info
+            document.getElementById('user-id').textContent = user.uid;
+            document.getElementById('account-created').textContent = formatDate(user.metadata.creationTime);
+            document.getElementById('last-login').textContent = timeAgo(user.metadata.lastSignInTime);
+            
+            // Google Info
+            const providerInfo = document.getElementById('provider-info');
+            if (user.providerData && user.providerData[0]) {
+                const provider = user.providerData[0].providerId;
+                providerInfo.textContent = provider === 'google.com' ? 'Google' : provider;
+            } else {
+                providerInfo.textContent = 'Google';
+            }
+            
+            // Phone number (if available)
+            const phoneNumber = document.getElementById('phone-number');
+            phoneNumber.textContent = user.phoneNumber || 'Not provided';
+            
+            // Update status badge
+            const statusBadge = document.getElementById('status-badge');
+            if (user.emailVerified) {
+                statusBadge.textContent = 'Verified Account';
+                statusBadge.className = 'bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium';
+            }
+            
+            // Save to localStorage for quick access
+            localStorage.setItem('userEmail', user.email);
+            localStorage.setItem('userName', user.displayName || user.email.split('@')[0]);
+            if (user.photoURL) {
+                localStorage.setItem('userAvatar', user.photoURL);
+            }
+        }
+        
+        // Check auth state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is logged in
+                displayUserProfile(user);
+                
+                // Hide loading screen
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        mainContent.style.opacity = '1';
+                    }, 500);
+                }, 800);
+                
+            } else {
+                // No user - redirect to login
+                console.log("No user found, redirecting to login...");
+                window.location.href = 'login.html';
+            }
+        });
+        
+        // Logout button
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            if (confirm("Are you sure you want to logout?")) {
+                try {
+                    await signOut(auth);
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error("Logout error:", error);
+                    alert("Logout failed. Please try again.");
+                }
+            }
+        });
+        
+        // Refresh button
+        document.getElementById('refresh-btn').addEventListener('click', () => {
+            window.location.reload();
+        });
+        
+        // Fallback: Hide loader after 3 seconds
         setTimeout(() => {
-            if (loadingScreen.style.opacity !== '0') {
-                console.log("Forcing load completion");
+            if (loadingScreen && loadingScreen.style.display !== 'none') {
                 loadingScreen.style.opacity = '0';
                 setTimeout(() => {
-                    loadingScreen.style.display = 'none';
+                    if (loadingScreen) {
+                        loadingScreen.style.display = 'none';
+                    }
                     if (mainContent) {
                         mainContent.style.opacity = '1';
                     }
                 }, 500);
             }
-        }, 1500);
-    });
-
-    // Initialize Firebase Listeners
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            // User is signed in
-            await loadUserProfile(user);
-        } else {
-            // User is not signed in - Redirect to login
-            console.log("No user found, redirecting to login...");
-            window.location.href = '/login.html';
-        }
-    });
-
-    // Elements
-    const editProfileBtn = document.getElementById('edit-profile-btn');
-    const changePasswordBtn = document.getElementById('change-password-btn');
-    const exportDataBtn = document.getElementById('export-data-btn');
-    const changeAvatarBtn = document.getElementById('change-avatar-btn');
-    const logoutBtn = document.getElementById('logout-btn');
-
-    // Profile Display Elements
-    const profileAvatar = document.getElementById('profile-avatar');
-    const profileName = document.getElementById('profile-name');
-    const profileEmail = document.getElementById('profile-email');
-    const displayName = document.getElementById('display-name');
-    const displayEmail = document.getElementById('display-email');
-    const displayPhone = document.getElementById('display-phone');
-    const displayAltEmail = document.getElementById('display-alt-email');
-    const displayAddress = document.getElementById('display-address');
-    const userId = document.getElementById('user-id');
-    const totalPayments = document.getElementById('total-payments');
-    const memberSince = document.getElementById('member-since');
-
-    // Edit Inputs
-    const editName = document.getElementById('edit-name');
-    const editPhone = document.getElementById('edit-phone');
-    const editAltEmail = document.getElementById('edit-alt-email');
-    const editAddress = document.getElementById('edit-address');
-
-    // Logic Variables
-    let currentUser = null;
-    let userProfileData = {};
-
-    // Helper: Date Format
-    function formatDate(date) {
-        if (!date) return '-';
-        // Handle Firestore Timestamp
-        const d = date.toDate ? date.toDate() : new Date(date);
-        return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-    }
-
-    // Helper: Toast
-    function showToast(msg, type = 'success') {
-        const toast = document.createElement('div');
-        toast.className = `profile-toast ${type} show`;
-        toast.innerHTML = `<i class="fas ${type==='success'?'fa-check':'fa-exclamation'}"></i> ${msg}`;
-        document.body.appendChild(toast);
-        setTimeout(() => { toast.remove() }, 3000);
-    }
-
-    // Load Profile - FIXED PATH STRUCTURE
-    async function loadUserProfile(user) {
-        currentUser = user;
-        try {
-            // FIXED: Use correct Firestore path structure
-            const userRef = doc(db, "users", user.uid);
-            const docSnap = await getDoc(userRef);
-
-            if (docSnap.exists()) {
-                userProfileData = docSnap.data();
-                console.log("Profile loaded:", userProfileData);
-            } else {
-                // Create basic profile if missing
-                userProfileData = {
-                    name: user.displayName || user.email.split('@')[0],
-                    email: user.email,
-                    uid: user.uid,
-                    createdAt: serverTimestamp(),
-                    lastLogin: serverTimestamp(),
-                    isActive: true
-                };
-                await setDoc(userRef, userProfileData);
-                console.log("New profile created");
+        }, 3000);
+        
+        // Check if already logged in via localStorage
+        if (localStorage.getItem('userLoggedIn') === 'true') {
+            // Pre-fill with localStorage data while loading
+            const savedEmail = localStorage.getItem('userEmail');
+            const savedName = localStorage.getItem('userName');
+            const savedAvatar = localStorage.getItem('userAvatar');
+            
+            if (savedEmail) {
+                document.getElementById('user-email').textContent = savedEmail;
+                document.getElementById('display-email').textContent = savedEmail;
             }
             
-            updateUI(userProfileData);
-            
-            // Hide loader
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                mainContent.style.opacity = '1';
-            }, 300);
-
-        } catch (error) {
-            console.error("Error loading profile:", error);
-            // Show error but still display page
-            loadingScreen.style.display = 'none';
-            mainContent.style.opacity = '1';
-            showToast("Error loading profile. Please refresh.", "error");
-        }
-    }
-
-    function updateUI(data) {
-        const name = data.name || currentUser.email.split('@')[0];
-        const email = data.email || currentUser.email;
-        
-        profileName.textContent = name;
-        profileEmail.textContent = email;
-        displayName.textContent = name;
-        displayEmail.textContent = email;
-        userId.textContent = currentUser.uid;
-        
-        // Fill Inputs
-        editName.value = name;
-        editPhone.value = data.phone || '';
-        editAltEmail.value = data.altEmail || '';
-        editAddress.value = data.address || '';
-        
-        // Display Fields
-        displayPhone.textContent = data.phone || 'Not set';
-        displayAltEmail.textContent = data.altEmail || 'Not set';
-        displayAddress.textContent = data.address || 'Not set';
-        
-        // Format dates
-        if (data.createdAt) {
-            memberSince.textContent = formatDate(data.createdAt);
-        } else if (currentUser.metadata && currentUser.metadata.creationTime) {
-            memberSince.textContent = formatDate(currentUser.metadata.creationTime);
-        } else {
-            memberSince.textContent = '-';
-        }
-        
-        // Update avatar if available
-        if (data.photoURL) {
-            profileAvatar.src = data.photoURL;
-        }
-    }
-
-    // Toggle Edit
-    window.toggleEditMode = (section, enable) => {
-        const displayEls = document.querySelectorAll(`#${section}-tab [id^="display-"]`);
-        const inputEls = document.querySelectorAll(`#${section}-tab input, #${section}-tab textarea, #${section}-tab select`);
-        const actions = document.getElementById(`${section}-actions`);
-        
-        displayEls.forEach(el => el.classList.toggle('hidden', enable));
-        inputEls.forEach(el => el.classList.toggle('hidden', !enable));
-        if(actions) actions.classList.toggle('hidden', !enable);
-    };
-
-    // Event Listeners for Edit Buttons
-    document.getElementById('edit-personal-btn').onclick = () => toggleEditMode('personal', true);
-    document.getElementById('cancel-personal-btn').onclick = () => toggleEditMode('personal', false);
-    
-    document.getElementById('edit-contact-btn').onclick = () => toggleEditMode('contact', true);
-    document.getElementById('cancel-contact-btn').onclick = () => toggleEditMode('contact', false);
-
-    // Save Logic - FIXED PATH
-    document.getElementById('save-personal-btn').onclick = async () => {
-        try {
-            const newName = editName.value.trim();
-            if (!newName) {
-                showToast("Name cannot be empty", "error");
-                return;
+            if (savedName) {
+                document.getElementById('user-name').textContent = savedName;
+                document.getElementById('display-name').textContent = savedName;
             }
             
-            const userRef = doc(db, "users", currentUser.uid);
-            await updateDoc(userRef, { 
-                name: newName,
-                updatedAt: serverTimestamp()
-            });
-            
-            userProfileData.name = newName;
-            updateUI(userProfileData);
-            toggleEditMode('personal', false);
-            showToast("Profile Updated Successfully!");
-        } catch(e) { 
-            console.error("Save error:", e); 
-            showToast("Error updating profile", "error"); 
+            if (savedAvatar) {
+                document.getElementById('profile-avatar').src = savedAvatar;
+            }
         }
-    };
-
-    document.getElementById('save-contact-btn').onclick = async () => {
-        try {
-            const updateData = {
-                phone: editPhone.value.trim(),
-                altEmail: editAltEmail.value.trim(),
-                address: editAddress.value.trim(),
-                updatedAt: serverTimestamp()
-            };
-            
-            const userRef = doc(db, "users", currentUser.uid);
-            await updateDoc(userRef, updateData);
-            
-            Object.assign(userProfileData, updateData);
-            updateUI(userProfileData);
-            toggleEditMode('contact', false);
-            showToast("Contact Info Updated!");
-        } catch(e) { 
-            console.error("Save error:", e); 
-            showToast("Error updating contact info", "error"); 
-        }
-    };
-
-    // Tab Switching
-    document.querySelectorAll('.tab-button').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-            
-            btn.classList.add('active');
-            const tabId = `${btn.dataset.tab}-tab`;
-            const tabContent = document.getElementById(tabId);
-            if (tabContent) {
-                tabContent.classList.remove('hidden');
-            }
-        });
-    });
-
-    // Logout
-    if (logoutBtn) {
-        logoutBtn.onclick = async () => {
-            if(confirm("Are you sure you want to logout?")) {
-                try {
-                    await signOut(auth);
-                    window.location.href = '/login.html';
-                } catch (error) {
-                    console.error("Logout error:", error);
-                }
-            }
-        };
-    }
-
-    // Quick Actions
-    if (changePasswordBtn) {
-        changePasswordBtn.onclick = () => {
-            window.location.href = '/change-password.html';
-        };
-    }
-
-    if (exportDataBtn) {
-        exportDataBtn.onclick = () => {
-            showToast("Export feature coming soon!", "info");
-        };
-    }
-
-    if (changeAvatarBtn) {
-        changeAvatarBtn.onclick = () => {
-            showToast("Avatar change feature coming soon!", "info");
-        };
-    }
-
-    // Save Preferences
-    if (document.getElementById('save-preferences-btn')) {
-        document.getElementById('save-preferences-btn').onclick = async () => {
-            try {
-                const preferences = {
-                    emailPayments: document.getElementById('email-payments').checked,
-                    emailUpdates: document.getElementById('email-updates').checked,
-                    emailPromotional: document.getElementById('email-promotional').checked,
-                    privacyProfile: document.getElementById('privacy-profile').checked,
-                    privacyActivity: document.getElementById('privacy-activity').checked
-                };
-                
-                const userRef = doc(db, "users", currentUser.uid);
-                await updateDoc(userRef, { 
-                    preferences: preferences,
-                    updatedAt: serverTimestamp()
-                });
-                
-                showToast("Preferences Saved!");
-            } catch(e) {
-                console.error("Preferences error:", e);
-                showToast("Error saving preferences", "error");
-            }
-        };
-    }
-</script>
+    </script>
 </body>
 </html>

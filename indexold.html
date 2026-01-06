@@ -1,38 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechnoviaX Tech - IT Solutions | Web Development | App Development</title>
+    
+    <!-- Meta Tags -->
     <meta name="description" content="TechnoviaX Tech provides innovative IT solutions, web development, app development, cloud solutions, and digital marketing services for businesses in India and worldwide.">
     <meta name="keywords" content="IT solutions, web development, app development, cloud solutions, digital marketing, cybersecurity, Bareilly, India">
     <meta name="author" content="TechnoviaX Tech">
     
-    <!-- Favicon - Multiple formats for cross-browser support -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/images/CompanySiteFav.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/CompanySiteFav.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/CompanySiteFav.png">
     <link rel="shortcut icon" href="/images/CompanySiteFav.png">
+     <!-- Dynamic Favicon Loader -->
+    <script src="js/favicon-loader.js" defer></script>
     
+    <!-- External Scripts (Deferred for Speed) -->
+    <script src="js/favicon.js" defer></script>
+    <script src="js/navigation.js" defer></script>
+    <script src="js/footer.js" defer></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js (Optimized Load) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
+                // Breakpoints match portfolio.html for consistency
+                screens: {
+                    'xs': '375px',
+                    'sm': '640px',
+                    'md': '768px',
+                    'lg': '1024px',
+                    'xl': '1280px',
+                    '2xl': '1536px',
+                },
                 extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
                     colors: {
-                        primary: '#1e40af',
-                        'primary-dark': '#1e3a8a',
-                        'primary-light': '#3b82f6',
-                        secondary: '#0f172a',
+                        primary: '#3b82f6',
+                        'primary-light': '#60a5fa', 
+                        secondary: '#0f172a', 
                         accent: '#059669',
-                        'accent-dark': '#047857',
                         'accent-light': '#10b981',
-                        light: '#f8fafc',
-                        dark: '#1e293b',
-                        'dark-light': '#334155',
+                        dark: '#0f172a',
+                        darker: '#020617',
+                        surface: 'rgba(255, 255, 255, 0.05)',
                         success: '#10b981',
                         warning: '#f59e0b',
                         error: '#dc2626',
@@ -40,12 +69,10 @@
                         whatsapp: '#25D366',
                         'whatsapp-dark': '#128C7E'
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
                     animation: {
                         'float': 'float 4s ease-in-out infinite',
                         'fade-in': 'fadeIn 0.5s ease-in',
+                        'slide-up': 'slideUp 0.6s ease-out',
                     },
                     keyframes: {
                         float: {
@@ -55,301 +82,470 @@
                         fadeIn: {
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
                         }
+                    },
+                    backgroundImage: {
+                        'hero-glow': 'conic-gradient(from 90deg at 50% 50%, #00000000 50%, #1e40af 100%)',
                     }
                 }
             }
         }
     </script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <style>
-        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
-        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
-        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
-        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
-        .service-card{transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);border:2px solid transparent}
-        .service-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,0.12);border-color:#1e40af}
-        .section-title{position:relative;display:inline-block;padding-bottom:15px}
-        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#1e40af,#059669);border-radius:2px}
-        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
-        .cta-gradient{background:linear-gradient(135deg,#1e40af 0%,#059669 100%);color:white}
-        .footer-gradient{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%)}
-        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
-        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
-        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center}
-        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
-        .loading-logo span{color:#059669}
-        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
-        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
-        .btn-accent{background:linear-gradient(135deg,#059669 0%,#10b981 100%);color:white;transition:all 0.3s ease}
-        .btn-accent:hover{background:linear-gradient(135deg,#047857 0%,#0da271 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(5,150,105,0.3)}
-        .btn-whatsapp{background:linear-gradient(135deg,#25D366 0%,#128C7E 100%);color:white;transition:all 0.3s ease}
-        .btn-whatsapp:hover{background:linear-gradient(135deg,#22c55e 0%,#0f766e 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(37,211,102,0.3)}
-        .social-icon{transition:all 0.3s ease}
-        .social-icon:hover{transform:translateY(-3px) scale(1.1)}
-        html{scroll-behavior:smooth;scroll-padding-top:var(--header-height,80px)}
-        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
-        @media (max-width:640px){.hero-section h1{font-size:2rem!important;line-height:1.2}.hero-section p{font-size:1rem!important}}
+        :root { --header-height: 64px; }
+        
+        body { 
+            background-color: #020617; 
+            color: white; 
+            overflow-x: hidden; 
+            padding-top: var(--header-height);
+        }
+        
+        /* 3D Canvas Container */
+        #canvas-container { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+            opacity: 0.6; 
+            pointer-events: none; 
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
+
+        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .animate-on-scroll.animated { opacity: 1; transform: translateY(0); }
+        #loading { transition: opacity 0.5s ease-out; background: #020617; }
+        
+        /* Floating Button - Responsive Position */
+        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; z-index: 100; width: 56px; height: 56px; }
+        @media (min-width: 768px) { .whatsapp-float { bottom: 30px; right: 30px; width: 60px; height: 60px; } }
+        
+        /* Force Smooth Scroll */
+        html { scroll-behavior: smooth; }
     </style>
 </head>
-<body class="font-sans text-secondary bg-light">
+<body class="antialiased font-sans selection:bg-emerald-500 selection:text-white">
 
-    <div id="loading" class="fixed inset-0 z-50 flex flex-col items-center justify-center">
-        <div class="loading-logo">Technovia<span>X</span></div>
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        <p class="text-white mt-4">Loading...</p>
+    <!-- Loading Screen -->
+    <div id="loading" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-darker">
+        <div class="text-3xl sm:text-4xl font-bold mb-4 tracking-tighter">Technovia<span class="text-emerald-500">X</span></div>
+        <div class="w-40 sm:w-48 h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div class="w-full h-full bg-emerald-500 origin-left animate-[grow_1.5s_ease-in-out_infinite]"></div>
+        </div>
+        <style>@keyframes grow { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }</style>
     </div>
 
-    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+    <!-- 3D Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Nav Placeholder -->
+    <div id="nav-placeholder"></div>
+
+    <!-- Floating Actions -->
+    <a href="https://wa.me/918433125736" target="_blank" class="whatsapp-float bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center text-2xl shadow-lg shadow-green-500/30 transition-all hover:scale-110 animate-bounce">
         <i class="fab fa-whatsapp"></i>
     </a>
     
-    <!-- <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
+    <a href="/contact.html" class="fixed bottom-8 left-8 z-40 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-full shadow-lg shadow-emerald-500/30 font-semibold transition-all hover:-translate-y-1 hidden md:flex items-center gap-2">
         <i class="fas fa-envelope"></i> Contact Us
-    </a> -->
-
-    <!-- Navigation will be injected here -->
-    <script src="js/navigation.js" defer></script>
+    </a>
 
     <main id="main-content">
         <!-- Hero Section -->
-        <section class="hero-gradient pt-10 pb-20 hero-section">
-            <div class="container mx-auto px-4">
-                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                    <div class="flex-1 text-center md:text-left animate-fade-in">
-                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                            Innovative IT Solutions for <span class="text-primary">Digital Success</span>
-                        </h1>
-                        <p class="text-lg sm:text-xl text-dark mb-8 max-w-2xl">
-                            Transform your business with cutting-edge technology solutions. We deliver exceptional web development, mobile apps, and digital services.
-                        </p>
-                        <div class="flex flex-wrap gap-3 sm:gap-4 justify-center md:justify-start">
-                            <a href="/services.html" class="btn-primary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold">
-                                <i class="fas fa-rocket mr-2"></i>Our Services
-                            </a>
-                            <a href="/contact.html" class="btn-accent px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold">
-                                <i class="fas fa-phone-alt mr-2"></i>Get in Touch
-                            </a>
-                            <a href="https://wa.me/918433125736" class="btn-whatsapp px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold" target="_blank">
-                                <i class="fab fa-whatsapp mr-2"></i>WhatsApp
-                            </a>
+        <section id="home" class="relative min-h-screen flex items-center pt-10 sm:pt-20">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-emerald-500/10 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none"></div>
+            
+            <div class="container mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
+                <!-- Left Content -->
+                <div class="text-center md:text-left space-y-6 sm:space-y-8">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium animate-pulse">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>Innovating the Future
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold leading-tight animate-fade-in">
+                        Innovative IT Solutions for <br>
+                        <span class="text-gradient">Digital Success</span>
+                    </h1>
+                    
+                    <p class="text-base sm:text-xl text-gray-400 max-w-lg mx-auto md:mx-0 leading-relaxed animate-fade-in" style="animation-delay: 0.2s">
+                        Transform your business with cutting-edge technology solutions. We deliver exceptional web development, mobile apps, and digital services.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fade-in" style="animation-delay: 0.4s">
+                        <a href="services.html" class="px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white rounded-xl font-semibold shadow-lg shadow-emerald-500/40 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                            <i class="fas fa-rocket"></i> View all Services
+                        </a>
+                        <a href="/contact.html" class="px-8 py-4 glass-card hover:bg-emerald-500/20 text-white rounded-xl font-semibold transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                            <i class="fas fa-phone-alt"></i> Get in Touch
+                        </a>
+                    </div>
+
+                    <!-- Trust Indicators -->
+                    <div class="pt-8 border-t border-white/5 flex gap-6 sm:gap-8 justify-center md:justify-start text-gray-400 grayscale opacity-70 animate-fade-in" style="animation-delay: 0.6s">
+                        <i class="fab fa-react text-2xl sm:text-3xl hover:text-blue-400 transition-colors"></i>
+                        <i class="fab fa-aws text-2xl sm:text-3xl hover:text-orange-400 transition-colors"></i>
+                        <i class="fab fa-google text-2xl sm:text-3xl hover:text-red-400 transition-colors"></i>
+                        <i class="fab fa-node text-2xl sm:text-3xl hover:text-green-400 transition-colors"></i>
+                    </div>
+                </div>
+
+                <!-- Right Visuals (3D Placeholder) -->
+                <div class="hidden md:block relative h-[500px]">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-br from-blue-500/10 to-emerald-500/10 rounded-full blur-3xl animate-pulse"></div>
+                    
+                    <!-- Floating Cards -->
+                    <div class="absolute bottom-20 left-10 glass-card p-4 rounded-xl flex items-center gap-4 animate-float shadow-lg shadow-emerald-500/20">
+                        <div class="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400">
+                            <i class="fas fa-check-circle"></i>
                         </div>
-                        <div class="mt-8 flex flex-wrap gap-4 sm:gap-6 text-dark text-sm sm:text-base">
-                            <div class="flex items-center">
-                                <i class="fas fa-check-circle text-accent mr-2"></i>
-                                <span>10+ Projects</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check-circle text-accent mr-2"></i>
-                                <span>24/7 Support</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check-circle text-accent mr-2"></i>
-                                <span>Expert Team</span>
-                            </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white">10+</div>
+                            <div class="text-xs text-gray-400">Projects Completed</div>
                         </div>
                     </div>
-                    <div class="flex-1 mt-8 md:mt-0 animate-fade-in" style="animation-delay:0.2s">
-                        <div class="relative">
-                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                                 alt="TechnoviaX Tech Solutions" 
-                                 class="rounded-xl shadow-2xl w-full animate-float">
-                            <div class="absolute -bottom-3 -right-3 bg-white p-3 rounded-lg shadow-lg hidden md:block">
-                                <div class="text-primary text-xl font-bold">3+ Years</div>
-                                <div class="text-dark text-sm">Experience</div>
-                            </div>
+
+                    <div class="absolute top-10 right-10 glass-card p-3 rounded-xl flex items-center gap-3 animate-float shadow-lg shadow-blue-500/20" style="animation-delay: 1.5s">
+                        <div class="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-400">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-white">24/7</div>
+                            <div class="text-xs text-gray-400">Expert Support</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Services Preview -->
-        <section class="py-16 sm:py-20 bg-white">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12 sm:mb-16 animate-on-scroll">
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 section-title">Our Core Services</h2>
-                    <p class="text-dark-light text-base sm:text-lg max-w-2xl mx-auto">
-                        Comprehensive IT solutions designed to accelerate your digital transformation journey
+        <!-- Services Section -->
+        <section id="services" class="py-16 sm:py-24 relative">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12 sm:mb-16 space-y-4">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold animate-fade-in">Our <span class="text-gradient">Core Services</span></h2>
+                    <p class="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto animate-fade-in" style="animation-delay: 0.2s">
+                        Comprehensive IT solutions designed to accelerate your digital transformation journey.
                     </p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll">
-                        <div class="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                            <i class="fas fa-laptop-code text-primary text-3xl"></i>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                    <!-- Web Dev -->
+                    <div class="glass-card p-6 sm:p-8 rounded-2xl group relative overflow-hidden hover:border-blue-500/30 transition-all duration-500 animate-slide-up">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-[100px] transition-all group-hover:bg-blue-500/20 group-hover:w-full group-hover:h-full group-hover:rounded-none duration-500"></div>
+                        <div class="relative z-10">
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-400 text-2xl sm:text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-bold mb-4 text-white">Web Development</h3>
+                            <p class="text-gray-400 text-sm sm:text-base mb-6 leading-relaxed">
+                                Custom websites and web applications built with modern technologies like React, Angular, and Node.js.
+                            </p>
+                            <a href="/services.html#web-development" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold group-hover:translate-x-2 transition-transform text-sm sm:text-base">
+                                Explore Details <i class="fas fa-arrow-right ml-2 text-xs sm:text-sm"></i>
+                            </a>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-primary">Web Development</h3>
-                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
-                            Custom websites and web applications built with modern technologies like React, Angular, and Node.js.
-                        </p>
-                        <a href="/services.html#web-development" class="text-primary font-semibold flex items-center gap-2 text-sm sm:text-base group">
-                            Explore Details 
-                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                        </a>
                     </div>
-                    
-                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll" style="animation-delay:0.1s">
-                        <div class="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                            <i class="fas fa-mobile-alt text-accent text-3xl"></i>
+
+                    <!-- App Dev -->
+                    <div class="glass-card p-6 sm:p-8 rounded-2xl group relative overflow-hidden hover:border-emerald-500/30 transition-all duration-500 animate-slide-up" style="animation-delay: 0.2s">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-bl-[100px] transition-all group-hover:bg-emerald-500/20 group-hover:w-full group-hover:h-full group-hover:rounded-none duration-500"></div>
+                        <div class="relative z-10">
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-400 text-2xl sm:text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-bold mb-4 text-white">App Development</h3>
+                            <p class="text-gray-400 text-sm sm:text-base mb-6 leading-relaxed">
+                                Native and cross-platform mobile applications for iOS and Android using Flutter and React Native.
+                            </p>
+                            <a href="/services.html#app-development" class="inline-flex items-center text-emerald-400 hover:text-emerald-300 font-semibold group-hover:translate-x-2 transition-transform text-sm sm:text-base">
+                                Explore Details <i class="fas fa-arrow-right ml-2 text-xs sm:text-sm"></i>
+                            </a>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent">App Development</h3>
-                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
-                            Native and cross-platform mobile applications for iOS and Android using Flutter and React Native.
-                        </p>
-                        <a href="/services.html#app-development" class="text-accent font-semibold flex items-center gap-2 text-sm sm:text-base group">
-                            Explore Details
-                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                        </a>
                     </div>
-                    
-                    <div class="service-card bg-white rounded-xl p-6 sm:p-8 shadow-lg animate-on-scroll" style="animation-delay:0.2s">
-                        <div class="bg-info/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                            <i class="fas fa-cloud text-info text-3xl"></i>
+
+                    <!-- Cloud -->
+                    <div class="glass-card p-6 sm:p-8 rounded-2xl group relative overflow-hidden hover:border-purple-500/30 transition-all duration-500 animate-slide-up" style="animation-delay: 0.4s">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-bl-[100px] transition-all group-hover:bg-purple-500/20 group-hover:w-full group-hover:h-full group-hover:rounded-none duration-500"></div>
+                        <div class="relative z-10">
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-400 text-2xl sm:text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-bold mb-4 text-white">Cloud Solutions</h3>
+                            <p class="text-gray-400 text-sm sm:text-base mb-6 leading-relaxed">
+                                Secure and scalable cloud infrastructure on AWS, Azure, and Google Cloud Platform.
+                            </p>
+                            <a href="/services.html#cloud-solutions" class="inline-flex items-center text-purple-400 hover:text-purple-300 font-semibold group-hover:translate-x-2 transition-transform text-sm sm:text-base">
+                                Explore Details <i class="fas fa-arrow-right ml-2 text-xs sm:text-sm"></i>
+                            </a>
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-info">Cloud Solutions</h3>
-                        <p class="text-dark-light mb-4 sm:mb-6 text-sm sm:text-base">
-                            Secure and scalable cloud infrastructure on AWS, Azure, and Google Cloud Platform.
-                        </p>
-                        <a href="/services.html#cloud-solutions" class="text-info font-semibold flex items-center gap-2 text-sm sm:text-base group">
-                            Explore Details
-                            <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                        </a>
                     </div>
-                </div>
-                <div class="text-center mt-10 animate-on-scroll">
-                    <a href="/services.html" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-flex items-center gap-2">
-                        View All Services <i class="fas fa-arrow-right"></i>
-                    </a>
                 </div>
             </div>
         </section>
 
         <!-- Stats Section -->
-        <section class="py-16 bg-dark text-white">
-            <div class="container mx-auto px-4">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-                    <div class="text-center animate-on-scroll">
-                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-accent mb-2">50+</div>
-                        <div class="text-light text-sm sm:text-base">Happy Clients</div>
+        <section id="stats" class="py-16 sm:py-20 border-y border-white/5 bg-black/20 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-900/5 via-transparent to-blue-900/5"></div>
+            <div class="container mx-auto px-4 sm:px-6 relative z-10">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="space-y-2 animate-fade-in">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-white counter" data-target="50">0</div>
+                        <div class="text-emerald-400 text-xs sm:text-sm tracking-wider uppercase font-semibold">Happy Clients</div>
                     </div>
-                    <div class="text-center animate-on-scroll" style="animation-delay:0.1s">
-                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-2">10+</div>
-                        <div class="text-light text-sm sm:text-base">Projects Completed</div>
+                    <div class="space-y-2 animate-fade-in" style="animation-delay: 0.1s">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-white counter" data-target="10">0</div>
+                        <div class="text-blue-400 text-xs sm:text-sm tracking-wider uppercase font-semibold">Projects Completed</div>
                     </div>
-                    <div class="text-center animate-on-scroll" style="animation-delay:0.2s">
-                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-success mb-2">24/7</div>
-                        <div class="text-light text-sm sm:text-base">Support</div>
+                    <div class="space-y-2 animate-fade-in" style="animation-delay: 0.2s">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-white">24/7</div>
+                        <div class="text-purple-400 text-xs sm:text-sm tracking-wider uppercase font-semibold">Support</div>
                     </div>
-                    <div class="text-center animate-on-scroll" style="animation-delay:0.3s">
-                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-warning mb-2">3+</div>
-                        <div class="text-light text-sm sm:text-base">Years Experience</div>
+                    <div class="space-y-2 animate-fade-in" style="animation-delay: 0.3s">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-white counter" data-target="3">0</div>
+                        <div class="text-orange-400 text-xs sm:text-sm tracking-wider uppercase font-semibold">Years Exp.</div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- CTA Section -->
-        <section class="py-16 sm:py-20 cta-gradient">
-            <div class="container mx-auto px-4 text-center animate-on-scroll">
-                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
-                <p class="text-white/90 text-base sm:text-lg mb-8 max-w-2xl mx-auto">
-                    Partner with us to create innovative digital solutions that drive growth and success.
-                </p>
-                <div class="flex flex-wrap gap-3 sm:gap-4 justify-center">
-                    <a href="/contact.html" class="bg-white text-primary px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                        <i class="fas fa-calendar-check mr-2"></i>Start Your Project
-                    </a>
-                    <a href="/payment.html" class="bg-success text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-green-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                        <i class="fas fa-credit-card mr-2"></i>Make Payment
-                    </a>
+        <section id="contact" class="py-20 sm:py-24 relative overflow-hidden">
+            <div class="absolute inset-0 bg-emerald-600/5"></div>
+            <div class="container mx-auto px-4 sm:px-6 relative z-10 text-center">
+                <div class="glass-card max-w-4xl mx-auto p-8 sm:p-12 rounded-3xl border-t border-emerald-500/30 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-500">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-4 sm:mb-6 animate-fade-in">Ready to Transform Your Business?</h2>
+                    <p class="text-gray-300 mb-6 sm:mb-8 text-base sm:text-lg max-w-2xl mx-auto animate-fade-in" style="animation-delay: 0.2s">
+                        Partner with us to create innovative digital solutions that drive growth and success.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style="animation-delay: 0.4s">
+                        <a href="/contact.html" class="px-8 py-4 bg-white text-emerald-900 rounded-xl font-bold hover:bg-gray-100 hover:scale-105 active:scale-95 transition-all shadow-lg">
+                            <i class="fas fa-calendar-check mr-2"></i> Start Your Project
+                        </a>
+                        <a href="/payment.html" class="px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-xl font-bold hover:from-emerald-500 hover:to-emerald-400 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-emerald-500/30">
+                            <i class="fas fa-credit-card mr-2"></i> Make Payment
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- Footer Placeholder -->
+        <div id="footer-container"></div>
     </main>
-
-    <!-- Footer will be injected by footer.js -->
-    <div id="footer-container"></div>
-
-    <!-- Footer Loader Script -->
-    <script src="js/footer.js" defer></script>
 
     <!-- Firebase Auth Script -->
     <script type="module" src="js/loginfirebase.js" defer></script>
 
+    <!-- Optimized Main Scripts -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Loading screen logic
-            const loadingScreen = document.getElementById('loading');
-            if (loadingScreen) {
-                setTimeout(() => {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => loadingScreen.style.display = 'none', 300);
-                }, 500);
-            }
+        // Fast Loading Logic
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loading');
+            loader.style.opacity = '0';
+            setTimeout(() => { 
+                loader.style.display = 'none'; 
+                // Adjust body padding based on header height
+                const header = document.getElementById('main-header');
+                if (header) document.body.style.paddingTop = header.offsetHeight + 'px';
+            }, 300);
 
-            // Smooth Scrolling
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href === '#' || href === '#!') return;
-                    if (href.startsWith('#')) {
-                        e.preventDefault();
-                        const targetElement = document.querySelector(href);
-                        if (targetElement) {
-                            const header = document.querySelector('header');
-                            const headerHeight = header ? header.offsetHeight : 80;
-                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                            const finalPosition = targetPosition - headerHeight - 20;
-                            window.scrollTo({top:finalPosition,behavior:'smooth'});
-                            history.pushState(null, null, href);
-                        }
-                    }
-                });
-            });
-            
-            // Scroll Animation
-            function animateOnScroll() {
-                document.querySelectorAll('.animate-on-scroll').forEach(element => {
-                    if (element.classList.contains('animated')) return;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const elementHeight = element.offsetHeight;
-                    const screenPosition = window.innerHeight - elementHeight / 3;
-                    if (elementPosition < screenPosition) element.classList.add('animated');
-                });
-            }
-            
-            animateOnScroll();
-            let isScrolling = false;
-            window.addEventListener('scroll', () => {
-                if (!isScrolling) {
-                    window.requestAnimationFrame(() => {
-                        animateOnScroll();
-                        isScrolling = false;
-                    });
-                    isScrolling = true;
-                }
-            });
-
-            // Check if login reminder should be shown
+            // Deferred Login Check
             setTimeout(() => {
                 const isLoggedIn = localStorage.getItem('userLoggedIn') || false;
-                if (!isLoggedIn) {
-                    console.log("Reminder: Login to access all features");
-                }
-            }, 20000);
+                if (!isLoggedIn) console.log("Reminder: Login to access all features");
+            }, 3000);
         });
 
-        // Global error handling
-        window.addEventListener('error', function(e) {
-            if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK') {
-                console.warn('Failed to load:', e.target.src || e.target.href);
+        // Optimized Three.js Animation
+        const initThreeJS = () => {
+            if (typeof THREE === 'undefined') {
+                console.log("Three.js failed to load");
+                return;
             }
-        }, true);
-    </script>
+            
+            const container = document.getElementById('canvas-container');
+            if (!container || !window.WebGLRenderingContext) return;
 
+            try {
+                const scene = new THREE.Scene();
+                scene.fog = new THREE.FogExp2(0x020617, 0.002);
+                
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+                
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                container.appendChild(renderer.domElement);
+
+                // Reduce particles on mobile for speed
+                const particlesCount = window.innerWidth < 768 ? 300 : 700;
+                const particlesGeometry = new THREE.BufferGeometry();
+                const posArray = new Float32Array(particlesCount * 3);
+
+                for(let i = 0; i < particlesCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 15;
+                }
+
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                const material = new THREE.PointsMaterial({ size: 0.02, color: 0x10b981, transparent: true, opacity: 0.8 });
+                const particlesMesh = new THREE.Points(particlesGeometry, material);
+                scene.add(particlesMesh);
+
+                camera.position.z = 5;
+                let mouseX = 0, mouseY = 0;
+                
+                // Throttle Mouse Move
+                let lastMove = 0;
+                document.addEventListener('mousemove', (event) => {
+                    const now = Date.now();
+                    if(now - lastMove > 16) {
+                        mouseX = event.clientX / window.innerWidth - 0.5;
+                        mouseY = event.clientY / window.innerHeight - 0.5;
+                        lastMove = now;
+                    }
+                });
+
+                let animationId = null;
+                const animate = () => {
+                    animationId = requestAnimationFrame(animate);
+                    // Smoother, cleaner rotation
+                    particlesMesh.rotation.y += 0.001; 
+                    
+                    // Gentle mouse interaction
+                    scene.rotation.x += (mouseY * 0.1 - scene.rotation.x) * 0.05;
+                    scene.rotation.y += (mouseX * 0.1 - scene.rotation.y) * 0.05;
+                    
+                    renderer.render(scene, camera);
+                };
+                animate();
+                
+                // Stop animation when tab hidden (Performance)
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden && animationId) {
+                        cancelAnimationFrame(animationId);
+                        animationId = null;
+                    } else if (!document.hidden && !animationId) {
+                        animate();
+                    }
+                });
+
+                // Resize handler
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        camera.aspect = window.innerWidth / window.innerHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                    }, 250);
+                });
+
+            } catch (e) {
+                console.log("Three.js init failed", e);
+            }
+        };
+        
+        // Init 3D only after basic load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initThreeJS);
+        } else {
+            initThreeJS();
+        }
+
+        // Stats Counters
+        const counters = document.querySelectorAll('.counter');
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = +counter.getAttribute('data-target');
+                    const increment = target / 60; 
+                    let current = 0;
+                    const update = () => {
+                        current += increment;
+                        if(current < target) {
+                            counter.innerText = Math.ceil(current) + "+";
+                            requestAnimationFrame(update);
+                        } else {
+                            counter.innerText = target + "+";
+                        }
+                    };
+                    update();
+                    obs.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(c => observer.observe(c));
+
+        // Scroll Animations
+        const fadeElems = document.querySelectorAll('.animate-on-scroll, .animate-fade-in, .animate-slide-up');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, { threshold: 0.1 });
+        fadeElems.forEach(el => fadeObserver.observe(el));
+
+        // Smooth Scroll Fix for Anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                try {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        const headerOffset = 80;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    }
+                } catch(err) {
+                    // Ignore invalid selectors
+                }
+            });
+        });
+    </script>
+    <script src="js/growth-promo.js" defer></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,12 @@
     <meta name="author" content="TechnoviaX Tech">
     
     <!-- Dynamic Favicon Loader -->
-    <script src="js/favicon-loader.js"></script>
+    <script src="js/favicon.js" defer></script>
+    
+    <!-- External Scripts -->
+    <script src="js/navigation.js" defer></script>
+    <script src="js/footer.js" defer></script>
+    <script type="module" src="js/loginfirebase.js" defer></script>
     
     <!-- External Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,52 +21,56 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS & Config -->
+    <!-- REMOVED Three.js to reduce GPU load -->
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
+                screens: {
+                    'xs': '375px',
+                    'sm': '640px',
+                    'md': '768px',
+                    'lg': '1024px',
+                    'xl': '1280px',
+                    '2xl': '1536px',
+                },
                 extend: {
                     colors: {
-                        primary: '#1e40af',
-                        'primary-dark': '#1e3a8a',
-                        'primary-light': '#3b82f6',
+                        dark: '#030014', // Deep Cosmic Blue
+                        card: 'rgba(255, 255, 255, 0.03)',
+                        primary: '#6366f1', // Indigo
+                        'primary-light': '#818cf8',
+                        accent: '#ec4899', // Pink
                         secondary: '#0f172a',
-                        accent: '#059669',
-                        'accent-dark': '#047857',
-                        'accent-light': '#10b981',
-                        light: '#f8fafc',
-                        dark: '#1e293b',
-                        'dark-light': '#334155',
                         success: '#10b981',
                         warning: '#f59e0b',
-                        error: '#dc2626',
-                        info: '#3b82f6',
-                        whatsapp: '#25D366',
-                        'whatsapp-dark': '#128C7E',
-                        // Pastel hints for backgrounds
-                        'pastel-blue': '#eff6ff',
-                        'pastel-green': '#f0fdf4',
-                        'pastel-purple': '#f5f3ff',
-                        'pastel-pink': '#fdf2f8'
+                        error: '#ef4444',
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Outfit', 'sans-serif'],
                     },
                     animation: {
-                        'float': 'float 4s ease-in-out infinite',
-                        'fade-in': 'fadeIn 0.5s ease-in',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 4s ease-in-out infinite alternate',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
+                            '50%': { transform: 'translateY(-15px)' },
                         },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.2)' },
+                            '100%': { boxShadow: '0 0 40px rgba(236, 72, 153, 0.4)' }
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
                         }
                     }
                 }
@@ -70,94 +79,255 @@
     </script>
 
     <style>
-        /* Shared Styles */
-        .whatsapp-float{position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25D366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow:2px 2px 8px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;text-decoration:none}
-        .whatsapp-float:hover{background-color:#128C7E;transform:scale(1.1);box-shadow:3px 3px 12px rgba(0,0,0,0.4)}
+        :root { 
+            --header-height: 64px; 
+            --color-dark: #030014;
+            --color-primary: #6366f1;
+            --color-accent: #ec4899;
+        }
         
-        .sticky-cta{position:fixed;bottom:40px;left:40px;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:2px 2px 10px rgba(30,64,175,0.3);z-index:999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease}
-        .sticky-cta:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:3px 3px 15px rgba(30,64,175,0.4)}
+        /* Performance-critical styles first */
+        body { 
+            background-color: var(--color-dark); 
+            color: white; 
+            overflow-x: hidden; 
+            padding-top: var(--header-height);
+            /* Hardware acceleration and performance optimization */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeSpeed;
+            /* Prevent layout shifts */
+            min-height: 100vh;
+        }
         
-        .section-title{position:relative;display:inline-block;padding-bottom:15px}
-        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background:linear-gradient(90deg,#1e40af,#059669);border-radius:2px}
-        
-        .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#f1f5f9 100%)}
-        .cta-gradient{background:linear-gradient(135deg,#1e40af 0%,#059669 100%);color:white}
-        
-        .animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
-        .animate-on-scroll.animated{opacity:1;transform:translateY(0)}
-        
-        #loading{background:linear-gradient(135deg,#1e40af 0%,#0f172a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
-        .loading-logo{color:white;font-size:2rem;font-weight:800;margin-bottom:1rem}
-        .loading-logo span{color:#059669}
-        
-        .btn-primary{background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:white;transition:all 0.3s ease}
-        .btn-primary:hover{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(30,64,175,0.3)}
-        
-        .btn-whatsapp{background:linear-gradient(135deg,#25D366 0%,#128C7E 100%);color:white;transition:all 0.3s ease}
-        .btn-whatsapp:hover{background:linear-gradient(135deg,#22c55e 0%,#0f766e 100%);transform:translateY(-3px);box-shadow:0 10px 20px rgba(37,211,102,0.3)}
+        /* Content visibility optimization */
+        #main-content {
+            content-visibility: auto;
+            contain-intrinsic-size: 0 500px;
+        }
 
-        html{scroll-behavior:smooth;scroll-padding-top:100px}
-        @media (max-width:768px){.whatsapp-float{width:50px;height:50px;bottom:20px;right:20px;font-size:24px}.sticky-cta{bottom:20px;left:20px;padding:10px 20px;font-size:14px}}
+        /* SIMPLE CSS GRADIENT BACKGROUND (replaces Three.js) */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                linear-gradient(var(--color-dark), var(--color-dark));
+            opacity: 0.8;
+            /* Will-change hint for GPU */
+            will-change: transform;
+        }
+
+        /* Static particles effect (CSS-only, very lightweight) */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.3;
+            will-change: transform;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--color-primary);
+            border-radius: 50%;
+            animation: float-particle 20s infinite linear;
+            animation-play-state: running;
+        }
+
+        @keyframes float-particle {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(-40px) translateX(0); }
+            75% { transform: translateY(-20px) translateX(-10px); }
+        }
+
+        /* Optimized Glass Card - Reduced blur for performance */
+        .glass-card {
+            background: rgba(17, 25, 40, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Reduced backdrop-filter */
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            /* Optimize for scrolling */
+            contain: layout style paint;
+            transform: translateZ(0);
+        }
+        
+        /* Reduce blur on mobile for better performance */
+        @media (max-width: 768px) {
+            .glass-card {
+                backdrop-filter: blur(2px);
+                -webkit-backdrop-filter: blur(2px);
+            }
+        }
+
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Text Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f43f5e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Optimized Animations */
+        .animate-on-scroll { 
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            /* Performance hints */
+            will-change: opacity, transform; 
+            contain: layout style;
+        }
+        .animate-on-scroll.animated { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+        
+        #loading { 
+            transition: opacity 0.6s ease-out; 
+            background: var(--color-dark); 
+            z-index: 9999; 
+            contain: strict;
+        }
+        
+        .whatsapp-float { 
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px; 
+            z-index: 100; 
+            width: 60px; 
+            height: 60px; 
+            contain: layout;
+        }
+
+        /* Optimize image rendering */
+        img {
+            content-visibility: auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Optimize for reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .particle, .glass-card, .animate-on-scroll {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* Custom Scrollbar - Lighter version */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--color-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+        /* Optimized font loading */
+        .font-outfit {
+            font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
     </style>
 </head>
-<body class="font-sans text-secondary bg-light">
+<body class="antialiased font-outfit">
 
     <!-- Loading Screen -->
-    <div id="loading" class="fixed inset-0 transition-opacity duration-500">
-        <div class="loading-logo">Technovia<span>X</span></div>
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        <p class="text-white mt-4 font-medium">Loading About Us...</p>
+    <div id="loading" class="fixed inset-0 flex flex-col items-center justify-center bg-dark" style="will-change: opacity;">
+        <div class="relative">
+            <div class="text-5xl font-bold mb-4 tracking-tighter text-white">Technovia<span class="text-gradient">X</span></div>
+            <div class="absolute -inset-4 bg-purple-500/20 blur-xl -z-10 rounded-full"></div>
+        </div>
+        <div class="w-48 h-1 bg-white/10 rounded-full overflow-hidden mt-4">
+            <div class="w-full h-full bg-gradient-to-r from-indigo-500 to-pink-500 origin-left animate-[grow_1s_ease-in-out_infinite]"></div>
+        </div>
     </div>
 
-    <!-- Floating Buttons -->
-    <a href="https://wa.me/918433125736" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+    <!-- Lightweight Background (replaces Three.js) -->
+    <div class="gradient-bg"></div>
+    <div class="particles" id="particles-container"></div>
+
+    <!-- Nav Placeholder -->
+    <div id="nav-placeholder"></div>
+
+    <!-- Floating Actions -->
+    <a href="https://wa.me/918433125736" target="_blank" class="whatsapp-float bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center text-3xl shadow-lg shadow-green-500/30 transition-all hover:scale-110 animate-bounce">
         <i class="fab fa-whatsapp"></i>
     </a>
     
-    <a href="/contact.html" class="sticky-cta" id="sticky-contact-btn">
+    <a href="/contact.html" class="fixed bottom-8 left-8 z-40 px-6 py-3 bg-gradient-to-r from-primary to-primary-light text-white rounded-full shadow-lg shadow-primary/30 font-semibold transition-all hover:-translate-y-1 hidden md:flex items-center gap-2">
         <i class="fas fa-envelope"></i> Contact Us
     </a>
 
-    <!-- Navigation Injection -->
-    <script src="js/navigation.js" defer></script>
-
     <main id="main-content">
         <!-- Hero Section -->
-        <section class="hero-gradient pt-12 pb-16">
-            <div class="container mx-auto px-4 text-center animate-on-scroll">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-secondary">
-                    About <span class="text-primary">TechnoviaX</span>
+        <section class="relative pt-16 pb-16 md:pt-24 md:pb-24 overflow-hidden">
+            <!-- Decorative Glows -->
+            <div class="absolute top-20 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none animate-pulse"></div>
+            
+            <div class="container mx-auto px-4 text-center relative z-10">
+                <h1 class="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 leading-tight text-white animate-fade-in-up">
+                    About <span class="text-gradient">TechnoviaX</span>
                 </h1>
-                <p class="text-lg sm:text-xl text-dark-light max-w-3xl mx-auto mb-8">
+                <p class="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-8 leading-relaxed animate-fade-in-up" style="animation-delay: 0.1s">
                     We're a team of passionate technologists dedicated to helping businesses thrive in the digital age through innovative IT solutions.
                 </p>
-                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+                <div class="w-24 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto rounded-full animate-fade-in-up" style="animation-delay: 0.2s"></div>
             </div>
         </section>
 
-        <div class="container mx-auto px-4 pb-12">
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 pb-24 relative z-10">
+            
             <!-- Our Story -->
-            <section class="mb-16 bg-white rounded-2xl shadow-lg overflow-hidden animate-on-scroll">
-                <div class="flex flex-col lg:flex-row items-center">
-                    <div class="lg:w-1/2 w-full relative lg:h-[500px] h-[400px]">
-    <img src="images/photo-1522202176988-66273c2fd55f.png" 
-         alt="Our Team" 
-         class="absolute inset-0 w-full h-full object-cover">
-    <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent"></div>
-</div>
-                    <div class="lg:w-1/2 p-8 md:p-12">
-                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pastel-blue text-primary font-semibold text-sm mb-6">
+            <section class="mb-20 animate-on-scroll">
+                <div class="glass-card rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row items-center border-white/5">
+                    <div class="lg:w-1/2 w-full relative h-[400px] lg:h-[500px]">
+                        <!-- Optimized image with lazy loading -->
+                        <img src="images/photo-1522202176988-66273c2fd55f.png" 
+                             alt="Our Team" 
+                             class="absolute inset-0 w-full h-full object-cover"
+                             loading="lazy"
+                             decoding="async"
+                             onerror="this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <div class="absolute inset-0 bg-gradient-to-r from-dark/80 to-transparent"></div>
+                    </div>
+                    <div class="lg:w-1/2 p-8 md:p-12 lg:p-16">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-medium text-sm mb-6">
                             <i class="fas fa-history"></i> Our Journey
                         </div>
-                        <h2 class="text-3xl font-bold mb-6 text-secondary">Building the Future Since 2020</h2>
-                        <div class="space-y-4 text-dark-light leading-relaxed text-lg">
+                        <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-white">Building the Future Since 2020</h2>
+                        <div class="space-y-4 text-gray-300 leading-relaxed text-lg">
                             <p>Founded in 2020, TechnoviaX Tech started with a simple mission: to make cutting-edge technology accessible to businesses of all sizes.</p>
                             <p>What began as a small team of developers has grown into a full-service IT solutions provider serving clients across India and internationally.</p>
                             <p>Today, we combine technical expertise with business acumen to deliver solutions that drive real growth and transformation.</p>
                         </div>
                         <div class="mt-8">
-                            <a href="/contact.html" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-flex items-center gap-2">
-                                Get in Touch <i class="fas fa-arrow-right"></i>
+                            <a href="/contact.html" class="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-indigo-600 to-indigo-400 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-indigo-500/30 transition-all transform hover:-translate-y-1">
+                                Get in Touch <i class="fas fa-arrow-right ml-2"></i>
                             </a>
                         </div>
                     </div>
@@ -165,50 +335,50 @@
             </section>
 
             <!-- Mission & Vision -->
-            <section class="mb-16 animate-on-scroll">
+            <section class="mb-20 animate-on-scroll">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Mission -->
-                    <div class="bg-white border-l-4 border-primary rounded-r-2xl p-8 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <div class="text-primary text-4xl mb-6 bg-pastel-blue w-16 h-16 rounded-full flex items-center justify-center">
+                    <div class="glass-card p-8 md:p-10 rounded-3xl border-l-4 border-l-primary group hover:bg-white/5 transition-colors">
+                        <div class="w-16 h-16 bg-indigo-500/20 text-indigo-400 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-indigo-500/10">
                             <i class="fas fa-bullseye"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4 text-secondary">Our Mission</h3>
-                        <p class="text-dark-light mb-6">To empower businesses with innovative technology solutions that drive growth, enhance efficiency, and create lasting competitive advantages.</p>
+                        <h3 class="text-2xl font-bold mb-4 text-white">Our Mission</h3>
+                        <p class="text-gray-400 mb-6 leading-relaxed">To empower businesses with innovative technology solutions that drive growth, enhance efficiency, and create lasting competitive advantages.</p>
                         <ul class="space-y-3">
                             <li class="flex items-start gap-3">
                                 <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span class="text-dark">Deliver exceptional value to every client</span>
+                                <span class="text-gray-300">Deliver exceptional value to every client</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span class="text-dark">Stay at the forefront of technology</span>
+                                <span class="text-gray-300">Stay at the forefront of technology</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span class="text-dark">Build long-term partnerships</span>
+                                <span class="text-gray-300">Build long-term partnerships</span>
                             </li>
                         </ul>
                     </div>
                     
                     <!-- Vision -->
-                    <div class="bg-white border-l-4 border-accent rounded-r-2xl p-8 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <div class="text-accent-dark text-4xl mb-6 bg-pastel-green w-16 h-16 rounded-full flex items-center justify-center">
+                    <div class="glass-card p-8 md:p-10 rounded-3xl border-l-4 border-l-accent group hover:bg-white/5 transition-colors">
+                        <div class="w-16 h-16 bg-pink-500/20 text-pink-400 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-pink-500/10">
                             <i class="fas fa-eye"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4 text-secondary">Our Vision</h3>
-                        <p class="text-dark-light mb-6">To be the leading technology partner for businesses seeking digital transformation, recognized for innovation, reliability, and exceptional service.</p>
+                        <h3 class="text-2xl font-bold mb-4 text-white">Our Vision</h3>
+                        <p class="text-gray-400 mb-6 leading-relaxed">To be the leading technology partner for businesses seeking digital transformation, recognized for innovation, reliability, and exceptional service.</p>
                         <ul class="space-y-3">
                             <li class="flex items-start gap-3">
                                 <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span class="text-dark">Expand to serve clients globally</span>
+                                <span class="text-gray-300">Expand to serve clients globally</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span class="text-dark">Pioneer new technologies</span>
+                                <span class="text-gray-300">Pioneer new technologies</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <i class="fas fa-check-circle text-success mt-1"></i>
-                                <span class="text-dark">Create a culture of continuous innovation</span>
+                                <span class="text-gray-300">Create a culture of continuous innovation</span>
                             </li>
                         </ul>
                     </div>
@@ -216,34 +386,34 @@
             </section>
 
             <!-- Our Values -->
-            <section class="mb-16 animate-on-scroll">
+            <section class="mb-20 animate-on-scroll">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold mb-4 text-secondary">Our Core Values</h2>
+                    <h2 class="text-3xl font-bold mb-4 text-white">Our Core Values</h2>
                     <div class="w-16 h-1 bg-accent mx-auto rounded-full"></div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-white p-8 rounded-2xl shadow-sm text-center hover:shadow-lg transition-all border border-gray-100">
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-pastel-blue text-primary rounded-full mb-6 text-3xl">
+                    <div class="glass-card p-8 rounded-3xl text-center group hover:border-indigo-500/30">
+                        <div class="w-20 h-20 bg-indigo-500/10 rounded-full flex items-center justify-center text-indigo-400 text-3xl mx-auto mb-6 group-hover:scale-110 transition-transform border border-indigo-500/20">
                             <i class="fas fa-handshake"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-3 text-secondary">Integrity</h3>
-                        <p class="text-dark-light">We believe in honest communication, transparent processes, and ethical business practices in everything we do.</p>
+                        <h3 class="text-xl font-bold mb-3 text-white">Integrity</h3>
+                        <p class="text-gray-400">We believe in honest communication, transparent processes, and ethical business practices in everything we do.</p>
                     </div>
                     
-                    <div class="bg-white p-8 rounded-2xl shadow-sm text-center hover:shadow-lg transition-all border border-gray-100">
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-pastel-green text-accent-dark rounded-full mb-6 text-3xl">
+                    <div class="glass-card p-8 rounded-3xl text-center group hover:border-emerald-500/30">
+                        <div class="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center text-emerald-400 text-3xl mx-auto mb-6 group-hover:scale-110 transition-transform border border-emerald-500/20">
                             <i class="fas fa-lightbulb"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-3 text-secondary">Innovation</h3>
-                        <p class="text-dark-light">We constantly explore new technologies and approaches to deliver cutting-edge solutions that give our clients an advantage.</p>
+                        <h3 class="text-xl font-bold mb-3 text-white">Innovation</h3>
+                        <p class="text-gray-400">We constantly explore new technologies and approaches to deliver cutting-edge solutions that give our clients an advantage.</p>
                     </div>
                     
-                    <div class="bg-white p-8 rounded-2xl shadow-sm text-center hover:shadow-lg transition-all border border-gray-100">
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-pastel-purple text-info rounded-full mb-6 text-3xl">
+                    <div class="glass-card p-8 rounded-3xl text-center group hover:border-pink-500/30">
+                        <div class="w-20 h-20 bg-pink-500/10 rounded-full flex items-center justify-center text-pink-400 text-3xl mx-auto mb-6 group-hover:scale-110 transition-transform border border-pink-500/20">
                             <i class="fas fa-users"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-3 text-secondary">Collaboration</h3>
-                        <p class="text-dark-light">We work closely with our clients, understanding their needs and involving them throughout the development process.</p>
+                        <h3 class="text-xl font-bold mb-3 text-white">Collaboration</h3>
+                        <p class="text-gray-400">We work closely with our clients, understanding their needs and involving them throughout the development process.</p>
                     </div>
                 </div>
             </section>
@@ -251,154 +421,237 @@
             <!-- Team Section -->
             <section class="mb-12 animate-on-scroll">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold mb-4 text-secondary">Meet Our Leader</h2>
-                    <p class="text-dark-light max-w-2xl mx-auto"></p>
+                    <h2 class="text-3xl font-bold mb-4 text-white">Meet Our Leader</h2>
                 </div>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Team Member 1 -->
-                    <div class="bg-white p-6 rounded-2xl shadow-md text-center hover:-translate-y-2 transition-transform duration-300 border border-gray-100">
-                        <div class="relative w-32 h-32 mx-auto mb-4">
+                <div class="flex justify-center">
+                    <div class="glass-card p-8 rounded-3xl text-center hover:-translate-y-2 transition-transform duration-300 w-full max-w-sm border-t-4 border-t-indigo-500">
+                        <div class="relative w-32 h-32 mx-auto mb-6">
                             <img src="images/Image_Editor.png.jpg" 
-                                 onerror="this.src='https://ui-avatars.com/api/?name=Deepesh+Sharma&background=0D8ABC&color=fff&size=128'"
+                                 onerror="this.src='https://ui-avatars.com/api/?name=Deepesh+Sharma&background=6366f1&color=fff&size=128'"
                                  alt="Founder & CEO" 
-                                 class="w-full h-full rounded-full object-cover border-4 border-white shadow-md">
-                            <div class="absolute bottom-1 right-1 w-4 h-4 bg-success border-2 border-white rounded-full"></div>
+                                 class="w-full h-full rounded-full object-cover border-4 border-indigo-500/30 shadow-lg"
+                                 loading="lazy"
+                                 decoding="async">
+                            <div class="absolute bottom-1 right-1 w-5 h-5 bg-success border-2 border-dark rounded-full"></div>
                         </div>
-                        <h3 class="font-bold text-lg text-secondary">Deepesh Sharma</h3>
-                        <p class="text-primary font-medium mb-3 text-sm">Founder & CEO</p>
-                        <p class="text-gray-500 text-xs leading-relaxed border-t border-gray-100 pt-3">2+ years in development and business strategy</p>
+                        <h3 class="font-bold text-xl text-white">Deepesh Sharma</h3>
+                        <p class="text-indigo-400 font-medium mb-4 text-sm uppercase tracking-wide">Founder & CEO</p>
+                        <p class="text-gray-400 text-sm leading-relaxed border-t border-white/10 pt-4">Driving innovation with 2+ years of expertise in full-stack development and business strategy.</p>
+                        
+                        <div class="flex justify-center gap-4 mt-6">
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-indigo-500 hover:text-white transition-all"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-sky-500 hover:text-white transition-all"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-pink-500 hover:text-white transition-all"><i class="fab fa-instagram"></i></a>
+                        </div>
                     </div>
-                    
-                    <!-- Team Member 2
-                    <div class="bg-white p-6 rounded-2xl shadow-md text-center hover:-translate-y-2 transition-transform duration-300 border border-gray-100">
-                        <div class="relative w-32 h-32 mx-auto mb-4">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                                 alt="CTO" 
-                                 class="w-full h-full rounded-full object-cover border-4 border-white shadow-md">
-                        </div>
-                        <h3 class="font-bold text-lg text-secondary">Priya Sharma</h3>
-                        <p class="text-primary font-medium mb-3 text-sm">CTO</p>
-                        <p class="text-gray-500 text-xs leading-relaxed border-t border-gray-100 pt-3">Expert in cloud architecture and enterprise solutions</p>
-                    </div> -->
-                    
-                    <!-- Team Member 3
-                    <div class="bg-white p-6 rounded-2xl shadow-md text-center hover:-translate-y-2 transition-transform duration-300 border border-gray-100">
-                        <div class="relative w-32 h-32 mx-auto mb-4">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                                 alt="Lead Developer" 
-                                 class="w-full h-full rounded-full object-cover border-4 border-white shadow-md">
-                        </div>
-                        <h3 class="font-bold text-lg text-secondary">Amit Patel</h3>
-                        <p class="text-primary font-medium mb-3 text-sm">Lead Developer</p>
-                        <p class="text-gray-500 text-xs leading-relaxed border-t border-gray-100 pt-3">Specializes in full-stack development and DevOps</p>
-                    </div> -->
-                    
-                    <!-- Team Member 4
-                    <div class="bg-white p-6 rounded-2xl shadow-md text-center hover:-translate-y-2 transition-transform duration-300 border border-gray-100">
-                        <div class="relative w-32 h-32 mx-auto mb-4">
-                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                                 alt="UI/UX Designer" 
-                                 class="w-full h-full rounded-full object-cover border-4 border-white shadow-md">
-                        </div>
-                        <h3 class="font-bold text-lg text-secondary">Neha Verma</h3>
-                        <p class="text-primary font-medium mb-3 text-sm">UI/UX Designer</p>
-                        <p class="text-gray-500 text-xs leading-relaxed border-t border-gray-100 pt-3">Creates intuitive and beautiful user experiences</p>
-                    </div> -->
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="py-20 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/20 to-pink-900/20 rounded-3xl"></div>
+                <div class="glass-card rounded-[2.5rem] p-8 md:p-12 text-center relative z-10 border-t border-purple-500/30 hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-500">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-white">Ready to Transform Your Business?</h2>
+                    <p class="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
+                        Join the many businesses that have achieved success with our technology solutions.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="/contact.html" class="px-8 py-4 bg-white text-dark rounded-xl font-bold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                            Start Your Project <i class="fas fa-arrow-right text-indigo-600"></i>
+                        </a>
+                        <a href="https://wa.me/918433125736" class="px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 border border-white/20 hover:bg-white/10 text-white transition-all backdrop-blur-sm" target="_blank">
+                            <i class="fab fa-whatsapp text-xl"></i> Chat on WhatsApp
+                        </a>
+                    </div>
                 </div>
             </section>
         </div>
-
-        <!-- CTA Section -->
-        <section class="cta-gradient py-20">
-            <div class="container mx-auto px-4 text-center animate-on-scroll">
-                <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-white">Ready to Transform Your Business?</h2>
-                <p class="text-white/90 text-lg mb-10 max-w-2xl mx-auto">
-                    Join the many businesses that have achieved success with our technology solutions.
-                </p>
-                <div class="flex flex-wrap gap-4 justify-center">
-                    <a href="/contact.html" class="bg-white text-primary px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center gap-2">
-                        Start Your Project <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="https://wa.me/918433125736" class="btn-whatsapp px-8 py-4 rounded-lg font-bold flex items-center gap-2" target="_blank">
-                        <i class="fab fa-whatsapp text-xl"></i> Chat on WhatsApp
-                    </a>
-                </div>
-            </div>
-        </section>
     </main>
 
-    <!-- Footer Injection -->
+    <!-- Footer Placeholder -->
     <div id="footer-container"></div>
-    <script src="js/footer.js" defer></script>
 
-    <!-- Firebase Auth Script -->
-    <script type="module" src="js/loginfirebase.js" defer></script>
-
-    <!-- Main Logic -->
+    <!-- Optimized JavaScript -->
     <script>
+        // --- 1. Loading & Initialization (Optimized) ---
         document.addEventListener('DOMContentLoaded', function() {
-            // Loading screen logic
-            const loadingScreen = document.getElementById('loading');
-            if (loadingScreen) {
+            // Remove loading screen
+            const loading = document.getElementById('loading');
+            if (loading) {
+                loading.style.opacity = '0';
                 setTimeout(() => {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    }, 500);
-                }, 500);
+                    loading.style.display = 'none';
+                }, 300);
             }
+            
+            // Initialize particles (lightweight CSS particles)
+            initParticles();
+            
+            // Setup scroll animations
+            initScrollAnimations();
+            
+            // Setup performance monitoring (optional)
+            monitorPerformance();
+        });
 
-            // Smooth Scrolling
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href === '#' || href === '#!') return;
-                    if (href.startsWith('#')) {
-                        e.preventDefault();
-                        const targetElement = document.querySelector(href);
-                        if (targetElement) {
-                            const header = document.querySelector('header');
-                            const headerHeight = header ? header.offsetHeight : 80;
-                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                            window.scrollTo({
-                                top: targetPosition - headerHeight - 20, 
-                                behavior: 'smooth'
-                            });
-                            history.pushState(null, null, href);
+        // Failsafe for loading
+        setTimeout(() => { 
+            const loading = document.getElementById('loading');
+            if (loading) loading.style.display = 'none'; 
+        }, 1500);
+
+        // --- 2. Lightweight CSS Particles (replaces Three.js) ---
+        function initParticles() {
+            const container = document.getElementById('particles-container');
+            if (!container) return;
+            
+            // Only create particles on desktop for better mobile performance
+            if (window.innerWidth > 768) {
+                const particleCount = 30; // Very few particles for performance
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    // Random position
+                    const size = Math.random() * 4 + 1;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const delay = Math.random() * 20;
+                    const duration = 20 + Math.random() * 10;
+                    
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${posX}%`;
+                    particle.style.top = `${posY}%`;
+                    particle.style.animationDelay = `${delay}s`;
+                    particle.style.animationDuration = `${duration}s`;
+                    particle.style.opacity = Math.random() * 0.5 + 0.1;
+                    
+                    // Random color between primary and accent
+                    particle.style.backgroundColor = Math.random() > 0.5 ? 
+                        'var(--color-primary)' : 'var(--color-accent)';
+                    
+                    container.appendChild(particle);
+                }
+            }
+        }
+
+        // --- 3. Optimized Scroll Animations ---
+        function initScrollAnimations() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            // Use IntersectionObserver with debouncing
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Use requestAnimationFrame for smooth animation
+                        requestAnimationFrame(() => {
+                            entry.target.classList.add('animated');
+                        });
+                        
+                        // Unobserve after animation to reduce CPU load
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe elements
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Throttle scroll events
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    // Pause particles when scrolling for performance
+                    if (window.innerWidth > 768) {
+                        document.querySelectorAll('.particle').forEach(particle => {
+                            particle.style.animationPlayState = 'paused';
+                        });
+                    }
+                }, 50);
+                
+                // Resume after scroll
+                setTimeout(() => {
+                    if (window.innerWidth > 768) {
+                        document.querySelectorAll('.particle').forEach(particle => {
+                            particle.style.animationPlayState = 'running';
+                        });
+                    }
+                }, 200);
+            }, { passive: true });
+        }
+
+        // --- 4. Performance Monitoring & Optimization ---
+        function monitorPerformance() {
+            // Only run in development or if performance is poor
+            if (typeof PerformanceObserver !== 'undefined') {
+                // Monitor long tasks
+                const observer = new PerformanceObserver((list) => {
+                    for (const entry of list.getEntries()) {
+                        if (entry.duration > 50) {
+                            console.log(`Long task detected: ${entry.duration.toFixed(2)}ms`);
+                            // Could trigger optimizations here
                         }
                     }
                 });
-            });
-            
-            // Scroll Animation
-            function animateOnScroll() {
-                const elements = document.querySelectorAll('.animate-on-scroll');
-                elements.forEach(element => {
-                    if (element.classList.contains('animated')) return;
-                    const elementTop = element.getBoundingClientRect().top;
-                    const windowHeight = window.innerHeight;
-                    if (elementTop < windowHeight * 0.85) {
-                        element.classList.add('animated');
-                    }
-                });
+                
+                try {
+                    observer.observe({ entryTypes: ['longtask'] });
+                } catch(e) {
+                    // Browser doesn't support longtask monitoring
+                }
             }
             
-            // Initial check
-            animateOnScroll();
+            // Optimize for mobile devices
+            if ('connection' in navigator && navigator.connection.saveData === true) {
+                // Reduce animations for data-saving mode
+                document.body.classList.add('reduce-motion');
+            }
             
-            // Debounced scroll listener
-            let isScrolling = false;
-            window.addEventListener('scroll', () => {
-                if (!isScrolling) {
-                    window.requestAnimationFrame(() => {
-                        animateOnScroll();
-                        isScrolling = false;
-                    });
-                    isScrolling = true;
+            // Check if user prefers reduced motion
+            const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            if (mediaQuery.matches) {
+                document.body.classList.add('reduce-motion');
+            }
+        }
+
+        // --- 5. Resize Handler (Optimized) ---
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Reinitialize particles on resize (only if needed)
+                const particlesContainer = document.getElementById('particles-container');
+                if (particlesContainer && window.innerWidth > 768) {
+                    particlesContainer.innerHTML = '';
+                    initParticles();
                 }
-            });
+            }, 250);
+        }, { passive: true });
+
+        // --- 6. Visibility Change Handler ---
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Pause animations when tab is not visible
+                document.querySelectorAll('.particle').forEach(p => {
+                    p.style.animationPlayState = 'paused';
+                });
+            } else {
+                // Resume when tab becomes visible
+                setTimeout(() => {
+                    document.querySelectorAll('.particle').forEach(p => {
+                        p.style.animationPlayState = 'running';
+                    });
+                }, 100);
+            }
         });
     </script>
 </body>

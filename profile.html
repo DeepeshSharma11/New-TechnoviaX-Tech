@@ -522,6 +522,8 @@
             increment
         } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
+        const appId = 'technoviax-prod';
+
         // DOM Elements
         const loadingScreen = document.getElementById('loading');
         const mainContent = document.getElementById('main-content');
@@ -603,7 +605,8 @@
         async function loadUserProfile(user) {
             currentUser = user;
             try {
-                const userRef = doc(db, "users", user.uid);
+                // FIXED PATH: Use artifacts structure
+                const userRef = doc(db, "artifacts", appId, "users", user.uid, "profile", "data");
                 const docSnap = await getDoc(userRef);
 
                 if (docSnap.exists()) {
@@ -682,12 +685,14 @@
         document.getElementById('save-personal-btn').onclick = async () => {
             try {
                 const newName = editName.value;
-                await updateDoc(doc(db, "users", currentUser.uid), { name: newName });
+                // FIXED PATH
+                const userRef = doc(db, "artifacts", appId, "users", currentUser.uid, "profile", "data");
+                await updateDoc(userRef, { name: newName });
                 userProfileData.name = newName;
                 updateUI(userProfileData);
                 toggleEditMode('personal', false);
                 showToast("Profile Updated!");
-            } catch(e) { showToast("Error updating profile", "error"); }
+            } catch(e) { console.error(e); showToast("Error updating profile", "error"); }
         };
 
         document.getElementById('save-contact-btn').onclick = async () => {
@@ -697,12 +702,14 @@
                     altEmail: editAltEmail.value,
                     address: editAddress.value
                 };
-                await updateDoc(doc(db, "users", currentUser.uid), updateData);
+                // FIXED PATH
+                const userRef = doc(db, "artifacts", appId, "users", currentUser.uid, "profile", "data");
+                await updateDoc(userRef, updateData);
                 Object.assign(userProfileData, updateData);
                 updateUI(userProfileData);
                 toggleEditMode('contact', false);
                 showToast("Contact Info Updated!");
-            } catch(e) { showToast("Error updating contact info", "error"); }
+            } catch(e) { console.error(e); showToast("Error updating contact info", "error"); }
         };
 
         // Tab Switching

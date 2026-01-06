@@ -491,246 +491,320 @@
     <div id="footer-container"></div>
     <script src="js/footer.js" defer></script>
 
-    <!-- Firebase and Profile Logic -->
     <script type="module">
-        import { 
-            auth, 
-            db, 
-            signOut,
-            onAuthStateChanged, 
-            signInAnonymously
-        } from "./js/loginfirebase.js";
-        
-        import { 
-            updateProfile,
-            updateEmail,
-            updatePassword
-        } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-        
-        import { 
-            doc, 
-            getDoc, 
-            setDoc, 
-            updateDoc,
-            collection,
-            query,
-            where,
-            getDocs,
-            orderBy,
-            limit,
-            serverTimestamp,
-            increment
-        } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+    import { 
+        auth, 
+        db, 
+        signOut,
+        onAuthStateChanged
+    } from "./js/loginfirebase.js";
+    
+    import { 
+        doc, 
+        getDoc, 
+        setDoc, 
+        updateDoc,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-        const appId = 'technoviax-prod';
+    const appId = 'technoviax-prod';
 
-        // DOM Elements
-        const loadingScreen = document.getElementById('loading');
-        const mainContent = document.getElementById('main-content');
-        
-        // Failsafe Loading Timeout
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                if (loadingScreen && loadingScreen.style.opacity !== '0') {
-                    console.log("Forcing load completion");
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        mainContent.style.opacity = '1';
-                    }, 500);
-                }
-            }, 1500); // 1.5s timeout fallback
-        });
-
-        // Initialize Firebase Listeners
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                // User is signed in
-                await loadUserProfile(user);
-            } else {
-                // User is not signed in - Redirect to login
-                console.log("No user found, redirecting to login...");
-                window.location.href = '/login.html';
-            }
-        });
-
-        // Elements
-        const editProfileBtn = document.getElementById('edit-profile-btn');
-        const changePasswordBtn = document.getElementById('change-password-btn');
-        const exportDataBtn = document.getElementById('export-data-btn');
-        const changeAvatarBtn = document.getElementById('change-avatar-btn');
-        const logoutBtn = document.getElementById('logout-btn');
-
-        // Profile Display Elements
-        const profileAvatar = document.getElementById('profile-avatar');
-        const profileName = document.getElementById('profile-name');
-        const profileEmail = document.getElementById('profile-email');
-        const displayName = document.getElementById('display-name');
-        const displayEmail = document.getElementById('display-email');
-        const displayPhone = document.getElementById('display-phone');
-        const displayAltEmail = document.getElementById('display-alt-email');
-        const displayAddress = document.getElementById('display-address');
-        const userId = document.getElementById('user-id');
-        const totalPayments = document.getElementById('total-payments');
-        const memberSince = document.getElementById('member-since');
-
-        // Edit Inputs
-        const editName = document.getElementById('edit-name');
-        const editPhone = document.getElementById('edit-phone');
-        const editAltEmail = document.getElementById('edit-alt-email');
-        const editAddress = document.getElementById('edit-address');
-
-        // Logic Variables
-        let currentUser = null;
-        let userProfileData = {};
-
-        // Helper: Date Format
-        function formatDate(date) {
-            if (!date) return '-';
-            // Handle Firestore Timestamp
-            const d = date.toDate ? date.toDate() : new Date(date);
-            return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-        }
-
-        // Helper: Toast
-        function showToast(msg, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `profile-toast ${type} show`;
-            toast.innerHTML = `<i class="fas ${type==='success'?'fa-check':'fa-exclamation'}"></i> ${msg}`;
-            document.body.appendChild(toast);
-            setTimeout(() => { toast.remove() }, 3000);
-        }
-
-        // Load Profile
-        async function loadUserProfile(user) {
-            currentUser = user;
-            try {
-                // FIXED PATH: Use artifacts structure
-                const userRef = doc(db, "artifacts", appId, "users", user.uid, "profile", "data");
-                const docSnap = await getDoc(userRef);
-
-                if (docSnap.exists()) {
-                    userProfileData = docSnap.data();
-                } else {
-                    // Create basic profile if missing
-                    userProfileData = {
-                        name: user.displayName || 'User',
-                        email: user.email,
-                        createdAt: serverTimestamp(),
-                        lastLogin: serverTimestamp()
-                    };
-                    await setDoc(userRef, userProfileData);
-                }
-                
-                updateUI(userProfileData);
-                
-                // Hide loader immediately on data load
+    // DOM Elements
+    const loadingScreen = document.getElementById('loading');
+    const mainContent = document.getElementById('main-content');
+    
+    // FIXED: Use window load event properly
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            if (loadingScreen.style.opacity !== '0') {
+                console.log("Forcing load completion");
                 loadingScreen.style.opacity = '0';
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
-                    mainContent.style.opacity = '1';
-                }, 300);
+                    if (mainContent) {
+                        mainContent.style.opacity = '1';
+                    }
+                }, 500);
+            }
+        }, 1500);
+    });
 
-            } catch (error) {
-                console.error("Error loading profile:", error);
-                // Even on error, show the page
+    // Initialize Firebase Listeners
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            // User is signed in
+            await loadUserProfile(user);
+        } else {
+            // User is not signed in - Redirect to login
+            console.log("No user found, redirecting to login...");
+            window.location.href = '/login.html';
+        }
+    });
+
+    // Elements
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    const changePasswordBtn = document.getElementById('change-password-btn');
+    const exportDataBtn = document.getElementById('export-data-btn');
+    const changeAvatarBtn = document.getElementById('change-avatar-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    // Profile Display Elements
+    const profileAvatar = document.getElementById('profile-avatar');
+    const profileName = document.getElementById('profile-name');
+    const profileEmail = document.getElementById('profile-email');
+    const displayName = document.getElementById('display-name');
+    const displayEmail = document.getElementById('display-email');
+    const displayPhone = document.getElementById('display-phone');
+    const displayAltEmail = document.getElementById('display-alt-email');
+    const displayAddress = document.getElementById('display-address');
+    const userId = document.getElementById('user-id');
+    const totalPayments = document.getElementById('total-payments');
+    const memberSince = document.getElementById('member-since');
+
+    // Edit Inputs
+    const editName = document.getElementById('edit-name');
+    const editPhone = document.getElementById('edit-phone');
+    const editAltEmail = document.getElementById('edit-alt-email');
+    const editAddress = document.getElementById('edit-address');
+
+    // Logic Variables
+    let currentUser = null;
+    let userProfileData = {};
+
+    // Helper: Date Format
+    function formatDate(date) {
+        if (!date) return '-';
+        // Handle Firestore Timestamp
+        const d = date.toDate ? date.toDate() : new Date(date);
+        return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    // Helper: Toast
+    function showToast(msg, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `profile-toast ${type} show`;
+        toast.innerHTML = `<i class="fas ${type==='success'?'fa-check':'fa-exclamation'}"></i> ${msg}`;
+        document.body.appendChild(toast);
+        setTimeout(() => { toast.remove() }, 3000);
+    }
+
+    // Load Profile - FIXED PATH STRUCTURE
+    async function loadUserProfile(user) {
+        currentUser = user;
+        try {
+            // FIXED: Use correct Firestore path structure
+            const userRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(userRef);
+
+            if (docSnap.exists()) {
+                userProfileData = docSnap.data();
+                console.log("Profile loaded:", userProfileData);
+            } else {
+                // Create basic profile if missing
+                userProfileData = {
+                    name: user.displayName || user.email.split('@')[0],
+                    email: user.email,
+                    uid: user.uid,
+                    createdAt: serverTimestamp(),
+                    lastLogin: serverTimestamp(),
+                    isActive: true
+                };
+                await setDoc(userRef, userProfileData);
+                console.log("New profile created");
+            }
+            
+            updateUI(userProfileData);
+            
+            // Hide loader
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 mainContent.style.opacity = '1';
-            }
+            }, 300);
+
+        } catch (error) {
+            console.error("Error loading profile:", error);
+            // Show error but still display page
+            loadingScreen.style.display = 'none';
+            mainContent.style.opacity = '1';
+            showToast("Error loading profile. Please refresh.", "error");
         }
+    }
 
-        function updateUI(data) {
-            const name = data.name || currentUser.email.split('@')[0];
-            const email = data.email || currentUser.email;
-            
-            profileName.textContent = name;
-            profileEmail.textContent = email;
-            displayName.textContent = name;
-            displayEmail.textContent = email;
-            userId.textContent = currentUser.uid;
-            
-            // Fill Inputs
-            editName.value = name;
-            editPhone.value = data.phone || '';
-            editAltEmail.value = data.altEmail || '';
-            editAddress.value = data.address || '';
-            
-            // Display Fields
-            displayPhone.textContent = data.phone || 'Not set';
-            displayAltEmail.textContent = data.altEmail || 'Not set';
-            displayAddress.textContent = data.address || 'Not set';
-            
-            memberSince.textContent = formatDate(data.createdAt || currentUser.metadata.creationTime);
-        }
-
-        // Toggle Edit
-        window.toggleEditMode = (section, enable) => {
-            const displayEls = document.querySelectorAll(`#${section}-tab [id^="display-"]`);
-            const inputEls = document.querySelectorAll(`#${section}-tab input, #${section}-tab textarea, #${section}-tab select`);
-            const actions = document.getElementById(`${section}-actions`);
-            
-            displayEls.forEach(el => el.classList.toggle('hidden', enable));
-            inputEls.forEach(el => el.classList.toggle('hidden', !enable));
-            if(actions) actions.classList.toggle('hidden', !enable);
-        };
-
-        // Event Listeners for Edit Buttons
-        document.getElementById('edit-personal-btn').onclick = () => toggleEditMode('personal', true);
-        document.getElementById('cancel-personal-btn').onclick = () => toggleEditMode('personal', false);
+    function updateUI(data) {
+        const name = data.name || currentUser.email.split('@')[0];
+        const email = data.email || currentUser.email;
         
-        document.getElementById('edit-contact-btn').onclick = () => toggleEditMode('contact', true);
-        document.getElementById('cancel-contact-btn').onclick = () => toggleEditMode('contact', false);
+        profileName.textContent = name;
+        profileEmail.textContent = email;
+        displayName.textContent = name;
+        displayEmail.textContent = email;
+        userId.textContent = currentUser.uid;
+        
+        // Fill Inputs
+        editName.value = name;
+        editPhone.value = data.phone || '';
+        editAltEmail.value = data.altEmail || '';
+        editAddress.value = data.address || '';
+        
+        // Display Fields
+        displayPhone.textContent = data.phone || 'Not set';
+        displayAltEmail.textContent = data.altEmail || 'Not set';
+        displayAddress.textContent = data.address || 'Not set';
+        
+        // Format dates
+        if (data.createdAt) {
+            memberSince.textContent = formatDate(data.createdAt);
+        } else if (currentUser.metadata && currentUser.metadata.creationTime) {
+            memberSince.textContent = formatDate(currentUser.metadata.creationTime);
+        } else {
+            memberSince.textContent = '-';
+        }
+        
+        // Update avatar if available
+        if (data.photoURL) {
+            profileAvatar.src = data.photoURL;
+        }
+    }
 
-        // Save Logic
-        document.getElementById('save-personal-btn').onclick = async () => {
-            try {
-                const newName = editName.value;
-                // FIXED PATH
-                const userRef = doc(db, "artifacts", appId, "users", currentUser.uid, "profile", "data");
-                await updateDoc(userRef, { name: newName });
-                userProfileData.name = newName;
-                updateUI(userProfileData);
-                toggleEditMode('personal', false);
-                showToast("Profile Updated!");
-            } catch(e) { console.error(e); showToast("Error updating profile", "error"); }
-        };
+    // Toggle Edit
+    window.toggleEditMode = (section, enable) => {
+        const displayEls = document.querySelectorAll(`#${section}-tab [id^="display-"]`);
+        const inputEls = document.querySelectorAll(`#${section}-tab input, #${section}-tab textarea, #${section}-tab select`);
+        const actions = document.getElementById(`${section}-actions`);
+        
+        displayEls.forEach(el => el.classList.toggle('hidden', enable));
+        inputEls.forEach(el => el.classList.toggle('hidden', !enable));
+        if(actions) actions.classList.toggle('hidden', !enable);
+    };
 
-        document.getElementById('save-contact-btn').onclick = async () => {
-            try {
-                const updateData = {
-                    phone: editPhone.value,
-                    altEmail: editAltEmail.value,
-                    address: editAddress.value
-                };
-                // FIXED PATH
-                const userRef = doc(db, "artifacts", appId, "users", currentUser.uid, "profile", "data");
-                await updateDoc(userRef, updateData);
-                Object.assign(userProfileData, updateData);
-                updateUI(userProfileData);
-                toggleEditMode('contact', false);
-                showToast("Contact Info Updated!");
-            } catch(e) { console.error(e); showToast("Error updating contact info", "error"); }
-        };
+    // Event Listeners for Edit Buttons
+    document.getElementById('edit-personal-btn').onclick = () => toggleEditMode('personal', true);
+    document.getElementById('cancel-personal-btn').onclick = () => toggleEditMode('personal', false);
+    
+    document.getElementById('edit-contact-btn').onclick = () => toggleEditMode('contact', true);
+    document.getElementById('cancel-contact-btn').onclick = () => toggleEditMode('contact', false);
 
-        // Tab Switching
-        document.querySelectorAll('.tab-button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-                
-                btn.classList.add('active');
-                document.getElementById(`${btn.dataset.tab}-tab`).classList.remove('hidden');
+    // Save Logic - FIXED PATH
+    document.getElementById('save-personal-btn').onclick = async () => {
+        try {
+            const newName = editName.value.trim();
+            if (!newName) {
+                showToast("Name cannot be empty", "error");
+                return;
+            }
+            
+            const userRef = doc(db, "users", currentUser.uid);
+            await updateDoc(userRef, { 
+                name: newName,
+                updatedAt: serverTimestamp()
             });
-        });
+            
+            userProfileData.name = newName;
+            updateUI(userProfileData);
+            toggleEditMode('personal', false);
+            showToast("Profile Updated Successfully!");
+        } catch(e) { 
+            console.error("Save error:", e); 
+            showToast("Error updating profile", "error"); 
+        }
+    };
 
-        // Logout
+    document.getElementById('save-contact-btn').onclick = async () => {
+        try {
+            const updateData = {
+                phone: editPhone.value.trim(),
+                altEmail: editAltEmail.value.trim(),
+                address: editAddress.value.trim(),
+                updatedAt: serverTimestamp()
+            };
+            
+            const userRef = doc(db, "users", currentUser.uid);
+            await updateDoc(userRef, updateData);
+            
+            Object.assign(userProfileData, updateData);
+            updateUI(userProfileData);
+            toggleEditMode('contact', false);
+            showToast("Contact Info Updated!");
+        } catch(e) { 
+            console.error("Save error:", e); 
+            showToast("Error updating contact info", "error"); 
+        }
+    };
+
+    // Tab Switching
+    document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            
+            btn.classList.add('active');
+            const tabId = `${btn.dataset.tab}-tab`;
+            const tabContent = document.getElementById(tabId);
+            if (tabContent) {
+                tabContent.classList.remove('hidden');
+            }
+        });
+    });
+
+    // Logout
+    if (logoutBtn) {
         logoutBtn.onclick = async () => {
-            if(confirm("Logout?")) {
-                await signOut(auth);
-                window.location.href = '/login.html';
+            if(confirm("Are you sure you want to logout?")) {
+                try {
+                    await signOut(auth);
+                    window.location.href = '/login.html';
+                } catch (error) {
+                    console.error("Logout error:", error);
+                }
             }
         };
+    }
 
-    </script>
+    // Quick Actions
+    if (changePasswordBtn) {
+        changePasswordBtn.onclick = () => {
+            window.location.href = '/change-password.html';
+        };
+    }
+
+    if (exportDataBtn) {
+        exportDataBtn.onclick = () => {
+            showToast("Export feature coming soon!", "info");
+        };
+    }
+
+    if (changeAvatarBtn) {
+        changeAvatarBtn.onclick = () => {
+            showToast("Avatar change feature coming soon!", "info");
+        };
+    }
+
+    // Save Preferences
+    if (document.getElementById('save-preferences-btn')) {
+        document.getElementById('save-preferences-btn').onclick = async () => {
+            try {
+                const preferences = {
+                    emailPayments: document.getElementById('email-payments').checked,
+                    emailUpdates: document.getElementById('email-updates').checked,
+                    emailPromotional: document.getElementById('email-promotional').checked,
+                    privacyProfile: document.getElementById('privacy-profile').checked,
+                    privacyActivity: document.getElementById('privacy-activity').checked
+                };
+                
+                const userRef = doc(db, "users", currentUser.uid);
+                await updateDoc(userRef, { 
+                    preferences: preferences,
+                    updatedAt: serverTimestamp()
+                });
+                
+                showToast("Preferences Saved!");
+            } catch(e) {
+                console.error("Preferences error:", e);
+                showToast("Error saving preferences", "error");
+            }
+        };
+    }
+</script>
 </body>
 </html>

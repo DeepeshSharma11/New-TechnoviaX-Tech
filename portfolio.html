@@ -145,7 +145,7 @@
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
+        ::-webkit-scrollbar-thumb:hover { background: '#2563eb'; }
 
         .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .animate-on-scroll.animated { opacity: 1; transform: translateY(0); }
@@ -165,6 +165,8 @@
         .tag-indigo { @apply bg-indigo-500/20 text-indigo-300 border border-indigo-500/30; }
         .tag-gray { @apply bg-gray-500/20 text-gray-300 border border-gray-500/30; }
         .tag-orange { @apply bg-orange-500/20 text-orange-300 border border-orange-500/30; }
+        .tag-red { @apply bg-red-500/20 text-red-300 border border-red-500/30; }
+        .tag-teal { @apply bg-teal-500/20 text-teal-300 border border-teal-500/30; }
     </style>
 </head>
 <body class="antialiased font-sans selection:bg-emerald-500 selection:text-white">
@@ -202,8 +204,19 @@
                     Our <span class="text-gradient">Portfolio</span>
                 </h1>
                 <p class="text-sm xs:text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed">
-                    Explore our successful projects and see how we’ve helped businesses achieve their digital transformation goals using cutting-edge tech and AI integration.
+                    Explore our successful projects and see how we've helped businesses achieve their digital transformation goals using cutting-edge tech and AI integration.
                 </p>
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-full px-4 py-2">
+                        <span class="text-emerald-300 font-semibold"><i class="fas fa-project-diagram mr-2"></i>19 Projects</span>
+                    </div>
+                    <div class="bg-blue-500/10 border border-blue-500/30 rounded-full px-4 py-2">
+                        <span class="text-blue-300 font-semibold"><i class="fas fa-star mr-2"></i>2 Featured</span>
+                    </div>
+                    <div class="bg-purple-500/10 border border-purple-500/30 rounded-full px-4 py-2">
+                        <span class="text-purple-300 font-semibold"><i class="fas fa-code mr-2"></i>12+ Technologies</span>
+                    </div>
+                </div>
                 <div class="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
             </div>
         </section>
@@ -217,6 +230,7 @@
                         <button class="filter-btn px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300" data-filter="web">Web Dev</button>
                         <button class="filter-btn px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300" data-filter="app">App Dev</button>
                         <button class="filter-btn px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300" data-filter="ecommerce">E-commerce</button>
+                        <button class="filter-btn px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300" data-filter="featured">Featured</button>
                     </div>
                 </div>
             </div>
@@ -224,6 +238,26 @@
             <!-- Portfolio Grid -->
             <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
                 <!-- Content injected by JS -->
+            </div>
+
+            <!-- Stats Section -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 animate-on-scroll">
+                <div class="glass-card rounded-xl p-4 text-center">
+                    <div class="text-2xl sm:text-3xl font-bold text-emerald-400 mb-1">19</div>
+                    <div class="text-xs sm:text-sm text-gray-300">Total Projects</div>
+                </div>
+                <div class="glass-card rounded-xl p-4 text-center">
+                    <div class="text-2xl sm:text-3xl font-bold text-blue-400 mb-1">15</div>
+                    <div class="text-xs sm:text-sm text-gray-300">Web Projects</div>
+                </div>
+                <div class="glass-card rounded-xl p-4 text-center">
+                    <div class="text-2xl sm:text-3xl font-bold text-purple-400 mb-1">4</div>
+                    <div class="text-xs sm:text-sm text-gray-300">App Projects</div>
+                </div>
+                <div class="glass-card rounded-xl p-4 text-center">
+                    <div class="text-2xl sm:text-3xl font-bold text-yellow-400 mb-1">4</div>
+                    <div class="text-xs sm:text-sm text-gray-300">E-commerce</div>
+                </div>
             </div>
 
             <!-- CTA Section -->
@@ -252,28 +286,33 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // ==========================================
-            // 1. DATA ARRAY (Projects)
+            // 1. DATA ARRAY (All Projects from SQL)
             // ==========================================
             const portfolioData = [
                 {
-                    title: "FociStore",
+                    id: "2",
+                    title: "Hungry diet cafe Static site",
                     category: "web",
-                    image: "https://images.unsplash.com/photo-1607799275518-d6e690c7b059?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    link: "https://focistore.site",
-                    description: "An attractive and modern store website for premium free software. Features a sleek UI, fast performance, and easy navigation.",
-                    label: "New Release",
+                    image: "https://kbokxpkacamruyjispwa.supabase.co/storage/v1/object/public/Foci%20Tech%20Photos/Hungry%20diet%20cafe/Hungry%20diet%20front%20image.png",
+                    link: "https://hungrydietcafe.netlify.app/",
+                    github: "https://github.com/DeepeshSharma11/Hungry-diet-cafe-site",
+                    description: "A Static restaurant cafe site",
+                    featured: false,
                     tech: [
-                        { name: "Modern UI", color: "purple" },
-                        { name: "Web App", color: "blue" },
-                        { name: "Software", color: "pink" }
+                        { name: "HTML", color: "blue" },
+                        { name: "CSS", color: "green" },
+                        { name: "JAVASCRIPT", color: "yellow" }
                     ]
                 },
                 {
+                    id: "4",
                     title: "MedShri Sai Medical",
                     category: "web ecommerce",
-                    image: "images/shrisaikripamedicalhall.png", 
+                    image: "images/shrisaikripamedicalhall.png",
                     link: "https://medshrisai.shop",
+                    github: null,
                     description: "A complete e-commerce website for a medical store with product catalog, cart functionality, and online ordering capabilities.",
+                    featured: false,
                     tech: [
                         { name: "HTML5", color: "blue" },
                         { name: "CSS3", color: "green" },
@@ -281,23 +320,14 @@
                     ]
                 },
                 {
-                    title: "FociFinance",
-                    category: "web",
-                    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    link: "https://focifinance.site",
-                    description: "A comprehensive financial resource hub offering calculators, market insights, and educational content for investors.",
-                    tech: [
-                        { name: "Bootstrap", color: "purple" },
-                        { name: "Web Design", color: "gray" }
-                    ]
-                },
-                {
+                    id: "6",
                     title: "E-commerce Platform",
-                    category: "web ecommerce",
+                    category: "web ecommerce featured",
                     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    link: null, 
+                    link: null,
+                    github: "https://github.com/your-repo",
                     description: "Full-featured online store with secure payment integration, inventory management, and admin dashboard.",
-                    label: "Private Client",
+                    featured: true,
                     tech: [
                         { name: "React", color: "cyan" },
                         { name: "Node.js", color: "green" },
@@ -305,28 +335,242 @@
                     ]
                 },
                 {
-                    title: "Shri Sai Kripa Medical",
+                    id: "7",
+                    title: "Shri Sai Kripa Medical Hall",
                     category: "web",
                     image: "images/shrisaikripamedicalhall.png",
                     link: "https://shrisaimedical.netlify.app",
+                    github: null,
                     description: "Alternative domain for a medical store featuring enhanced accessibility, improved performance, and mobile responsiveness.",
+                    featured: false,
                     tech: [
                         { name: "HTML5", color: "blue" },
                         { name: "Netlify", color: "gray" }
                     ]
                 },
-
                 {
-                    title: "TechnoviaX Business Hub",
-                    category: "web ecommerce",
+                    id: "10",
+                    title: "Foci-Tech",
+                    category: "web featured",
+                    image: "https://kbokxpkacamruyjispwa.supabase.co/storage/v1/object/public/Foci%20Tech%20Photos/Gemini_Generated_Image_d8ninbd8ninbd8ni.png",
+                    link: "https://focitech1.blogspot.com/?m=1",
+                    github: null,
+                    description: "Create a Responsive Tech Blog Website with Modern Design and SEO Optimization and User-Friendly Interface.",
+                    featured: true,
+                    tech: [
+                        { name: "HTML", color: "blue" },
+                        { name: "REACT", color: "cyan" },
+                        { name: "PYTHON", color: "yellow" }
+                    ]
+                },
+                {
+                    id: "11",
+                    title: "Foci-Store",
+                    category: "web",
+                    image: "https://kbokxpkacamruyjispwa.supabase.co/storage/v1/object/public/Foci%20Tech%20Photos/Gemini_Generated_Image_d8ninbd8ninbd8ni.png",
+                    link: "",
+                    github: "",
+                    description: "Free Software like microsoft offices , games like gta5",
+                    featured: false,
+                    tech: [
+                        { name: "HTML", color: "blue" },
+                        { name: "CSS", color: "green" },
+                        { name: "JS", color: "yellow" }
+                    ]
+                },
+                {
+                    id: "12",
+                    title: "Law Website",
+                    category: "web",
+                    image: "https://kbokxpkacamruyjispwa.supabase.co/storage/v1/object/public/Foci%20Tech%20Photos/Law%20Website/law-firm-website-template.jpg",
+                    link: "https://law-webapp-template.onrender.com/",
+                    github: "https://github.com/DeepeshSharma11/Law-WebApp-Template",
+                    description: "A simple Law Website For Lawyers",
+                    featured: false,
+                    tech: [
+                        { name: "HTML", color: "blue" },
+                        { name: "CSS", color: "green" },
+                        { name: "Javascript", color: "yellow" },
+                        { name: "Flask", color: "gray" }
+                    ]
+                },
+                {
+                    id: "14",
+                    title: "Royal Hotel",
+                    category: "web",
+                    image: "https://hotel-website-template-wh9v.onrender.com/static/img/slider/header-slider-1.jpg",
+                    link: "https://hotel-website-template-wh9v.onrender.com/",
+                    github: "",
+                    description: "Royal Hotel manage system and enquiry Of hotel Website",
+                    featured: false,
+                    tech: [
+                        { name: "HTML", color: "blue" },
+                        { name: "FastAPI", color: "teal" }
+                    ]
+                },
+                {
+                    id: "15",
+                    title: "Gym Website",
+                    category: "web",
+                    image: "https://fitness-webapp-h7ww.onrender.com/static/img/carousel-1.jpg",
+                    link: "https://fitness-webapp-h7ww.onrender.com/",
+                    github: "",
+                    description: "Gym website which was show the details with fees and structure of the gym",
+                    featured: false,
+                    tech: [
+                        { name: "React", color: "cyan" },
+                        { name: "HTML", color: "blue" },
+                        { name: "CSS", color: "green" },
+                        { name: "JAVASCRIPT", color: "yellow" }
+                    ]
+                },
+                {
+                    id: "16",
+                    title: "IT .COM",
+                    category: "web",
+                    image: "https://travel-webapp-ffw7.onrender.com/static/img/portfolio-1.jpg",
+                    link: "https://travel-webapp-ffw7.onrender.com/",
+                    github: "",
+                    description: "IT IS IT COMPANY WHICH WAS PROVIDE INTERNET SERVICES",
+                    featured: false,
+                    tech: [
+                        { name: "REACT", color: "cyan" },
+                        { name: "HTML", color: "blue" },
+                        { name: "JAVASCRIPT", color: "yellow" }
+                    ]
+                },
+                {
+                    id: "17",
+                    title: "Lounge Cafe",
+                    category: "web",
+                    image: "https://resturants-template.onrender.com/static/images/intro-pic-primary.jpg",
+                    link: "https://resturants-template.onrender.com/",
+                    github: "",
+                    description: "Lounge Cafe is the best cafe website which was provide Menu And Payment Gateway.",
+                    featured: false,
+                    tech: [
+                        { name: "HTML", color: "blue" },
+                        { name: "REACT", color: "cyan" },
+                        { name: "JAVA", color: "red" },
+                        { name: "PYTHON", color: "yellow" }
+                    ]
+                },
+                {
+                    id: "18",
+                    title: "IK DESIGN",
+                    category: "web",
+                    image: "https://interior-design-template-7phz.onrender.com/static/img/carousel-2.jpg",
+                    link: "https://interior-design-template-7phz.onrender.com/",
+                    github: "",
+                    description: "Interior design website",
+                    featured: false,
+                    tech: [
+                        { name: "HTML", color: "blue" },
+                        { name: "REACT", color: "cyan" },
+                        { name: "JAVA", color: "red" }
+                    ]
+                },
+                {
+                    id: "19",
+                    title: "TRANSFORM TECH",
+                    category: "web",
+                    image: "https://startup-templates.onrender.com/static/img/carousel-2.jpg",
+                    link: "https://startup-templates.onrender.com/",
+                    github: "",
+                    description: "Start Up website which was developed with full tech",
+                    featured: false,
+                    tech: [
+                        { name: "HTML", color: "blue" },
+                        { name: "REACT", color: "cyan" },
+                        { name: "JAVA", color: "red" }
+                    ]
+                },
+                {
+                    id: "20",
+                    title: "ALLMED HEALTH CARE",
+                    category: "app",
+                    image: "https://storage.googleapis.com/glide-prod.appspot.com/uploads-v2/iQ2NzmOFqDjqn29c70Ba/pub/x4qZa3sxCX4xBYnzKg5d.jpeg",
+                    link: "https://upload.app/download/allmed-clinic/io.kodular.focitech7.ALLMEDClinic/abc9cc0267b1e9a304eccd94bf4d506a5e657ef03f96fdd3300fe5cdaa50df75",
+                    github: "",
+                    description: "Struggling to find the right healthcare provider? ALLMED HEALTH CARE is your one-stop-shop for all your healthcare needs...",
+                    featured: false,
+                    tech: [
+                        { name: "HTML", color: "blue" },
+                        { name: "JAVA", color: "red" }
+                    ]
+                },
+                {
+                    id: "21",
+                    title: "Vidyaranker (A Study Application)",
+                    category: "app",
+                    image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgjDmr4HrFjo9wtV7637b2Lw3gKRajUNAO4hdCjUjLhS4NsVV6ak0erNLQ22OgtZuP4su0kdRw-wC_LHNDpHNtUeaUWBPafpONjsDJTPG46WBkomkGWnWDFJ9yxBh4wcPFpjfIqFcqnQuRVDxEN-T69UbWRnkwj4uJcJ_Wto3UNZxMATkXZXRrnzlg0/s320/Secure%20Browser%20(1).png",
+                    link: "https://upload.app/download/vidya-ranker/com.focitech/146115ff6c8093fa7dcea7f5e889460d8a8c399d2783033cc07cbdeb1095003b",
+                    github: "",
+                    description: "Make studying smarter, not harder! With VIDYARANKER, you can instantly find and download the best NCERT notes and books...",
+                    featured: false,
+                    tech: [
+                        { name: "HTML", color: "blue" },
+                        { name: "JAVA", color: "red" }
+                    ]
+                },
+                {
+                    id: "22",
+                    title: "Foci Tech work room",
+                    category: "app",
+                    image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhE0H8wVoVj0D7tqChN00y6pm8hQTG7AfqUpZV8HYfxsvhzGuq17VtKIRQoV5AeOr5qcAgzWJvuAXX2Gxu_UpPtGjV13zRtqE6cgI2-a_W2gyco0IROgS2FUuH94n3BnA_kDrZkSylr9M1CtZXIkV7vTIuZ285vHgKEjCrMKf-tD5vPj4yJm2joVwYgdfs/s320/Colorful%20Brain%20Digital%20World%20Technology%20Logo.png",
+                    link: "https://upload.app/download/foci-tech-workroom/io.kodular.focistore.FocitechWorkRoom/e2fb773dbbd33bff044c7b3ad64fd3c7116eaf5da094c6defbd150fcc0695faf",
+                    github: "",
+                    description: "Welcome to the exclusive work room designed for Foci Tech office works ONLY! This is where your innovative ideas come to life...",
+                    featured: false,
+                    tech: [
+                        { name: "HTML", color: "blue" },
+                        { name: "JAVA", color: "red" }
+                    ]
+                },
+                {
+                    id: "23",
+                    title: "FociFinance",
+                    category: "web",
+                    image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgaJzZXAPncriaQ2md1EonvRzk1b10V4MwquKNsuDbNWr7ksAR7-QM0plxPf3FUNLrFSArM8lmouBVx1NyQMld2B_JFDr_YWdsgS7IBDcZzCUAY4y0epSQFDbqpuAtdignobPrcwejwbO7J8BRyiKEr7zFCxp5yKr41QkW_NTc-4dJwv08iria1HVAqdi8/w680/Capture_1-removebg-preview.png",
+                    link: "https://focifinance.site/",
+                    github: "",
+                    description: "Real-time market data, advanced trading tools, and personalized investment strategies. Stay ahead with Foci Finance.",
+                    featured: false,
+                    tech: [
+                        { name: "HTML", color: "blue" },
+                        { name: "CSS", color: "green" },
+                        { name: "JS", color: "yellow" }
+                    ]
+                },
+                {
+                    id: "24",
+                    title: "TechnoviaX Webapp",
+                    category: "web ecommerce featured",
                     image: "frontend/humanoid-robot-programming-code.png",
                     link: "https://technoviax-phase-3-final-1.onrender.com/",
-                    description: "A complete platform for Bareilly businesses. It allows users to book Solar and AI services, browse a property market, and get professional GST bills automatically.",
-                    label: "Latest Project",
+                    github: "",
+                    description: "This app provides Saas services like solar panel maintaining, property work like sell/rent, ai automation",
+                    featured: false,
                     tech: [
-                        { name: "Live Booking", color: "blue" },
-                        { name: "GST Billing", color: "green" },
-                        { name: "Safe Payments", color: "purple" }
+                        { name: "Postgresql", color: "blue" },
+                        { name: "Reactjs", color: "cyan" },
+                        { name: "Python", color: "yellow" }
+                    ]
+                },
+                {
+                    id: "26",
+                    title: "New WebApp",
+                    category: "web",
+                    image: "",
+                    link: "https://news-webapp-templates.onrender.com/",
+                    github: "https://github.com/DeepeshSharma11/News-WebApp-Templates",
+                    description: "Currently its uses only mock news and real time",
+                    featured: false,
+                    tech: [
+                        { name: "FastAPI", color: "teal" },
+                        { name: "HTML", color: "blue" },
+                        { name: "CSS", color: "green" },
+                        { name: "Javascript", color: "yellow" }
                     ]
                 }
             ];
@@ -338,11 +582,19 @@
 
             function renderProjects(projects) {
                 grid.innerHTML = projects.map(project => {
+                    // Determine featured badge
+                    let badge = '';
+                    if (project.featured) {
+                        badge = '<div class="absolute top-3 left-3 px-2 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] uppercase font-bold rounded shadow-lg">Featured</div>';
+                    } else if (project.id === "24") {
+                        badge = '<div class="absolute top-3 left-3 px-2 py-1 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white text-[10px] uppercase font-bold rounded shadow-lg">Latest</div>';
+                    }
+                    
                     // Badge/Link Logic
                     let overlayContent = '';
                     let mobileLink = '';
                     
-                    if (project.link) {
+                    if (project.link && project.link.trim() !== '') {
                         // Desktop Hover Overlay
                         overlayContent = `
                             <a href="${project.link}" target="_blank" class="bg-white text-emerald-900 font-bold py-2.5 px-6 rounded-full mb-3 hover:bg-emerald-50 transition-colors shadow-lg transform hover:-translate-y-1 flex items-center gap-2">
@@ -355,8 +607,16 @@
                                 <i class="fas fa-external-link-alt text-sm"></i>
                             </a>
                         `;
-                    } else if (project.label) {
-                        overlayContent = `<span class="bg-white/10 text-white font-medium py-1 px-4 rounded-full mb-4 backdrop-blur-md border border-white/20">${project.label}</span>`;
+                    }
+                    
+                    // GitHub link if available
+                    let githubLink = '';
+                    if (project.github && project.github.trim() !== '') {
+                        githubLink = `
+                            <a href="${project.github}" target="_blank" class="text-gray-400 p-2 bg-gray-500/10 rounded-full hover:bg-gray-500/20 transition-colors ml-2" aria-label="View Code">
+                                <i class="fab fa-github text-sm"></i>
+                            </a>
+                        `;
                     }
                     
                     // Tags HTML
@@ -364,8 +624,11 @@
                         `<span class="px-2.5 py-1 text-[10px] sm:text-xs font-medium rounded-full border tag-${t.color}">${t.name}</span>`
                     ).join('');
 
-                    // Placeholder fallback
-                    const imgSrc = project.image.startsWith('http') ? project.image : (project.image.includes('placeholder') ? 'https://via.placeholder.com/600x400?text=Project' : project.image);
+                    // Image fallback
+                    let imgSrc = project.image;
+                    if (!imgSrc || imgSrc.trim() === '') {
+                        imgSrc = 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80';
+                    }
 
                     return `
                         <div class="portfolio-item group animate-on-scroll h-full" data-category="${project.category}">
@@ -380,12 +643,15 @@
                                     <div class="absolute inset-0 bg-slate-900/80 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 backdrop-blur-sm hidden lg:flex">
                                         ${overlayContent}
                                     </div>
-                                    ${project.label === 'New Release' ? '<div class="absolute top-3 left-3 px-2 py-1 bg-emerald-500 text-white text-[10px] uppercase font-bold rounded shadow-lg">New</div>' : ''}
+                                    ${badge}
                                 </div>
                                 <div class="p-5 sm:p-6 flex-grow flex flex-col">
                                     <div class="flex justify-between items-start mb-2 sm:mb-3 gap-2">
                                         <h3 class="text-lg sm:text-xl font-bold text-white group-hover:text-emerald-400 transition-colors line-clamp-1">${project.title}</h3>
-                                        ${mobileLink}
+                                        <div class="flex items-center">
+                                            ${mobileLink}
+                                            ${githubLink}
+                                        </div>
                                     </div>
                                     <p class="text-gray-400 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-3">${project.description}</p>
                                     <div class="flex flex-wrap gap-2 mt-auto">
@@ -398,6 +664,7 @@
                 }).join('');
             }
 
+            // Initial render
             renderProjects(portfolioData);
 
             // ==========================================
@@ -441,7 +708,11 @@
                     const items = document.querySelectorAll('.portfolio-item');
                     
                     items.forEach(item => {
-                        const matches = filterValue === 'all' || item.getAttribute('data-category').includes(filterValue);
+                        const categories = item.getAttribute('data-category').split(' ');
+                        const matches = filterValue === 'all' || 
+                                      categories.includes(filterValue) ||
+                                      (filterValue === 'featured' && item.getAttribute('data-category').includes('featured'));
+                        
                         if (matches) {
                             item.style.display = 'block';
                             setTimeout(() => {
@@ -531,5 +802,3 @@
     </script>
 </body>
 </html>
-
-
